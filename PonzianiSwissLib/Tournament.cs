@@ -6,45 +6,152 @@ using System.Threading.Tasks;
 
 namespace PonzianiSwissLib
 {
-    public enum FideTitle { GM, WGM, IM, WIM, FM, WFM, CM, WCM, WH, NONE };
+    /// <summary>
+    /// Chess title 
+    /// </summary>
+    public enum FideTitle { 
+        /// <summary>
+        /// Grandmaster
+        /// </summary>
+        GM, 
+        /// <summary>
+        /// Woman Grandmaster
+        /// </summary>
+        WGM, 
+        /// <summary>
+        /// International Master
+        /// </summary>
+        IM,
+        /// <summary>
+        /// Woman International Master
+        /// </summary>
+        WIM, 
+        /// <summary>
+        /// Fide Master
+        /// </summary>
+        FM,
+        /// <summary>
+        /// Woman Fide Master
+        /// </summary>
+        WFM, 
+        /// <summary>
+        /// Candidate master
+        /// </summary>
+        CM,
+        /// <summary>
+        /// Woman Candidate master
+        /// </summary>
+        WCM, 
+        /// <summary>
+        /// Woman Honarary Grandmaster
+        /// </summary>
+        WH,
+        /// <summary>
+        /// Untitled
+        /// </summary>
+        NONE };
 
-    public enum Result { Open = -2, Forfeited = -1, Loss = 0, Draw = 1, Win = 2, ForfeitWin = 3 }
+    /// <summary>
+    /// Result of a single game within a swiss tournament
+    /// </summary>
+    public enum Result { Open, Forfeited, Loss, UnratedLoss, ZeroPointBye, PairingAllocatedBye, Draw, UnratedDraw, HalfPointBye, Win, UnratedWin, ForfeitWin, FullPointBye }
 
+    /// <summary>
+    /// Color assigned to a player
+    /// </summary>
     public enum Side { White, Black }
 
     public enum Sex { Male, Female }
 
+    public enum PairingSystem { Dutch, Burstein }
+
+    /// <summary>
+    /// Swiss chess tournament
+    /// </summary>
     public class Tournament
     {
-
+        /// <summary>
+        /// List of Paricipants of the tournament
+        /// </summary>
         public List<Participant> Participants { set; get; } = new List<Participant>();
 
+        /// <summary>
+        /// Rounds already played resp. ongoing round
+        /// </summary>
         public List<Round> Rounds { set; get; } = new List<Round>();
 
+        /// <summary>
+        /// Number of rounds to be played
+        /// </summary>
         public int CountRounds { set; get; }
 
+        /// <summary>
+        /// Tournament name
+        /// </summary>
         public string? Name { set; get; }
 
+        /// <summary>
+        /// City where the tournament takes place
+        /// </summary>
         public string? City { set; get; }
 
+        /// <summary>
+        /// Federation hosting the tournament
+        /// </summary>
         public string? Federation { set; get; }
 
+        /// <summary>
+        /// Tournament's start date
+        /// </summary>
         public string? StartDate { set; get; }
 
+        /// <summary>
+        /// Tournament's end date
+        /// </summary>
         public string? EndDate { set; get; }
 
+        /// <summary>
+        /// Tournament type (free text), only relevant for information purposes
+        /// </summary>
         public string? Type { set; get; }
 
+        /// <summary>
+        /// Number of Prticipants
+        /// </summary>
         public int CountPlayer { set; get; }
 
+        /// <summary>
+        /// Number of rated players
+        /// </summary>
         public int CountRatedPlayer { set; get; }
 
+        /// <summary>
+        /// Chief Arbiter
+        /// </summary>
         public string? ChiefArbiter { set; get; }
 
+        /// <summary>
+        /// Other Arbiter(s)
+        /// </summary>
         public string? DeputyChiefArbiter { set; get; }
 
+        /// <summary>
+        /// Time Control (only for information purposes)
+        /// </summary>
         public string? TimeControl { set; get; }
 
+        /// <summary>
+        /// Pairing system, which shall be used
+        /// </summary>
+        public PairingSystem PairingSystem { set; get; } = PairingSystem.Dutch;
+
+        public ScoringScheme ScoringScheme { set; get; } = ScoringScheme.Default;
+
+        /// <summary>
+        /// Calculates the scorecards for all participants
+        /// </summary>
+        /// <param name="round">The (0-based) round number up to which the scorecards will be calculated</param>
+        /// <returns>A dictionary containing a scorecard for each player</returns>
         public Dictionary<Participant, Scorecard> GetScorecards(int round = int.MaxValue)
         {
             round = Math.Min(round, Rounds.Count - 1);
@@ -53,10 +160,10 @@ namespace PonzianiSwissLib
             {
                 foreach (Pairing pairing in Rounds[r].Pairings)
                 {
-                    if (!scorecards.ContainsKey(pairing.White)) scorecards.Add(pairing.White, new(pairing.White));
-                    if (!scorecards.ContainsKey(pairing.Black)) scorecards.Add(pairing.Black, new(pairing.Black));
-                    scorecards[pairing.White].Entries.Add(new(pairing.Black, Side.White, pairing.Result, r));
-                    scorecards[pairing.Black].Entries.Add(new(pairing.White, Side.Black, pairing.InvertedResult, r));
+                    if (!scorecards.ContainsKey(pairing.White)) scorecards.Add(pairing.White, new(pairing.White, this));
+                    if (!scorecards.ContainsKey(pairing.Black)) scorecards.Add(pairing.Black, new(pairing.Black, this));
+                    scorecards[pairing.White].Entries.Add(new(pairing.Black, Side.White, pairing.Result, r, this));
+                    scorecards[pairing.Black].Entries.Add(new(pairing.White, Side.Black, pairing.InvertedResult, r, this));
                 }
             }
             foreach (var p in scorecards.Keys) p.Attributes[Participant.AttributeKey.Scorecard] = scorecards[p];
@@ -64,12 +171,18 @@ namespace PonzianiSwissLib
             return scorecards;
         }
 
-        public Scorecard GetParticipantScorecard(Participant p)
+        internal Scorecard GetParticipantScorecard(Participant p)
         {
             var scorecards = GetScorecards();
             return scorecards.Keys.Where(x => x.ParticipantId == p.ParticipantId).Select(x => (Scorecard)x.Attributes[Participant.AttributeKey.Scorecard]).First();
         }
 
+        /// <summary>
+        /// Orders the list of participants
+        /// <para>This provides at the same time the necessary input for the draw of round <paramref name="round"/> 
+        /// as well as the standing after round <paramref name="round"/> -1"/></para>
+        /// </summary>
+        /// <param name="round">Round for which the standing is calculated (0-based: 0 is before first round, 1: after first round,..)</param>
         public void OrderByRank(int round = int.MaxValue)
         {
             round = Math.Min(round, Rounds.Count);
@@ -100,6 +213,10 @@ namespace PonzianiSwissLib
             });
         }
 
+        /// <summary>
+        /// Assigns the participant ids according to rank
+        /// </summary>
+        /// <param name="round"></param>
         public void AssignTournamentIds(int round = int.MaxValue)
         {
             OrderByRank(round);
@@ -124,6 +241,7 @@ namespace PonzianiSwissLib
             trf.Add($"032 {Federation}");
             trf.Add($"102 {ChiefArbiter}");
             trf.Add($"XXR {CountRounds}");
+            trf.AddRange(ScoringScheme.TRFStrings());
             var random = new Random();
             if (random.Next(2) == 1) trf.Add($"XXC white1"); else trf.Add($"XXC black1");
             foreach (Participant p in Participants)
@@ -136,7 +254,7 @@ namespace PonzianiSwissLib
                 {
                     var entry = p.Scorecard?.Entries.Where(e => e.Round == r - 1).First();
                     if (entry != null)
-                        pline.Append($"  {entry?.Opponent.ParticipantId,4} {"wb"[(int)(entry?.Side)]} {result_char[(int)entry.Result - 2]} ");
+                        pline.Append($"  {entry?.Opponent.ParticipantId,4} {"wb"[(int)(entry.Side)]} {result_char[(int)entry.Result - 2]} ");
                 }
                 trf.Add(pline.ToString());
             }
@@ -144,8 +262,13 @@ namespace PonzianiSwissLib
         }
 
 
-        private static readonly PairingTool pairingTool = new();
+        private readonly PairingTool pairingTool;
 
+        /// <summary>
+        /// Executes the pairing of the next rouns
+        /// </summary>
+        /// <param name="round">0-based round index</param>
+        /// <returns>true, if successful</returns>
         public async Task<bool> DrawAsync(int round = int.MaxValue)
         {
             var trf = CreateTRF(round);
@@ -167,7 +290,13 @@ namespace PonzianiSwissLib
             return true;
         }
 
-        private static readonly string[] title_string = { "g", "wg", "m", "wm", "f", "wf", "c", "wc", "h", "" };
-        private static readonly string result_char = "*-0=1+";
+        internal static readonly string[] title_string = { "g", "wg", "m", "wm", "f", "wf", "c", "wc", "h", "" };
+        public enum Result { Open, Forfeited, Loss, UnratedLoss, ZeroPointBye, PairingAllocatedBye, Draw, UnratedDraw, HalfPointBye, Win, UnratedWin, ForfeitWin, FullPointBye }
+        internal static readonly string result_char = "*-0LZU=DH1W+F";
+
+        public Tournament()
+        {
+            pairingTool = new PairingTool(this);
+        }
     }
 }

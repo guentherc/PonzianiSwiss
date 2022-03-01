@@ -109,23 +109,8 @@ namespace PonzianiSwissLib
                         if (opponent != null && opponent.ParticipantId?.CompareTo(tournament.Participants[i].ParticipantId) < 0)
                         {
                             Pairing p = color == 'b' ? new(opponent, tournament.Participants[i]) : new(tournament.Participants[i], opponent);
-                            switch (result)
-                            {
-                                case '1':
-                                case 'W':
-                                    p.Result = color == 'b' ? Result.Loss : Result.Win; break;
-                                case '0':
-                                case 'L':
-                                    p.Result = color == 'b' ? Result.Win : Result.Loss; break;
-                                case '=':
-                                case 'D':
-                                    p.Result = Result.Draw; break;
-                                case '+':
-                                    p.Result = color == 'b' ? Result.Forfeited : Result.ForfeitWin; break;
-                                case '-':
-                                    p.Result = color == 'b' ? Result.ForfeitWin : Result.Forfeited; break;
-                            }
-
+                            p.Result = (Result)Tournament.result_char.IndexOf(result);
+                            if (color == 'b') p.Result = p.InvertedResult;
                             tournament.Rounds[round].Pairings.Add(p);
                         }
                     }

@@ -28,13 +28,12 @@
                     Result.Win => Result.Loss,
                     Result.Forfeited => Result.ForfeitWin,
                     Result.ForfeitWin => Result.Forfeited,
+                    Result.UnratedLoss => Result.UnratedWin,
+                    Result.UnratedWin => Result.UnratedLoss,
                     _ => Result,
                 };
             }
         }
-
-        public float ScoreWhite => Result == Result.Draw ? 0.5f : (Result < Result.Draw ? 0f : 1.0f);
-        public float ScoreBlack => 1 - ScoreWhite;
     }
 
     public class Round
@@ -53,9 +52,12 @@
     {
         public Participant Participant { set; get; }
 
-        public Scorecard(Participant participant)
+        public Tournament Tournament { set; get; }
+
+        public Scorecard(Participant participant, Tournament tournament)
         {
             Participant = participant;
+            Tournament = tournament;
         }
 
         public List<Entry> Entries { set; get; } = new List<Entry>();
@@ -78,8 +80,8 @@
         public int CountWin() => Entries.Where(e => (int)e.Result >= (int)Result.Win).Count();
         public int CountWin(int round) => Entries.Where(e => e.Round < round && (int)e.Result >= (int)Result.Win).Count();
 
-        public int CountBlackWin() => Entries.Where(e => e.Side == Side.Black && (int)e.Result >= (int)Result.Win).Count();
-        public int CountBlackWin(int round) => Entries.Where(e => e.Side == Side.Black && e.Round < round && (int)e.Result >= (int)Result.Win).Count();
+        public int CountBlackWin() => Entries.Where(e => e.Side == Side.Black && (int)e.Result == (int)Result.Win).Count();
+        public int CountBlackWin(int round) => Entries.Where(e => e.Side == Side.Black && e.Round < round && (int)e.Result == (int)Result.Win).Count();
 
         public float CumulativeScore(int round = int.MaxValue)
         {
@@ -98,13 +100,16 @@
 
         public class Entry
         {
-            public Entry(Participant opponent, Side side, Result result, int round)
+            internal Entry(Participant opponent, Side side, Result result, int round, Tournament tournament)
             {
                 Opponent = opponent;
                 Side = side;
                 Result = result;
                 Round = round;
+                Tournament = tournament;
             }
+
+            private Tournament Tournament { get; set; }
 
             public int Round { set; get; }
 
@@ -114,7 +119,61 @@
 
             public Result Result { set; get; }
 
-            public float Score => Result == Result.Draw ? 0.5f : (Result < Result.Draw ? 0f : 1.0f);
+            public float Score => Tournament.ScoringScheme.Score(Result);
         }
+    }
+
+    public class ScoringScheme
+    {
+        public float PointsForWin { 
+            set { _scores[(int)Result.Win] = value; _scores[(int)Result.UnratedWin] = value; _scores[(int)Result.ForfeitWin] = value; _scores[(int)Result.FullPointBye] = value; } 
+            get { return _scores[(int)Result.Win]; } }
+        public float PointsForDraw
+        {
+            set { _scores[(int)Result.Draw] = value; _scores[(int)Result.HalfPointBye] = value; _scores[(int)Result.UnratedDraw] = value; }
+            get { return _scores[(int)Result.Draw]; }
+        }
+        public float PointsForPlayedLoss
+        {
+            set { _scores[(int)Result.Loss] = value; _scores[(int)Result.UnratedLoss] = value; }
+            get { return _scores[(int)Result.Loss]; }
+        }
+        public float PointsForZeroPointBye
+        {
+            set { _scores[(int)Result.ZeroPointBye] = value; }
+            get { return _scores[(int)Result.ZeroPointBye]; }
+        }
+        public float PointsForForfeitedLoss
+        {
+            set { _scores[(int)Result.Forfeited] = value; }
+            get { return _scores[(int)Result.Forfeited]; }
+        }
+        public float PointsForPairingAllocatedBye
+        {
+            set { _scores[(int)Result.PairingAllocatedBye] = value; }
+            get { return _scores[(int)Result.PairingAllocatedBye]; }
+        }
+
+        internal float Score(Result r) {  return _scores[(int)r]; }
+
+        //public enum Result { Open, Forfeited, Loss, UnratedLoss, ZeroPointBye, Draw, UnratedDraw, HalfPointBye, Win, UnratedWin, ForfeitWin, FullPointBye, PairingAllocatedBye }
+        private float[] _scores = new float[13] {0f, 0f, 0f, 0f, 0f, .5f, .5f, .5f, 1f, 1f, 1f, 1f, 1f };
+
+        internal List<string> TRFStrings()
+        {
+            List<string> result = new();
+            if (this != Default)
+            {
+                if (PointsForWin != Default.PointsForWin) result.Add(FormattableString.Invariant($"BBW {PointsForWin:F1}"));
+                if (PointsForDraw != Default.PointsForDraw) result.Add(FormattableString.Invariant($"BBD {PointsForDraw:F1}"));
+                if (PointsForPlayedLoss != Default.PointsForPlayedLoss) result.Add(FormattableString.Invariant($"BBL {PointsForPlayedLoss:F1}"));
+                if (PointsForZeroPointBye != Default.PointsForZeroPointBye) result.Add(FormattableString.Invariant($"BBZ {PointsForZeroPointBye:F1}"));
+                if (PointsForForfeitedLoss != Default.PointsForForfeitedLoss) result.Add(FormattableString.Invariant($"BBF {PointsForForfeitedLoss:F1}"));
+                if (PointsForPairingAllocatedBye != Default.PointsForPairingAllocatedBye) result.Add(FormattableString.Invariant($"BBU {PointsForPairingAllocatedBye:F1}"));
+            }
+            return result;
+        }
+
+        public static ScoringScheme Default = new ScoringScheme();
     }
 }

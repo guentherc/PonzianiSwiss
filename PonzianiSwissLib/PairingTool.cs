@@ -10,8 +10,9 @@ namespace PonzianiSwissLib
 {
     public class PairingTool
     {
-        public PairingTool()
+        public PairingTool(Tournament tournament)
         {
+            this.tournament = tournament;
             executable = "bbpPairings";
             if (RuntimeInformation.OSArchitecture == Architecture.X86) executable += "32";
             else if (RuntimeInformation.OSArchitecture == Architecture.X64) executable += "64";
@@ -46,7 +47,7 @@ namespace PonzianiSwissLib
                 FileName = executable,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
-                Arguments = $"--dutch {input} -p"
+                Arguments = tournament.PairingSystem == PairingSystem.Dutch ? $"--dutch {input} -p" : $"--burstein {input} -p"
             };
 
             using var process = Process.Start(psi);
@@ -59,5 +60,6 @@ namespace PonzianiSwissLib
         }
 
         private readonly string executable;
+        private readonly Tournament tournament;
     }
 }

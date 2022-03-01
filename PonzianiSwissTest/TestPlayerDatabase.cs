@@ -48,14 +48,4 @@ namespace PonzianiSwissTest
         }
     }
 
-    [TestClass]
-    public class TestPairingTool
-    {
-        [TestMethod]
-        public void TestInitialize()
-        {
-            PairingTool pairingTool = new();
-            Assert.IsTrue(pairingTool.CheckExecutable());
-        }
-    }
 }
