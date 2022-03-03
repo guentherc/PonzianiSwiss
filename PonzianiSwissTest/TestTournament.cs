@@ -94,5 +94,12 @@ namespace PonzianiSwissTest
             bool drawn = ft.DrawAsync(0).Result;
             Assert.IsTrue(drawn);
         }
+
+        [TestMethod]
+        public void TestGenerateTournament()
+        {
+            Tournament tournament = PairingTool.GenerateAsync().Result;
+            Assert.IsNotNull(tournament);
+        }
     }
 }

@@ -157,7 +157,7 @@
         internal float Score(Result r) {  return _scores[(int)r]; }
 
         //public enum Result { Open, Forfeited, Loss, UnratedLoss, ZeroPointBye, Draw, UnratedDraw, HalfPointBye, Win, UnratedWin, ForfeitWin, FullPointBye, PairingAllocatedBye }
-        private float[] _scores = new float[13] {0f, 0f, 0f, 0f, 0f, .5f, .5f, .5f, 1f, 1f, 1f, 1f, 1f };
+        private readonly float[] _scores = new float[13] {0f, 0f, 0f, 0f, 0f, .5f, .5f, .5f, 1f, 1f, 1f, 1f, 1f };
 
         internal List<string> TRFStrings()
         {
@@ -174,6 +174,6 @@
             return result;
         }
 
-        public static ScoringScheme Default = new ScoringScheme();
+        public readonly static ScoringScheme Default = new();
     }
 }

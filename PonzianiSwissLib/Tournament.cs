@@ -254,15 +254,12 @@ namespace PonzianiSwissLib
                 {
                     var entry = p.Scorecard?.Entries.Where(e => e.Round == r - 1).First();
                     if (entry != null)
-                        pline.Append($"  {entry?.Opponent.ParticipantId,4} {"wb"[(int)(entry.Side)]} {result_char[(int)entry.Result - 2]} ");
+                        pline.Append($"  {entry?.Opponent.ParticipantId,4} {"wb"[(int)(entry?.Side ?? Side.White)]} {result_char[(int)(entry?.Result ?? Result.Open) - 2]} ");
                 }
                 trf.Add(pline.ToString());
             }
             return trf;
         }
-
-
-        private readonly PairingTool pairingTool;
 
         /// <summary>
         /// Executes the pairing of the next rouns
@@ -274,7 +271,7 @@ namespace PonzianiSwissLib
             var trf = CreateTRF(round);
             var file = Path.GetTempFileName();
             await File.WriteAllLinesAsync(file, trf, Encoding.UTF8);
-            string pairings = pairingTool.Pair(file);
+            string pairings = await PairingTool.PairAsync(file);
             string[] lines = pairings.Split('\n');
             for (int i = Rounds.Count; i < round; ++i) Rounds.Add(new Round(i));
             Rounds[round].Pairings.Clear();
@@ -291,12 +288,7 @@ namespace PonzianiSwissLib
         }
 
         internal static readonly string[] title_string = { "g", "wg", "m", "wm", "f", "wf", "c", "wc", "h", "" };
-        public enum Result { Open, Forfeited, Loss, UnratedLoss, ZeroPointBye, PairingAllocatedBye, Draw, UnratedDraw, HalfPointBye, Win, UnratedWin, ForfeitWin, FullPointBye }
         internal static readonly string result_char = "*-0LZU=DH1W+F";
 
-        public Tournament()
-        {
-            pairingTool = new PairingTool(this);
-        }
     }
 }
