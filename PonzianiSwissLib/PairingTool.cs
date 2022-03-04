@@ -81,7 +81,7 @@ namespace PonzianiSwissLib
             if (process == null) return null;
             await process.WaitForExitAsync();
             Tournament tournament = new();
-            tournament.LoadFromTRF(trfname);
+            tournament.LoadFromTRF(File.ReadAllText(trfname));
             return tournament;
         }
 

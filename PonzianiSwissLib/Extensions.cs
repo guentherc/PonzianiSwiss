@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace PonzianiSwissLib
@@ -16,7 +17,7 @@ namespace PonzianiSwissLib
 
         public static void LoadFromTRF(this Tournament tournament, string content)
         {
-            string[] lines = content.Split('\n');
+            string[] lines = content.Split(new String[] { "\r\n", "\n", "\r" }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
             List<string> plist = new();
             foreach (string line in lines)
             {
@@ -119,5 +120,21 @@ namespace PonzianiSwissLib
                 }
             }
         }
+
+        public static T Deserialize<T>(string json)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static string Serialize(this Tournament tournament)
+        {
+            return JsonSerializer.Serialize(tournament);
+        }
+
+        public static Tournament? Deserialize(string json)
+        {
+            return JsonSerializer.Deserialize<Tournament>(json);
+        }
+
     }
 }

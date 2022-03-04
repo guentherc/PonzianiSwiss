@@ -98,7 +98,10 @@ namespace PonzianiSwissTest
         [TestMethod]
         public void TestGenerateTournament()
         {
-            Tournament tournament = PairingTool.GenerateAsync().Result;
+            Tournament? tournament = PairingTool.GenerateAsync().Result;
+            Assert.IsNotNull(tournament);
+            string json = tournament.Serialize();
+            Tournament? t2 = Extensions.Deserialize(json); ;
             Assert.IsNotNull(tournament);
         }
     }
