@@ -5,7 +5,9 @@ VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PonzianiSwissLib", "PonzianiSwissLib\PonzianiSwissLib.csproj", "{E6531465-E1F3-4716-A308-61CAB79BF314}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PonzianiSwissTest", "PonzianiSwissTest\PonzianiSwissTest.csproj", "{69C372DA-3F5C-4654-A81F-CF277DD4AE82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PonzianiSwissTest", "PonzianiSwissTest\PonzianiSwissTest.csproj", "{69C372DA-3F5C-4654-A81F-CF277DD4AE82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PonzianiSwissGui", "PonzianiSwissGui\PonzianiSwissGui.csproj", "{ADF79F05-E08F-42A5-B22D-F4A4DA357D2F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{69C372DA-3F5C-4654-A81F-CF277DD4AE82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69C372DA-3F5C-4654-A81F-CF277DD4AE82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69C372DA-3F5C-4654-A81F-CF277DD4AE82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADF79F05-E08F-42A5-B22D-F4A4DA357D2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADF79F05-E08F-42A5-B22D-F4A4DA357D2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADF79F05-E08F-42A5-B22D-F4A4DA357D2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADF79F05-E08F-42A5-B22D-F4A4DA357D2F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
