@@ -61,6 +61,15 @@ namespace PonzianiSwissGui.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All Files.
+        /// </summary>
+        public static string AllFiles {
+            get {
+                return ResourceManager.GetString("AllFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to End Date less than Start Date.
         /// </summary>
         public static string EndDateLTStartDate {
@@ -75,6 +84,33 @@ namespace PonzianiSwissGui.Properties {
         public static string InvalidFloat {
             get {
                 return ResourceManager.GetString("InvalidFloat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Load Tournament.
+        /// </summary>
+        public static string OpenTournamentFile {
+            get {
+                return ResourceManager.GetString("OpenTournamentFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save Tournament File.
+        /// </summary>
+        public static string SaveTournamentFile {
+            get {
+                return ResourceManager.GetString("SaveTournamentFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tournament Files.
+        /// </summary>
+        public static string TournamentFiles {
+            get {
+                return ResourceManager.GetString("TournamentFiles", resourceCulture);
             }
         }
     }

@@ -117,10 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AllFiles" xml:space="preserve">
+    <value>All Files</value>
+  </data>
   <data name="EndDateLTStartDate" xml:space="preserve">
     <value>End Date less than Start Date</value>
   </data>
   <data name="InvalidFloat" xml:space="preserve">
     <value>Invalid Value - Please enter a float value!</value>
+  </data>
+  <data name="OpenTournamentFile" xml:space="preserve">
+    <value>Load Tournament</value>
+  </data>
+  <data name="SaveTournamentFile" xml:space="preserve">
+    <value>Save Tournament File</value>
+  </data>
+  <data name="TournamentFiles" xml:space="preserve">
+    <value>Tournament Files</value>
   </data>
 </root>
