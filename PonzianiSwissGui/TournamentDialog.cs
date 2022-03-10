@@ -1,4 +1,5 @@
-﻿using PonzianiSwissLib;
+﻿using PonzianiPlayerBase;
+using PonzianiSwissLib;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,7 +27,8 @@ namespace PonzianiSwissGui
             tbName.Text = Tournament.Name;
             btnOk.Enabled = tbName.Text?.Length > 0;
             tbCity.Text = Tournament.City;
-            tbFederation.Text = Tournament.Federation;
+            Utils.PrepareFederationComboBox(cbFederation);
+            if (Tournament.Federation != null) cbFederation.SelectedValue = Tournament.Federation;
             nudRounds.Value = Tournament.CountRounds;
             if (DateTime.TryParse(Tournament.StartDate, out DateTime date)) dtpStart.Value = date; else dtpStart.Value = DateTime.Now;
             if (DateTime.TryParse(Tournament.EndDate, out date)) dtpEnd.Value = date; else dtpEnd.Value = DateTime.Now;
@@ -83,7 +85,7 @@ namespace PonzianiSwissGui
         {
             Tournament.Name = tbName.Text;
             Tournament.City = tbCity.Text;
-            Tournament.Federation = tbFederation.Text;
+            Tournament.Federation = cbFederation.SelectedValue.ToString();
             Tournament.CountRounds = (int)nudRounds.Value;
             Tournament.StartDate = dtpStart.Value.ToShortDateString();
             Tournament.EndDate = dtpEnd.Value.ToShortDateString();

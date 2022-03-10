@@ -36,7 +36,6 @@
             this.tbName = new System.Windows.Forms.TextBox();
             this.tbCity = new System.Windows.Forms.TextBox();
             this.lblCity = new System.Windows.Forms.Label();
-            this.tbFederation = new System.Windows.Forms.TextBox();
             this.lblFederation = new System.Windows.Forms.Label();
             this.lblRounds = new System.Windows.Forms.Label();
             this.nudRounds = new System.Windows.Forms.NumericUpDown();
@@ -54,18 +53,19 @@
             this.tbTimeControl = new System.Windows.Forms.TextBox();
             this.lblTimeControl = new System.Windows.Forms.Label();
             this.gpScoringScheme = new System.Windows.Forms.GroupBox();
-            this.lblPointsForWin = new System.Windows.Forms.Label();
-            this.tbPointsForWin = new System.Windows.Forms.TextBox();
-            this.tbPointsForDraw = new System.Windows.Forms.TextBox();
-            this.lblPointsForDraw = new System.Windows.Forms.Label();
-            this.tbPointsForPlayedLoss = new System.Windows.Forms.TextBox();
-            this.lblPointsForPlayedLoss = new System.Windows.Forms.Label();
             this.tbPointsForPAB = new System.Windows.Forms.TextBox();
             this.lblPointsForPAB = new System.Windows.Forms.Label();
             this.tbPointsForForfeit = new System.Windows.Forms.TextBox();
             this.lblPointsForForfeit = new System.Windows.Forms.Label();
             this.tbPointsForZPB = new System.Windows.Forms.TextBox();
             this.lblPointsForZPB = new System.Windows.Forms.Label();
+            this.tbPointsForPlayedLoss = new System.Windows.Forms.TextBox();
+            this.lblPointsForPlayedLoss = new System.Windows.Forms.Label();
+            this.tbPointsForDraw = new System.Windows.Forms.TextBox();
+            this.lblPointsForDraw = new System.Windows.Forms.Label();
+            this.tbPointsForWin = new System.Windows.Forms.TextBox();
+            this.lblPointsForWin = new System.Windows.Forms.Label();
+            this.cbFederation = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudRounds)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
             this.gpScoringScheme.SuspendLayout();
@@ -104,11 +104,6 @@
             // 
             resources.ApplyResources(this.lblCity, "lblCity");
             this.lblCity.Name = "lblCity";
-            // 
-            // tbFederation
-            // 
-            resources.ApplyResources(this.tbFederation, "tbFederation");
-            this.tbFederation.Name = "tbFederation";
             // 
             // lblFederation
             // 
@@ -215,39 +210,6 @@
             this.gpScoringScheme.Name = "gpScoringScheme";
             this.gpScoringScheme.TabStop = false;
             // 
-            // lblPointsForWin
-            // 
-            resources.ApplyResources(this.lblPointsForWin, "lblPointsForWin");
-            this.lblPointsForWin.Name = "lblPointsForWin";
-            // 
-            // tbPointsForWin
-            // 
-            resources.ApplyResources(this.tbPointsForWin, "tbPointsForWin");
-            this.tbPointsForWin.Name = "tbPointsForWin";
-            this.tbPointsForWin.Validating += new System.ComponentModel.CancelEventHandler(this.tbscoringSchemeFloat_Validating);
-            // 
-            // tbPointsForDraw
-            // 
-            resources.ApplyResources(this.tbPointsForDraw, "tbPointsForDraw");
-            this.tbPointsForDraw.Name = "tbPointsForDraw";
-            this.tbPointsForDraw.Validating += new System.ComponentModel.CancelEventHandler(this.tbscoringSchemeFloat_Validating);
-            // 
-            // lblPointsForDraw
-            // 
-            resources.ApplyResources(this.lblPointsForDraw, "lblPointsForDraw");
-            this.lblPointsForDraw.Name = "lblPointsForDraw";
-            // 
-            // tbPointsForPlayedLoss
-            // 
-            resources.ApplyResources(this.tbPointsForPlayedLoss, "tbPointsForPlayedLoss");
-            this.tbPointsForPlayedLoss.Name = "tbPointsForPlayedLoss";
-            this.tbPointsForPlayedLoss.Validating += new System.ComponentModel.CancelEventHandler(this.tbscoringSchemeFloat_Validating);
-            // 
-            // lblPointsForPlayedLoss
-            // 
-            resources.ApplyResources(this.lblPointsForPlayedLoss, "lblPointsForPlayedLoss");
-            this.lblPointsForPlayedLoss.Name = "lblPointsForPlayedLoss";
-            // 
             // tbPointsForPAB
             // 
             resources.ApplyResources(this.tbPointsForPAB, "tbPointsForPAB");
@@ -281,11 +243,53 @@
             resources.ApplyResources(this.lblPointsForZPB, "lblPointsForZPB");
             this.lblPointsForZPB.Name = "lblPointsForZPB";
             // 
+            // tbPointsForPlayedLoss
+            // 
+            resources.ApplyResources(this.tbPointsForPlayedLoss, "tbPointsForPlayedLoss");
+            this.tbPointsForPlayedLoss.Name = "tbPointsForPlayedLoss";
+            this.tbPointsForPlayedLoss.Validating += new System.ComponentModel.CancelEventHandler(this.tbscoringSchemeFloat_Validating);
+            // 
+            // lblPointsForPlayedLoss
+            // 
+            resources.ApplyResources(this.lblPointsForPlayedLoss, "lblPointsForPlayedLoss");
+            this.lblPointsForPlayedLoss.Name = "lblPointsForPlayedLoss";
+            // 
+            // tbPointsForDraw
+            // 
+            resources.ApplyResources(this.tbPointsForDraw, "tbPointsForDraw");
+            this.tbPointsForDraw.Name = "tbPointsForDraw";
+            this.tbPointsForDraw.Validating += new System.ComponentModel.CancelEventHandler(this.tbscoringSchemeFloat_Validating);
+            // 
+            // lblPointsForDraw
+            // 
+            resources.ApplyResources(this.lblPointsForDraw, "lblPointsForDraw");
+            this.lblPointsForDraw.Name = "lblPointsForDraw";
+            // 
+            // tbPointsForWin
+            // 
+            resources.ApplyResources(this.tbPointsForWin, "tbPointsForWin");
+            this.tbPointsForWin.Name = "tbPointsForWin";
+            this.tbPointsForWin.Validating += new System.ComponentModel.CancelEventHandler(this.tbscoringSchemeFloat_Validating);
+            // 
+            // lblPointsForWin
+            // 
+            resources.ApplyResources(this.lblPointsForWin, "lblPointsForWin");
+            this.lblPointsForWin.Name = "lblPointsForWin";
+            // 
+            // cbFederation
+            // 
+            resources.ApplyResources(this.cbFederation, "cbFederation");
+            this.cbFederation.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cbFederation.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbFederation.FormattingEnabled = true;
+            this.cbFederation.Name = "cbFederation";
+            // 
             // TournamentDialog
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
+            this.Controls.Add(this.cbFederation);
             this.Controls.Add(this.gpScoringScheme);
             this.Controls.Add(this.tbTimeControl);
             this.Controls.Add(this.lblTimeControl);
@@ -301,7 +305,6 @@
             this.Controls.Add(this.lblDate);
             this.Controls.Add(this.nudRounds);
             this.Controls.Add(this.lblRounds);
-            this.Controls.Add(this.tbFederation);
             this.Controls.Add(this.lblFederation);
             this.Controls.Add(this.tbCity);
             this.Controls.Add(this.lblCity);
@@ -328,7 +331,6 @@
         private TextBox tbName;
         private TextBox tbCity;
         private Label lblCity;
-        private TextBox tbFederation;
         private Label lblFederation;
         private Label lblRounds;
         private NumericUpDown nudRounds;
@@ -358,5 +360,6 @@
         private Label lblPointsForDraw;
         private TextBox tbPointsForWin;
         private Label lblPointsForWin;
+        private ComboBox cbFederation;
     }
 }

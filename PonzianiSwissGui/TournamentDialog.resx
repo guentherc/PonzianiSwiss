@@ -178,7 +178,7 @@
     <value>98, 35</value>
   </data>
   <data name="tbCity.Size" type="System.Drawing.Size, System.Drawing">
-    <value>547, 23</value>
+    <value>367, 23</value>
   </data>
   <data name="tbCity.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -225,30 +225,6 @@
   <data name="&gt;&gt;lblCity.ZOrder" xml:space="preserve">
     <value>18</value>
   </data>
-  <data name="tbFederation.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="tbFederation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>730, 35</value>
-  </data>
-  <data name="tbFederation.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 23</value>
-  </data>
-  <data name="tbFederation.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;tbFederation.Name" xml:space="preserve">
-    <value>tbFederation</value>
-  </data>
-  <data name="&gt;&gt;tbFederation.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tbFederation.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;tbFederation.ZOrder" xml:space="preserve">
-    <value>15</value>
-  </data>
   <data name="lblFederation.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
@@ -259,7 +235,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblFederation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>661, 38</value>
+    <value>483, 38</value>
   </data>
   <data name="lblFederation.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 15</value>
@@ -307,7 +283,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblRounds.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>15</value>
   </data>
   <data name="nudRounds.Location" type="System.Drawing.Point, System.Drawing">
     <value>98, 64</value>
@@ -328,7 +304,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;nudRounds.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>14</value>
   </data>
   <data name="lblDate.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -358,7 +334,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblDate.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="dtpStart.Location" type="System.Drawing.Point, System.Drawing">
     <value>237, 64</value>
@@ -379,7 +355,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;dtpStart.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="lblHyphen.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -406,7 +382,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblHyphen.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="dtpEnd.Location" type="System.Drawing.Point, System.Drawing">
     <value>363, 64</value>
@@ -427,7 +403,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;dtpEnd.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <metadata name="ErrorProvider.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
@@ -440,6 +416,30 @@
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>800, 368</value>
+  </data>
+  <data name="cbFederation.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="cbFederation.Location" type="System.Drawing.Point, System.Drawing">
+    <value>552, 35</value>
+  </data>
+  <data name="cbFederation.Size" type="System.Drawing.Size, System.Drawing">
+    <value>234, 23</value>
+  </data>
+  <data name="cbFederation.TabIndex" type="System.Int32, mscorlib">
+    <value>23</value>
+  </data>
+  <data name="&gt;&gt;cbFederation.Name" xml:space="preserve">
+    <value>cbFederation</value>
+  </data>
+  <data name="&gt;&gt;cbFederation.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cbFederation.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;cbFederation.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="gpScoringScheme.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -790,7 +790,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;gpScoringScheme.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="tbTimeControl.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -814,7 +814,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;tbTimeControl.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="lblTimeControl.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -844,7 +844,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblTimeControl.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="cbPairingSystem.Location" type="System.Drawing.Point, System.Drawing">
     <value>98, 150</value>
@@ -865,7 +865,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;cbPairingSystem.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="lblPairingSystem.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -895,7 +895,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblPairingSystem.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="tbArbiters.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -919,7 +919,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;tbArbiters.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="lblArbiters.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -949,7 +949,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblArbiters.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="tbChiefArbiter.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -973,7 +973,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;tbChiefArbiter.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="lblChiefArbiter.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1003,7 +1003,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblChiefArbiter.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Tournament</value>

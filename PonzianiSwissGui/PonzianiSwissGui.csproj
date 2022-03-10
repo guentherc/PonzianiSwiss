@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PonzianiPlayerBase\PonzianiPlayerBase.csproj" />
     <ProjectReference Include="..\PonzianiSwissLib\PonzianiSwissLib.csproj" />
   </ItemGroup>
 
