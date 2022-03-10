@@ -9,6 +9,7 @@ namespace PonzianiSwissGui
             InitializeComponent();
             saveToolStripMenuItem.Enabled = false;
             saveAsToolStripMenuItem.Enabled = false;
+            editHeaderToolStripMenuItem.Enabled = false;
         }
 
         private Tournament? _tournament;
@@ -19,6 +20,7 @@ namespace PonzianiSwissGui
                 _tournament = value;
                 saveToolStripMenuItem.Enabled = _tournament != null;
                 saveAsToolStripMenuItem.Enabled = _tournament != null;
+                editHeaderToolStripMenuItem.Enabled = _tournament != null;
                 if (_tournament != null) Text = _tournament.Name;
             }
             get { return _tournament; }
@@ -73,6 +75,16 @@ namespace PonzianiSwissGui
                 Tournament = Extensions.Deserialize(json);
                 if (Tournament != null) 
                     FileName = openFileDialog.FileName;
+            }
+        }
+
+        private void editHeaderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TournamentDialog td = new TournamentDialog((Tournament)((ICloneable)Tournament)?.Clone() ?? new Tournament());
+            if (td.ShowDialog() == DialogResult.OK)
+            {
+                Tournament = td.Tournament;
+                this.Text = Tournament.Name;
             }
         }
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace PonzianiSwissLib
@@ -68,7 +69,7 @@ namespace PonzianiSwissLib
     /// <summary>
     /// Swiss chess tournament
     /// </summary>
-    public class Tournament
+    public class Tournament: ICloneable
     {
         /// <summary>
         /// List of Paricipants of the tournament
@@ -287,8 +288,14 @@ namespace PonzianiSwissLib
             return true;
         }
 
+        object ICloneable.Clone()
+        {
+            string json = this.Serialize();
+            return Extensions.Deserialize(json) ?? new Tournament();
+        }
+
         internal static readonly string[] title_string = { "g", "wg", "m", "wm", "f", "wf", "c", "wc", "h", "" };
-        internal static readonly string result_char = "*-0LZU=DH1W+F";
+        internal static readonly string result_char = "*-0LZU=DH1W+F"; 
 
     }
 }
