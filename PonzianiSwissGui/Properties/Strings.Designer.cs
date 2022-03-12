@@ -97,6 +97,15 @@ namespace PonzianiSwissGui.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Downloading and Updating Player Base....
+        /// </summary>
+        public static string PlayerListUpdate {
+            get {
+                return ResourceManager.GetString("PlayerListUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save Tournament File.
         /// </summary>
         public static string SaveTournamentFile {

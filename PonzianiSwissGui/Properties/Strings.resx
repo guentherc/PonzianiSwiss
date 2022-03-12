@@ -129,6 +129,9 @@
   <data name="OpenTournamentFile" xml:space="preserve">
     <value>Load Tournament</value>
   </data>
+  <data name="PlayerListUpdate" xml:space="preserve">
+    <value>Downloading and Updating Player Base...</value>
+  </data>
   <data name="SaveTournamentFile" xml:space="preserve">
     <value>Save Tournament File</value>
   </data>

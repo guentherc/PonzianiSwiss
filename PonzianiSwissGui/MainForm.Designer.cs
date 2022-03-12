@@ -39,7 +39,14 @@
             this.playerBaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PlayerBaseUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updateFideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mainStatusStrip = new System.Windows.Forms.StatusStrip();
+            this.mainStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tcMain = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.menuStrip1.SuspendLayout();
+            this.mainStatusStrip.SuspendLayout();
+            this.tcMain.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -111,15 +118,52 @@
             resources.ApplyResources(this.updateFideToolStripMenuItem, "updateFideToolStripMenuItem");
             this.updateFideToolStripMenuItem.Click += new System.EventHandler(this.updateFIDEToolStripMenuItem_Click);
             // 
+            // mainStatusStrip
+            // 
+            this.mainStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mainStatusLabel});
+            resources.ApplyResources(this.mainStatusStrip, "mainStatusStrip");
+            this.mainStatusStrip.Name = "mainStatusStrip";
+            // 
+            // mainStatusLabel
+            // 
+            this.mainStatusLabel.Name = "mainStatusLabel";
+            resources.ApplyResources(this.mainStatusLabel, "mainStatusLabel");
+            // 
+            // tcMain
+            // 
+            this.tcMain.Controls.Add(this.tabPage1);
+            this.tcMain.Controls.Add(this.tabPage2);
+            resources.ApplyResources(this.tcMain, "tcMain");
+            this.tcMain.Name = "tcMain";
+            this.tcMain.SelectedIndex = 0;
+            // 
+            // tabPage1
+            // 
+            resources.ApplyResources(this.tabPage1, "tabPage1");
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            resources.ApplyResources(this.tabPage2, "tabPage2");
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.tcMain);
+            this.Controls.Add(this.mainStatusStrip);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.mainStatusStrip.ResumeLayout(false);
+            this.mainStatusStrip.PerformLayout();
+            this.tcMain.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -137,5 +181,10 @@
         private ToolStripMenuItem playerBaseToolStripMenuItem;
         private ToolStripMenuItem PlayerBaseUpdateToolStripMenuItem;
         private ToolStripMenuItem updateFideToolStripMenuItem;
+        private StatusStrip mainStatusStrip;
+        private ToolStripStatusLabel mainStatusLabel;
+        private TabControl tcMain;
+        private TabPage tabPage1;
+        private TabPage tabPage2;
     }
 }

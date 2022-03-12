@@ -16,7 +16,7 @@ namespace PonzianiPlayerBase
             {
                 string directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PonzianiPlayerBase");
                 if (!Directory.Exists(directory)) Directory.CreateDirectory(directory);
-                this.filename = Path.Combine(directory, "fideplayer.json");
+                this.filename = Path.Combine(directory, "fideplayer.json.br");
             }
             else this.filename = filename;
             Console.WriteLine($"Fideplayer File: {filename}");

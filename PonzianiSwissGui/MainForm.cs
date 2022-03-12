@@ -92,9 +92,14 @@ namespace PonzianiSwissGui
         private async void updateFIDEToolStripMenuItem_Click(object sender, EventArgs e)
         {
             updateFideToolStripMenuItem.Enabled = false;
+            mainStatusLabel.Text = Properties.Strings.PlayerListUpdate;
             IPlayerBase pbase = await PlayerBaseFactory.GetAsync("FIDE").ConfigureAwait(false);
             await pbase.UpdateAsync().ConfigureAwait(false);
-            Invoke((MethodInvoker)(() => updateFideToolStripMenuItem.Enabled = true));
+            Invoke((MethodInvoker)(() =>
+            {
+                updateFideToolStripMenuItem.Enabled = true;
+                mainStatusLabel.Text = String.Empty;
+            }));
         }
     }
 }
