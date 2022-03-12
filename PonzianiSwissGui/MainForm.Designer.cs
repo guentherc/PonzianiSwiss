@@ -36,13 +36,17 @@
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editHeaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.playerBaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.PlayerBaseUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.updateFideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tournamentToolStripMenuItem});
+            this.tournamentToolStripMenuItem,
+            this.playerBaseToolStripMenuItem});
             resources.ApplyResources(this.menuStrip1, "menuStrip1");
             this.menuStrip1.Name = "menuStrip1";
             // 
@@ -87,6 +91,26 @@
             resources.ApplyResources(this.editHeaderToolStripMenuItem, "editHeaderToolStripMenuItem");
             this.editHeaderToolStripMenuItem.Click += new System.EventHandler(this.editHeaderToolStripMenuItem_Click);
             // 
+            // playerBaseToolStripMenuItem
+            // 
+            this.playerBaseToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.PlayerBaseUpdateToolStripMenuItem});
+            this.playerBaseToolStripMenuItem.Name = "playerBaseToolStripMenuItem";
+            resources.ApplyResources(this.playerBaseToolStripMenuItem, "playerBaseToolStripMenuItem");
+            // 
+            // PlayerBaseUpdateToolStripMenuItem
+            // 
+            this.PlayerBaseUpdateToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.updateFideToolStripMenuItem});
+            this.PlayerBaseUpdateToolStripMenuItem.Name = "PlayerBaseUpdateToolStripMenuItem";
+            resources.ApplyResources(this.PlayerBaseUpdateToolStripMenuItem, "PlayerBaseUpdateToolStripMenuItem");
+            // 
+            // updateFideToolStripMenuItem
+            // 
+            this.updateFideToolStripMenuItem.Name = "updateFideToolStripMenuItem";
+            resources.ApplyResources(this.updateFideToolStripMenuItem, "updateFideToolStripMenuItem");
+            this.updateFideToolStripMenuItem.Click += new System.EventHandler(this.updateFIDEToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             resources.ApplyResources(this, "$this");
@@ -110,5 +134,8 @@
         private ToolStripMenuItem saveToolStripMenuItem;
         private ToolStripMenuItem saveAsToolStripMenuItem;
         private ToolStripMenuItem editHeaderToolStripMenuItem;
+        private ToolStripMenuItem playerBaseToolStripMenuItem;
+        private ToolStripMenuItem PlayerBaseUpdateToolStripMenuItem;
+        private ToolStripMenuItem updateFideToolStripMenuItem;
     }
 }

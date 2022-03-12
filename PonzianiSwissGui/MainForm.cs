@@ -1,3 +1,4 @@
+using PonzianiPlayerBase;
 using PonzianiSwissLib;
 
 namespace PonzianiSwissGui
@@ -73,7 +74,7 @@ namespace PonzianiSwissGui
             {
                 string json = File.ReadAllText(openFileDialog.FileName);
                 Tournament = Extensions.Deserialize(json);
-                if (Tournament != null) 
+                if (Tournament != null)
                     FileName = openFileDialog.FileName;
             }
         }
@@ -86,6 +87,14 @@ namespace PonzianiSwissGui
                 Tournament = td.Tournament;
                 this.Text = Tournament.Name;
             }
+        }
+
+        private async void updateFIDEToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            updateFideToolStripMenuItem.Enabled = false;
+            IPlayerBase pbase = await PlayerBaseFactory.GetAsync("FIDE").ConfigureAwait(false);
+            await pbase.UpdateAsync().ConfigureAwait(false);
+            Invoke((MethodInvoker)(() => updateFideToolStripMenuItem.Enabled = true));
         }
     }
 }
