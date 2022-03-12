@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LiteDB;
+using System;
 using System.Collections.Generic;
 using System.IO.Compression;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace PonzianiPlayerBase
             {
                 string directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PonzianiPlayerBase");
                 if (!Directory.Exists(directory)) Directory.CreateDirectory(directory);
-                this.filename = Path.Combine(directory, "fideplayer.json.br");
+                this.filename = Path.Combine(directory, "fideplayer.db");
             }
             else this.filename = filename;
             Console.WriteLine($"Fideplayer File: {filename}");
@@ -44,18 +45,20 @@ namespace PonzianiPlayerBase
             string file = Directory.GetFiles(tmpDir).Where(f => Path.GetExtension(f) == ".txt").First();
             Console.WriteLine($"Data saved to {file}");
 
+            var col = db?.GetCollection<Player>(PLAYER_COLL);
+            col?.DeleteAll();
             int count = 0;
             using (StreamReader reader = new(file))
             {
                 string? line;
+                List<Player> list = new();
 
                 while ((line = reader.ReadLine()) != null)
                 {
                     ++count;
                     if (count == 1) continue;
                     string id = line[..15].Trim();
-                    if (!data.Player.ContainsKey(id)) data.Player.Add(id, new(id));
-                    Player player = data.Player[id];
+                    Player player = new(id);
                     player.Name = line.Substring(15, 61).Trim();
                     player.Federation = line.Substring(76, 4).Trim();
                     player.Sex = line[80] == 'F' ? Sex.Female : Sex.Male;
@@ -71,11 +74,18 @@ namespace PonzianiPlayerBase
                     if (year.Length > 0) player.YearOfBirth = int.Parse(year);
                     string flags = line.Substring(158, 4).Trim();
                     player.Inactive = flags.Contains('i');
+                    list.Add(player);
+                    if (count % 4096 == 0)
+                    {
+                        col?.InsertBulk(list);
+                        list.Clear();
+                    }
                 }
+                col?.InsertBulk(list);
                 reader.Close();
             }
             Console.WriteLine($"{count} records processed!");
-            await SaveData();
+
 
             //Clean up
             foreach (string f in Directory.GetFiles(tmpDir)) File.Delete(f);

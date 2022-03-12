@@ -72,31 +72,31 @@
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             resources.ApplyResources(this.newToolStripMenuItem, "newToolStripMenuItem");
-            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.NewToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             resources.ApplyResources(this.openToolStripMenuItem, "openToolStripMenuItem");
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             resources.ApplyResources(this.saveToolStripMenuItem, "saveToolStripMenuItem");
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
             resources.ApplyResources(this.saveAsToolStripMenuItem, "saveAsToolStripMenuItem");
-            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAsToolStripMenuItem_Click);
             // 
             // editHeaderToolStripMenuItem
             // 
             this.editHeaderToolStripMenuItem.Name = "editHeaderToolStripMenuItem";
             resources.ApplyResources(this.editHeaderToolStripMenuItem, "editHeaderToolStripMenuItem");
-            this.editHeaderToolStripMenuItem.Click += new System.EventHandler(this.editHeaderToolStripMenuItem_Click);
+            this.editHeaderToolStripMenuItem.Click += new System.EventHandler(this.EditHeaderToolStripMenuItem_Click);
             // 
             // playerBaseToolStripMenuItem
             // 
@@ -116,7 +116,7 @@
             // 
             this.updateFideToolStripMenuItem.Name = "updateFideToolStripMenuItem";
             resources.ApplyResources(this.updateFideToolStripMenuItem, "updateFideToolStripMenuItem");
-            this.updateFideToolStripMenuItem.Click += new System.EventHandler(this.updateFIDEToolStripMenuItem_Click);
+            this.updateFideToolStripMenuItem.Click += new System.EventHandler(this.UpdateFIDEToolStripMenuItem_Click);
             // 
             // mainStatusStrip
             // 

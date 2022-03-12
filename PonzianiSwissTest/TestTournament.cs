@@ -102,7 +102,7 @@ namespace PonzianiSwissTest
             Assert.IsNotNull(tournament);
             string json = tournament.Serialize();
             Tournament? t2 = Extensions.Deserialize(json); ;
-            Assert.IsNotNull(tournament);
+            Assert.IsNotNull(t2);
         }
     }
 }

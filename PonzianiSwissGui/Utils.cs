@@ -11,7 +11,7 @@ namespace PonzianiSwissGui
     {
         public static void PrepareFederationComboBox(ComboBox cbFederation)
         {
-            List<KeyValuePair<string, string>> fedl = new List<KeyValuePair<string, string>>();
+            List<KeyValuePair<string, string>> fedl = new();
             foreach (var fed in FederationUtil.Federations.OrderBy(e => e.Key))
             {
                 fedl.Add(new(fed.Key, $"{fed.Key} {fed.Value}"));

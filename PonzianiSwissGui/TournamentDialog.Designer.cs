@@ -76,7 +76,7 @@
             resources.ApplyResources(this.btnOk, "btnOk");
             this.btnOk.Name = "btnOk";
             this.btnOk.UseVisualStyleBackColor = true;
-            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
+            this.btnOk.Click += new System.EventHandler(this.BtnOk_Click);
             // 
             // btnCancel
             // 
@@ -93,7 +93,7 @@
             // 
             resources.ApplyResources(this.tbName, "tbName");
             this.tbName.Name = "tbName";
-            this.tbName.TextChanged += new System.EventHandler(this.tbName_TextChanged);
+            this.tbName.TextChanged += new System.EventHandler(this.TbName_TextChanged);
             // 
             // tbCity
             // 
@@ -214,7 +214,7 @@
             // 
             resources.ApplyResources(this.tbPointsForPAB, "tbPointsForPAB");
             this.tbPointsForPAB.Name = "tbPointsForPAB";
-            this.tbPointsForPAB.Validating += new System.ComponentModel.CancelEventHandler(this.tbscoringSchemeFloat_Validating);
+            this.tbPointsForPAB.Validating += new System.ComponentModel.CancelEventHandler(this.TbscoringSchemeFloat_Validating);
             // 
             // lblPointsForPAB
             // 
@@ -225,7 +225,7 @@
             // 
             resources.ApplyResources(this.tbPointsForForfeit, "tbPointsForForfeit");
             this.tbPointsForForfeit.Name = "tbPointsForForfeit";
-            this.tbPointsForForfeit.Validating += new System.ComponentModel.CancelEventHandler(this.tbscoringSchemeFloat_Validating);
+            this.tbPointsForForfeit.Validating += new System.ComponentModel.CancelEventHandler(this.TbscoringSchemeFloat_Validating);
             // 
             // lblPointsForForfeit
             // 
@@ -236,7 +236,7 @@
             // 
             resources.ApplyResources(this.tbPointsForZPB, "tbPointsForZPB");
             this.tbPointsForZPB.Name = "tbPointsForZPB";
-            this.tbPointsForZPB.Validating += new System.ComponentModel.CancelEventHandler(this.tbscoringSchemeFloat_Validating);
+            this.tbPointsForZPB.Validating += new System.ComponentModel.CancelEventHandler(this.TbscoringSchemeFloat_Validating);
             // 
             // lblPointsForZPB
             // 
@@ -247,7 +247,7 @@
             // 
             resources.ApplyResources(this.tbPointsForPlayedLoss, "tbPointsForPlayedLoss");
             this.tbPointsForPlayedLoss.Name = "tbPointsForPlayedLoss";
-            this.tbPointsForPlayedLoss.Validating += new System.ComponentModel.CancelEventHandler(this.tbscoringSchemeFloat_Validating);
+            this.tbPointsForPlayedLoss.Validating += new System.ComponentModel.CancelEventHandler(this.TbscoringSchemeFloat_Validating);
             // 
             // lblPointsForPlayedLoss
             // 
@@ -258,7 +258,7 @@
             // 
             resources.ApplyResources(this.tbPointsForDraw, "tbPointsForDraw");
             this.tbPointsForDraw.Name = "tbPointsForDraw";
-            this.tbPointsForDraw.Validating += new System.ComponentModel.CancelEventHandler(this.tbscoringSchemeFloat_Validating);
+            this.tbPointsForDraw.Validating += new System.ComponentModel.CancelEventHandler(this.TbscoringSchemeFloat_Validating);
             // 
             // lblPointsForDraw
             // 
@@ -269,7 +269,7 @@
             // 
             resources.ApplyResources(this.tbPointsForWin, "tbPointsForWin");
             this.tbPointsForWin.Name = "tbPointsForWin";
-            this.tbPointsForWin.Validating += new System.ComponentModel.CancelEventHandler(this.tbscoringSchemeFloat_Validating);
+            this.tbPointsForWin.Validating += new System.ComponentModel.CancelEventHandler(this.TbscoringSchemeFloat_Validating);
             // 
             // lblPointsForWin
             // 

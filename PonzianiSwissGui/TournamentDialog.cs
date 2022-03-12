@@ -34,7 +34,7 @@ namespace PonzianiSwissGui
             if (DateTime.TryParse(Tournament.EndDate, out date)) dtpEnd.Value = date; else dtpEnd.Value = DateTime.Now;
             tbChiefArbiter.Text = Tournament.ChiefArbiter;
             tbArbiters.Text = Tournament.DeputyChiefArbiter;
-            List<KeyValuePair<PairingSystem, string>> psl = new List<KeyValuePair<PairingSystem, string>>();
+            List<KeyValuePair<PairingSystem, string>> psl = new();
             foreach (PairingSystem ps in Enum.GetValues(typeof(PairingSystem)))
             {
                 psl.Add(new KeyValuePair<PairingSystem, string>(ps, ((int)ps).ToString()));
@@ -61,9 +61,9 @@ namespace PonzianiSwissGui
             }
             foreach (var control in gpScoringScheme.Controls)
             {
-                if (control is TextBox && ((TextBox)control).Name.StartsWith("tbPoints"))
+                if (control is TextBox box && box.Name.StartsWith("tbPoints"))
                 {
-                    if (!float.TryParse(((TextBox)control).Text, out _))
+                    if (!float.TryParse(box.Text, out _))
                     {
                         ErrorProvider.SetError((Control)control, Properties.Strings.InvalidFloat);
                         return false;
@@ -73,7 +73,7 @@ namespace PonzianiSwissGui
             return true;
         }
 
-        private void btnOk_Click(object sender, EventArgs e)
+        private void BtnOk_Click(object sender, EventArgs e)
         {
             if (!ValidateUserInput()) return;
             UpdateFromUI();
@@ -101,12 +101,12 @@ namespace PonzianiSwissGui
             Tournament.ScoringScheme.PointsForPairingAllocatedBye = float.Parse(tbPointsForPAB.Text);
         }
 
-        private void tbName_TextChanged(object sender, EventArgs e)
+        private void TbName_TextChanged(object sender, EventArgs e)
         {
             btnOk.Enabled = tbName.Text.Length > 0;
         }
 
-        private void tbscoringSchemeFloat_Validating(object sender, CancelEventArgs e)
+        private void TbscoringSchemeFloat_Validating(object sender, CancelEventArgs e)
         {
             if (!float.TryParse(((TextBox)sender).Text, out float val)) 
                 ErrorProvider.SetError((Control)sender, Properties.Strings.InvalidFloat);

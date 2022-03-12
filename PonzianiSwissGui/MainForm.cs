@@ -28,9 +28,9 @@ namespace PonzianiSwissGui
         }
         public string? FileName { set; get; }
 
-        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        private void NewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TournamentDialog td = new TournamentDialog(new());
+            TournamentDialog td = new(new());
             if (td.ShowDialog() == DialogResult.OK)
             {
                 Tournament = td.Tournament;
@@ -38,18 +38,18 @@ namespace PonzianiSwissGui
             }
         }
 
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (Tournament != null)
             {
-                if (FileName == null) saveAsToolStripMenuItem_Click(sender, e);
+                if (FileName == null) SaveAsToolStripMenuItem_Click(sender, e);
                 else File.WriteAllText(FileName, Tournament.Serialize());
             }
         }
 
-        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            SaveFileDialog saveFileDialog = new();
             saveFileDialog.Filter = $"{Properties.Strings.TournamentFiles}|*.tjson|{Properties.Strings.AllFiles}|*.*";
             if (FileName != null) saveFileDialog.FileName = FileName; else saveFileDialog.FileName = Tournament?.Name + ".tjson";
             saveFileDialog.DefaultExt = ".tjson";
@@ -58,18 +58,20 @@ namespace PonzianiSwissGui
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 FileName = saveFileDialog.FileName;
-                saveToolStripMenuItem_Click(sender, e);
+                SaveToolStripMenuItem_Click(sender, e);
             }
         }
 
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = $"{Properties.Strings.TournamentFiles}|*.tjson|{Properties.Strings.AllFiles}|*.*";
-            openFileDialog.DefaultExt = ".tjson";
-            openFileDialog.Title = Properties.Strings.OpenTournamentFile;
-            openFileDialog.CheckPathExists = true;
-            openFileDialog.AddExtension = true;
+            OpenFileDialog openFileDialog = new()
+            {
+                Filter = $"{Properties.Strings.TournamentFiles}|*.tjson|{Properties.Strings.AllFiles}|*.*",
+                DefaultExt = ".tjson",
+                Title = Properties.Strings.OpenTournamentFile,
+                CheckPathExists = true,
+                AddExtension = true
+            };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string json = File.ReadAllText(openFileDialog.FileName);
@@ -79,9 +81,9 @@ namespace PonzianiSwissGui
             }
         }
 
-        private void editHeaderToolStripMenuItem_Click(object sender, EventArgs e)
+        private void EditHeaderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TournamentDialog td = new TournamentDialog((Tournament)((ICloneable)Tournament)?.Clone() ?? new Tournament());
+            TournamentDialog td = Tournament != null ? new TournamentDialog((Tournament)((ICloneable)Tournament).Clone()) : new TournamentDialog(new());
             if (td.ShowDialog() == DialogResult.OK)
             {
                 Tournament = td.Tournament;
@@ -89,11 +91,12 @@ namespace PonzianiSwissGui
             }
         }
 
-        private async void updateFIDEToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void UpdateFIDEToolStripMenuItem_Click(object sender, EventArgs e)
         {
             updateFideToolStripMenuItem.Enabled = false;
             mainStatusLabel.Text = Properties.Strings.PlayerListUpdate;
-            IPlayerBase pbase = await PlayerBaseFactory.GetAsync("FIDE").ConfigureAwait(false);
+            IPlayerBase pbase = PlayerBaseFactory.Get("FIDE");
+            Player? player = pbase.GetById("1503014");
             await pbase.UpdateAsync().ConfigureAwait(false);
             Invoke((MethodInvoker)(() =>
             {

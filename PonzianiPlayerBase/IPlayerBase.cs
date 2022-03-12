@@ -1,4 +1,5 @@
-﻿using System.IO.Compression;
+﻿using LiteDB;
+using System.IO.Compression;
 using System.Text;
 using System.Text.Json;
 
@@ -59,7 +60,7 @@ namespace PonzianiPlayerBase
         DateTime LastUpdate { get; }
         Task<bool> UpdateAsync();
 
-        Task<bool> InitializeAsync();
+        bool Initialize();
 
         List<Player> Find(string searchstring);
 
@@ -70,55 +71,47 @@ namespace PonzianiPlayerBase
     public abstract class PlayerBase : IPlayerBase
     {
         protected string filename = "";
-        protected Data data = new();
+        protected LiteDatabase? db;
+        protected const string PLAYER_COLL = "player";
 
-        public DateTime LastUpdate => data != null ? data.LastUpdate : DateTime.MinValue;
+        public DateTime LastUpdate => DateTime.MinValue;
 
         public List<Player> Find(string searchstring)
         {
-            return data.Player.Where(e => e.Value.Name.Contains(searchstring, StringComparison.InvariantCultureIgnoreCase)).Select(e => e.Value).ToList();
+            var col = db?.GetCollection<Player>(PLAYER_COLL);
+            return col?.Query().Where(x => x.Name.Contains(searchstring, StringComparison.CurrentCultureIgnoreCase)).ToList() ?? new();
         }
 
         public Player? GetById(string id)
         {
-            return data != null && data.Player.ContainsKey(id) ? data.Player[id] : null;
+            var col = db?.GetCollection<Player>(PLAYER_COLL);
+            var list = col?.Query().Where(x => x.Id == id).ToList();
+            return list?.Count > 0 ? list[0] : null;
         }
 
-        public async Task<bool> InitializeAsync()
+        public bool Initialize()
         {
             if (!File.Exists(filename)) return false;
-            var bytes = await File.ReadAllBytesAsync(filename);
-            string json = Encoding.Unicode.GetString(await Brotli.DecompressBytesAsync(bytes));
-            if (json != null)
-            {
-                data = JsonSerializer.Deserialize<Data>(json) ?? new();
-                return data.Player.Count > 0;
-            }
-            else return false;
-        }
-
-        protected async Task SaveData()
-        {
-            data.LastUpdate = DateTime.Now;
-            var bytes = await Brotli.CompressBytesAsync(Encoding.Unicode.GetBytes(JsonSerializer.Serialize<Data>(data)));
-            await File.WriteAllBytesAsync(filename, bytes);
+            db = new LiteDatabase(filename);
+            return true;
         }
 
         public abstract Task<bool> UpdateAsync();
+
     }
 
     public class PlayerBaseFactory
     {
-        private static Dictionary<string, IPlayerBase> bases = new Dictionary<string, IPlayerBase>();
+        private static readonly Dictionary<string, IPlayerBase> bases = new();
 
-        public static async Task<IPlayerBase> GetAsync(string id)
+        public static IPlayerBase Get(string id)
         {
             if (!bases.ContainsKey(id))
             {
                 if (id == "FIDE")
                 {
                     bases.Add(id, new FidePlayerBase());
-                    await bases[id].InitializeAsync();
+                    bases[id].Initialize();
 
                 }
             }
@@ -152,69 +145,4 @@ namespace PonzianiPlayerBase
         public int RatingBlitz { get; set; } = 0;
     }
 
-    public class Data
-    {
-        public Dictionary<string, Player> Player { set; get; } = new();
-        public DateTime LastUpdate { get; set; } = DateTime.MinValue;
-    }
-
-    /// <summary>
-    /// Copied from https://www.prowaretech.com/Computer/DotNet/BrotliStream
-    /// </summary>
-    internal class Brotli
-    {
-        public static byte[] CompressBytes(byte[] bytes)
-        {
-            using (var outputStream = new MemoryStream())
-            {
-                using (var compressStream = new BrotliStream(outputStream, CompressionLevel.Optimal))
-                {
-                    compressStream.Write(bytes, 0, bytes.Length);
-                }
-                return outputStream.ToArray();
-            }
-        }
-
-        public static byte[] DecompressBytes(byte[] bytes)
-        {
-            using (var inputStream = new MemoryStream(bytes))
-            {
-                using (var outputStream = new MemoryStream())
-                {
-                    using (var decompressStream = new BrotliStream(inputStream, CompressionMode.Decompress))
-                    {
-                        decompressStream.CopyTo(outputStream);
-                    }
-                    return outputStream.ToArray();
-                }
-            }
-        }
-
-        public static async Task<byte[]> CompressBytesAsync(byte[] bytes, CancellationToken cancel = default(CancellationToken))
-        {
-            using (var outputStream = new MemoryStream())
-            {
-                using (var compressStream = new BrotliStream(outputStream, CompressionLevel.Fastest))
-                {
-                    await compressStream.WriteAsync(bytes, 0, bytes.Length, cancel);
-                }
-                return outputStream.ToArray();
-            }
-        }
-
-        public static async Task<byte[]> DecompressBytesAsync(byte[] bytes, CancellationToken cancel = default(CancellationToken))
-        {
-            using (var inputStream = new MemoryStream(bytes))
-            {
-                using (var outputStream = new MemoryStream())
-                {
-                    using (var decompressStream = new BrotliStream(inputStream, CompressionMode.Decompress))
-                    {
-                        await decompressStream.CopyToAsync(outputStream, cancel);
-                    }
-                    return outputStream.ToArray();
-                }
-            }
-        }
-    }
 }

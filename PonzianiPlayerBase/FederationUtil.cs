@@ -12,7 +12,7 @@ namespace PonzianiPlayerBase
     {
         static FederationUtil()
         {
-
+            Federations = new();
             InitializeFifaIOC();
         }
 
@@ -241,7 +241,6 @@ Peru;PER;PER
 Uruguay;URU;URU
 Venezuela;VEN;VEN";
             string[] lines = fedFifa.Split(new String[] { "\r\n", "\n", "\r" }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-            Federations = new();
             foreach (string line in lines)
             {
                 string[] parts = line.Split(";");
@@ -254,7 +253,6 @@ Venezuela;VEN;VEN";
         {
             string feds = "AC;AD;AE;AF;AG;AI;AL;AM;AN;AO;AP;AQ;AR;AS;AT;AU;AW;AX;AZ;BA;BB;BD;BE;BF;BG;BH;BI;BJ;BL;BM;BN;BO;BQ;BR;BS;BT;BU;BV;BW;BX;BY;BZ;CA;CC;CD;CF;CG;CH;CI;CK;CL;CM;CN;CO;CP;CQ;CR;CS;CT;CU;CV;CW;CX;CY;CZ;DD;DE;DG;DJ;DK;DM;DO;DY;DZ;EA;EC;EE;EF;EG;EH;EM;EP;ER;ES;ET;EU;EV;EW;EZ;FI;FJ;FK;FL;FM;FO;FQ;FR;FX;GA;GB;GC;GD;GE;GF;GG;GH;GI;GL;GM;GN;GP;GQ;GR;GS;GT;GU;GW;GY;HK;HM;HN;HR;HT;HU;HV;IB;IC;ID;IE;IL;IM;IN;IO;IQ;IR;IS;IT;JA;JE;JM;JO;JP;JT;KE;KG;KH;KI;KM;KN;KP;KR;KW;KY;KZ;LA;LB;LC;LF;LI;LK;LR;LS;LT;LU;LV;LY;MA;MC;MD;ME;MF;MG;MH;MI;MK;ML;MM;MN;MO;MP;MQ;MR;MS;MT;MU;MV;MW;MX;MY;MZ;NA;NC;NE;NF;NG;NH;NI;NL;NO;NP;NQ;NR;NT;NU;NZ;OA;OM;PA;PC;PE;PF;PG;PH;PI;PK;PL;PM;PN;PR;PS;PT;PU;PW;PY;PZ;QA;RA;RB;RC;RE;RH;RI;RL;RM;RN;RO;RP;RS;RU;RW;SA;SB;SC;SD;SE;SF;SG;SH;SI;SJ;SK;SL;SM;SN;SO;SR;SS;ST;SU;SV;SX;SY;SZ;TA;TC;TD;TF;TG;TH;TJ;TK;TL;TM;TN;TO;TP;TR;TT;TV;TW;TZ;UA;UG;UK;UM;UN;US;UY;UZ;VA;VC;VD;VE;VG;VI;VN;VU;WF;WG;WK;WL;WO;WS;WV;YD;YE;YT;YU;YV;ZA;ZM;ZR;ZW";
             string[] fed2 = feds.Split(";");
-            Federations = new();
             foreach (string fed in fed2)
             {
                 try
@@ -269,7 +267,7 @@ Venezuela;VEN;VEN";
             }
         }
 
-        public static Dictionary<string, string> Federations;
+        public readonly static Dictionary<string, string> Federations;
 
     }
 }
