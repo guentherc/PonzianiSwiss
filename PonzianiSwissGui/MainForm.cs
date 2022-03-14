@@ -42,7 +42,7 @@ namespace PonzianiSwissGui
                 {
                     if (page.Name.StartsWith("tpRound_"))
                     {
-                        int i = int.Parse(page.Name.Substring(8));
+                        int i = int.Parse(page.Name[8..]);
                         if (i >= _tournament.Rounds.Count) tcMain.TabPages.Remove(page);
                     }
                 }
@@ -61,12 +61,15 @@ namespace PonzianiSwissGui
                         lv.View = View.Details;
                         tp.Controls.Add(lv);
                         lv.Dock = DockStyle.Fill;
+                        lv.ContextMenuStrip = cmsSetResult;
                         lv.UseCompatibleStateImageBehavior = false;
                         lv.Columns.Add(Properties.Strings.TournamentIdShort, 40);
                         lv.Columns.Add(Properties.Strings.White, 150);
                         lv.Columns.Add(Properties.Strings.TournamentIdShort, 40);
                         lv.Columns.Add(Properties.Strings.Black, 150);
                         lv.Columns.Add(Properties.Strings.Result, 80);
+                        lv.MouseDown += Lv_MouseDown;
+                        lv.FullRowSelect = true;
                     }
                     TabPage tabPage = indx >= 0 ? tcMain.TabPages[indx + 1] : tcMain.TabPages[^1];
                     ListView lvr = (ListView)tabPage.Controls[0];
@@ -78,12 +81,27 @@ namespace PonzianiSwissGui
                         lvi.SubItems.Add(p.Black.ParticipantId);
                         lvi.SubItems.Add(p.Black.Name);
                         lvi.SubItems.Add(result_strings[(int)p.Result]);
-                        lvr.Items.Add(lvi);
+                        lvi.Tag = p;
+                        lvi.BackColor = p.Result == Result.Open ? Color.White : Color.LightGray;
+                        lvr.Items.Add(lvi);             
                     }
                     ++indx;
                 }
             }
             Invalidate();
+        }
+
+        private ListViewItem? selectedItem = null;
+        private void Lv_MouseDown(object? sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                ListView? listView = sender as ListView;
+                if (listView != null)
+                {
+                    selectedItem = listView.GetItemAt(e.X, e.Y);
+                }
+            }
         }
 
         private void AddPlayerToListView(Participant p)
@@ -196,7 +214,7 @@ namespace PonzianiSwissGui
                 Cursor = Cursors.Default;
             }));
         }
-        public enum Result { Open, Forfeited, Loss, UnratedLoss, ZeroPointBye, PairingAllocatedBye, Draw, UnratedDraw, HalfPointBye, Win, UnratedWin, ForfeitWin, FullPointBye }
+
         internal static readonly string[] result_strings = new string[13] {
             "*",
             "--+",
@@ -213,10 +231,27 @@ namespace PonzianiSwissGui
             Properties.Strings.Bye + " 1"
         };
 
-        private void deleteLastRoundToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DeleteLastRoundToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _tournament.Rounds.Remove(_tournament.Rounds.Last());
+            _tournament?.Rounds.Remove(_tournament.Rounds.Last());
             UpdateUI();
+        }
+
+        private void SetResultToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (selectedItem != null)
+            {
+                Result r = (Result)int.Parse((string)((ToolStripMenuItem)sender).Tag);
+                ((Pairing)selectedItem.Tag).Result = r;
+                selectedItem.SubItems[4].Text = result_strings[(int)r];
+                selectedItem.BackColor = r == Result.Open ? Color.White : Color.LightGray;
+                Invalidate(selectedItem.Bounds);
+            }
+        }
+
+        private void cmsSetResult_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (selectedItem == null) e.Cancel = true;
         }
     }
 }

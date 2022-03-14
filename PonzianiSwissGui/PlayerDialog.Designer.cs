@@ -64,8 +64,8 @@
             this.tbFideId.Name = "tbFideId";
             this.tbFideId.Size = new System.Drawing.Size(609, 23);
             this.tbFideId.TabIndex = 1;
-            this.tbFideId.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbFideId_KeyPress);
-            this.tbFideId.Leave += new System.EventHandler(this.tbFideId_Leave);
+            this.tbFideId.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TbFideId_KeyPress);
+            this.tbFideId.Leave += new System.EventHandler(this.TbFideId_Leave);
             // 
             // tbName
             // 

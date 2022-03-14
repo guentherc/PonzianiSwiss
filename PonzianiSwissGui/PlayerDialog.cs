@@ -21,7 +21,7 @@ namespace PonzianiSwissGui
             if (!player.Attributes.ContainsKey(Participant.AttributeKey.Sex)) player.Attributes.Add(Participant.AttributeKey.Sex, Sex.Male);
         }
 
-        private IPlayerBase FideBase = PlayerBaseFactory.Get(PlayerBaseFactory.Base.Fide);
+        private readonly IPlayerBase FideBase = PlayerBaseFactory.Get(PlayerBaseFactory.Base.Fide);
 
         public Participant Player { private set; get; }
 
@@ -56,12 +56,12 @@ namespace PonzianiSwissGui
             Player.Attributes[Participant.AttributeKey.Sex] = cbFemale.Checked ? Sex.Female : Sex.Male;
         }
 
-        private void tbFideId_KeyPress(object sender, KeyPressEventArgs e)
+        private void TbFideId_KeyPress(object sender, KeyPressEventArgs e)
         {
             e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
         }
 
-        private void tbFideId_Leave(object sender, EventArgs e)
+        private void TbFideId_Leave(object sender, EventArgs e)
         {
             GetPlayerFromFideID(tbFideId.Text);
         }
