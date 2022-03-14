@@ -231,10 +231,11 @@ namespace PonzianiSwissLib
         /// Create a TRF report <see href="https://www.fide.com/FIDE/handbook/C04Annex2_TRF16.pdf"/> for the tournament
         /// <para>TRF reports are used as input for the <see cref="PairingTool"/></para>
         /// </summary>
-        /// <param name="round">Index of the round for which the report shall be created (0 means before 1. round, before 2., ...)</param>
+        /// <param name="round">Index of the round for which the report shall be created (0 means before 1. round, 1 means before 2., ...)</param>
         /// <returns>TRF report</returns>
         public List<string> CreateTRF(int round)
         {
+            round = Math.Min(round, Rounds.Count);
             AssignTournamentIds(round);
             List<string> trf = new();
             trf.Add($"012 {Name}");
@@ -250,14 +251,19 @@ namespace PonzianiSwissLib
                 char s = p.Attributes.ContainsKey(Participant.AttributeKey.Sex) && (Sex)p.Attributes[Participant.AttributeKey.Sex] == Sex.Female ? 'f' : 'm';
                 string birthdate = p.Attributes.ContainsKey(Participant.AttributeKey.Birthdate) ? ((DateTime)p.Attributes[Participant.AttributeKey.Birthdate]).ToString("yyyy/MM/dd")
                                   : p.Attributes.ContainsKey(Participant.AttributeKey.Birthyear) ? ((DateTime)p.Attributes[Participant.AttributeKey.Birthyear]).ToString() : string.Empty;
-                StringBuilder pline = new($"001 {p.ParticipantId,4} {s} {title_string[(int)p.Title],2} {p.Name,-33} {p.FideRating,4} {p.Federation,3 } {p.FideId,11} {birthdate,-10} { p.Scorecard?.Score(round),4} { p.ParticipantId,4}");
-                for (int r = 0; r < round; ++r)
+                StringBuilder pline = new(FormattableString.Invariant($"001 {p.ParticipantId,4} {s} {title_string[(int)p.Title],2} {p.Name,-33} {p.FideRating,4} {p.Federation,3 } {p.FideId,11} {birthdate,-10} { p.Scorecard?.Score(round),4} { p.ParticipantId,4}"));
+                for (int r = 1; r <= round; ++r)
                 {
-                    var entry = p.Scorecard?.Entries.Where(e => e.Round == r - 1).First();
-                    if (entry != null)
-                        pline.Append($"  {entry?.Opponent.ParticipantId,4} {"wb"[(int)(entry?.Side ?? Side.White)]} {result_char[(int)(entry?.Result ?? Result.Open) - 2]} ");
+                    var entries = p.Scorecard?.Entries.Where(e => e.Round == r - 1);
+                    if (entries != null && entries.Any())
+                    {
+                        var entry = entries.First();
+                        if (entry != null)
+                            pline.Append($"  {entry?.Opponent.ParticipantId,4} {"wb"[(int)(entry?.Side ?? Side.White)]} {result_char[(int)(entry?.Result ?? Result.Open)]}");
+                    }
+                    else pline.Append("          ");
                 }
-                trf.Add(pline.ToString());
+                trf.Add(pline.ToString().Trim());
             }
             return trf;
         }
@@ -274,7 +280,7 @@ namespace PonzianiSwissLib
             await File.WriteAllLinesAsync(file, trf, Encoding.UTF8);
             string pairings = await PairingTool.PairAsync(file);
             string[] lines = pairings.Split('\n');
-            for (int i = Rounds.Count; i < round; ++i) Rounds.Add(new Round(i));
+            for (int i = Rounds.Count; i <= round; ++i) Rounds.Add(new Round(i));
             Rounds[round].Pairings.Clear();
             for (int i = round + 1; i < Rounds.Count; ++i) Rounds[i].Pairings.Clear();
             for (int i = 1; i < lines.Length; i++)

@@ -41,6 +41,7 @@ namespace PonzianiSwissLib
 
         public static async Task<string> PairAsync(string input, PairingSystem pairingSystem = PairingSystem.Dutch)
         {
+            Debug.Assert(File.Exists(executable));
             var psi = new ProcessStartInfo
             {
                 FileName = executable,
@@ -48,6 +49,9 @@ namespace PonzianiSwissLib
                 RedirectStandardOutput = true,
                 Arguments = pairingSystem == PairingSystem.Dutch ? $"--dutch {input} -p" : $"--burstein {input} -p"
             };
+
+            string cmd = $"\"{Path.GetFullPath(executable)}\" {psi.Arguments}";
+            Trace.WriteLine(cmd);
 
             using var process = Process.Start(psi);
             if (process == null) return string.Empty;
@@ -74,6 +78,7 @@ namespace PonzianiSwissLib
             {
                 FileName = executable,
                 UseShellExecute = false,
+                CreateNoWindow = true,
                 RedirectStandardOutput = true,
                 Arguments = $"--{ pairing_system }  -g {tmpFile} -o {trfname}"
             };

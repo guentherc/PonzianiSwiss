@@ -77,9 +77,9 @@ namespace PonzianiSwissGui
                     foreach (var p in round.Pairings)
                     {
                         ListViewItem lvi = new(p.White.ParticipantId);
-                        lvi.SubItems.Add(p.White.Name);
+                        lvi.SubItems.Add($"{p.White.Name?.Trim()} ({p.White.Scorecard?.Score(indx)})");
                         lvi.SubItems.Add(p.Black.ParticipantId);
-                        lvi.SubItems.Add(p.Black.Name);
+                        lvi.SubItems.Add($"{p.Black.Name?.Trim()} ({p.Black.Scorecard?.Score(indx)})");
                         lvi.SubItems.Add(result_strings[(int)p.Result]);
                         lvi.Tag = p;
                         lvi.BackColor = p.Result == Result.Open ? Color.White : Color.LightGray;
@@ -208,6 +208,7 @@ namespace PonzianiSwissGui
         {
             Cursor = Cursors.WaitCursor;
             _tournament = await PairingTool.GenerateAsync().ConfigureAwait(false);
+            _tournament?.GetScorecards();
             Invoke((MethodInvoker)(() =>
             {
                 UpdateUI();
@@ -252,6 +253,21 @@ namespace PonzianiSwissGui
         private void cmsSetResult_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (selectedItem == null) e.Cancel = true;
+        }
+
+        private async void drawToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Cursor = Cursors.WaitCursor;
+            _tournament?.GetScorecards();
+            if (_tournament != null && await _tournament.DrawAsync(_tournament.Rounds.Count).ConfigureAwait(false))
+            {
+                _tournament?.GetScorecards();
+                Invoke((MethodInvoker)(() =>
+                {
+                    UpdateUI();
+                    Cursor = Cursors.Default;
+                }));
+            }
         }
     }
 }

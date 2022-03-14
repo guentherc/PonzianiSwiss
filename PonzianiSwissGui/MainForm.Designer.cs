@@ -156,6 +156,7 @@
             // 
             this.drawToolStripMenuItem.Name = "drawToolStripMenuItem";
             resources.ApplyResources(this.drawToolStripMenuItem, "drawToolStripMenuItem");
+            this.drawToolStripMenuItem.Click += new System.EventHandler(this.drawToolStripMenuItem_Click);
             // 
             // deleteLastRoundToolStripMenuItem
             // 
