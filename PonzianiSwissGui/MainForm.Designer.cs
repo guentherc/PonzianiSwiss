@@ -36,24 +36,39 @@
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editHeaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.participantsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.playerBaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PlayerBaseUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updateFideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.createTestTournamentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainStatusStrip = new System.Windows.Forms.StatusStrip();
             this.mainStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.tcMain = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tpParticipants = new System.Windows.Forms.TabPage();
+            this.lvParticipants = new System.Windows.Forms.ListView();
+            this.chName = new System.Windows.Forms.ColumnHeader();
+            this.chFideId = new System.Windows.Forms.ColumnHeader();
+            this.chRating = new System.Windows.Forms.ColumnHeader();
+            this.chTournamentId = new System.Windows.Forms.ColumnHeader();
+            this.roundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.drawToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteLastRoundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.mainStatusStrip.SuspendLayout();
             this.tcMain.SuspendLayout();
+            this.tpParticipants.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tournamentToolStripMenuItem,
-            this.playerBaseToolStripMenuItem});
+            this.participantsToolStripMenuItem,
+            this.roundToolStripMenuItem,
+            this.playerBaseToolStripMenuItem,
+            this.toolsToolStripMenuItem});
             resources.ApplyResources(this.menuStrip1, "menuStrip1");
             this.menuStrip1.Name = "menuStrip1";
             // 
@@ -82,21 +97,34 @@
             // 
             // saveToolStripMenuItem
             // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             resources.ApplyResources(this.saveToolStripMenuItem, "saveToolStripMenuItem");
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
-            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
             resources.ApplyResources(this.saveAsToolStripMenuItem, "saveAsToolStripMenuItem");
+            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAsToolStripMenuItem_Click);
             // 
             // editHeaderToolStripMenuItem
             // 
-            this.editHeaderToolStripMenuItem.Name = "editHeaderToolStripMenuItem";
             resources.ApplyResources(this.editHeaderToolStripMenuItem, "editHeaderToolStripMenuItem");
+            this.editHeaderToolStripMenuItem.Name = "editHeaderToolStripMenuItem";
             this.editHeaderToolStripMenuItem.Click += new System.EventHandler(this.EditHeaderToolStripMenuItem_Click);
+            // 
+            // participantsToolStripMenuItem
+            // 
+            this.participantsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addToolStripMenuItem});
+            resources.ApplyResources(this.participantsToolStripMenuItem, "participantsToolStripMenuItem");
+            this.participantsToolStripMenuItem.Name = "participantsToolStripMenuItem";
+            // 
+            // addToolStripMenuItem
+            // 
+            this.addToolStripMenuItem.Name = "addToolStripMenuItem";
+            resources.ApplyResources(this.addToolStripMenuItem, "addToolStripMenuItem");
+            this.addToolStripMenuItem.Click += new System.EventHandler(this.AddToolStripMenuItem_Click);
             // 
             // playerBaseToolStripMenuItem
             // 
@@ -118,6 +146,19 @@
             resources.ApplyResources(this.updateFideToolStripMenuItem, "updateFideToolStripMenuItem");
             this.updateFideToolStripMenuItem.Click += new System.EventHandler(this.UpdateFIDEToolStripMenuItem_Click);
             // 
+            // toolsToolStripMenuItem
+            // 
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.createTestTournamentToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            resources.ApplyResources(this.toolsToolStripMenuItem, "toolsToolStripMenuItem");
+            // 
+            // createTestTournamentToolStripMenuItem
+            // 
+            this.createTestTournamentToolStripMenuItem.Name = "createTestTournamentToolStripMenuItem";
+            resources.ApplyResources(this.createTestTournamentToolStripMenuItem, "createTestTournamentToolStripMenuItem");
+            this.createTestTournamentToolStripMenuItem.Click += new System.EventHandler(this.CreateTestTournamentToolStripMenuItem_Click);
+            // 
             // mainStatusStrip
             // 
             this.mainStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -132,23 +173,64 @@
             // 
             // tcMain
             // 
-            this.tcMain.Controls.Add(this.tabPage1);
-            this.tcMain.Controls.Add(this.tabPage2);
+            this.tcMain.Controls.Add(this.tpParticipants);
             resources.ApplyResources(this.tcMain, "tcMain");
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
             // 
-            // tabPage1
+            // tpParticipants
             // 
-            resources.ApplyResources(this.tabPage1, "tabPage1");
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.tpParticipants.Controls.Add(this.lvParticipants);
+            resources.ApplyResources(this.tpParticipants, "tpParticipants");
+            this.tpParticipants.Name = "tpParticipants";
+            this.tpParticipants.UseVisualStyleBackColor = true;
             // 
-            // tabPage2
+            // lvParticipants
             // 
-            resources.ApplyResources(this.tabPage2, "tabPage2");
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.lvParticipants.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.chName,
+            this.chFideId,
+            this.chRating,
+            this.chTournamentId});
+            resources.ApplyResources(this.lvParticipants, "lvParticipants");
+            this.lvParticipants.Name = "lvParticipants";
+            this.lvParticipants.UseCompatibleStateImageBehavior = false;
+            this.lvParticipants.View = System.Windows.Forms.View.Details;
+            // 
+            // chName
+            // 
+            resources.ApplyResources(this.chName, "chName");
+            // 
+            // chFideId
+            // 
+            resources.ApplyResources(this.chFideId, "chFideId");
+            // 
+            // chRating
+            // 
+            resources.ApplyResources(this.chRating, "chRating");
+            // 
+            // chTournamentId
+            // 
+            resources.ApplyResources(this.chTournamentId, "chTournamentId");
+            // 
+            // roundToolStripMenuItem
+            // 
+            this.roundToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.drawToolStripMenuItem,
+            this.deleteLastRoundToolStripMenuItem});
+            resources.ApplyResources(this.roundToolStripMenuItem, "roundToolStripMenuItem");
+            this.roundToolStripMenuItem.Name = "roundToolStripMenuItem";
+            // 
+            // drawToolStripMenuItem
+            // 
+            this.drawToolStripMenuItem.Name = "drawToolStripMenuItem";
+            resources.ApplyResources(this.drawToolStripMenuItem, "drawToolStripMenuItem");
+            // 
+            // deleteLastRoundToolStripMenuItem
+            // 
+            this.deleteLastRoundToolStripMenuItem.Name = "deleteLastRoundToolStripMenuItem";
+            resources.ApplyResources(this.deleteLastRoundToolStripMenuItem, "deleteLastRoundToolStripMenuItem");
+            this.deleteLastRoundToolStripMenuItem.Click += new System.EventHandler(this.deleteLastRoundToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -164,6 +246,7 @@
             this.mainStatusStrip.ResumeLayout(false);
             this.mainStatusStrip.PerformLayout();
             this.tcMain.ResumeLayout(false);
+            this.tpParticipants.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -183,8 +266,19 @@
         private ToolStripMenuItem updateFideToolStripMenuItem;
         private StatusStrip mainStatusStrip;
         private ToolStripStatusLabel mainStatusLabel;
+        private ToolStripMenuItem participantsToolStripMenuItem;
+        private ToolStripMenuItem addToolStripMenuItem;
+        private ToolStripMenuItem toolsToolStripMenuItem;
+        private ToolStripMenuItem createTestTournamentToolStripMenuItem;
         private TabControl tcMain;
-        private TabPage tabPage1;
-        private TabPage tabPage2;
+        private TabPage tpParticipants;
+        private ListView lvParticipants;
+        private ColumnHeader chName;
+        private ColumnHeader chFideId;
+        private ColumnHeader chRating;
+        private ColumnHeader chTournamentId;
+        private ToolStripMenuItem roundToolStripMenuItem;
+        private ToolStripMenuItem drawToolStripMenuItem;
+        private ToolStripMenuItem deleteLastRoundToolStripMenuItem;
     }
 }

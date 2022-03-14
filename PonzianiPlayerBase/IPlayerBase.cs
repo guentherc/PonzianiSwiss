@@ -1,60 +1,11 @@
 ﻿using LiteDB;
+using PonzianiSwissLib;
 using System.IO.Compression;
 using System.Text;
 using System.Text.Json;
 
 namespace PonzianiPlayerBase
 {
-
-    public enum Sex { Male, Female }
-
-    /// <summary>
-    /// Chess title 
-    /// </summary>
-    public enum FideTitle
-    {
-        /// <summary>
-        /// Grandmaster
-        /// </summary>
-        GM,
-        /// <summary>
-        /// Woman Grandmaster
-        /// </summary>
-        WGM,
-        /// <summary>
-        /// International Master
-        /// </summary>
-        IM,
-        /// <summary>
-        /// Woman International Master
-        /// </summary>
-        WIM,
-        /// <summary>
-        /// Fide Master
-        /// </summary>
-        FM,
-        /// <summary>
-        /// Woman Fide Master
-        /// </summary>
-        WFM,
-        /// <summary>
-        /// Candidate master
-        /// </summary>
-        CM,
-        /// <summary>
-        /// Woman Candidate master
-        /// </summary>
-        WCM,
-        /// <summary>
-        /// Woman Honarary Grandmaster
-        /// </summary>
-        WH,
-        /// <summary>
-        /// Untitled
-        /// </summary>
-        NONE
-    };
-
     public interface IPlayerBase
     {
         DateTime LastUpdate { get; }
@@ -102,10 +53,13 @@ namespace PonzianiPlayerBase
 
     public class PlayerBaseFactory
     {
+        public enum Base { Fide }
+
         private static readonly Dictionary<string, IPlayerBase> bases = new();
 
-        public static IPlayerBase Get(string id)
+        public static IPlayerBase Get(Base b)
         {
+            string id = b.ToString().ToUpper();
             if (!bases.ContainsKey(id))
             {
                 if (id == "FIDE")

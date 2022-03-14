@@ -9,7 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PonzianiSwissTest", "Ponzia
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PonzianiSwissGui", "PonzianiSwissGui\PonzianiSwissGui.csproj", "{ADF79F05-E08F-42A5-B22D-F4A4DA357D2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PonzianiPlayerBase", "PonzianiPlayerBase\PonzianiPlayerBase.csproj", "{23CA0620-5C0F-4754-9891-0472490675D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PonzianiPlayerBase", "PonzianiPlayerBase\PonzianiPlayerBase.csproj", "{23CA0620-5C0F-4754-9891-0472490675D7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E6531465-E1F3-4716-A308-61CAB79BF314} = {E6531465-E1F3-4716-A308-61CAB79BF314}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

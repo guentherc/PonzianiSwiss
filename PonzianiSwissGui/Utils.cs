@@ -1,4 +1,5 @@
 ﻿using PonzianiPlayerBase;
+using PonzianiSwissLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,18 @@ namespace PonzianiSwissGui
             cbFederation.DataSource = fedl;
             cbFederation.DisplayMember = "Value";
             cbFederation.ValueMember = "Key";
+        }
+
+        public static void PrepareTitelComboBox(ComboBox cbTitle)
+        {
+            List<KeyValuePair<FideTitle, string>> titl = new();
+            foreach (var t in Enum.GetValues<FideTitle>())
+            {
+                titl.Add(new(t, t.ToString()));
+            }
+            cbTitle.DataSource = titl;
+            cbTitle.DisplayMember = "Value";
+            cbTitle.ValueMember = "Key";
         }
     }
 }
