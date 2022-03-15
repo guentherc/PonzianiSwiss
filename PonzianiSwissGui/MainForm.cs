@@ -28,6 +28,8 @@ namespace PonzianiSwissGui
             saveAsToolStripMenuItem.Enabled = _tournament != null;
             editHeaderToolStripMenuItem.Enabled = _tournament != null;
             roundToolStripMenuItem.Enabled = _tournament != null;
+            exportToolStripMenuItem.Enabled = _tournament != null;
+            tRFToolStripMenuItem.Enabled = _tournament != null && _tournament.Rounds.Count > 0;
             if (_tournament != null) Text = _tournament.Name;
             participantsToolStripMenuItem.Enabled = true;
             lvParticipants.Items.Clear();
@@ -96,8 +98,7 @@ namespace PonzianiSwissGui
         {
             if (e.Button == MouseButtons.Right)
             {
-                ListView? listView = sender as ListView;
-                if (listView != null)
+                if (sender is ListView listView)
                 {
                     selectedItem = listView.GetItemAt(e.X, e.Y);
                 }
@@ -250,12 +251,12 @@ namespace PonzianiSwissGui
             }
         }
 
-        private void cmsSetResult_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        private void CmsSetResult_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (selectedItem == null) e.Cancel = true;
         }
 
-        private async void drawToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void DrawToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Cursor = Cursors.WaitCursor;
             _tournament?.GetScorecards();
@@ -267,6 +268,21 @@ namespace PonzianiSwissGui
                     UpdateUI();
                     Cursor = Cursors.Default;
                 }));
+            }
+        }
+
+        private void TRFToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new();
+            saveFileDialog.Filter = $"{Properties.Strings.TournamentReportFile}|*.trf|{Properties.Strings.AllFiles}|*.*";
+            if (FileName != null) saveFileDialog.FileName = FileName; else saveFileDialog.FileName = Tournament?.Name + ".trf";
+            saveFileDialog.DefaultExt = ".trf";
+            saveFileDialog.Title = Properties.Strings.ExportTRF;
+            saveFileDialog.AddExtension = true;
+            if (saveFileDialog.ShowDialog() == DialogResult.OK && _tournament != null && _tournament.Rounds.Count > 0)
+            {
+                var lines = _tournament?.CreateTRF(_tournament.Rounds.Count);
+                if (lines != null) File.WriteAllLines(saveFileDialog.FileName, lines);
             }
         }
     }

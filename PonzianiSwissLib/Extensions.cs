@@ -107,7 +107,7 @@ namespace PonzianiSwissLib
                         char result = line[indx + 7];
                         int opponentId = int.Parse(id);
                         Participant opponent = opponentId == 0 ? Participant.BYE : tournament.Participants[opponentId - 1];
-                        if (opponent != null && opponent.ParticipantId?.CompareTo(tournament.Participants[i].ParticipantId) < 0)
+                        if (opponent != null && (opponentId == 0 || opponent.ParticipantId?.CompareTo(tournament.Participants[i].ParticipantId) < 0))
                         {
                             Pairing p = color == 'b' ? new(opponent, tournament.Participants[i]) : new(tournament.Participants[i], opponent);
                             p.Result = (Result)Tournament.result_char.IndexOf(result);

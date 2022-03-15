@@ -97,6 +97,15 @@ namespace PonzianiSwissGui.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Export Tournament Report File.
+        /// </summary>
+        public static string ExportTRF {
+            get {
+                return ResourceManager.GetString("ExportTRF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid Value - Please enter a float value!.
         /// </summary>
         public static string InvalidFloat {
@@ -165,6 +174,15 @@ namespace PonzianiSwissGui.Properties {
         public static string TournamentIdShort {
             get {
                 return ResourceManager.GetString("TournamentIdShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tournament Report File.
+        /// </summary>
+        public static string TournamentReportFile {
+            get {
+                return ResourceManager.GetString("TournamentReportFile", resourceCulture);
             }
         }
         

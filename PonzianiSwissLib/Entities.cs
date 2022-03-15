@@ -68,9 +68,39 @@
         public float Buchholz() => Entries.Select(e => ((Scorecard)e.Opponent.Attributes[Participant.AttributeKey.Scorecard]).Score()).Sum();
         public float Buchholz(int round) => Entries.Where(e => e.Round < round).Select(e => ((Scorecard)e.Opponent.Attributes[Participant.AttributeKey.Scorecard]).Score(round)).Sum();
 
-        public float BuchholzCut1() => Entries.Select(e => ((Scorecard)e.Opponent.Attributes[Participant.AttributeKey.Scorecard]).Score()).ToList().Skip(1).Sum();
-        public float BuchholzCut1(int round) => Entries.Where(e => e.Round < round).Select(e => ((Scorecard)e.Opponent.Attributes[Participant.AttributeKey.Scorecard]).Score(round)).ToList().Skip(1).Sum();
+        public float BuchholzMedian()
+        {
+            var list = Entries.Select(e => ((Scorecard)e.Opponent.Attributes[Participant.AttributeKey.Scorecard]).Score()).ToList();
+            list.Sort();
+            list.RemoveAt(0);
+            list.RemoveAt(list.Count - 1);
+            return list.Sum();
+        }
 
+        public float BuchholzMedian(int round)
+        {
+            var list = Entries.Where(e => e.Round < round).Select(e => ((Scorecard)e.Opponent.Attributes[Participant.AttributeKey.Scorecard]).Score(round)).ToList();
+            list.Sort();
+            list.RemoveAt(0);
+            list.RemoveAt(list.Count - 1);
+            return list.Sum();
+        }
+
+        public float BuchholzCut1() { 
+            var list = Entries.Select(e => ((Scorecard) e.Opponent.Attributes[Participant.AttributeKey.Scorecard]).Score()).ToList();
+            list.Sort();
+            list.RemoveAt(0);
+            return list.Sum();
+        }
+
+        public float BuchholzCut1(int round)
+        {
+            var list = Entries.Where(e => e.Round < round).Select(e => ((Scorecard)e.Opponent.Attributes[Participant.AttributeKey.Scorecard]).Score(round)).ToList();
+            list.Sort();
+            list.RemoveAt(0);
+            return list.Sum();
+        }
+       
         public float RefinedBuchholz() => Entries.Select(e => ((Scorecard)e.Opponent.Attributes[Participant.AttributeKey.Scorecard]).Buchholz()).Sum();
         public float RefinedBuchholz(int round) => Entries.Where(e => e.Round < round).Select(e => ((Scorecard)e.Opponent.Attributes[Participant.AttributeKey.Scorecard]).Buchholz(round)).Sum();
 
@@ -154,10 +184,12 @@
             get { return _scores[(int)Result.PairingAllocatedBye]; }
         }
 
-        internal float Score(Result r) {  return _scores[(int)r]; }
+        internal float Score(Result r) {  
+            return _scores[(int)r]; 
+        }
 
-        //public enum Result { Open, Forfeited, Loss, UnratedLoss, ZeroPointBye, Draw, UnratedDraw, HalfPointBye, Win, UnratedWin, ForfeitWin, FullPointBye, PairingAllocatedBye }
-        private readonly float[] _scores = new float[13] {0f, 0f, 0f, 0f, 0f, .5f, .5f, .5f, 1f, 1f, 1f, 1f, 1f };
+        //public enum Result { Open, Forfeited, Loss, UnratedLoss, ZeroPointBye, PairingAllocatedBye, Draw, UnratedDraw, HalfPointBye, Win, UnratedWin, ForfeitWin, FullPointBye }
+        private readonly float[] _scores = new float[13] {0f, 0f, 0f, 0f, 0f, 1f, .5f, .5f, .5f, 1f, 1f, 1f, 1f };
 
         internal List<string> TRFStrings()
         {

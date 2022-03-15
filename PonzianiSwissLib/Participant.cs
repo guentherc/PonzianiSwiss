@@ -54,7 +54,7 @@ namespace PonzianiSwissLib
         public ulong FideId { set; get; } = 0;
         public string? Federation { set; get; }
 
-        public readonly static Participant BYE = new("Bye", 0);
+        public readonly static Participant BYE = new("Bye", 0, FideTitle.NONE, "0000");
 
         /// <summary>
         /// Participants Id within tournament (usually Seed)
@@ -70,6 +70,10 @@ namespace PonzianiSwissLib
         /// Participant is active and shall be paired. If false participant is currently taking a break or withdrew
         /// </summary>
         public bool Active { set; get; } = true;
+        /// <summary>
+        /// Rank within tournament
+        /// </summary>
+        public int Rank {  set; get; }
 
         /// <summary>
         /// Property bag to store additional attributes

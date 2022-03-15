@@ -72,6 +72,10 @@
             this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem11 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem12 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tRFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.mainStatusStrip.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -97,7 +101,10 @@
             this.openToolStripMenuItem,
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem,
-            this.editHeaderToolStripMenuItem});
+            this.toolStripSeparator1,
+            this.editHeaderToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.exportToolStripMenuItem});
             this.tournamentToolStripMenuItem.Name = "tournamentToolStripMenuItem";
             resources.ApplyResources(this.tournamentToolStripMenuItem, "tournamentToolStripMenuItem");
             // 
@@ -156,7 +163,7 @@
             // 
             this.drawToolStripMenuItem.Name = "drawToolStripMenuItem";
             resources.ApplyResources(this.drawToolStripMenuItem, "drawToolStripMenuItem");
-            this.drawToolStripMenuItem.Click += new System.EventHandler(this.drawToolStripMenuItem_Click);
+            this.drawToolStripMenuItem.Click += new System.EventHandler(this.DrawToolStripMenuItem_Click);
             // 
             // deleteLastRoundToolStripMenuItem
             // 
@@ -263,7 +270,7 @@
             this.byeToolStripMenuItem});
             this.cmsSetResult.Name = "cmsSetResult";
             resources.ApplyResources(this.cmsSetResult, "cmsSetResult");
-            this.cmsSetResult.Opening += new System.ComponentModel.CancelEventHandler(this.cmsSetResult_Opening);
+            this.cmsSetResult.Opening += new System.ComponentModel.CancelEventHandler(this.CmsSetResult_Opening);
             // 
             // openToolStripMenuItem1
             // 
@@ -375,6 +382,29 @@
             this.toolStripMenuItem12.Tag = "5";
             this.toolStripMenuItem12.Click += new System.EventHandler(this.SetResultToolStripMenuItem1_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
+            // 
+            // exportToolStripMenuItem
+            // 
+            this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tRFToolStripMenuItem});
+            resources.ApplyResources(this.exportToolStripMenuItem, "exportToolStripMenuItem");
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            // 
+            // tRFToolStripMenuItem
+            // 
+            resources.ApplyResources(this.tRFToolStripMenuItem, "tRFToolStripMenuItem");
+            this.tRFToolStripMenuItem.Name = "tRFToolStripMenuItem";
+            this.tRFToolStripMenuItem.Click += new System.EventHandler(this.TRFToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             resources.ApplyResources(this, "$this");
@@ -440,5 +470,9 @@
         private ToolStripMenuItem toolStripMenuItem10;
         private ToolStripMenuItem toolStripMenuItem11;
         private ToolStripMenuItem toolStripMenuItem12;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripSeparator toolStripSeparator2;
+        private ToolStripMenuItem exportToolStripMenuItem;
+        private ToolStripMenuItem tRFToolStripMenuItem;
     }
 }
