@@ -95,8 +95,8 @@ namespace PonzianiSwissLib
             //Parse results
             Dictionary<Participant, List<PEntry>> plist = new();
             for (int i = 0; i < playerList.Count; ++i)
-            {   
-                List<PEntry> pentry_list = new List<PEntry>();
+            {
+                List<PEntry> pentry_list = new();
                 plist.Add(tournament.Participants[i], pentry_list);
                 string line = playerList[i].Trim();
                 int indx = 91;
@@ -133,7 +133,13 @@ namespace PonzianiSwissLib
                     }
                     tournament.Rounds[item.RoundIndex].Pairings.Add(pairing);
                 }
-            }           
+            }
+            tournament.GetScorecards();
+            //Sort Pairings
+            for (int i = 0; i < tournament.Rounds.Count; i++)
+            {
+                tournament.Rounds[i].Pairings.SortByJointScore(i);
+            }
         }
 
         internal class PEntry
@@ -151,6 +157,23 @@ namespace PonzianiSwissLib
             public Side Side { set; get; }
             public Result Result { set; get; }
 
+        }
+
+        internal static int SortId(this Participant p)
+        {
+            return p == Participant.BYE ? int.MaxValue : int.Parse(p.ParticipantId ?? "9999");
+        }
+
+        public static void SortByJointScore(this List<Pairing> pairings, int roundIndex)
+        {
+            pairings.Sort((p1, p2) =>
+            {
+                float score1 = p1?.White?.Scorecard?.Score(roundIndex) ?? 0 + p1?.Black?.Scorecard?.Score(roundIndex) ?? 0;
+                float score2 = p2?.White?.Scorecard?.Score(roundIndex) ?? 0 + p2?.Black?.Scorecard?.Score(roundIndex) ?? 0;
+                if (score1 != score2) return score2.CompareTo(score1);
+                return Math.Min(p1?.White?.SortId() ?? 9999, p1?.Black?.SortId() ?? 9999).CompareTo(
+                    Math.Min(p2?.White?.SortId() ?? 9999, p2?.Black?.SortId() ?? 9999));
+            });
         }
 
         public static T Deserialize<T>(string json)

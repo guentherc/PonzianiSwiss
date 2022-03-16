@@ -358,6 +358,7 @@ namespace PonzianiSwissLib
                 Participant p2 = n[1] != "0" ? Participants.Where(p => p.ParticipantId == n[1]).First() : Participant.BYE;
                 Rounds[round].Pairings.Add(new(p1, p2));
             }
+            Rounds[round].Pairings.SortByJointScore(round);
             return true;
         }
 

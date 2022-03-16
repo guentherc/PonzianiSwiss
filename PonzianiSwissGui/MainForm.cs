@@ -217,7 +217,7 @@ namespace PonzianiSwissGui
             }));
         }
 
-        internal static readonly string[] result_strings = new string[13] {
+        internal static readonly string[] result_strings = new string[14] {
             "*",
             "--+",
             "0-1",
@@ -230,7 +230,8 @@ namespace PonzianiSwissGui
             "1-0",
             "1-0",
             "+--",
-            Properties.Strings.Bye + " 1"
+            Properties.Strings.Bye + " 1",
+            "---"
         };
 
         private void DeleteLastRoundToolStripMenuItem_Click(object sender, EventArgs e)
@@ -286,7 +287,7 @@ namespace PonzianiSwissGui
             }
         }
 
-        private async void testTRFCreationToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void TestTRFCreationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             bool result = await Extensions.TestTRFGeneration();
             Invoke((MethodInvoker)(() =>

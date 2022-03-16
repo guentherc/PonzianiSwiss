@@ -411,7 +411,7 @@
             // 
             this.testTRFCreationToolStripMenuItem.Name = "testTRFCreationToolStripMenuItem";
             resources.ApplyResources(this.testTRFCreationToolStripMenuItem, "testTRFCreationToolStripMenuItem");
-            this.testTRFCreationToolStripMenuItem.Click += new System.EventHandler(this.testTRFCreationToolStripMenuItem_Click);
+            this.testTRFCreationToolStripMenuItem.Click += new System.EventHandler(this.TestTRFCreationToolStripMenuItem_Click);
             // 
             // MainForm
             // 
