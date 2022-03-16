@@ -57,7 +57,7 @@ namespace PonzianiSwissLib
     /// <summary>
     /// Result of a single game within a swiss tournament
     /// </summary>
-    public enum Result { Open, Forfeited, Loss, UnratedLoss, ZeroPointBye, PairingAllocatedBye, Draw, UnratedDraw, HalfPointBye, Win, UnratedWin, ForfeitWin, FullPointBye }
+    public enum Result { Open, Forfeited, Loss, UnratedLoss, ZeroPointBye, PairingAllocatedBye, Draw, UnratedDraw, HalfPointBye, Win, UnratedWin, ForfeitWin, FullPointBye, DoubleForfeit }
 
     /// <summary>
     /// Color assigned to a player
@@ -169,15 +169,9 @@ namespace PonzianiSwissLib
                     scorecards[pairing.Black].Entries.Add(new(pairing.White, Side.Black, pairing.InvertedResult, r, this));
                 }
             }
-            foreach (var p in scorecards.Keys) p.Attributes[Participant.AttributeKey.Scorecard] = scorecards[p];
-            Participants.RemoveAll(p => !p.Attributes.ContainsKey(Participant.AttributeKey.Scorecard));
+            foreach (var p in scorecards.Keys) p.Scorecard = scorecards[p];
+            Participants.RemoveAll(p => p.Scorecard == null);
             return scorecards;
-        }
-
-        internal Scorecard GetParticipantScorecard(Participant p)
-        {
-            var scorecards = GetScorecards();
-            return scorecards.Keys.Where(x => x.ParticipantId == p.ParticipantId).Select(x => (Scorecard)x.Attributes[Participant.AttributeKey.Scorecard]).First();
         }
 
         /// <summary>
@@ -195,23 +189,27 @@ namespace PonzianiSwissLib
                 if (round == 0) return p1.TournamentRating.CompareTo(p2.TournamentRating);
                 else
                 {
-                    Scorecard sc1 = (Scorecard)p1.Attributes[Participant.AttributeKey.Scorecard];
-                    Scorecard sc2 = (Scorecard)p2.Attributes[Participant.AttributeKey.Scorecard];
-                    float score1 = sc1.Score(round);
-                    float score2 = sc2.Score(round);
-                    if (score1 != score2) return score1.CompareTo(score2);
-                    score1 = sc1.BuchholzCut1(round);
-                    score2 = sc2.BuchholzCut1(round);
-                    if (score1 != score2) return score1.CompareTo(score2);
-                    score1 = sc1.Buchholz(round);
-                    score2 = sc2.Buchholz(round);
-                    if (score1 != score2) return score1.CompareTo(score2);
-                    int cwin1 = sc1.CountWin(round);
-                    int cwin2 = sc2.CountWin(round);
-                    if (cwin1 != cwin2) return cwin1.CompareTo(cwin2);
-                    cwin1 = sc1.CountBlackWin(round);
-                    cwin2 = sc2.CountBlackWin(round);
-                    return cwin1.CompareTo(cwin2);
+                    Scorecard? sc1 = p1.Scorecard;
+                    Scorecard? sc2 = p2.Scorecard;
+                    if (sc1 != null && sc2 != null)
+                    {
+                        float score1 = sc1.Score(round);
+                        float score2 = sc2.Score(round);
+                        if (score1 != score2) return score1.CompareTo(score2);
+                        score1 = sc1.BuchholzCut1(round);
+                        score2 = sc2.BuchholzCut1(round);
+                        if (score1 != score2) return score1.CompareTo(score2);
+                        score1 = sc1.Buchholz(round);
+                        score2 = sc2.Buchholz(round);
+                        if (score1 != score2) return score1.CompareTo(score2);
+                        int cwin1 = sc1.CountWin(round);
+                        int cwin2 = sc2.CountWin(round);
+                        if (cwin1 != cwin2) return cwin1.CompareTo(cwin2);
+                        cwin1 = sc1.CountBlackWin(round);
+                        cwin2 = sc2.CountBlackWin(round);
+                        return cwin1.CompareTo(cwin2);
+                    }
+                    else return 0;
                 }
             });
         }
@@ -232,10 +230,8 @@ namespace PonzianiSwissLib
                 if (round == 0) return p1.TournamentRating.CompareTo(p2.TournamentRating);
                 else
                 {
-                    Scorecard sc1 = (Scorecard)p1.Attributes[Participant.AttributeKey.Scorecard];
-                    Scorecard sc2 = (Scorecard)p2.Attributes[Participant.AttributeKey.Scorecard];
-                    float score1 = sc1.Score(round);
-                    float score2 = sc2.Score(round);
+                    float score1 = p1.Scorecard?.Score(round) ?? 0;
+                    float score2 = p2.Scorecard?.Score(round) ?? 0;
                     if (score1 != score2) return score1.CompareTo(score2);
                     int sint1 = int.Parse(p1.ParticipantId ?? "10000");
                     int sint2 = int.Parse(p2.ParticipantId ?? "10000");
@@ -372,7 +368,7 @@ namespace PonzianiSwissLib
         }
 
         internal static readonly string[] title_string = { "g", "wg", "m", "wm", "f", "wf", "c", "wc", "", "h" };
-        internal static readonly string result_char = "*-0LZU=DH1W+F";
+        internal static readonly string result_char = "*-0LZU=DH1W+F-";
 
     }
 }

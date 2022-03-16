@@ -65,12 +65,12 @@
         public float Score() => Entries.Sum((e) => e.Score);
         public float Score(int round) => Entries.Where(e => e.Round < round).Sum((e) => e.Score);
 
-        public float Buchholz() => Entries.Select(e => ((Scorecard)e.Opponent.Attributes[Participant.AttributeKey.Scorecard]).Score()).Sum();
-        public float Buchholz(int round) => Entries.Where(e => e.Round < round).Select(e => ((Scorecard)e.Opponent.Attributes[Participant.AttributeKey.Scorecard]).Score(round)).Sum();
+        public float Buchholz() => Entries.Select(e => e.Opponent.Scorecard?.Score() ?? 0).Sum();
+        public float Buchholz(int round) => Entries.Where(e => e.Round < round).Select(e => e.Opponent.Scorecard?.Score(round) ?? 0).Sum();
 
         public float BuchholzMedian()
         {
-            var list = Entries.Select(e => ((Scorecard)e.Opponent.Attributes[Participant.AttributeKey.Scorecard]).Score()).ToList();
+            var list = Entries.Select(e => e.Opponent.Scorecard?.Score() ?? 0).ToList();
             list.Sort();
             list.RemoveAt(0);
             list.RemoveAt(list.Count - 1);
@@ -79,7 +79,7 @@
 
         public float BuchholzMedian(int round)
         {
-            var list = Entries.Where(e => e.Round < round).Select(e => ((Scorecard)e.Opponent.Attributes[Participant.AttributeKey.Scorecard]).Score(round)).ToList();
+            var list = Entries.Where(e => e.Round < round).Select(e => e.Opponent.Scorecard?.Score(round) ?? 0).ToList();
             list.Sort();
             list.RemoveAt(0);
             list.RemoveAt(list.Count - 1);
@@ -87,7 +87,7 @@
         }
 
         public float BuchholzCut1() { 
-            var list = Entries.Select(e => ((Scorecard) e.Opponent.Attributes[Participant.AttributeKey.Scorecard]).Score()).ToList();
+            var list = Entries.Select(e => e.Opponent.Scorecard?.Score() ?? 0).ToList();
             list.Sort();
             list.RemoveAt(0);
             return list.Sum();
@@ -95,17 +95,17 @@
 
         public float BuchholzCut1(int round)
         {
-            var list = Entries.Where(e => e.Round < round).Select(e => ((Scorecard)e.Opponent.Attributes[Participant.AttributeKey.Scorecard]).Score(round)).ToList();
+            var list = Entries.Where(e => e.Round < round).Select(e => e.Opponent.Scorecard?.Score(round) ?? 0).ToList();
             list.Sort();
             list.RemoveAt(0);
             return list.Sum();
         }
        
-        public float RefinedBuchholz() => Entries.Select(e => ((Scorecard)e.Opponent.Attributes[Participant.AttributeKey.Scorecard]).Buchholz()).Sum();
-        public float RefinedBuchholz(int round) => Entries.Where(e => e.Round < round).Select(e => ((Scorecard)e.Opponent.Attributes[Participant.AttributeKey.Scorecard]).Buchholz(round)).Sum();
+        public float RefinedBuchholz() => Entries.Select(e => e.Opponent.Scorecard?.Buchholz() ?? 0).Sum();
+        public float RefinedBuchholz(int round) => Entries.Where(e => e.Round < round).Select(e => e.Opponent.Scorecard?.Buchholz(round) ?? 0).Sum();
 
-        public float SonnebornBergerScore() => Entries.Select(e => e.Score * ((Scorecard)e.Opponent.Attributes[Participant.AttributeKey.Scorecard]).Score()).Sum();
-        public float SonnebornBergerScore(int round) => Entries.Where(e => e.Round < round).Select(e => e.Score * ((Scorecard)e.Opponent.Attributes[Participant.AttributeKey.Scorecard]).Score(round)).Sum();
+        public float SonnebornBergerScore() => Entries.Select(e => e.Score * (e.Opponent.Scorecard?.Score() ?? 0)).Sum();
+        public float SonnebornBergerScore(int round) => Entries.Where(e => e.Round < round).Select(e => e.Score * (e.Opponent.Scorecard?.Score(round) ?? 0)).Sum();
 
         public int CountWin() => Entries.Where(e => (int)e.Result >= (int)Result.Win).Count();
         public int CountWin(int round) => Entries.Where(e => e.Round < round && (int)e.Result >= (int)Result.Win).Count();
@@ -188,8 +188,8 @@
             return _scores[(int)r]; 
         }
 
-        //public enum Result { Open, Forfeited, Loss, UnratedLoss, ZeroPointBye, PairingAllocatedBye, Draw, UnratedDraw, HalfPointBye, Win, UnratedWin, ForfeitWin, FullPointBye }
-        private readonly float[] _scores = new float[13] {0f, 0f, 0f, 0f, 0f, 1f, .5f, .5f, .5f, 1f, 1f, 1f, 1f };
+        //public enum Result { Open, Forfeited, Loss, UnratedLoss, ZeroPointBye, PairingAllocatedBye, Draw, UnratedDraw, HalfPointBye, Win, UnratedWin, ForfeitWin, FullPointBye, Double Forfeit }
+        private readonly float[] _scores = new float[14] {0f, 0f, 0f, 0f, 0f, 1f, .5f, .5f, .5f, 1f, 1f, 1f, 1f, 0f };
 
         internal List<string> TRFStrings()
         {

@@ -62,7 +62,7 @@ namespace PonzianiSwissLib
 
         }
 
-        public static async Task<Tournament?> GenerateAsync(GeneratorConfig? config = null)
+        public static async Task<string?> GenerateTRFAsync(GeneratorConfig? config = null)
         {
             string tmpFile = string.Empty;
             string pairing_system = "dutch";
@@ -85,10 +85,42 @@ namespace PonzianiSwissLib
             using var process = Process.Start(psi);
             if (process == null) return null;
             await process.WaitForExitAsync();
-            Tournament tournament = new();
-            tournament.LoadFromTRF(File.ReadAllText(trfname));
-            return tournament;
+            return trfname;
         }
+
+        public static async Task<Tournament?> GenerateAsync(GeneratorConfig? config = null)
+        {
+            string? trfname = await GenerateTRFAsync(config);
+            if (trfname != null)
+            {
+                Tournament tournament = new();
+                tournament.LoadFromTRF(File.ReadAllText(trfname));
+                return tournament;
+            }
+            else return null;
+        }
+
+        public static async Task<string> CheckAsync(string input, PairingSystem pairingSystem = PairingSystem.Dutch)
+        {
+            Debug.Assert(File.Exists(executable));
+            var psi = new ProcessStartInfo
+            {
+                FileName = executable,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                Arguments = pairingSystem == PairingSystem.Dutch ? $"--dutch {input} -c" : $"--burstein {input} -c"
+            };
+
+            string cmd = $"\"{Path.GetFullPath(executable)}\" {psi.Arguments}";
+            Trace.WriteLine(cmd);
+
+            using var process = Process.Start(psi);
+            if (process == null) return string.Empty;
+            using StreamReader reader = process.StandardOutput;
+            string data = await reader.ReadToEndAsync();
+
+            return data;
+        }    
 
         private static readonly string executable;
 

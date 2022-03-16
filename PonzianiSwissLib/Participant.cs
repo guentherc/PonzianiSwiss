@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace PonzianiSwissLib
 {
     public class Participant
     {
-        public enum AttributeKey { Sex, Birthdate, Scorecard, Birthyear };
+        public enum AttributeKey { Sex, Birthdate, Birthyear };
 
         public Participant()
         {
@@ -80,6 +81,7 @@ namespace PonzianiSwissLib
         /// </summary>
         public Dictionary<AttributeKey, object> Attributes { set; get; } = new Dictionary<AttributeKey, object>();
 
-        public Scorecard? Scorecard => Attributes.ContainsKey(AttributeKey.Scorecard)? (Scorecard) Attributes[AttributeKey.Scorecard] : null;
+        [JsonIgnore]
+        public Scorecard? Scorecard { set; get; }
     }
 }

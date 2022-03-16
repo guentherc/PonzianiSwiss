@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -42,11 +43,11 @@ namespace PonzianiSwissLib
                             tournament.StartDate = line[4..].Trim(); break;
                         case 52:
                             tournament.EndDate = line[4..].Trim(); break;
-                        case 62: 
+                        case 62:
                             tournament.CountPlayer = int.Parse(line[4..].Trim()); break;
-                        case 72: 
+                        case 72:
                             tournament.CountRatedPlayer = int.Parse(line[4..].Trim()); break;
-                        case 92: 
+                        case 92:
                             tournament.Type = line[4..].Trim(); break;
                         case 102:
                             tournament.ChiefArbiter = line[4..].Trim(); break;
@@ -91,9 +92,12 @@ namespace PonzianiSwissLib
                 else if (c == 'm') p.Attributes.Add(Participant.AttributeKey.Sex, Sex.Male);
                 tournament.Participants.Add(p);
             }
-            //second pass to get pairings 
+            //Parse results
+            Dictionary<Participant, List<PEntry>> plist = new();
             for (int i = 0; i < playerList.Count; ++i)
-            {
+            {   
+                List<PEntry> pentry_list = new List<PEntry>();
+                plist.Add(tournament.Participants[i], pentry_list);
                 string line = playerList[i].Trim();
                 int indx = 91;
                 int round = 0;
@@ -107,18 +111,46 @@ namespace PonzianiSwissLib
                         char result = line[indx + 7];
                         int opponentId = int.Parse(id);
                         Participant opponent = opponentId == 0 ? Participant.BYE : tournament.Participants[opponentId - 1];
-                        if (opponent != null && (opponentId == 0 || opponent.ParticipantId?.CompareTo(tournament.Participants[i].ParticipantId) < 0))
-                        {
-                            Pairing p = color == 'b' ? new(opponent, tournament.Participants[i]) : new(tournament.Participants[i], opponent);
-                            p.Result = (Result)Tournament.result_char.IndexOf(result);
-                            if (color == 'b') p.Result = p.InvertedResult;
-                            tournament.Rounds[round].Pairings.Add(p);
-                        }
+                        pentry_list.Add(new(round, opponent, color == 'b' ? Side.Black : Side.White, (Result)Tournament.result_char.IndexOf(result)));
                     }
                     indx += 10;
                     ++round;
                 }
             }
+            foreach (var entry in plist)
+            {
+                foreach (var item in entry.Value.Where(p => p.Side == Side.White))
+                {
+                    Pairing pairing = new(entry.Key, item.Opponent);
+                    pairing.Result = item.Result;
+                    if (pairing.Result == Result.Forfeited)
+                    {
+                        //Check if double forfeit
+                        var olist = plist[item.Opponent];
+                        PEntry? oitem = olist.Find(o => o.RoundIndex == item.RoundIndex);
+                        Debug.Assert(oitem != null && oitem.Opponent == entry.Key);
+                        if (oitem != null && oitem.Result == Result.Forfeited) pairing.Result = Result.DoubleForfeit;
+                    }
+                    tournament.Rounds[item.RoundIndex].Pairings.Add(pairing);
+                }
+            }           
+        }
+
+        internal class PEntry
+        {
+            public PEntry(int roundIndex, Participant opponent, Side side, Result result)
+            {
+                RoundIndex = roundIndex;
+                Opponent = opponent;
+                Side = side;
+                Result = result;
+            }
+
+            public int RoundIndex { get; set; }
+            public Participant Opponent { get; set; }
+            public Side Side { set; get; }
+            public Result Result { set; get; }
+
         }
 
         public static T Deserialize<T>(string json)
@@ -134,6 +166,35 @@ namespace PonzianiSwissLib
         public static Tournament? Deserialize(string json)
         {
             return JsonSerializer.Deserialize<Tournament>(json);
+        }
+
+        public static async Task<bool> TestTRFGeneration()
+        {
+            string? trfFile0 = await PairingTool.GenerateTRFAsync();
+            if (trfFile0 == null) return false;
+            Tournament tournament = new();
+            tournament.LoadFromTRF(File.ReadAllText(trfFile0));
+            List<string> lines = tournament.CreateTRF(tournament.Rounds.Count);
+            string oFile = Path.GetTempFileName();
+            string trfFile1 = Path.ChangeExtension(oFile, "trf");
+            await File.WriteAllLinesAsync(trfFile1, lines);
+            string[] clines = (await PairingTool.CheckAsync(trfFile1, tournament.PairingSystem)).Split(new String[] { "\r\n", "\n", "\r" }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+            if (clines == null || clines.Length == 0) return false;
+            string fname = Path.GetFileNameWithoutExtension(trfFile1);
+            foreach (string line in clines)
+            {
+                if (!line.StartsWith(fname))
+                {
+                    oFile = Path.GetTempFileName();
+                    string trfFile2 = Path.ChangeExtension(oFile, "txt");
+                    await File.WriteAllLinesAsync(trfFile2, clines);
+                    Process.Start("notepad.exe", trfFile0);
+                    Process.Start("notepad.exe", trfFile1);
+                    Process.Start("notepad.exe", trfFile2);
+                    return false;
+                }
+            }
+            return true;
         }
 
     }

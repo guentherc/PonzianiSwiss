@@ -85,7 +85,7 @@ namespace PonzianiSwissGui
                         lvi.SubItems.Add(result_strings[(int)p.Result]);
                         lvi.Tag = p;
                         lvi.BackColor = p.Result == Result.Open ? Color.White : Color.LightGray;
-                        lvr.Items.Add(lvi);             
+                        lvr.Items.Add(lvi);
                     }
                     ++indx;
                 }
@@ -284,6 +284,18 @@ namespace PonzianiSwissGui
                 var lines = _tournament?.CreateTRF(_tournament.Rounds.Count);
                 if (lines != null) File.WriteAllLines(saveFileDialog.FileName, lines);
             }
+        }
+
+        private async void testTRFCreationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bool result = await Extensions.TestTRFGeneration();
+            Invoke((MethodInvoker)(() =>
+            {
+                if (result)
+                    MessageBox.Show("Test successful", "Test TRF Generation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                    MessageBox.Show("Error", "Test TRF Generation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }));
         }
     }
 }
