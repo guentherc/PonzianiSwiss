@@ -1,5 +1,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PonzianiSwissLib;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 
@@ -11,7 +14,7 @@ namespace PonzianiSwissTest
 
         private static string? TRF_FIDE = null;
         private static string? TRF_LICHESS = null;
-        private static string? TRF_GITHUB = null;   
+        private static string? TRF_GITHUB = null;
 
         public static void InitTRF()
         {
@@ -105,4 +108,111 @@ namespace PonzianiSwissTest
             Assert.IsNotNull(t2);
         }
     }
+
+    [TestClass]
+    public class TestDraw
+    {
+        [TestMethod]
+        public void CheckDraw()
+        {
+            for (int seed = 30; seed < 40; ++seed)
+            {
+                TestDrawSimulation(seed);
+            }
+        }
+
+        private static void TestDrawSimulation(int seed)
+        {
+            string? trfFile0 = PairingTool.GenerateTRFAsync(seed).Result;
+            Assert.IsNotNull(trfFile0);
+            if (trfFile0 == null) return;
+            Console.WriteLine($"Testing {trfFile0}");
+            Tournament tournament = new();
+            tournament.LoadFromTRF(File.ReadAllText(trfFile0));
+            Console.WriteLine($"{tournament.Participants.Count} Participants {tournament.Rounds.Count} Rounds");
+            Tournament testTournament = (Tournament)((ICloneable)tournament).Clone();
+            Assert.IsNotNull(testTournament);
+            TestTournamentTRF(testTournament);
+            testTournament.Rounds.Clear();
+            Side? xxc = null;
+            int indx = 0;
+            while (!xxc.HasValue)
+            {
+                var entry = tournament.Participants[indx].Scorecard?.Entries[0];
+                if (entry != null && entry.Round == 0 && entry.Opponent != Participant.BYE)
+                {
+                    xxc = entry.Side;
+                }
+                ++indx;
+            }
+            //Now let's draw one round after another and check drawing
+            for (int round = 0; round < tournament.Rounds.Count; round++)
+            {
+                Console.WriteLine($"Drawing Round {round}");
+                Dictionary<string, Result> byes = new();
+                foreach (var p in tournament.Rounds[round].Pairings)
+                {
+                    if (p.White.ParticipantId != null && (p.Result == Result.ZeroPointBye || p.Result == Result.HalfPointBye || p.Result == Result.FullPointBye)) 
+                        byes.Add(p.White.ParticipantId, p.Result);
+                }
+                bool drawIsOk = testTournament.DrawAsync(round, xxc, byes).Result;
+                bool ok = drawIsOk && TestTournamentTRF(testTournament);
+                if (!ok)
+                {
+                    PrintGeneratedTRF(trfFile0);
+                }
+                Assert.IsTrue(ok);
+                foreach (Pairing pExpected in tournament.Rounds[round].Pairings)
+                {
+
+                    Pairing? pActual = testTournament.Rounds[round].Pairings.Find(e => e.White.ParticipantId == pExpected.White.ParticipantId);
+                    if (pActual != null && pActual.Black == Participant.BYE) pActual.Black = Participant.BYE;
+                    if (pActual == null || pExpected.Black.ParticipantId != pActual.Black.ParticipantId)
+                    {
+                        PrintGeneratedTRF(trfFile0);
+                    }
+                    Assert.IsNotNull(pActual);
+                    Assert.AreEqual(pExpected.Black.ParticipantId, pActual.Black.ParticipantId);
+                    pActual.Result = pExpected.Result;
+                }
+            }
+        }
+
+        private static void PrintGeneratedTRF(string trfFile0)
+        {
+            Console.WriteLine("-----------------------------------");
+            Console.WriteLine("- Generated TRF                   -");
+            Console.WriteLine("-----------------------------------");
+            Console.WriteLine(File.ReadAllText(trfFile0));
+            Console.WriteLine();
+        }
+
+        private static bool TestTournamentTRF(Tournament tournament, PairingSystem pairingSystem = PairingSystem.Dutch)
+        {
+            var trf = tournament.CreateTRF(tournament.Rounds.Count);
+            string tmpFile = Path.GetTempFileName();
+            File.WriteAllLines(tmpFile, trf);
+            string[] checkResult = PairingTool.CheckAsync(tmpFile, pairingSystem).Result.Split(new String[] { "\r\n", "\n", "\r" }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+            string fname = Path.GetFileNameWithoutExtension(tmpFile);
+            foreach (string line in checkResult)
+            {
+                if (!line.StartsWith(fname))
+                {
+                    Console.WriteLine("-----------------------------------");
+                    Console.WriteLine("- Invalid TRF                     -");
+                    Console.WriteLine("-----------------------------------");
+                    Console.WriteLine(File.ReadAllText(tmpFile));
+                    Console.WriteLine();
+                    Console.WriteLine("-----------------------------------");
+                    Console.WriteLine("- Check Result                    -");
+                    Console.WriteLine("-----------------------------------");
+                    foreach (string l in checkResult) Console.WriteLine(l);
+                    Console.WriteLine();
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
 }

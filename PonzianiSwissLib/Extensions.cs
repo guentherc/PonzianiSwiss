@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace PonzianiSwissLib
@@ -183,7 +184,15 @@ namespace PonzianiSwissLib
 
         public static string Serialize(this Tournament tournament)
         {
-            return JsonSerializer.Serialize(tournament);
+            JsonSerializerOptions options = new()
+            {
+#if DEBUG
+                WriteIndented = true
+#else
+                WriteIndented = false
+#endif
+            };
+            return JsonSerializer.Serialize(tournament, options);
         }
 
         public static Tournament? Deserialize(string json)

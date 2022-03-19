@@ -62,7 +62,7 @@ namespace PonzianiSwissLib
 
         }
 
-        public static async Task<string?> GenerateTRFAsync(GeneratorConfig? config = null)
+        public static async Task<string?> GenerateTRFAsync(int seed = 0, GeneratorConfig? config = null)
         {
             string tmpFile = string.Empty;
             string pairing_system = "dutch";
@@ -82,15 +82,16 @@ namespace PonzianiSwissLib
                 RedirectStandardOutput = true,
                 Arguments = $"--{ pairing_system }  -g {tmpFile} -o {trfname}"
             };
+            if (seed != 0) psi.Arguments += $" -s {seed}";
             using var process = Process.Start(psi);
             if (process == null) return null;
             await process.WaitForExitAsync();
             return trfname;
         }
 
-        public static async Task<Tournament?> GenerateAsync(GeneratorConfig? config = null)
+        public static async Task<Tournament?> GenerateAsync(int seed = 0, GeneratorConfig? config = null)
         {
-            string? trfname = await GenerateTRFAsync(config);
+            string? trfname = await GenerateTRFAsync(seed, config);
             if (trfname != null)
             {
                 Tournament tournament = new();

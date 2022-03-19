@@ -51,6 +51,7 @@
             this.updateFideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createTestTournamentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testTRFCreationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainStatusStrip = new System.Windows.Forms.StatusStrip();
             this.mainStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.tcMain = new System.Windows.Forms.TabControl();
@@ -76,7 +77,7 @@
             this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem11 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem12 = new System.Windows.Forms.ToolStripMenuItem();
-            this.testTRFCreationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem13 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.mainStatusStrip.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -229,6 +230,12 @@
             resources.ApplyResources(this.createTestTournamentToolStripMenuItem, "createTestTournamentToolStripMenuItem");
             this.createTestTournamentToolStripMenuItem.Click += new System.EventHandler(this.CreateTestTournamentToolStripMenuItem_Click);
             // 
+            // testTRFCreationToolStripMenuItem
+            // 
+            this.testTRFCreationToolStripMenuItem.Name = "testTRFCreationToolStripMenuItem";
+            resources.ApplyResources(this.testTRFCreationToolStripMenuItem, "testTRFCreationToolStripMenuItem");
+            this.testTRFCreationToolStripMenuItem.Click += new System.EventHandler(this.TestTRFCreationToolStripMenuItem_Click);
+            // 
             // mainStatusStrip
             // 
             this.mainStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -359,7 +366,8 @@
             // 
             this.forfeitToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem8,
-            this.toolStripMenuItem9});
+            this.toolStripMenuItem9,
+            this.toolStripMenuItem13});
             this.forfeitToolStripMenuItem.Name = "forfeitToolStripMenuItem";
             resources.ApplyResources(this.forfeitToolStripMenuItem, "forfeitToolStripMenuItem");
             // 
@@ -407,11 +415,12 @@
             this.toolStripMenuItem12.Tag = "5";
             this.toolStripMenuItem12.Click += new System.EventHandler(this.SetResultToolStripMenuItem1_Click);
             // 
-            // testTRFCreationToolStripMenuItem
+            // toolStripMenuItem13
             // 
-            this.testTRFCreationToolStripMenuItem.Name = "testTRFCreationToolStripMenuItem";
-            resources.ApplyResources(this.testTRFCreationToolStripMenuItem, "testTRFCreationToolStripMenuItem");
-            this.testTRFCreationToolStripMenuItem.Click += new System.EventHandler(this.TestTRFCreationToolStripMenuItem_Click);
+            this.toolStripMenuItem13.Name = "toolStripMenuItem13";
+            resources.ApplyResources(this.toolStripMenuItem13, "toolStripMenuItem13");
+            this.toolStripMenuItem13.Tag = "13";
+            this.toolStripMenuItem13.Click += new System.EventHandler(this.SetResultToolStripMenuItem1_Click);
             // 
             // MainForm
             // 
@@ -483,5 +492,6 @@
         private ToolStripMenuItem exportToolStripMenuItem;
         private ToolStripMenuItem tRFToolStripMenuItem;
         private ToolStripMenuItem testTRFCreationToolStripMenuItem;
+        private ToolStripMenuItem toolStripMenuItem13;
     }
 }

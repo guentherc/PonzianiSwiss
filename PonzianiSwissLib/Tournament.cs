@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace PonzianiSwissLib
@@ -169,7 +170,8 @@ namespace PonzianiSwissLib
                     scorecards[pairing.Black].Entries.Add(new(pairing.White, Side.Black, pairing.InvertedResult, r, this));
                 }
             }
-            foreach (var p in scorecards.Keys) p.Scorecard = scorecards[p];
+            foreach (var p in scorecards.Keys)
+                p.Scorecard = scorecards[p];
             Participants.RemoveAll(p => p.Scorecard == null);
             return scorecards;
         }
@@ -224,10 +226,15 @@ namespace PonzianiSwissLib
         public void OrderByScoreAndInitialRank(int round = int.MaxValue)
         {
             round = Math.Min(round, Rounds.Count);
-            GetScorecards();
+            if (round > 0) GetScorecards();
             Participants.Sort((p2, p1) =>
             {
-                if (round == 0) return p1.TournamentRating.CompareTo(p2.TournamentRating);
+                if (round == 0)
+                {
+                    if (p1.TournamentRating != p2.TournamentRating) return p1.TournamentRating.CompareTo(p2.TournamentRating);
+                    else if (p1.ParticipantId != null && p2.ParticipantId != null) return p2.ParticipantId.CompareTo(p1.ParticipantId);
+                    else return 0;
+                }
                 else
                 {
                     float score1 = p1.Scorecard?.Score(round) ?? 0;
@@ -276,11 +283,13 @@ namespace PonzianiSwissLib
         /// <para>TRF reports are used as input for the <see cref="PairingTool"/></para>
         /// </summary>
         /// <param name="round">Index of the round for which the report shall be created (0 means before 1. round, 1 means before 2., ...)</param>
+        /// <param name="xxc">Side, which top ranked played should have in round 1 (if null use random value)</param>
         /// <returns>TRF report</returns>
-        public List<string> CreateTRF(int round)
+        public List<string> CreateTRF(int round, Side? xxc = null, Dictionary<string, Result>? byes = null)
         {
             round = Math.Min(round, Rounds.Count);
-            if (round == 0) AssignTournamentIds(round);
+            if (round == 0 && Participants.Any(p => p.ParticipantId == null))
+                AssignTournamentIds(round);
             AssignRank(round);
             List<string> trf = new();
             trf.Add($"012 {Name}");
@@ -291,14 +300,22 @@ namespace PonzianiSwissLib
             trf.AddRange(ScoringScheme.TRFStrings());
             if (Rounds.Count == 0)
             {
-                var random = new Random();
-                if (random.Next(2) == 1) trf.Add($"XXC white1"); else trf.Add($"XXC black1");
+                if (xxc.HasValue)
+                {
+                    if (xxc.Value == Side.White) trf.Add($"XXC white1"); else trf.Add($"XXC black1");
+                }
+                else
+                {
+                    var random = new Random();
+                    if (random.Next(2) == 1) trf.Add($"XXC white1"); else trf.Add($"XXC black1");
+                }
             }
             else
             {
                 for (int i = 1; i <= Participants.Count; i++)
                 {
                     string pid = i.ToString();
+                    if (byes != null && byes.ContainsKey(pid)) continue;
                     var p = Rounds[0].Pairings.Where(p => p.White.ParticipantId == pid || p.Black.ParticipantId == pid);
                     if (p.Any())
                     {
@@ -310,6 +327,7 @@ namespace PonzianiSwissLib
             }
             foreach (Participant p in Participants)
             {
+                if (p == Participant.BYE || p.ParticipantId == Participant.BYE.ParticipantId) continue;
                 char s = p.Attributes.ContainsKey(Participant.AttributeKey.Sex) && (Sex)p.Attributes[Participant.AttributeKey.Sex] == Sex.Female ? 'f' : 'm';
                 string birthdate = p.Attributes.ContainsKey(Participant.AttributeKey.Birthdate) ? ((DateTime)p.Attributes[Participant.AttributeKey.Birthdate]).ToString("yyyy/MM/dd")
                                   : p.Attributes.ContainsKey(Participant.AttributeKey.Birthyear) ? ((DateTime)p.Attributes[Participant.AttributeKey.Birthyear]).ToString() : string.Empty;
@@ -330,6 +348,8 @@ namespace PonzianiSwissLib
                     }
                     else pline.Append("          ");
                 }
+                if (byes != null && p.ParticipantId != null && byes.ContainsKey(p.ParticipantId))
+                    pline.Append($"  0000 - {result_char[(int)byes[p.ParticipantId]]}");
                 trf.Add(pline.ToString().Trim());
             }
             return trf;
@@ -339,10 +359,11 @@ namespace PonzianiSwissLib
         /// Executes the pairing of the next rouns
         /// </summary>
         /// <param name="round">0-based round index</param>
+        /// <param name="SideForTopRanked">Side for top-ranked player in 1. round (if null, then random)</param>
         /// <returns>true, if successful</returns>
-        public async Task<bool> DrawAsync(int round = int.MaxValue)
+        public async Task<bool> DrawAsync(int round = int.MaxValue, Side? SideForTopRanked = null, Dictionary<string, Result>? byes = null)
         {
-            var trf = CreateTRF(round);
+            var trf = CreateTRF(round, SideForTopRanked, byes);
             var file = Path.GetTempFileName();
             await File.WriteAllLinesAsync(file, trf, Encoding.UTF8);
             string pairings = await PairingTool.PairAsync(file);
@@ -358,6 +379,20 @@ namespace PonzianiSwissLib
                 Participant p2 = n[1] != "0" ? Participants.Where(p => p.ParticipantId == n[1]).First() : Participant.BYE;
                 Rounds[round].Pairings.Add(new(p1, p2));
             }
+            //Byes
+            if (byes != null)
+            {
+                foreach (var entry in byes)
+                {
+                    Participant? p = Participants.Find(p => p.ParticipantId == entry.Key);
+                    if (p != null)
+                    {
+                        Pairing pairing = new(p, Participant.BYE);
+                        pairing.Result = entry.Value;
+                        Rounds[round].Pairings.Add(pairing);
+                    }
+                }
+            }
             Rounds[round].Pairings.SortByJointScore(round);
             return true;
         }
@@ -365,7 +400,48 @@ namespace PonzianiSwissLib
         object ICloneable.Clone()
         {
             string json = this.Serialize();
-            return Extensions.Deserialize(json) ?? new Tournament();
+            var t = Extensions.Deserialize(json) ?? new Tournament();
+            //Adjust references
+            Dictionary<string, Participant> participants = new();
+            var byes = t.Participants.Where(p => p.ParticipantId == "0000");
+            if (byes.Any())
+            {
+                t.Participants.RemoveAll(p => p.ParticipantId == "0000");
+            }
+            t.Participants.Add(Participant.BYE);
+            foreach (var p in t.Participants)
+            {
+                string? id = p.ParticipantId ?? p.FideId.ToString();
+                if (id != null) participants.Add(id, p);
+            }
+            foreach (Round r in t.Rounds)
+            {
+                foreach (Pairing pairing in r.Pairings)
+                {
+                    string? idwhite = pairing.White.ParticipantId ?? pairing.White.FideId.ToString();
+                    if (idwhite != null)
+                    {
+                        if (participants.ContainsKey(idwhite)) pairing.White = participants[idwhite];
+                        else
+                        {
+                            participants.Add(idwhite, pairing.White);
+                            t.Participants.Add(pairing.White);
+                        }
+                    }
+                    string? idblack = pairing.Black.ParticipantId ?? pairing.Black.FideId.ToString();
+                    if (idblack != null)
+                    {
+                        if (participants.ContainsKey(idblack)) pairing.Black = participants[idblack];
+                        else
+                        {
+                            participants.Add(idblack, pairing.Black);
+                            t.Participants.Add(pairing.Black);
+                        }
+                    }
+                }
+            }
+            t.Participants.Remove(Participant.BYE);
+            return t;
         }
 
         internal static readonly string[] title_string = { "g", "wg", "m", "wm", "f", "wf", "c", "wc", "", "h" };
