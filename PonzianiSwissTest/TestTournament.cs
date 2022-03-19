@@ -113,7 +113,7 @@ namespace PonzianiSwissTest
     public class TestDraw
     {
         [TestMethod]
-        public void CheckDraw()
+        public void CheckDutchDefaultScorescheme()
         {
             for (int seed = 30; seed < 40; ++seed)
             {
@@ -121,9 +121,22 @@ namespace PonzianiSwissTest
             }
         }
 
-        private static void TestDrawSimulation(int seed)
+        [TestMethod]
+        public void CheckDutchOtherScorescheme()
         {
-            string? trfFile0 = PairingTool.GenerateTRFAsync(seed).Result;
+            PairingTool.GeneratorConfig config = new();
+            config.ScoringScheme = new();
+            config.ScoringScheme.PointsForWin = 3;
+            config.ScoringScheme.PointsForDraw = 1;
+            for (int seed = 30; seed < 40; ++seed)
+            {
+                TestDrawSimulation(seed, config);
+            }
+        }
+
+        private static void TestDrawSimulation(int seed, PairingTool.GeneratorConfig? config = null)
+        {
+            string? trfFile0 = PairingTool.GenerateTRFAsync(seed, config).Result;
             Assert.IsNotNull(trfFile0);
             if (trfFile0 == null) return;
             Console.WriteLine($"Testing {trfFile0}");

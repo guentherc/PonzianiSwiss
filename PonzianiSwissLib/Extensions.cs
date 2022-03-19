@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -24,7 +25,26 @@ namespace PonzianiSwissLib
             foreach (string line in lines)
             {
                 if (line.Trim().Length < 4 || line[3] != ' ') continue;
-                if (!int.TryParse(line.AsSpan(0, 3), out int code)) continue;
+                if (!int.TryParse(line.AsSpan(0, 3), out int code))
+                {
+                    if (line[..2] == "BB")
+                    {
+                        if (tournament.ScoringScheme == ScoringScheme.Default) tournament.ScoringScheme = new();
+                        char c = line[2];
+                        float value = float.Parse(line[3..].Trim(), CultureInfo.InvariantCulture);
+                        switch (c)
+                        {
+                            case 'W': tournament.ScoringScheme.PointsForWin = value; break;
+                            case 'D': tournament.ScoringScheme.PointsForDraw = value; break;
+                            case 'L': tournament.ScoringScheme.PointsForPlayedLoss = value; break;
+                            case 'Z': tournament.ScoringScheme.PointsForZeroPointBye = value; break;
+                            case 'F': tournament.ScoringScheme.PointsForForfeitedLoss = value; break;
+                            case 'U': tournament.ScoringScheme.PointsForPairingAllocatedBye = value; break;
+                        }
+
+                    }
+                    continue;
+                }
 
                 if (code == 1)
                 {
@@ -127,10 +147,13 @@ namespace PonzianiSwissLib
                     if (pairing.Result == Result.Forfeited)
                     {
                         //Check if double forfeit
-                        var olist = plist[item.Opponent];
-                        PEntry? oitem = olist.Find(o => o.RoundIndex == item.RoundIndex);
-                        Debug.Assert(oitem != null && oitem.Opponent == entry.Key);
-                        if (oitem != null && oitem.Result == Result.Forfeited) pairing.Result = Result.DoubleForfeit;
+                        if (plist.ContainsKey(item.Opponent))
+                        {
+                            var olist = plist[item.Opponent];
+                            PEntry? oitem = olist.Find(o => o.RoundIndex == item.RoundIndex);
+                            Debug.Assert(oitem != null && oitem.Opponent == entry.Key);
+                            if (oitem != null && oitem.Result == Result.Forfeited) pairing.Result = Result.DoubleForfeit;
+                        }
                     }
                     tournament.Rounds[item.RoundIndex].Pairings.Add(pairing);
                 }

@@ -69,7 +69,7 @@ namespace PonzianiSwissLib
             if (config != null)
             {
                 tmpFile = Path.GetTempFileName();
-                await File.WriteAllLinesAsync(tmpFile, config.CreateConfigFileContent(), Encoding.UTF8);
+                await File.WriteAllLinesAsync(tmpFile, config.CreateConfigFileContent(), Encoding.ASCII);
                 if (config.PairingSystem == PairingSystem.Burstein) pairing_system = "burstein";
             }
             string oFile = Path.GetTempFileName();
@@ -147,25 +147,6 @@ namespace PonzianiSwissLib
             /// Rate for forfeited games (scheduled but not played) in per thousand
             /// </summary>
             public int ForfeitRate { get; set; } = 20;
-            /// <summary>
-            /// Rate for games ended in less than one full move in per thousand
-            /// </summary>
-            public int QuickgameRate { get; set; } = 5;
-
-            /// <summary>
-            /// Rate for players announcing their absence in a particular round in per thousand
-            /// </summary>
-            public int ZeroPointByeRate { get; set; } = 5;
-
-            /// <summary>
-            /// Rate for players asking for a half-point-bye in per thousand
-            /// </summary>
-            public int HalfPointByeRate { get; set; } = 0;
-
-            /// <summary>
-            /// Rate for players given a full-point-bye in per thousand
-            /// </summary>
-            public int FullPointByeRate { get; set; } = 0;
 
             /// <summary>
             /// Highest possible rating of a player in the tournament
@@ -177,20 +158,6 @@ namespace PonzianiSwissLib
             /// </summary>
             public int LowestRating { get; set; } = 700;
 
-            /// <summary>
-            ///  <see cref="Groups"/> and Separator work in obscure ways 
-            ///  <para>Indicatively, Separator defines how many points the rating of the median
-            /// player is below the medium point between the highest and the lowest ratings.</para>
-            /// </summary>
-            public int Separator { get; set; } = 100;
-
-            /// <summary>
-            /// Players rating are distributed in a gaussian way around the rating of the median player (in the rating limits expressed above).
-            /// The sigma is indicatively given by "(HighestRating - LowestRating) / (Groups + 1)" However, Groups is automatically 
-            /// incremented when too many players would pass the HighestRating
-            /// </summary>
-            public int Groups { get; set; } = 2;
-
             public ScoringScheme ScoringScheme { get; set; } = ScoringScheme.Default;
 
             internal List<string> CreateConfigFileContent()
@@ -199,27 +166,16 @@ namespace PonzianiSwissLib
                 content.Add($"PlayersNumber={CountParticipants}");
                 content.Add($"RoundsNumber={CountRounds}");
                 content.Add($"ForfeitRate={ForfeitRate}");
-                content.Add($"QuickgameRate={QuickgameRate}");
-                content.Add($"ZPBRate={ZeroPointByeRate}");
-                content.Add($"HPBRate={HalfPointByeRate}");
                 content.Add($"HighestRating={HighestRating}");
                 content.Add($"LowestRating={LowestRating}");
-                content.Add($"Groups={Groups}");
-                content.Add($"Separator={Separator}");
                 if (ScoringScheme != ScoringScheme.Default)
                 {
-                    content.Add(FormattableString.Invariant($"WWPoints={ScoringScheme.PointsForWin:F1}"));
-                    content.Add(FormattableString.Invariant($"BWPoints={ScoringScheme.PointsForWin:F1}"));
-                    content.Add(FormattableString.Invariant($"WDPoints={ScoringScheme.PointsForDraw:F1}"));
-                    content.Add(FormattableString.Invariant($"BDPoints={ScoringScheme.PointsForDraw:F1}"));
-                    content.Add(FormattableString.Invariant($"WLPoints={ScoringScheme.PointsForPlayedLoss:F1}"));
-                    content.Add(FormattableString.Invariant($"BLPoints={ScoringScheme.PointsForPlayedLoss:F1}"));
-                    content.Add(FormattableString.Invariant($"ZPBPoints={ScoringScheme.PointsForZeroPointBye:F1}"));
-                    content.Add(FormattableString.Invariant($"HPBPoints={ScoringScheme.PointsForDraw:F1}"));
-                    content.Add(FormattableString.Invariant($"FPBPoints={ScoringScheme.PointsForWin:F1}"));
-                    content.Add(FormattableString.Invariant($"PABPoints={ScoringScheme.PointsForPairingAllocatedBye:F1}"));
-                    content.Add(FormattableString.Invariant($"FWPoints={ScoringScheme.PointsForWin:F1}"));
-                    content.Add(FormattableString.Invariant($"FLPoints={ScoringScheme.PointsForForfeitedLoss:F1}"));
+                    content.Add(FormattableString.Invariant($"PointsForWin={ScoringScheme.PointsForWin:F1}"));
+                    content.Add(FormattableString.Invariant($"PointsForDraw={ScoringScheme.PointsForDraw:F1}"));
+                    content.Add(FormattableString.Invariant($"PointsForLoss={ScoringScheme.PointsForPlayedLoss:F1}"));
+                    content.Add(FormattableString.Invariant($"PointsForZPB={ScoringScheme.PointsForZeroPointBye:F1}"));
+                    content.Add(FormattableString.Invariant($"PointsForPAB={ScoringScheme.PointsForPairingAllocatedBye:F1}"));
+                    content.Add(FormattableString.Invariant($"PointsForForfeitLoss={ScoringScheme.PointsForForfeitedLoss:F1}"));
                 }
 
                 return content;
