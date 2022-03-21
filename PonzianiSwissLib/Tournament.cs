@@ -366,7 +366,7 @@ namespace PonzianiSwissLib
             var trf = CreateTRF(round, SideForTopRanked, byes);
             var file = Path.GetTempFileName();
             await File.WriteAllLinesAsync(file, trf, Encoding.UTF8);
-            string pairings = await PairingTool.PairAsync(file);
+            string pairings = await PairingTool.PairAsync(file, PairingSystem);
             string[] lines = pairings.Split('\n');
             for (int i = Rounds.Count; i <= round; ++i) Rounds.Add(new Round(i));
             Rounds[round].Pairings.Clear();

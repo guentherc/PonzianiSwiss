@@ -50,7 +50,7 @@ namespace PonzianiSwissLib
                 Arguments = pairingSystem == PairingSystem.Dutch ? $"--dutch {input} -p" : $"--burstein {input} -p"
             };
 
-            string cmd = $"\"{Path.GetFullPath(executable)}\" {psi.Arguments}";
+            string cmd = $"{DateTime.Now} \"{Path.GetFullPath(executable)}\" {psi.Arguments}";
             Trace.WriteLine(cmd);
 
             using var process = Process.Start(psi);
@@ -83,6 +83,10 @@ namespace PonzianiSwissLib
                 Arguments = $"--{ pairing_system }  -g {tmpFile} -o {trfname}"
             };
             if (seed != 0) psi.Arguments += $" -s {seed}";
+
+            string cmd = $"{DateTime.Now} \"{Path.GetFullPath(executable)}\" {psi.Arguments}";
+            Trace.WriteLine(cmd);
+
             using var process = Process.Start(psi);
             if (process == null) return null;
             await process.WaitForExitAsync();
@@ -112,7 +116,7 @@ namespace PonzianiSwissLib
                 Arguments = pairingSystem == PairingSystem.Dutch ? $"--dutch {input} -c" : $"--burstein {input} -c"
             };
 
-            string cmd = $"\"{Path.GetFullPath(executable)}\" {psi.Arguments}";
+            string cmd = $"{DateTime.Now} \"{Path.GetFullPath(executable)}\" {psi.Arguments}";
             Trace.WriteLine(cmd);
 
             using var process = Process.Start(psi);

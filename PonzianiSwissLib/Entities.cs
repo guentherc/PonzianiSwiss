@@ -180,7 +180,9 @@
         }
         public float PointsForPairingAllocatedBye
         {
-            set { _scores[(int)Result.PairingAllocatedBye] = value; }
+            set { 
+                _scores[(int)Result.PairingAllocatedBye] = value; 
+            }
             get { return _scores[(int)Result.PairingAllocatedBye]; }
         }
 
@@ -196,16 +198,20 @@
             List<string> result = new();
             if (this != Default)
             {
-                if (PointsForWin != Default.PointsForWin) result.Add(FormattableString.Invariant($"BBW {PointsForWin,4:F1}"));
-                if (PointsForDraw != Default.PointsForDraw) result.Add(FormattableString.Invariant($"BBD {PointsForDraw,4:F1}"));
-                if (PointsForPlayedLoss != Default.PointsForPlayedLoss) result.Add(FormattableString.Invariant($"BBL {PointsForPlayedLoss,4:F1}"));
-                if (PointsForZeroPointBye != Default.PointsForZeroPointBye) result.Add(FormattableString.Invariant($"BBZ {PointsForZeroPointBye,4:F1}"));
-                if (PointsForForfeitedLoss != Default.PointsForForfeitedLoss) result.Add(FormattableString.Invariant($"BBF {PointsForForfeitedLoss,4:F1}"));
-                if (PointsForPairingAllocatedBye != Default.PointsForPairingAllocatedBye) result.Add(FormattableString.Invariant($"BBU {PointsForPairingAllocatedBye,4:F1}"));
+                result.Add(FormattableString.Invariant($"BBW {PointsForWin,4:F1}"));
+                result.Add(FormattableString.Invariant($"BBD {PointsForDraw,4:F1}"));
+                result.Add(FormattableString.Invariant($"BBL {PointsForPlayedLoss,4:F1}"));
+                result.Add(FormattableString.Invariant($"BBZ {PointsForZeroPointBye,4:F1}"));
+                result.Add(FormattableString.Invariant($"BBF {PointsForForfeitedLoss,4:F1}"));
+                result.Add(FormattableString.Invariant($"BBU {PointsForPairingAllocatedBye,4:F1}"));
             }
             return result;
         }
 
         public readonly static ScoringScheme Default = new();
+
+        public ScoringScheme()
+        {
+        }
     }
 }

@@ -22,6 +22,7 @@ namespace PonzianiSwissLib
         {
             string[] lines = content.Split(new String[] { "\r\n", "\n", "\r" }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
             List<string> plist = new();
+            bool bbuAvailable = false;
             foreach (string line in lines)
             {
                 if (line.Trim().Length < 4 || line[3] != ' ') continue;
@@ -34,12 +35,19 @@ namespace PonzianiSwissLib
                         float value = float.Parse(line[3..].Trim(), CultureInfo.InvariantCulture);
                         switch (c)
                         {
-                            case 'W': tournament.ScoringScheme.PointsForWin = value; break;
+                            case 'W': 
+                                tournament.ScoringScheme.PointsForWin = value;
+                                if (!bbuAvailable) 
+                                    tournament.ScoringScheme.PointsForPairingAllocatedBye = value;
+                                break;
                             case 'D': tournament.ScoringScheme.PointsForDraw = value; break;
                             case 'L': tournament.ScoringScheme.PointsForPlayedLoss = value; break;
                             case 'Z': tournament.ScoringScheme.PointsForZeroPointBye = value; break;
                             case 'F': tournament.ScoringScheme.PointsForForfeitedLoss = value; break;
-                            case 'U': tournament.ScoringScheme.PointsForPairingAllocatedBye = value; break;
+                            case 'U': 
+                                tournament.ScoringScheme.PointsForPairingAllocatedBye = value;
+                                bbuAvailable = true;
+                                break;
                         }
 
                     }

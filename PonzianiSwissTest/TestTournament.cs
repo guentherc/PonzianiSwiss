@@ -134,14 +134,42 @@ namespace PonzianiSwissTest
             }
         }
 
+        [TestMethod]
+        public void CheckBursteinDefaultScorescheme()
+        {
+            PairingTool.GeneratorConfig config = new();
+            config.PairingSystem = PairingSystem.Burstein;
+            for (int seed = 30; seed < 40; ++seed)
+            {
+                TestDrawSimulation(seed, config);
+            }
+        }
+
+        [TestMethod]
+        public void CheckBursteinOtherScorescheme()
+        {
+            PairingTool.GeneratorConfig config = new();
+            config.PairingSystem = PairingSystem.Burstein;
+            config.ScoringScheme = new();
+            config.ScoringScheme.PointsForWin = 3;
+            config.ScoringScheme.PointsForPairingAllocatedBye = 3;
+            config.ScoringScheme.PointsForDraw = 1;
+            for (int seed = 30; seed < 40; ++seed)
+            {
+                TestDrawSimulation(seed, config);
+            }
+        }
+
         private static void TestDrawSimulation(int seed, PairingTool.GeneratorConfig? config = null)
         {
             string? trfFile0 = PairingTool.GenerateTRFAsync(seed, config).Result;
+            PairingSystem pairingSystem = config == null ? PairingSystem.Dutch : config.PairingSystem;
             Assert.IsNotNull(trfFile0);
             if (trfFile0 == null) return;
             Console.WriteLine($"Testing {trfFile0}");
             Tournament tournament = new();
             tournament.LoadFromTRF(File.ReadAllText(trfFile0));
+            tournament.PairingSystem = pairingSystem;
             Console.WriteLine($"{tournament.Participants.Count} Participants {tournament.Rounds.Count} Rounds");
             Tournament testTournament = (Tournament)((ICloneable)tournament).Clone();
             Assert.IsNotNull(testTournament);
@@ -182,6 +210,7 @@ namespace PonzianiSwissTest
                     if (pActual != null && pActual.Black == Participant.BYE) pActual.Black = Participant.BYE;
                     if (pActual == null || pExpected.Black.ParticipantId != pActual.Black.ParticipantId)
                     {
+                        Console.WriteLine($"Issue with {pExpected.White.ParticipantId} - {pExpected.Black.ParticipantId} Round { round }");
                         PrintGeneratedTRF(trfFile0);
                     }
                     Assert.IsNotNull(pActual);
@@ -200,12 +229,12 @@ namespace PonzianiSwissTest
             Console.WriteLine();
         }
 
-        private static bool TestTournamentTRF(Tournament tournament, PairingSystem pairingSystem = PairingSystem.Dutch)
+        private static bool TestTournamentTRF(Tournament tournament)
         {
             var trf = tournament.CreateTRF(tournament.Rounds.Count);
             string tmpFile = Path.GetTempFileName();
             File.WriteAllLines(tmpFile, trf);
-            string[] checkResult = PairingTool.CheckAsync(tmpFile, pairingSystem).Result.Split(new String[] { "\r\n", "\n", "\r" }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+            string[] checkResult = PairingTool.CheckAsync(tmpFile, tournament.PairingSystem).Result.Split(new String[] { "\r\n", "\n", "\r" }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
             string fname = Path.GetFileNameWithoutExtension(tmpFile);
             foreach (string line in checkResult)
             {
