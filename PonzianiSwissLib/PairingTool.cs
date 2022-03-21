@@ -162,7 +162,7 @@ namespace PonzianiSwissLib
             /// </summary>
             public int LowestRating { get; set; } = 700;
 
-            public ScoringScheme ScoringScheme { get; set; } = ScoringScheme.Default;
+            public ScoringScheme ScoringScheme { get; set; } = new();
 
             internal List<string> CreateConfigFileContent()
             {
@@ -172,7 +172,7 @@ namespace PonzianiSwissLib
                 content.Add($"ForfeitRate={ForfeitRate}");
                 content.Add($"HighestRating={HighestRating}");
                 content.Add($"LowestRating={LowestRating}");
-                if (ScoringScheme != ScoringScheme.Default)
+                if (!ScoringScheme.IsDefault)
                 {
                     content.Add(FormattableString.Invariant($"PointsForWin={ScoringScheme.PointsForWin:F1}"));
                     content.Add(FormattableString.Invariant($"PointsForDraw={ScoringScheme.PointsForDraw:F1}"));

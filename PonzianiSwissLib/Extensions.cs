@@ -30,7 +30,6 @@ namespace PonzianiSwissLib
                 {
                     if (line[..2] == "BB")
                     {
-                        if (tournament.ScoringScheme == ScoringScheme.Default) tournament.ScoringScheme = new();
                         char c = line[2];
                         float value = float.Parse(line[3..].Trim(), CultureInfo.InvariantCulture);
                         switch (c)

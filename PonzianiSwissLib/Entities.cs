@@ -190,13 +190,17 @@
             return _scores[(int)r]; 
         }
 
+        public bool IsDefault => _scores.SequenceEqual(default_scores);
+
+        private static readonly float[] default_scores = new float[14] { 0f, 0f, 0f, 0f, 0f, 1f, .5f, .5f, .5f, 1f, 1f, 1f, 1f, 0f };
+
         //public enum Result { Open, Forfeited, Loss, UnratedLoss, ZeroPointBye, PairingAllocatedBye, Draw, UnratedDraw, HalfPointBye, Win, UnratedWin, ForfeitWin, FullPointBye, Double Forfeit }
-        private readonly float[] _scores = new float[14] {0f, 0f, 0f, 0f, 0f, 1f, .5f, .5f, .5f, 1f, 1f, 1f, 1f, 0f };
+        private readonly float[] _scores = (float[])default_scores.Clone();
 
         internal List<string> TRFStrings()
         {
             List<string> result = new();
-            if (this != Default)
+            if (!IsDefault)
             {
                 result.Add(FormattableString.Invariant($"BBW {PointsForWin,4:F1}"));
                 result.Add(FormattableString.Invariant($"BBD {PointsForDraw,4:F1}"));
@@ -208,10 +212,5 @@
             return result;
         }
 
-        public readonly static ScoringScheme Default = new();
-
-        public ScoringScheme()
-        {
-        }
     }
 }

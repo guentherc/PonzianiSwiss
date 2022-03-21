@@ -149,7 +149,7 @@ namespace PonzianiSwissLib
         /// </summary>
         public PairingSystem PairingSystem { set; get; } = PairingSystem.Dutch;
 
-        public ScoringScheme ScoringScheme { set; get; } = ScoringScheme.Default;
+        public ScoringScheme ScoringScheme { set; get; } = new();
 
         /// <summary>
         /// Calculates the scorecards for all participants
