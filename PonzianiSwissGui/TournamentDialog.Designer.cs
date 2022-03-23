@@ -66,6 +66,7 @@
             this.tbPointsForWin = new System.Windows.Forms.TextBox();
             this.lblPointsForWin = new System.Windows.Forms.Label();
             this.cbFederation = new System.Windows.Forms.ComboBox();
+            this.cbAcceleration = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudRounds)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
             this.gpScoringScheme.SuspendLayout();
@@ -181,6 +182,7 @@
             this.cbPairingSystem.FormattingEnabled = true;
             resources.ApplyResources(this.cbPairingSystem, "cbPairingSystem");
             this.cbPairingSystem.Name = "cbPairingSystem";
+            this.cbPairingSystem.SelectedValueChanged += new System.EventHandler(this.CbPairingSystem_SelectedValueChanged);
             // 
             // tbTimeControl
             // 
@@ -284,11 +286,18 @@
             this.cbFederation.FormattingEnabled = true;
             this.cbFederation.Name = "cbFederation";
             // 
+            // cbAcceleration
+            // 
+            resources.ApplyResources(this.cbAcceleration, "cbAcceleration");
+            this.cbAcceleration.Name = "cbAcceleration";
+            this.cbAcceleration.UseVisualStyleBackColor = true;
+            // 
             // TournamentDialog
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
+            this.Controls.Add(this.cbAcceleration);
             this.Controls.Add(this.cbFederation);
             this.Controls.Add(this.gpScoringScheme);
             this.Controls.Add(this.tbTimeControl);
@@ -361,5 +370,6 @@
         private TextBox tbPointsForWin;
         private Label lblPointsForWin;
         private ComboBox cbFederation;
+        private CheckBox cbAcceleration;
     }
 }

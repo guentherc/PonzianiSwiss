@@ -91,7 +91,7 @@ namespace PonzianiSwissGui
             Tournament.EndDate = dtpEnd.Value.ToShortDateString();
             Tournament.ChiefArbiter = tbChiefArbiter.Text;
             Tournament.DeputyChiefArbiter = tbArbiters.Text;
-            Tournament.PairingSystem = (PairingSystem)int.Parse((string)cbPairingSystem.SelectedValue);
+            Tournament.PairingSystem = (PairingSystem)cbPairingSystem.SelectedIndex;
             Tournament.TimeControl = tbTimeControl.Text;
             Tournament.ScoringScheme.PointsForWin = float.Parse(tbPointsForWin.Text);
             Tournament.ScoringScheme.PointsForDraw = float.Parse(tbPointsForDraw.Text);
@@ -99,6 +99,7 @@ namespace PonzianiSwissGui
             Tournament.ScoringScheme.PointsForZeroPointBye = float.Parse(tbPointsForZPB.Text);
             Tournament.ScoringScheme.PointsForForfeitedLoss = float.Parse(tbPointsForForfeit.Text);
             Tournament.ScoringScheme.PointsForPairingAllocatedBye = float.Parse(tbPointsForPAB.Text);
+            Tournament.BakuAcceleration = cbAcceleration.Enabled && cbAcceleration.Checked;
         }
 
         private void TbName_TextChanged(object sender, EventArgs e)
@@ -112,6 +113,12 @@ namespace PonzianiSwissGui
                 ErrorProvider.SetError((Control)sender, Properties.Strings.InvalidFloat);
             else ((TextBox)sender).Text = val.ToString("F1");
 
+        }
+
+        private void CbPairingSystem_SelectedValueChanged(object sender, EventArgs e)
+        {
+            PairingSystem ps = (PairingSystem)cbPairingSystem.SelectedIndex;
+            cbAcceleration.Enabled = ps != PairingSystem.Burstein;
         }
     }
 }

@@ -88,7 +88,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnOk.ZOrder" xml:space="preserve">
-    <value>22</value>
+    <value>23</value>
   </data>
   <data name="btnCancel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -118,7 +118,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnCancel.ZOrder" xml:space="preserve">
-    <value>21</value>
+    <value>22</value>
   </data>
   <data name="lblName.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -145,7 +145,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblName.ZOrder" xml:space="preserve">
-    <value>20</value>
+    <value>21</value>
   </data>
   <data name="tbName.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -169,7 +169,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;tbName.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>20</value>
   </data>
   <data name="tbCity.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -193,7 +193,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;tbCity.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>18</value>
   </data>
   <data name="lblCity.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -223,7 +223,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblCity.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>19</value>
   </data>
   <data name="lblFederation.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -256,7 +256,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblFederation.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>17</value>
   </data>
   <data name="lblRounds.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -283,7 +283,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblRounds.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>16</value>
   </data>
   <data name="nudRounds.Location" type="System.Drawing.Point, System.Drawing">
     <value>98, 64</value>
@@ -304,7 +304,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;nudRounds.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>15</value>
   </data>
   <data name="lblDate.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -334,7 +334,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblDate.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>14</value>
   </data>
   <data name="dtpStart.Location" type="System.Drawing.Point, System.Drawing">
     <value>237, 64</value>
@@ -355,7 +355,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;dtpStart.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="lblHyphen.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -382,7 +382,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblHyphen.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="dtpEnd.Location" type="System.Drawing.Point, System.Drawing">
     <value>363, 64</value>
@@ -403,7 +403,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;dtpEnd.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <metadata name="ErrorProvider.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
@@ -416,6 +416,33 @@
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>800, 368</value>
+  </data>
+  <data name="cbAcceleration.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="cbAcceleration.Location" type="System.Drawing.Point, System.Drawing">
+    <value>236, 152</value>
+  </data>
+  <data name="cbAcceleration.Size" type="System.Drawing.Size, System.Drawing">
+    <value>143, 19</value>
+  </data>
+  <data name="cbAcceleration.TabIndex" type="System.Int32, mscorlib">
+    <value>24</value>
+  </data>
+  <data name="cbAcceleration.Text" xml:space="preserve">
+    <value>Use Baku Acceleration</value>
+  </data>
+  <data name="&gt;&gt;cbAcceleration.Name" xml:space="preserve">
+    <value>cbAcceleration</value>
+  </data>
+  <data name="&gt;&gt;cbAcceleration.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cbAcceleration.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;cbAcceleration.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="cbFederation.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -439,19 +466,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;cbFederation.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="gpScoringScheme.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
-  </data>
-  <data name="tbPointsForPAB.Location" type="System.Drawing.Point, System.Drawing">
-    <value>395, 77</value>
-  </data>
-  <data name="tbPointsForPAB.Size" type="System.Drawing.Size, System.Drawing">
-    <value>38, 23</value>
-  </data>
-  <data name="tbPointsForPAB.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
   </data>
   <data name="&gt;&gt;tbPointsForPAB.Name" xml:space="preserve">
     <value>tbPointsForPAB</value>
@@ -464,6 +482,330 @@
   </data>
   <data name="&gt;&gt;tbPointsForPAB.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="&gt;&gt;lblPointsForPAB.Name" xml:space="preserve">
+    <value>lblPointsForPAB</value>
+  </data>
+  <data name="&gt;&gt;lblPointsForPAB.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblPointsForPAB.Parent" xml:space="preserve">
+    <value>gpScoringScheme</value>
+  </data>
+  <data name="&gt;&gt;lblPointsForPAB.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;tbPointsForForfeit.Name" xml:space="preserve">
+    <value>tbPointsForForfeit</value>
+  </data>
+  <data name="&gt;&gt;tbPointsForForfeit.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tbPointsForForfeit.Parent" xml:space="preserve">
+    <value>gpScoringScheme</value>
+  </data>
+  <data name="&gt;&gt;tbPointsForForfeit.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;lblPointsForDraw.Name" xml:space="preserve">
+    <value>lblPointsForDraw</value>
+  </data>
+  <data name="&gt;&gt;lblPointsForDraw.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblPointsForDraw.Parent" xml:space="preserve">
+    <value>gpScoringScheme</value>
+  </data>
+  <data name="&gt;&gt;lblPointsForDraw.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;tbPointsForWin.Name" xml:space="preserve">
+    <value>tbPointsForWin</value>
+  </data>
+  <data name="&gt;&gt;tbPointsForWin.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tbPointsForWin.Parent" xml:space="preserve">
+    <value>gpScoringScheme</value>
+  </data>
+  <data name="&gt;&gt;tbPointsForWin.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;lblPointsForWin.Name" xml:space="preserve">
+    <value>lblPointsForWin</value>
+  </data>
+  <data name="&gt;&gt;lblPointsForWin.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblPointsForWin.Parent" xml:space="preserve">
+    <value>gpScoringScheme</value>
+  </data>
+  <data name="&gt;&gt;lblPointsForWin.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="gpScoringScheme.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt, style=Bold</value>
+  </data>
+  <data name="gpScoringScheme.Location" type="System.Drawing.Point, System.Drawing">
+    <value>16, 212</value>
+  </data>
+  <data name="gpScoringScheme.Size" type="System.Drawing.Size, System.Drawing">
+    <value>772, 110</value>
+  </data>
+  <data name="gpScoringScheme.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="gpScoringScheme.Text" xml:space="preserve">
+    <value>Scoring Scheme</value>
+  </data>
+  <data name="&gt;&gt;gpScoringScheme.Name" xml:space="preserve">
+    <value>gpScoringScheme</value>
+  </data>
+  <data name="&gt;&gt;gpScoringScheme.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;gpScoringScheme.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;gpScoringScheme.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="tbTimeControl.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="tbTimeControl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>98, 179</value>
+  </data>
+  <data name="tbTimeControl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>690, 23</value>
+  </data>
+  <data name="tbTimeControl.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="&gt;&gt;tbTimeControl.Name" xml:space="preserve">
+    <value>tbTimeControl</value>
+  </data>
+  <data name="&gt;&gt;tbTimeControl.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tbTimeControl.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;tbTimeControl.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="lblTimeControl.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblTimeControl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblTimeControl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 182</value>
+  </data>
+  <data name="lblTimeControl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>76, 15</value>
+  </data>
+  <data name="lblTimeControl.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="lblTimeControl.Text" xml:space="preserve">
+    <value>Time Control</value>
+  </data>
+  <data name="&gt;&gt;lblTimeControl.Name" xml:space="preserve">
+    <value>lblTimeControl</value>
+  </data>
+  <data name="&gt;&gt;lblTimeControl.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblTimeControl.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lblTimeControl.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="cbPairingSystem.Location" type="System.Drawing.Point, System.Drawing">
+    <value>98, 150</value>
+  </data>
+  <data name="cbPairingSystem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>121, 23</value>
+  </data>
+  <data name="cbPairingSystem.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="&gt;&gt;cbPairingSystem.Name" xml:space="preserve">
+    <value>cbPairingSystem</value>
+  </data>
+  <data name="&gt;&gt;cbPairingSystem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cbPairingSystem.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;cbPairingSystem.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="lblPairingSystem.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblPairingSystem.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblPairingSystem.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 153</value>
+  </data>
+  <data name="lblPairingSystem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>85, 15</value>
+  </data>
+  <data name="lblPairingSystem.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="lblPairingSystem.Text" xml:space="preserve">
+    <value>Pairing System</value>
+  </data>
+  <data name="&gt;&gt;lblPairingSystem.Name" xml:space="preserve">
+    <value>lblPairingSystem</value>
+  </data>
+  <data name="&gt;&gt;lblPairingSystem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblPairingSystem.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lblPairingSystem.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="tbArbiters.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="tbArbiters.Location" type="System.Drawing.Point, System.Drawing">
+    <value>98, 122</value>
+  </data>
+  <data name="tbArbiters.Size" type="System.Drawing.Size, System.Drawing">
+    <value>690, 23</value>
+  </data>
+  <data name="tbArbiters.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="&gt;&gt;tbArbiters.Name" xml:space="preserve">
+    <value>tbArbiters</value>
+  </data>
+  <data name="&gt;&gt;tbArbiters.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tbArbiters.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;tbArbiters.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="lblArbiters.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblArbiters.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblArbiters.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 125</value>
+  </data>
+  <data name="lblArbiters.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 15</value>
+  </data>
+  <data name="lblArbiters.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="lblArbiters.Text" xml:space="preserve">
+    <value>Arbiters</value>
+  </data>
+  <data name="&gt;&gt;lblArbiters.Name" xml:space="preserve">
+    <value>lblArbiters</value>
+  </data>
+  <data name="&gt;&gt;lblArbiters.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblArbiters.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lblArbiters.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="tbChiefArbiter.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="tbChiefArbiter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>98, 93</value>
+  </data>
+  <data name="tbChiefArbiter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>690, 23</value>
+  </data>
+  <data name="tbChiefArbiter.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;tbChiefArbiter.Name" xml:space="preserve">
+    <value>tbChiefArbiter</value>
+  </data>
+  <data name="&gt;&gt;tbChiefArbiter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tbChiefArbiter.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;tbChiefArbiter.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="lblChiefArbiter.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblChiefArbiter.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblChiefArbiter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 96</value>
+  </data>
+  <data name="lblChiefArbiter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 15</value>
+  </data>
+  <data name="lblChiefArbiter.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="lblChiefArbiter.Text" xml:space="preserve">
+    <value>Chief Arbiter</value>
+  </data>
+  <data name="&gt;&gt;lblChiefArbiter.Name" xml:space="preserve">
+    <value>lblChiefArbiter</value>
+  </data>
+  <data name="&gt;&gt;lblChiefArbiter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblChiefArbiter.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lblChiefArbiter.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Tournament</value>
+  </data>
+  <data name="&gt;&gt;ErrorProvider.Name" xml:space="preserve">
+    <value>ErrorProvider</value>
+  </data>
+  <data name="&gt;&gt;ErrorProvider.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ErrorProvider, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>TournamentDialog</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="tbPointsForPAB.Location" type="System.Drawing.Point, System.Drawing">
+    <value>395, 77</value>
+  </data>
+  <data name="tbPointsForPAB.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 23</value>
+  </data>
+  <data name="tbPointsForPAB.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
   </data>
   <data name="lblPointsForPAB.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -486,18 +828,6 @@
   <data name="lblPointsForPAB.Text" xml:space="preserve">
     <value>Points for Pairing Allocated Bye</value>
   </data>
-  <data name="&gt;&gt;lblPointsForPAB.Name" xml:space="preserve">
-    <value>lblPointsForPAB</value>
-  </data>
-  <data name="&gt;&gt;lblPointsForPAB.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblPointsForPAB.Parent" xml:space="preserve">
-    <value>gpScoringScheme</value>
-  </data>
-  <data name="&gt;&gt;lblPointsForPAB.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="tbPointsForForfeit.Location" type="System.Drawing.Point, System.Drawing">
     <value>395, 48</value>
   </data>
@@ -506,18 +836,6 @@
   </data>
   <data name="tbPointsForForfeit.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
-  </data>
-  <data name="&gt;&gt;tbPointsForForfeit.Name" xml:space="preserve">
-    <value>tbPointsForForfeit</value>
-  </data>
-  <data name="&gt;&gt;tbPointsForForfeit.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tbPointsForForfeit.Parent" xml:space="preserve">
-    <value>gpScoringScheme</value>
-  </data>
-  <data name="&gt;&gt;tbPointsForForfeit.ZOrder" xml:space="preserve">
-    <value>2</value>
   </data>
   <data name="lblPointsForForfeit.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -702,19 +1020,7 @@
   <data name="lblPointsForDraw.Text" xml:space="preserve">
     <value>Points for Draw</value>
   </data>
-  <data name="&gt;&gt;lblPointsForDraw.Name" xml:space="preserve">
-    <value>lblPointsForDraw</value>
-  </data>
-  <data name="&gt;&gt;lblPointsForDraw.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblPointsForDraw.Parent" xml:space="preserve">
-    <value>gpScoringScheme</value>
-  </data>
-  <data name="&gt;&gt;lblPointsForDraw.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="tbPointsForWin.Location" type="System.Drawing.Point, System.Drawing">
+   <data name="tbPointsForWin.Location" type="System.Drawing.Point, System.Drawing">
     <value>136, 19</value>
   </data>
   <data name="tbPointsForWin.Size" type="System.Drawing.Size, System.Drawing">
@@ -722,18 +1028,6 @@
   </data>
   <data name="tbPointsForWin.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
-  </data>
-  <data name="&gt;&gt;tbPointsForWin.Name" xml:space="preserve">
-    <value>tbPointsForWin</value>
-  </data>
-  <data name="&gt;&gt;tbPointsForWin.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tbPointsForWin.Parent" xml:space="preserve">
-    <value>gpScoringScheme</value>
-  </data>
-  <data name="&gt;&gt;tbPointsForWin.ZOrder" xml:space="preserve">
-    <value>10</value>
   </data>
   <data name="lblPointsForWin.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -752,272 +1046,5 @@
   </data>
   <data name="lblPointsForWin.Text" xml:space="preserve">
     <value>Points for Win</value>
-  </data>
-  <data name="&gt;&gt;lblPointsForWin.Name" xml:space="preserve">
-    <value>lblPointsForWin</value>
-  </data>
-  <data name="&gt;&gt;lblPointsForWin.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblPointsForWin.Parent" xml:space="preserve">
-    <value>gpScoringScheme</value>
-  </data>
-  <data name="&gt;&gt;lblPointsForWin.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
-  <data name="gpScoringScheme.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9pt, style=Bold</value>
-  </data>
-  <data name="gpScoringScheme.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 212</value>
-  </data>
-  <data name="gpScoringScheme.Size" type="System.Drawing.Size, System.Drawing">
-    <value>772, 110</value>
-  </data>
-  <data name="gpScoringScheme.TabIndex" type="System.Int32, mscorlib">
-    <value>22</value>
-  </data>
-  <data name="gpScoringScheme.Text" xml:space="preserve">
-    <value>Scoring Scheme</value>
-  </data>
-  <data name="&gt;&gt;gpScoringScheme.Name" xml:space="preserve">
-    <value>gpScoringScheme</value>
-  </data>
-  <data name="&gt;&gt;gpScoringScheme.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;gpScoringScheme.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;gpScoringScheme.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="tbTimeControl.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="tbTimeControl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>98, 179</value>
-  </data>
-  <data name="tbTimeControl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>690, 23</value>
-  </data>
-  <data name="tbTimeControl.TabIndex" type="System.Int32, mscorlib">
-    <value>21</value>
-  </data>
-  <data name="&gt;&gt;tbTimeControl.Name" xml:space="preserve">
-    <value>tbTimeControl</value>
-  </data>
-  <data name="&gt;&gt;tbTimeControl.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tbTimeControl.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;tbTimeControl.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="lblTimeControl.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblTimeControl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lblTimeControl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 182</value>
-  </data>
-  <data name="lblTimeControl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>76, 15</value>
-  </data>
-  <data name="lblTimeControl.TabIndex" type="System.Int32, mscorlib">
-    <value>20</value>
-  </data>
-  <data name="lblTimeControl.Text" xml:space="preserve">
-    <value>Time Control</value>
-  </data>
-  <data name="&gt;&gt;lblTimeControl.Name" xml:space="preserve">
-    <value>lblTimeControl</value>
-  </data>
-  <data name="&gt;&gt;lblTimeControl.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblTimeControl.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;lblTimeControl.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="cbPairingSystem.Location" type="System.Drawing.Point, System.Drawing">
-    <value>98, 150</value>
-  </data>
-  <data name="cbPairingSystem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 23</value>
-  </data>
-  <data name="cbPairingSystem.TabIndex" type="System.Int32, mscorlib">
-    <value>19</value>
-  </data>
-  <data name="&gt;&gt;cbPairingSystem.Name" xml:space="preserve">
-    <value>cbPairingSystem</value>
-  </data>
-  <data name="&gt;&gt;cbPairingSystem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cbPairingSystem.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;cbPairingSystem.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="lblPairingSystem.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblPairingSystem.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lblPairingSystem.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 153</value>
-  </data>
-  <data name="lblPairingSystem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>85, 15</value>
-  </data>
-  <data name="lblPairingSystem.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
-  </data>
-  <data name="lblPairingSystem.Text" xml:space="preserve">
-    <value>Pairing System</value>
-  </data>
-  <data name="&gt;&gt;lblPairingSystem.Name" xml:space="preserve">
-    <value>lblPairingSystem</value>
-  </data>
-  <data name="&gt;&gt;lblPairingSystem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblPairingSystem.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;lblPairingSystem.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="tbArbiters.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="tbArbiters.Location" type="System.Drawing.Point, System.Drawing">
-    <value>98, 122</value>
-  </data>
-  <data name="tbArbiters.Size" type="System.Drawing.Size, System.Drawing">
-    <value>690, 23</value>
-  </data>
-  <data name="tbArbiters.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
-  </data>
-  <data name="&gt;&gt;tbArbiters.Name" xml:space="preserve">
-    <value>tbArbiters</value>
-  </data>
-  <data name="&gt;&gt;tbArbiters.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tbArbiters.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;tbArbiters.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="lblArbiters.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblArbiters.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lblArbiters.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 125</value>
-  </data>
-  <data name="lblArbiters.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 15</value>
-  </data>
-  <data name="lblArbiters.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
-  </data>
-  <data name="lblArbiters.Text" xml:space="preserve">
-    <value>Arbiters</value>
-  </data>
-  <data name="&gt;&gt;lblArbiters.Name" xml:space="preserve">
-    <value>lblArbiters</value>
-  </data>
-  <data name="&gt;&gt;lblArbiters.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblArbiters.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;lblArbiters.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="tbChiefArbiter.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="tbChiefArbiter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>98, 93</value>
-  </data>
-  <data name="tbChiefArbiter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>690, 23</value>
-  </data>
-  <data name="tbChiefArbiter.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
-  </data>
-  <data name="&gt;&gt;tbChiefArbiter.Name" xml:space="preserve">
-    <value>tbChiefArbiter</value>
-  </data>
-  <data name="&gt;&gt;tbChiefArbiter.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tbChiefArbiter.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;tbChiefArbiter.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="lblChiefArbiter.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblChiefArbiter.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lblChiefArbiter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 96</value>
-  </data>
-  <data name="lblChiefArbiter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 15</value>
-  </data>
-  <data name="lblChiefArbiter.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
-  <data name="lblChiefArbiter.Text" xml:space="preserve">
-    <value>Chief Arbiter</value>
-  </data>
-  <data name="&gt;&gt;lblChiefArbiter.Name" xml:space="preserve">
-    <value>lblChiefArbiter</value>
-  </data>
-  <data name="&gt;&gt;lblChiefArbiter.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblChiefArbiter.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;lblChiefArbiter.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Tournament</value>
-  </data>
-  <data name="&gt;&gt;ErrorProvider.Name" xml:space="preserve">
-    <value>ErrorProvider</value>
-  </data>
-  <data name="&gt;&gt;ErrorProvider.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ErrorProvider, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>TournamentDialog</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

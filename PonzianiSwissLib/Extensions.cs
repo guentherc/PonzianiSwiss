@@ -260,4 +260,80 @@ namespace PonzianiSwissLib
         }
 
     }
+
+    public static class Utils
+    {
+        private static Random? rnd;
+
+        public static void Seed(int seed)
+        {
+            rnd = new Random(seed);
+        }
+
+        public static Result Simulate(int eloWhite, int eloBlack, double drawRate = 0.6, double forfeitRate = 0.02)
+        {
+            if (rnd == null) rnd = new Random();
+            if (rnd.NextDouble() < forfeitRate)
+            {
+                return rnd.NextDouble() < 0.5 ? Result.ForfeitWin : Result.Forfeited;
+            }
+            double winExp = WinProbability(eloWhite, eloBlack);
+            // Formulas:
+            // Pw (win expectation of stronger side)
+            // Pb (win expectation of weaker side)
+            // Pd + Pw + Pb = 1
+            // Pw + Pd/2 = winExp
+            // => Pd = 1 - Pw - Pb
+            // => 1 + Pw - Pb = 2 * winExp
+            // => Pw = 2* WinExp + Pb - 1
+            // minimal Pw (Pb = 0) = 2* WinExp - 1 (if WinExp > 0,5) else 0
+            // maximal Pw (no draws) Pw = WinExp
+            // draw rate min = 0
+            // draw rate max Pd = 1 - Pw - Pb = 2 - 2 * WinExp = 2 * (1 - WinExp)
+            bool blackIsStronger = winExp < .5;
+            double pWin = blackIsStronger ? 1 - winExp : winExp;
+            double pDraw = 2 * drawRate * (1 - pWin);
+            double pStronger = pWin - pDraw / 2;
+            double pWeaker = (1 - pWin) -  pDraw/ 2;
+            Debug.Assert(pStronger >= 0 && pWeaker >= 0 && pStronger <= 1 && pWeaker <= 1 && pDraw <= 1);
+            Debug.Assert(Math.Abs(1 - pStronger - pWeaker - pDraw) <= 0.00001);
+            double r = rnd.NextDouble();
+            if (r < pDraw) return Result.Draw;
+            else if (r < pDraw + pStronger) return blackIsStronger ? Result.Loss : Result.Win;
+            else return blackIsStronger ? Result.Win : Result.Loss;
+        }
+       
+        public static double WinProbability(double eloWhite, double eloBlack, double bonusWhite = 20)
+        {
+            double ratingWhite = eloWhite + bonusWhite;
+            double ratingBlack = eloBlack - bonusWhite;
+            double ratingDiff = ratingWhite - ratingBlack;
+            return 1 / (1 + Math.Pow(10, -ratingDiff / 400));
+        }
+
+        public static double Erf(double x)
+        {
+            // constants
+            double a1 = 0.254829592;
+            double a2 = -0.284496736;
+            double a3 = 1.421413741;
+            double a4 = -1.453152027;
+            double a5 = 1.061405429;
+            double p = 0.3275911;
+
+            // Save the sign of x
+            int sign = 1;
+            if (x < 0)
+                sign = -1;
+            x = Math.Abs(x);
+
+            // A&S formula 7.1.26
+            double t = 1.0 / (1.0 + p * x);
+            double y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.Exp(-x * x);
+
+            return sign * y;
+        }
+
+        public static double Erfc(double x) => 1 - Erf(x);
+    }
 }

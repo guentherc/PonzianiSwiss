@@ -160,6 +160,62 @@ namespace PonzianiSwissTest
             }
         }
 
+        [TestMethod]
+        public void TestDutchAccelerated()
+        {
+            for (int seed = 30; seed < 40; ++seed)
+            {
+                TestDrawSimulationAccelerated(seed);
+            }
+        }
+
+        private static void TestDrawSimulationAccelerated(int seed, PairingTool.GeneratorConfig? config = null)
+        {
+            if (config == null) config = new();
+            config.CountRounds = 11;
+            string? trfFile0 = PairingTool.GenerateTRFAsync(seed, config).Result;
+            PairingSystem pairingSystem = config == null ? PairingSystem.Dutch : config.PairingSystem;
+            Assert.IsNotNull(trfFile0);
+            if (trfFile0 == null) return;
+            Console.WriteLine($"Testing {trfFile0}");
+            Tournament tournament = new();
+            tournament.LoadFromTRF(File.ReadAllText(trfFile0));
+            tournament.BakuAcceleration = true;
+            tournament.PairingSystem = pairingSystem;
+            Console.WriteLine($"{tournament.Participants.Count} Participants {tournament.Rounds.Count} Rounds");
+            Tournament testTournament = (Tournament)((ICloneable)tournament).Clone();
+            Assert.IsNotNull(testTournament);
+            testTournament.Rounds.Clear();
+            Side? xxc = null;
+            int indx = 0;
+            while (!xxc.HasValue)
+            {
+                var entry = tournament.Participants[indx].Scorecard?.Entries[0];
+                if (entry != null && entry.Round == 0 && entry.Opponent != Participant.BYE)
+                {
+                    xxc = entry.Side;
+                }
+                ++indx;
+            }
+            //Now let's draw one round after another and check drawing
+            for (int round = 0; round < tournament.Rounds.Count; round++)
+            {
+                Console.WriteLine($"Drawing Round {round}");
+                Dictionary<string, Result> byes = new();
+                bool drawIsOk = testTournament.DrawAsync(round, xxc, byes).Result;
+                bool ok = drawIsOk && TestTournamentTRF(testTournament);
+                if (!ok)
+                {
+                    PrintGeneratedTRF(trfFile0);
+                    Assert.Fail();
+                }
+                foreach (var p in testTournament.Rounds[round].Pairings)
+                {
+                    p.Result = Utils.Simulate(p.White.TournamentRating, p.Black.TournamentRating);
+                }
+            }
+        }
+
         private static void TestDrawSimulation(int seed, PairingTool.GeneratorConfig? config = null)
         {
             string? trfFile0 = PairingTool.GenerateTRFAsync(seed, config).Result;
@@ -193,7 +249,7 @@ namespace PonzianiSwissTest
                 Dictionary<string, Result> byes = new();
                 foreach (var p in tournament.Rounds[round].Pairings)
                 {
-                    if (p.White.ParticipantId != null && (p.Result == Result.ZeroPointBye || p.Result == Result.HalfPointBye || p.Result == Result.FullPointBye)) 
+                    if (p.White.ParticipantId != null && (p.Result == Result.ZeroPointBye || p.Result == Result.HalfPointBye || p.Result == Result.FullPointBye))
                         byes.Add(p.White.ParticipantId, p.Result);
                 }
                 bool drawIsOk = testTournament.DrawAsync(round, xxc, byes).Result;

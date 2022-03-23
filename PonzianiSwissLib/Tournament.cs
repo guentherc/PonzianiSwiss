@@ -151,6 +151,8 @@ namespace PonzianiSwissLib
 
         public ScoringScheme ScoringScheme { set; get; } = new();
 
+        public bool BakuAcceleration { set; get; } = false;
+
         /// <summary>
         /// Calculates the scorecards for all participants
         /// </summary>
@@ -172,7 +174,6 @@ namespace PonzianiSwissLib
             }
             foreach (var p in scorecards.Keys)
                 p.Scorecard = scorecards[p];
-            Participants.RemoveAll(p => p.Scorecard == null);
             return scorecards;
         }
 
@@ -331,7 +332,7 @@ namespace PonzianiSwissLib
                 char s = p.Attributes.ContainsKey(Participant.AttributeKey.Sex) && (Sex)p.Attributes[Participant.AttributeKey.Sex] == Sex.Female ? 'f' : 'm';
                 string birthdate = p.Attributes.ContainsKey(Participant.AttributeKey.Birthdate) ? ((DateTime)p.Attributes[Participant.AttributeKey.Birthdate]).ToString("yyyy/MM/dd")
                                   : p.Attributes.ContainsKey(Participant.AttributeKey.Birthyear) ? ((DateTime)p.Attributes[Participant.AttributeKey.Birthyear]).ToString() : string.Empty;
-                StringBuilder pline = new(FormattableString.Invariant($"001 {p.ParticipantId,4} {s} {title_string[(int)p.Title],2} {p.Name,-33} {p.FideRating,4} {p.Federation,3 } {(p.FideId != 0 ? p.FideId : string.Empty),11} {birthdate,-10} { p.Scorecard?.Score(round),4} { p.Rank,4}"));
+                StringBuilder pline = new(FormattableString.Invariant($"001 {p.ParticipantId,4} {s} {title_string[(int)p.Title],2} {p.Name,-33} {p.FideRating,4} {p.Federation,3 } {(p.FideId != 0 ? p.FideId : string.Empty),11} {birthdate,-10} { p.Scorecard?.Score(round) ?? 0,4} { p.Rank,4}"));
                 for (int r = 1; r <= round; ++r)
                 {
                     var entries = p.Scorecard?.Entries.Where(e => e.Round == r - 1);
@@ -351,6 +352,25 @@ namespace PonzianiSwissLib
                 if (byes != null && p.ParticipantId != null && byes.ContainsKey(p.ParticipantId))
                     pline.Append($"  0000 - {result_char[(int)byes[p.ParticipantId]]}");
                 trf.Add(pline.ToString().Trim());
+            }
+            if (BakuAcceleration)
+            {
+                int G1 = 2 * (int)Math.Ceiling(Participants.Count / 4.0);
+                int CountAccRounds = (CountRounds + 1) / 2;
+                int CountFullAccRounds = (CountAccRounds + 1) / 2;
+                for (int i = 0; i<G1; ++i)
+                {
+                    string pline = $"XXA {Participants[i].ParticipantId,4}";
+                    for (int j = 0; j < Math.Min(Rounds.Count + 1, CountFullAccRounds); j++)
+                    {
+                        pline += "  1.0";
+                    }
+                    for (int j = CountFullAccRounds; j < Math.Min(Rounds.Count + 1, CountAccRounds); j++)
+                    {
+                        pline += "  0.5";
+                    }
+                    trf.Add(pline);
+                }
             }
             return trf;
         }
