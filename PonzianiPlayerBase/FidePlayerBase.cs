@@ -85,6 +85,7 @@ namespace PonzianiPlayerBase
                 col?.InsertBulk(list);
                 reader.Close();
             }
+            col?.EnsureIndex(x => x.Name);
             Console.WriteLine($"{count} records processed!");
 
 

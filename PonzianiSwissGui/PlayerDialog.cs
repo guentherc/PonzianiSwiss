@@ -78,5 +78,34 @@ namespace PonzianiSwissGui
                 cbFemale.Checked = player.Sex == Sex.Female;
             }
         }
+
+        private void TbName_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (tbName.Text.Length == 4)
+            {
+                Invoke((MethodInvoker)(() =>
+                {
+                    tbName.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                    tbName.AutoCompleteCustomSource = new();
+                    tbName.AutoCompleteCustomSource.AddRange(FideBase.Find(tbName.Text).Select(p => p.Name).ToArray());
+                }));
+            }
+        }
+
+        private void TbName_Leave(object sender, EventArgs e)
+        {
+            if (tbName.Text.Length > 4)
+            {
+                var player = FideBase.Find(tbName.Text).FirstOrDefault();
+                if (player != null)
+                {
+                    cbTitle.SelectedValue = player.Title;
+                    cbFederation.SelectedValue = player.Federation;
+                    nudRating.Value = player.Rating;
+                    cbFemale.Checked = player.Sex == Sex.Female;
+                    tbFideId.Text = player.Id;
+                }
+            }
+        }
     }
 }

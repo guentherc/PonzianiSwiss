@@ -71,10 +71,13 @@
             // 
             this.tbName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.tbName.Location = new System.Drawing.Point(111, 35);
             this.tbName.Name = "tbName";
             this.tbName.Size = new System.Drawing.Size(690, 23);
             this.tbName.TabIndex = 3;
+            this.tbName.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TbName_KeyUp);
+            this.tbName.Leave += new System.EventHandler(this.TbName_Leave);
             // 
             // lblName
             // 
