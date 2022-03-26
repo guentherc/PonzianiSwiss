@@ -76,21 +76,20 @@ namespace PonzianiPlayerBase
     {
         public enum Base { FIDE }
 
-        private static readonly Dictionary<string, IPlayerBase> bases = new();
+        private static readonly Dictionary<Base, IPlayerBase> bases = new();
 
         public static IPlayerBase Get(Base b)
         {
-            string id = b.ToString().ToUpper();
-            if (!bases.ContainsKey(id))
+            if (!bases.ContainsKey(b))
             {
-                if (id == "FIDE")
+                if (b == Base.FIDE)
                 {
-                    bases.Add(id, new FidePlayerBase());
-                    bases[id].Initialize();
+                    bases.Add(b, new FidePlayerBase());
+                    bases[b].Initialize();
 
                 }
             }
-            return bases[id];
+            return bases[b];
         }
     }
 
