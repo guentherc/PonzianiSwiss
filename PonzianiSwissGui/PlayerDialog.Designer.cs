@@ -76,6 +76,7 @@
             this.tbName.Name = "tbName";
             this.tbName.Size = new System.Drawing.Size(690, 23);
             this.tbName.TabIndex = 3;
+            this.tbName.Enter += new System.EventHandler(this.TbName_Enter);
             this.tbName.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TbName_KeyUp);
             this.tbName.Leave += new System.EventHandler(this.TbName_Leave);
             // 

@@ -1,4 +1,4 @@
-﻿using LiteDB;
+﻿using Microsoft.Data.Sqlite;
 using PonzianiSwissLib;
 using System;
 using System.Collections.Generic;
@@ -10,18 +10,51 @@ using System.Threading.Tasks;
 
 namespace PonzianiPlayerBase
 {
+
     public class FidePlayerBase : PlayerBase
     {
-        public FidePlayerBase(string? filename = null)
+
+        public override List<Player> Find(string searchstring)
         {
-            if (filename == null)
+            List<Player> result = new();
+            using var cmd = connection?.CreateCommand();
+            if (cmd == null) return result;
+            cmd.CommandText = "SELECT * FROM FidePlayer WHERE Name LIKE @ss";
+            cmd.Parameters.AddWithValue("@ss", searchstring + '%');
+            cmd.Prepare();
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
             {
-                string directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PonzianiPlayerBase");
-                if (!Directory.Exists(directory)) Directory.CreateDirectory(directory);
-                this.filename = Path.Combine(directory, "fideplayer.db");
+                Player player = new(reader.GetInt64(0).ToString());
+                player.Name = reader.GetString(1);
+                player.Federation = reader.GetString(2);
+                player.Rating = reader.GetInt32(3);
+                player.Sex = (Sex)reader.GetInt16(4);
+                player.Rating = reader.GetInt32(5);
+                player.Inactive = reader.GetInt16(6) == 1;
+                result.Add(player);
             }
-            else this.filename = filename;
-            Console.WriteLine($"Fideplayer File: {filename}");
+            return result;
+        }
+
+        public override Player? GetById(string id)
+        {
+            using var cmd = connection?.CreateCommand();
+            if (cmd == null) return null;
+            cmd.CommandText = $"SELECT * FROM FidePlayer WHERE Id = \"{id}\"";
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                Player player = new(reader.GetInt64(0).ToString());
+                player.Name = reader.GetString(1);
+                player.Federation = reader.GetString(2);
+                player.Rating = reader.GetInt32(3);
+                player.Sex = (Sex)reader.GetInt16(4);
+                player.Rating = reader.GetInt32(5);
+                player.Inactive = reader.GetInt16(6) == 1;
+                return player;
+            }
+            return null;
         }
 
         public override async Task<bool> UpdateAsync()
@@ -46,58 +79,77 @@ namespace PonzianiPlayerBase
             string file = Directory.GetFiles(tmpDir).Where(f => Path.GetExtension(f) == ".txt").First();
             Console.WriteLine($"Data saved to {file}");
 
-            var col = db?.GetCollection<Player>(PLAYER_COLL);
-            col?.DeleteAll();
-            int count = 0;
-            using (StreamReader reader = new(file))
-            {
-                string? line;
-                List<Player> list = new();
+            if (connection == null) return false;
 
-                while ((line = reader.ReadLine()) != null)
+            using (var transaction = connection.BeginTransaction())
+            {
+                using (var del = connection.CreateCommand())
                 {
-                    ++count;
-                    if (count == 1) continue;
-                    string id = line[..15].Trim();
-                    Player player = new(id);
-                    player.Name = line.Substring(15, 61).Trim();
-                    player.Federation = line.Substring(76, 4).Trim();
-                    player.Sex = line[80] == 'F' ? Sex.Female : Sex.Male;
-                    string title = line.Substring(84, 3).Trim();
-                    if (title.Length > 0) player.Title = Enum.Parse<FideTitle>(title);
-                    string rating = line.Substring(113, 4).Trim();
-                    if (rating.Length > 0) player.Rating = int.Parse(rating);
-                    rating = line.Substring(126, 4).Trim();
-                    if (rating.Length > 0) player.RatingRapid = int.Parse(rating);
-                    rating = line.Substring(139, 4).Trim();
-                    if (rating.Length > 0) player.RatingBlitz = int.Parse(rating);
-                    string year = line.Substring(152, 4).Trim();
-                    if (year.Length > 0) player.YearOfBirth = int.Parse(year);
-                    string flags = line.Substring(158, 4).Trim();
-                    player.Inactive = flags.Contains('i');
-                    list.Add(player);
-                    if (count % 4096 == 0)
+                    del.CommandText = "DELETE FROM FidePlayer";
+                    await del.ExecuteNonQueryAsync();
+                }
+
+                var cmd = connection.CreateCommand();
+                cmd.CommandText = "INSERT INTO FidePlayer VALUES(@Id, @Name, @Federation, @Title, @Sex, @Rating, @Inactive)";
+                string[] parameters = new[] { "@Id", "@Name", "@Federation", "@Title", "@Sex", "@Rating", "@Inactive" };
+                foreach (var p in parameters)
+                {
+                    var parameter = cmd.CreateParameter();
+                    parameter.ParameterName = p;
+                    cmd.Parameters.Add(parameter);
+                }
+
+                int count = 0;
+                using (StreamReader reader = new(file))
+                {
+                    string? line;
+                    List<Player> list = new();
+
+                    while ((line = reader.ReadLine()) != null)
                     {
-                        col?.InsertBulk(list);
-                        list.Clear();
+                        try
+                        {
+                            ++count;
+                            if (count == 1) continue;
+                            int id = int.Parse(line[..15].Trim());
+                            cmd.Parameters["@Id"].Value = id;
+                            cmd.Parameters["@Name"].Value = line.Substring(15, 61).Trim();
+                            cmd.Parameters["@Federation"].Value = line.Substring(76, 4).Trim();
+                            cmd.Parameters["@Sex"].Value = line[80] == 'F' ? (int)Sex.Female : (int)Sex.Male;
+                            string title = line.Substring(84, 3).Trim();
+                            cmd.Parameters["@Title"].Value = title.Length > 0 ? (int)Enum.Parse<FideTitle>(title) : (int)FideTitle.NONE;
+                            string rating = line.Substring(113, 4).Trim();
+                            cmd.Parameters["@Rating"].Value = rating.Length > 0 ? int.Parse(rating) : 0;
+                            //rating = line.Substring(126, 4).Trim();
+                            //if (rating.Length > 0) player.RatingRapid = int.Parse(rating);
+                            //rating = line.Substring(139, 4).Trim();
+                            //if (rating.Length > 0) player.RatingBlitz = int.Parse(rating);
+                            //string year = line.Substring(152, 4).Trim();
+                            //if (year.Length > 0) player.YearOfBirth = int.Parse(year);
+                            string flags = line.Substring(158, 4).Trim();
+                            cmd.Parameters["@Inactive"].Value = flags.Contains('i') ? 1 : 0;
+                            if (count == 2) await cmd.PrepareAsync();
+                            await cmd.ExecuteNonQueryAsync();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.ToString());
+                        }
                     }
                 }
-                col?.InsertBulk(list);
-                reader.Close();
+                Console.WriteLine($"{count} records processed!");
+                cmd = connection.CreateCommand();
+                cmd.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"0\"";
+                await cmd.ExecuteNonQueryAsync();
+                transaction.Commit();
             }
-            col?.EnsureIndex(x => x.Name);
-            Console.WriteLine($"{count} records processed!");
-
 
             //Clean up
             foreach (string f in Directory.GetFiles(tmpDir)) File.Delete(f);
             Directory.Delete(tmpDir);
             return true;
         }
-
-
-
-
-
     }
+
+
 }

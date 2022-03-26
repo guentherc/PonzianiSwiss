@@ -1,4 +1,4 @@
-﻿using LiteDB;
+﻿using Microsoft.Data.Sqlite;
 using PonzianiSwissLib;
 using System.IO.Compression;
 using System.Text;
@@ -19,41 +19,62 @@ namespace PonzianiPlayerBase
 
     }
 
-    public abstract class PlayerBase : IPlayerBase
+    public abstract class PlayerBase : IPlayerBase, IDisposable
     {
-        protected string filename = "";
-        protected LiteDatabase? db;
-        protected const string PLAYER_COLL = "player";
-
+        protected string? filename;
+        protected SqliteConnection? connection;
         public DateTime LastUpdate => DateTime.MinValue;
 
-        public List<Player> Find(string searchstring)
+        public void Dispose()
         {
-            var col = db?.GetCollection<Player>(PLAYER_COLL);
-            return col?.Query().Where(x => x.Name.Contains(searchstring, StringComparison.CurrentCultureIgnoreCase)).ToList() ?? new();
+            if (connection != null)
+                ((IDisposable)connection).Dispose();
+            GC.SuppressFinalize(this);
         }
 
-        public Player? GetById(string id)
-        {
-            var col = db?.GetCollection<Player>(PLAYER_COLL);
-            var list = col?.Query().Where(x => x.Id == id).ToList();
-            return list?.Count > 0 ? list[0] : null;
-        }
+        public abstract List<Player> Find(string searchstring);
+
+        public abstract Player? GetById(string id);
 
         public bool Initialize()
         {
-            if (!File.Exists(filename)) return false;
-            db = new LiteDatabase(filename);
+            if (filename == null)
+            {
+                string directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PonzianiPlayerBase");
+                if (!Directory.Exists(directory)) Directory.CreateDirectory(directory);
+                this.filename = Path.Combine(directory, "fideplayer.db");
+            }
+            Console.WriteLine($"Fideplayer File: {filename}");
+            bool create = !File.Exists(filename);
+            connection = new SqliteConnection($"Data Source={filename}");
+            connection.Open();
+            if (create)
+            {
+                foreach (string sql in SQLCreate)
+                {
+                    var command = connection.CreateCommand();
+                    command.CommandText = sql;
+                    command.ExecuteNonQuery();
+                }
+            }
             return true;
         }
 
         public abstract Task<bool> UpdateAsync();
 
+
+        private static readonly string[] SQLCreate = new string[]
+                {
+                    @"CREATE TABLE ""FidePlayer"" ( ""Id"" INTEGER, ""Name"" TEXT, ""Federation"" TEXT, ""Title"" INTEGER, ""Sex"" INTEGER, ""Rating"" INTEGER, ""Inactive"" INTEGER, PRIMARY KEY(""Id"") )",
+                    @"CREATE INDEX ""IndxName"" ON ""FidePlayer"" (""Name"" ASC )",
+                    @"CREATE TABLE ""AdminData"" ( ""Id"" INTEGER NOT NULL UNIQUE, ""Name""	TEXT, ""LastUpdate"" INTEGER, PRIMARY KEY(""Id"" AUTOINCREMENT) )",
+                    $"INSERT into AdminData (Id, Name, LastUpdate) values (\"0\", \"FIDE\", \"{DateTime.UtcNow.Ticks}\")"
+                };
     }
 
-    public class PlayerBaseFactory
+      public class PlayerBaseFactory
     {
-        public enum Base { Fide }
+        public enum Base { FIDE }
 
         private static readonly Dictionary<string, IPlayerBase> bases = new();
 

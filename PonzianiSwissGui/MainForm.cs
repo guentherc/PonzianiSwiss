@@ -184,8 +184,7 @@ namespace PonzianiSwissGui
         {
             updateFideToolStripMenuItem.Enabled = false;
             mainStatusLabel.Text = Properties.Strings.PlayerListUpdate;
-            IPlayerBase pbase = PlayerBaseFactory.Get(PlayerBaseFactory.Base.Fide);
-            Player? player = pbase.GetById("1503014");
+            IPlayerBase pbase = PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE);
             await pbase.UpdateAsync().ConfigureAwait(false);
             Invoke((MethodInvoker)(() =>
             {

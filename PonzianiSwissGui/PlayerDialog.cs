@@ -21,7 +21,7 @@ namespace PonzianiSwissGui
             if (!player.Attributes.ContainsKey(Participant.AttributeKey.Sex)) player.Attributes.Add(Participant.AttributeKey.Sex, Sex.Male);
         }
 
-        private readonly IPlayerBase FideBase = PlayerBaseFactory.Get(PlayerBaseFactory.Base.Fide);
+        private readonly IPlayerBase FideBase = PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE);
 
         public Participant Player { private set; get; }
 
@@ -92,9 +92,16 @@ namespace PonzianiSwissGui
             }
         }
 
+        private string? nameOnEnter = null;
+
+        private void TbName_Enter(object sender, EventArgs e)
+        {
+            nameOnEnter = tbName.Text;
+        }
+
         private void TbName_Leave(object sender, EventArgs e)
         {
-            if (tbName.Text.Length > 4)
+            if (nameOnEnter != null && tbName.Text.Length > 4 && tbName.Text != nameOnEnter)
             {
                 var player = FideBase.Find(tbName.Text).FirstOrDefault();
                 if (player != null)
@@ -106,6 +113,8 @@ namespace PonzianiSwissGui
                     tbFideId.Text = player.Id;
                 }
             }
+            nameOnEnter = null;
         }
+
     }
 }
