@@ -23,7 +23,8 @@ namespace PonzianiPlayerBase
     {
         protected string? filename;
         protected SqliteConnection? connection;
-        public DateTime LastUpdate => DateTime.MinValue;
+        protected DateTime lastUpdate = DateTime.MinValue;
+        public DateTime LastUpdate => lastUpdate;
 
         public void Dispose()
         {
@@ -36,7 +37,7 @@ namespace PonzianiPlayerBase
 
         public abstract Player? GetById(string id);
 
-        public bool Initialize()
+        public virtual bool Initialize()
         {
             if (filename == null)
             {

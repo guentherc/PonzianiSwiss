@@ -14,6 +14,21 @@ namespace PonzianiPlayerBase
     public class FidePlayerBase : PlayerBase
     {
 
+        public override bool Initialize()
+        {
+            if (!base.Initialize()) return false;
+            if (connection == null) return false;
+            var command = connection.CreateCommand();
+            command.CommandText = "SELECT LastUpdate FROM AdminData WHERE Id = 0";
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                lastUpdate = new(reader.GetInt64(0));
+                return true;
+            }
+            return false;
+        }
+
         public override List<Player> Find(string searchstring)
         {
             List<Player> result = new();
@@ -140,6 +155,7 @@ namespace PonzianiPlayerBase
                 Console.WriteLine($"{count} records processed!");
                 cmd = connection.CreateCommand();
                 cmd.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"0\"";
+                lastUpdate = DateTime.UtcNow;
                 await cmd.ExecuteNonQueryAsync();
                 transaction.Commit();
             }
