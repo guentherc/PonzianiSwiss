@@ -43,7 +43,7 @@ namespace PonzianiPlayerBase
                 Player player = new(reader.GetInt64(0).ToString());
                 player.Name = reader.GetString(1);
                 player.Federation = reader.GetString(2);
-                player.Rating = reader.GetInt32(3);
+                player.Title = (FideTitle)reader.GetInt32(3);
                 player.Sex = (Sex)reader.GetInt16(4);
                 player.Rating = reader.GetInt32(5);
                 player.Inactive = reader.GetInt16(6) == 1;
@@ -63,7 +63,7 @@ namespace PonzianiPlayerBase
                 Player player = new(reader.GetInt64(0).ToString());
                 player.Name = reader.GetString(1);
                 player.Federation = reader.GetString(2);
-                player.Rating = reader.GetInt32(3);
+                player.Title = (FideTitle)reader.GetInt32(3);
                 player.Sex = (Sex)reader.GetInt16(4);
                 player.Rating = reader.GetInt32(5);
                 player.Inactive = reader.GetInt16(6) == 1;
