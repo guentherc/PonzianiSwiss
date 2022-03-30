@@ -81,7 +81,6 @@
             this.tbName.TabIndex = 3;
             this.tbName.Enter += new System.EventHandler(this.TbName_Enter);
             this.tbName.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TbName_KeyUp);
-            this.tbName.Leave += new System.EventHandler(this.TbName_Leave);
             // 
             // lblName
             // 

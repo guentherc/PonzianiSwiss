@@ -49,6 +49,7 @@
             this.playerBaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PlayerBaseUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updateFideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gERToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createTestTournamentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testTRFCreationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,7 +79,6 @@
             this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem11 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem12 = new System.Windows.Forms.ToolStripMenuItem();
-            this.gERToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.mainStatusStrip.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -217,6 +217,12 @@
             this.updateFideToolStripMenuItem.Name = "updateFideToolStripMenuItem";
             resources.ApplyResources(this.updateFideToolStripMenuItem, "updateFideToolStripMenuItem");
             this.updateFideToolStripMenuItem.Click += new System.EventHandler(this.UpdateFIDEToolStripMenuItem_Click);
+            // 
+            // gERToolStripMenuItem
+            // 
+            this.gERToolStripMenuItem.Name = "gERToolStripMenuItem";
+            resources.ApplyResources(this.gERToolStripMenuItem, "gERToolStripMenuItem");
+            this.gERToolStripMenuItem.Click += new System.EventHandler(this.GERToolStripMenuItem_Click);
             // 
             // toolsToolStripMenuItem
             // 
@@ -424,12 +430,6 @@
             this.toolStripMenuItem12.Tag = "5";
             this.toolStripMenuItem12.Click += new System.EventHandler(this.SetResultToolStripMenuItem1_Click);
             // 
-            // gERToolStripMenuItem
-            // 
-            this.gERToolStripMenuItem.Name = "gERToolStripMenuItem";
-            resources.ApplyResources(this.gERToolStripMenuItem, "gERToolStripMenuItem");
-            this.gERToolStripMenuItem.Click += new System.EventHandler(this.GERToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             resources.ApplyResources(this, "$this");
@@ -439,6 +439,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.mainStatusStrip.ResumeLayout(false);

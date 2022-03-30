@@ -314,5 +314,13 @@ namespace PonzianiSwissGui
                 mainStatusLabel.Text = String.Empty;
             }));
         }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            Invoke((MethodInvoker)(() =>
+            {
+                PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE);
+            }));
+        }
     }
 }

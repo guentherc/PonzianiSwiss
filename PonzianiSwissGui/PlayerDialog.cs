@@ -33,10 +33,11 @@ namespace PonzianiSwissGui
             UpdateUI();
         }
 
-        private void UpdateUI()
+        private void UpdateUI(object? sender = null)
         {
             tbFideId.Text = Player.FideId.ToString();
-            tbName.Text = Player.Name;
+            if (sender != tbName)
+                tbName.Text = Player.Name;
             cbTitle.SelectedValue = Player.Title;
             if (Player.Federation != null) cbFederation.SelectedValue = Player.Federation;
             nudRating.Value = Player.FideRating;
@@ -97,6 +98,15 @@ namespace PonzianiSwissGui
                     tbName.AutoCompleteCustomSource.AddRange(FideBase.Find(tbName.Text).Select(p => p.Name).ToArray());
                 }));
             }
+            if (tbName.AutoCompleteCustomSource.Count > 0)
+            {
+                Invoke((MethodInvoker)(() =>
+                {
+                    var player = FideBase.Find(tbName.Text, 1);
+                    if (player.Count > 0) Player = Player2Participant(player[0]);
+                    UpdateUI(sender);
+                }));
+            }
         }
 
         private string? nameOnEnter = null;
@@ -140,7 +150,7 @@ namespace PonzianiSwissGui
 
         private static Participant Player2Participant(Player p)
         {
-            Participant participant = new Participant
+            Participant participant = new()
             {
                 Name = p.Name,
                 Title = p.Title,

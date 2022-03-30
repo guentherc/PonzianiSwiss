@@ -168,19 +168,19 @@
     <value>Round</value>
   </data>
   <data name="updateFideToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>97, 22</value>
   </data>
   <data name="updateFideToolStripMenuItem.Text" xml:space="preserve">
     <value>FIDE</value>
   </data>
   <data name="gERToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>97, 22</value>
   </data>
   <data name="gERToolStripMenuItem.Text" xml:space="preserve">
     <value>GER</value>
   </data>
   <data name="PlayerBaseUpdateToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>112, 22</value>
   </data>
   <data name="PlayerBaseUpdateToolStripMenuItem.Text" xml:space="preserve">
     <value>Update</value>
@@ -583,6 +583,12 @@
   <data name="&gt;&gt;updateFideToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;gERToolStripMenuItem.Name" xml:space="preserve">
+    <value>gERToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;gERToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;toolsToolStripMenuItem.Name" xml:space="preserve">
     <value>toolsToolStripMenuItem</value>
   </data>
@@ -725,12 +731,6 @@
     <value>toolStripMenuItem12</value>
   </data>
   <data name="&gt;&gt;toolStripMenuItem12.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;gERToolStripMenuItem.Name" xml:space="preserve">
-    <value>gERToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;gERToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

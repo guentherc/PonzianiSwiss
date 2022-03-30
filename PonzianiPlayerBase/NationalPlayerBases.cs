@@ -24,19 +24,34 @@ namespace PonzianiPlayerBase
             cmd.CommandText = max > 0 ? $"SELECT * FROM Player WHERE Name LIKE @ss LIMIT { max }" : "SELECT * FROM Player WHERE Name LIKE @ss";
             cmd.Parameters.AddWithValue("@ss", searchstring + '%');
             cmd.Prepare();
-            using var reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using (var reader = cmd.ExecuteReader())
             {
-                Player player = new($"{reader.GetString(0)}_{reader.GetString(1)}", reader.GetString(3));
-                player.Federation = reader.GetString(0);
-                player.Club = reader.GetString(2);
-                player.Title = (FideTitle)reader.GetInt32(3);
-                player.Sex = (Sex)reader.GetInt16(4);
-                player.Rating = reader.GetInt32(5);
-                player.Inactive = reader.GetInt16(6) == 1;
-                player.YearOfBirth = reader.GetInt16(7);
-                player.FideId = (ulong)reader.GetInt64(8);
-                result.Add(player);
+                while (reader.Read())
+                {
+                    Player player = new($"{reader.GetString(0)}_{reader.GetString(1)}", reader.GetString(3));
+                    player.Federation = reader.GetString(0);
+                    player.Club = reader.GetString(2);
+                    player.Title = (FideTitle)reader.GetInt32(3);
+                    player.Sex = (Sex)reader.GetInt16(4);
+                    player.Rating = reader.GetInt32(5);
+                    player.Inactive = reader.GetInt16(6) == 1;
+                    player.YearOfBirth = reader.GetInt16(7);
+                    player.FideId = (ulong)reader.GetInt64(8);
+                    result.Add(player);
+                }
+            }
+            if (result.Count == 1)
+            {
+                using var ccmd = connection?.CreateCommand();
+                if (ccmd != null)
+                {
+                    ccmd.CommandText = $"SELECT Name FROM Club WHERE Federation = \"GER\" and Id = \"{ result[0].Club }\"";
+                    using var creader = ccmd.ExecuteReader();
+                    while (creader.Read())
+                    {
+                        result[0].Club = creader.GetString(0);  
+                    }
+                }
             }
             return result;
         }
