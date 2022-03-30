@@ -13,9 +13,13 @@ namespace PonzianiPlayerBase
 
         bool Initialize();
 
-        List<Player> Find(string searchstring);
+        List<Player> Find(string searchstring, int max = 0);
 
         Player? GetById(string id);
+
+        string Description { get; }
+
+        PlayerBaseFactory.Base Key { get; }
 
     }
 
@@ -26,6 +30,9 @@ namespace PonzianiPlayerBase
         protected DateTime lastUpdate = DateTime.MinValue;
         public DateTime LastUpdate => lastUpdate;
 
+        public abstract string Description { get; }
+        public abstract PlayerBaseFactory.Base Key { get; }
+
         public void Dispose()
         {
             if (connection != null)
@@ -33,7 +40,7 @@ namespace PonzianiPlayerBase
             GC.SuppressFinalize(this);
         }
 
-        public abstract List<Player> Find(string searchstring);
+        public abstract List<Player> Find(string searchstring, int max = 0);
 
         public abstract Player? GetById(string id);
 
@@ -43,20 +50,16 @@ namespace PonzianiPlayerBase
             {
                 string directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PonzianiPlayerBase");
                 if (!Directory.Exists(directory)) Directory.CreateDirectory(directory);
-                this.filename = Path.Combine(directory, "fideplayer.db");
+                this.filename = Path.Combine(directory, "player.db");
             }
             Console.WriteLine($"Fideplayer File: {filename}");
-            bool create = !File.Exists(filename);
             connection = new SqliteConnection($"Data Source={filename}");
             connection.Open();
-            if (create)
+            foreach (string sql in SQLCreate)
             {
-                foreach (string sql in SQLCreate)
-                {
-                    var command = connection.CreateCommand();
-                    command.CommandText = sql;
-                    command.ExecuteNonQuery();
-                }
+                var command = connection.CreateCommand();
+                command.CommandText = sql;
+                command.ExecuteNonQuery();
             }
             return true;
         }
@@ -65,17 +68,22 @@ namespace PonzianiPlayerBase
 
 
         private static readonly string[] SQLCreate = new string[]
-                {
-                    @"CREATE TABLE ""FidePlayer"" ( ""Id"" INTEGER, ""Name"" TEXT, ""Federation"" TEXT, ""Title"" INTEGER, ""Sex"" INTEGER, ""Rating"" INTEGER, ""Inactive"" INTEGER, PRIMARY KEY(""Id"") )",
-                    @"CREATE INDEX ""IndxName"" ON ""FidePlayer"" (""Name"" ASC )",
-                    @"CREATE TABLE ""AdminData"" ( ""Id"" INTEGER NOT NULL UNIQUE, ""Name""	TEXT, ""LastUpdate"" INTEGER, PRIMARY KEY(""Id"" AUTOINCREMENT) )",
-                    $"INSERT into AdminData (Id, Name, LastUpdate) values (\"0\", \"FIDE\", \"{DateTime.UtcNow.Ticks}\")"
-                };
+        {
+            @"PRAGMA encoding = 'UTF-8'",
+            @"CREATE TABLE IF NOT EXISTS ""FidePlayer"" ( ""Id"" INTEGER, ""Name"" TEXT, ""Federation"" TEXT, ""Title"" INTEGER, ""Sex"" INTEGER, ""Rating"" INTEGER, ""Inactive"" INTEGER, ""Birthyear"" INTEGER, PRIMARY KEY(""Id"") )",
+            @"CREATE INDEX IF NOT EXISTS ""IndxName"" ON ""FidePlayer"" (""Name"" ASC )",
+            @"CREATE TABLE IF NOT EXISTS ""AdminData"" ( ""Id"" INTEGER NOT NULL UNIQUE, ""Name""	TEXT, ""LastUpdate"" INTEGER, PRIMARY KEY(""Id"" AUTOINCREMENT) )",
+            @"CREATE TABLE IF NOT EXISTS ""Club"" ( ""Federation"" TEXT NOT NULL, ""Id"" TEXT NOT NULL, ""Name"" TEXT NOT NULL, PRIMARY KEY(""Id"") )",
+            @"CREATE TABLE IF NOT EXISTS ""Player"" ( ""Federation"" TEXT NOT NULL, ""Id"" TEXT NOT NULL, ""Club"" TEXT, ""Name"" TEXT NOT NULL, ""Sex"" INTEGER, ""Rating"" INTEGER, ""Inactive"" INTEGER, ""Birthyear"" INTEGER, ""FideId"" INTEGER, PRIMARY KEY(""Federation"",""Id""))",
+            @"CREATE INDEX IF NOT EXISTS ""IndxName"" ON ""Player"" (""Name"" ASC )",
+            $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"0\", \"FIDE\", \"{DateTime.MinValue.Ticks}\")",
+            $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"1\", \"GER\", \"{DateTime.MinValue.Ticks}\")"
+        };
     }
 
-      public class PlayerBaseFactory
+    public class PlayerBaseFactory
     {
-        public enum Base { FIDE }
+        public enum Base { FIDE, GER }
 
         private static readonly Dictionary<Base, IPlayerBase> bases = new();
 
@@ -88,10 +96,20 @@ namespace PonzianiPlayerBase
                     bases.Add(b, new FidePlayerBase());
                     bases[b].Initialize();
 
+                } else if (b == Base.GER)
+                {
+                    bases.Add(b, new GermanPlayerBase());
+                    bases[b].Initialize();
                 }
             }
             return bases[b];
         }
+
+        public static List<KeyValuePair<Base, string>> AvailableBases => new()
+        {
+            new KeyValuePair<Base, string>(Base.FIDE, Strings.BaseDescription_FIDE),
+            new KeyValuePair<Base, string>(Base.GER, Strings.BaseDescription_GER)
+        };
     }
 
     public class Player
@@ -118,6 +136,10 @@ namespace PonzianiPlayerBase
         public int RatingRapid { get; set; } = 0;
 
         public int RatingBlitz { get; set; } = 0;
+
+        public string? Club {  get; set; }
+
+        public ulong FideId { set; get; } = 0;
     }
 
 }

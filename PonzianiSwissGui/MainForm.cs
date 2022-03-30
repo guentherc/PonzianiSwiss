@@ -182,12 +182,14 @@ namespace PonzianiSwissGui
 
         private async void UpdateFIDEToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            PlayerBaseUpdateToolStripMenuItem.Enabled = false;
             updateFideToolStripMenuItem.Enabled = false;
             mainStatusLabel.Text = Properties.Strings.PlayerListUpdate;
             IPlayerBase pbase = PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE);
             await pbase.UpdateAsync().ConfigureAwait(false);
             Invoke((MethodInvoker)(() =>
             {
+                PlayerBaseUpdateToolStripMenuItem.Enabled = true;
                 updateFideToolStripMenuItem.Enabled = true;
                 mainStatusLabel.Text = String.Empty;
             }));
@@ -295,6 +297,21 @@ namespace PonzianiSwissGui
                     MessageBox.Show("Test successful", "Test TRF Generation", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 else
                     MessageBox.Show("Error", "Test TRF Generation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }));
+        }
+
+        private async void GERToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PlayerBaseUpdateToolStripMenuItem.Enabled = false;
+            gERToolStripMenuItem.Enabled = false;
+            mainStatusLabel.Text = Properties.Strings.PlayerListUpdate;
+            IPlayerBase pbase = PlayerBaseFactory.Get(PlayerBaseFactory.Base.GER);
+            await pbase.UpdateAsync().ConfigureAwait(false);
+            Invoke((MethodInvoker)(() =>
+            {
+                PlayerBaseUpdateToolStripMenuItem.Enabled = true;
+                gERToolStripMenuItem.Enabled = true;
+                mainStatusLabel.Text = String.Empty;
             }));
         }
     }

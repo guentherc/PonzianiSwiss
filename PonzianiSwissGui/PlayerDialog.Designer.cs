@@ -43,6 +43,9 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
             this.cbFemale = new System.Windows.Forms.CheckBox();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.tbYearOfBirth = new System.Windows.Forms.TextBox();
+            this.lblYearOfBirth = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nudRating)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudAltRating)).BeginInit();
             this.SuspendLayout();
@@ -74,7 +77,7 @@
             this.tbName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.tbName.Location = new System.Drawing.Point(111, 35);
             this.tbName.Name = "tbName";
-            this.tbName.Size = new System.Drawing.Size(690, 23);
+            this.tbName.Size = new System.Drawing.Size(609, 23);
             this.tbName.TabIndex = 3;
             this.tbName.Enter += new System.EventHandler(this.TbName_Enter);
             this.tbName.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TbName_KeyUp);
@@ -212,12 +215,42 @@
             this.cbFemale.Text = "Female";
             this.cbFemale.UseVisualStyleBackColor = true;
             // 
+            // btnSearch
+            // 
+            this.btnSearch.Image = global::PonzianiSwissGui.Properties.Resources.search;
+            this.btnSearch.Location = new System.Drawing.Point(726, 35);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(75, 23);
+            this.btnSearch.TabIndex = 17;
+            this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.BtnSearch_Click);
+            // 
+            // tbYearOfBirth
+            // 
+            this.tbYearOfBirth.Location = new System.Drawing.Point(554, 64);
+            this.tbYearOfBirth.Name = "tbYearOfBirth";
+            this.tbYearOfBirth.Size = new System.Drawing.Size(37, 23);
+            this.tbYearOfBirth.TabIndex = 19;
+            // 
+            // lblYearOfBirth
+            // 
+            this.lblYearOfBirth.AutoSize = true;
+            this.lblYearOfBirth.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.lblYearOfBirth.Location = new System.Drawing.Point(458, 67);
+            this.lblYearOfBirth.Name = "lblYearOfBirth";
+            this.lblYearOfBirth.Size = new System.Drawing.Size(71, 15);
+            this.lblYearOfBirth.TabIndex = 18;
+            this.lblYearOfBirth.Text = "Year of Birth";
+            // 
             // PlayerDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(813, 164);
+            this.Controls.Add(this.tbYearOfBirth);
+            this.Controls.Add(this.lblYearOfBirth);
+            this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.cbFemale);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
@@ -260,5 +293,8 @@
         private Button btnCancel;
         private Button btnOk;
         private CheckBox cbFemale;
+        private Button btnSearch;
+        private TextBox tbYearOfBirth;
+        private Label lblYearOfBirth;
     }
 }

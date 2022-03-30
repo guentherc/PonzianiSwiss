@@ -19,6 +19,7 @@ namespace PonzianiSwissGui
             InitializeComponent();
             Player = player;
             if (!player.Attributes.ContainsKey(Participant.AttributeKey.Sex)) player.Attributes.Add(Participant.AttributeKey.Sex, Sex.Male);
+            if (!player.Attributes.ContainsKey(Participant.AttributeKey.Birthyear)) player.Attributes.Add(Participant.AttributeKey.Birthyear, 0);
         }
 
         private readonly IPlayerBase FideBase = PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE);
@@ -27,15 +28,21 @@ namespace PonzianiSwissGui
 
         private void PlayerDialog_Shown(object sender, EventArgs e)
         {
+            Utils.PrepareTitelComboBox(cbTitle);
+            Utils.PrepareFederationComboBox(cbFederation);
+            UpdateUI();
+        }
+
+        private void UpdateUI()
+        {
             tbFideId.Text = Player.FideId.ToString();
             tbName.Text = Player.Name;
-            Utils.PrepareTitelComboBox(cbTitle);
             cbTitle.SelectedValue = Player.Title;
-            Utils.PrepareFederationComboBox(cbFederation);
             if (Player.Federation != null) cbFederation.SelectedValue = Player.Federation;
             nudRating.Value = Player.FideRating;
             nudAltRating.Value = Player.AlternativeRating;
             cbFemale.Checked = (Sex)Player.Attributes[Participant.AttributeKey.Sex] == Sex.Female;
+            tbYearOfBirth.Text = Player.Attributes[Participant.AttributeKey.Birthyear].ToString();
         }
 
         private void BtnOk_Click(object sender, EventArgs e)
@@ -54,6 +61,9 @@ namespace PonzianiSwissGui
             Player.FideRating = (int)nudRating.Value;
             Player.AlternativeRating = (int)nudAltRating.Value;
             Player.Attributes[Participant.AttributeKey.Sex] = cbFemale.Checked ? Sex.Female : Sex.Male;
+            if (Int32.TryParse(tbYearOfBirth.Text, out int yearOfBirth))
+                Player.Attributes[Participant.AttributeKey.Birthyear] = yearOfBirth;
+            else Player.Attributes[Participant.AttributeKey.Birthyear] = 0;
         }
 
         private void TbFideId_KeyPress(object sender, KeyPressEventArgs e)
@@ -71,11 +81,8 @@ namespace PonzianiSwissGui
             var player = FideBase.GetById(fideid);
             if (player != null)
             {
-                tbName.Text = player.Name;
-                cbTitle.SelectedValue = player.Title;
-                cbFederation.SelectedValue = player.Federation;
-                nudRating.Value = player.Rating;
-                cbFemale.Checked = player.Sex == Sex.Female;
+                Player = Player2Participant(player);
+                UpdateUI();
             }
         }
 
@@ -106,15 +113,52 @@ namespace PonzianiSwissGui
                 var player = FideBase.Find(tbName.Text).FirstOrDefault();
                 if (player != null)
                 {
-                    cbTitle.SelectedValue = player.Title;
-                    cbFederation.SelectedValue = player.Federation;
-                    nudRating.Value = player.Rating;
-                    cbFemale.Checked = player.Sex == Sex.Female;
-                    tbFideId.Text = player.Id;
+                    Player = Player2Participant(player);
+                    UpdateUI();
                 }
             }
             nameOnEnter = null;
         }
 
+        private void BtnSearch_Click(object sender, EventArgs e)
+        {
+            PlayerSearchDialog dlg = new();
+            if (dlg.ShowDialog() == DialogResult.OK && dlg.Player != null)
+            {
+                Player? player = dlg.Player;
+                if (player != null && player.FideId != 0)
+                {
+                    player = FideBase.GetById(player.FideId.ToString());
+                    if (player != null)
+                        player.Club = dlg.Player.Club;
+                    else player = dlg.Player;
+                }
+                if (player != null) Player = Player2Participant(player);
+                UpdateUI();
+            }
+        }
+
+        private static Participant Player2Participant(Player p)
+        {
+            Participant participant = new Participant
+            {
+                Name = p.Name,
+                Title = p.Title,
+                Team = p.Club,
+                AlternativeRating = p.Rating,
+                Federation = p.Federation,
+                FideId = p.FideId
+            };
+            participant.Attributes[Participant.AttributeKey.Sex] = p.Sex;
+            participant.Attributes[Participant.AttributeKey.Birthyear] = p.YearOfBirth;
+            if (p.Club != null && p.Club.Length > 0)
+            {
+                if (participant.Attributes.ContainsKey(Participant.AttributeKey.Club))
+                    participant.Attributes[Participant.AttributeKey.Club] = p.Club;
+                else participant.Attributes.Add(Participant.AttributeKey.Club, p.Club);
+            }
+            participant.Attributes[Participant.AttributeKey.Birthyear] = p.YearOfBirth;
+            return participant;
+        }
     }
 }

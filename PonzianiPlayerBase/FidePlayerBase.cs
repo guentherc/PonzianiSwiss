@@ -13,6 +13,9 @@ namespace PonzianiPlayerBase
 
     public class FidePlayerBase : PlayerBase
     {
+        public override string Description => Strings.BaseDescription_FIDE;
+
+        public override PlayerBaseFactory.Base Key => PlayerBaseFactory.Base.FIDE;
 
         public override bool Initialize()
         {
@@ -29,24 +32,26 @@ namespace PonzianiPlayerBase
             return false;
         }
 
-        public override List<Player> Find(string searchstring)
+        public override List<Player> Find(string searchstring, int max = 0)
         {
             List<Player> result = new();
             using var cmd = connection?.CreateCommand();
             if (cmd == null) return result;
-            cmd.CommandText = "SELECT * FROM FidePlayer WHERE Name LIKE @ss";
+            cmd.CommandText = max > 0 ? $"SELECT * FROM FidePlayer WHERE Name LIKE @ss LIMIT { max }" : "SELECT * FROM FidePlayer WHERE Name LIKE @ss";
             cmd.Parameters.AddWithValue("@ss", searchstring + '%');
             cmd.Prepare();
             using var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
                 Player player = new(reader.GetInt64(0).ToString());
+                player.FideId = ulong.Parse(player.Id);
                 player.Name = reader.GetString(1);
                 player.Federation = reader.GetString(2);
                 player.Title = (FideTitle)reader.GetInt32(3);
                 player.Sex = (Sex)reader.GetInt16(4);
                 player.Rating = reader.GetInt32(5);
                 player.Inactive = reader.GetInt16(6) == 1;
+                player.YearOfBirth = reader.GetInt16(7);
                 result.Add(player);
             }
             return result;
@@ -61,12 +66,14 @@ namespace PonzianiPlayerBase
             while (reader.Read())
             {
                 Player player = new(reader.GetInt64(0).ToString());
+                player.FideId = ulong.Parse(player.Id);
                 player.Name = reader.GetString(1);
                 player.Federation = reader.GetString(2);
                 player.Title = (FideTitle)reader.GetInt32(3);
                 player.Sex = (Sex)reader.GetInt16(4);
                 player.Rating = reader.GetInt32(5);
                 player.Inactive = reader.GetInt16(6) == 1;
+                player.YearOfBirth = reader.GetInt16(7);
                 return player;
             }
             return null;
@@ -105,8 +112,8 @@ namespace PonzianiPlayerBase
                 }
 
                 var cmd = connection.CreateCommand();
-                cmd.CommandText = "INSERT INTO FidePlayer VALUES(@Id, @Name, @Federation, @Title, @Sex, @Rating, @Inactive)";
-                string[] parameters = new[] { "@Id", "@Name", "@Federation", "@Title", "@Sex", "@Rating", "@Inactive" };
+                cmd.CommandText = "INSERT INTO FidePlayer VALUES(@Id, @Name, @Federation, @Title, @Sex, @Rating, @Inactive, @Birthyear)";
+                string[] parameters = new[] { "@Id", "@Name", "@Federation", "@Title", "@Sex", "@Rating", "@Inactive", "@Birthyear" };
                 foreach (var p in parameters)
                 {
                     var parameter = cmd.CreateParameter();
@@ -118,8 +125,6 @@ namespace PonzianiPlayerBase
                 using (StreamReader reader = new(file))
                 {
                     string? line;
-                    List<Player> list = new();
-
                     while ((line = reader.ReadLine()) != null)
                     {
                         try
@@ -139,8 +144,9 @@ namespace PonzianiPlayerBase
                             //if (rating.Length > 0) player.RatingRapid = int.Parse(rating);
                             //rating = line.Substring(139, 4).Trim();
                             //if (rating.Length > 0) player.RatingBlitz = int.Parse(rating);
-                            //string year = line.Substring(152, 4).Trim();
-                            //if (year.Length > 0) player.YearOfBirth = int.Parse(year);
+                            string year = line.Substring(152, 4).Trim();
+                            if (year.Length > 0 && int.TryParse(year, out int _))
+                                cmd.Parameters["@Birthyear"].Value = year;
                             string flags = line.Substring(158, 4).Trim();
                             cmd.Parameters["@Inactive"].Value = flags.Contains('i') ? 1 : 0;
                             if (count == 2) await cmd.PrepareAsync();

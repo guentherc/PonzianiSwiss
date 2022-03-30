@@ -73,11 +73,12 @@
             this.forfeitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem13 = new System.Windows.Forms.ToolStripMenuItem();
             this.byeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem11 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem12 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem13 = new System.Windows.Forms.ToolStripMenuItem();
+            this.gERToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.mainStatusStrip.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -206,7 +207,8 @@
             // PlayerBaseUpdateToolStripMenuItem
             // 
             this.PlayerBaseUpdateToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.updateFideToolStripMenuItem});
+            this.updateFideToolStripMenuItem,
+            this.gERToolStripMenuItem});
             this.PlayerBaseUpdateToolStripMenuItem.Name = "PlayerBaseUpdateToolStripMenuItem";
             resources.ApplyResources(this.PlayerBaseUpdateToolStripMenuItem, "PlayerBaseUpdateToolStripMenuItem");
             // 
@@ -385,6 +387,13 @@
             this.toolStripMenuItem9.Tag = "1";
             this.toolStripMenuItem9.Click += new System.EventHandler(this.SetResultToolStripMenuItem1_Click);
             // 
+            // toolStripMenuItem13
+            // 
+            this.toolStripMenuItem13.Name = "toolStripMenuItem13";
+            resources.ApplyResources(this.toolStripMenuItem13, "toolStripMenuItem13");
+            this.toolStripMenuItem13.Tag = "13";
+            this.toolStripMenuItem13.Click += new System.EventHandler(this.SetResultToolStripMenuItem1_Click);
+            // 
             // byeToolStripMenuItem
             // 
             this.byeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -415,12 +424,11 @@
             this.toolStripMenuItem12.Tag = "5";
             this.toolStripMenuItem12.Click += new System.EventHandler(this.SetResultToolStripMenuItem1_Click);
             // 
-            // toolStripMenuItem13
+            // gERToolStripMenuItem
             // 
-            this.toolStripMenuItem13.Name = "toolStripMenuItem13";
-            resources.ApplyResources(this.toolStripMenuItem13, "toolStripMenuItem13");
-            this.toolStripMenuItem13.Tag = "13";
-            this.toolStripMenuItem13.Click += new System.EventHandler(this.SetResultToolStripMenuItem1_Click);
+            this.gERToolStripMenuItem.Name = "gERToolStripMenuItem";
+            resources.ApplyResources(this.gERToolStripMenuItem, "gERToolStripMenuItem");
+            this.gERToolStripMenuItem.Click += new System.EventHandler(this.GERToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -493,5 +501,6 @@
         private ToolStripMenuItem tRFToolStripMenuItem;
         private ToolStripMenuItem testTRFCreationToolStripMenuItem;
         private ToolStripMenuItem toolStripMenuItem13;
+        private ToolStripMenuItem gERToolStripMenuItem;
     }
 }
