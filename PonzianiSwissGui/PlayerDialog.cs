@@ -103,7 +103,11 @@ namespace PonzianiSwissGui
                 Invoke((MethodInvoker)(() =>
                 {
                     var player = FideBase.Find(tbName.Text, 1);
-                    if (player.Count > 0) Player = Player2Participant(player[0]);
+                    if (player.Count > 0)
+                    {
+                        Player = Player2Participant(player[0]);
+                        Player.FideRating = Player.AlternativeRating;
+                    }
                     UpdateUI(sender);
                 }));
             }
@@ -124,6 +128,7 @@ namespace PonzianiSwissGui
                 if (player != null)
                 {
                     Player = Player2Participant(player);
+                    Player.FideRating = Player.AlternativeRating;
                     UpdateUI();
                 }
             }

@@ -331,7 +331,7 @@ namespace PonzianiSwissLib
                 if (p == Participant.BYE || p.ParticipantId == Participant.BYE.ParticipantId) continue;
                 char s = p.Attributes.ContainsKey(Participant.AttributeKey.Sex) && (Sex)p.Attributes[Participant.AttributeKey.Sex] == Sex.Female ? 'f' : 'm';
                 string birthdate = p.Attributes.ContainsKey(Participant.AttributeKey.Birthdate) ? ((DateTime)p.Attributes[Participant.AttributeKey.Birthdate]).ToString("yyyy/MM/dd")
-                                  : p.Attributes.ContainsKey(Participant.AttributeKey.Birthyear) ? ((DateTime)p.Attributes[Participant.AttributeKey.Birthyear]).ToString() : string.Empty;
+                                  : p.Attributes.ContainsKey(Participant.AttributeKey.Birthyear) ? ((int)p.Attributes[Participant.AttributeKey.Birthyear]).ToString() : string.Empty;
                 StringBuilder pline = new(FormattableString.Invariant($"001 {p.ParticipantId,4} {s} {title_string[(int)p.Title],2} {p.Name,-33} {p.FideRating,4} {p.Federation,3 } {(p.FideId != 0 ? p.FideId : string.Empty),11} {birthdate,-10} { p.Scorecard?.Score(round) ?? 0,4} { p.Rank,4}"));
                 for (int r = 1; r <= round; ++r)
                 {

@@ -29,7 +29,7 @@ namespace PonzianiSwissGui
             tbCity.Text = Tournament.City;
             Utils.PrepareFederationComboBox(cbFederation);
             if (Tournament.Federation != null) cbFederation.SelectedValue = Tournament.Federation;
-            nudRounds.Value = Tournament.CountRounds;
+            nudRounds.Value = Tournament.CountRounds != 0 ? Tournament.CountRounds : 9;
             if (DateTime.TryParse(Tournament.StartDate, out DateTime date)) dtpStart.Value = date; else dtpStart.Value = DateTime.Now;
             if (DateTime.TryParse(Tournament.EndDate, out date)) dtpEnd.Value = date; else dtpEnd.Value = DateTime.Now;
             tbChiefArbiter.Text = Tournament.ChiefArbiter;
@@ -54,7 +54,7 @@ namespace PonzianiSwissGui
 
         private bool ValidateUserInput()
         {
-            if (dtpEnd.Value <= dtpStart.Value)
+            if (dtpEnd.Value < dtpStart.Value)
             {
                 ErrorProvider.SetError(dtpEnd, Properties.Strings.EndDateLTStartDate);
                 return false;
