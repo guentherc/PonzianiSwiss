@@ -79,11 +79,21 @@
             this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem11 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem12 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.tsbNew = new System.Windows.Forms.ToolStripButton();
+            this.tsbLoad = new System.Windows.Forms.ToolStripButton();
+            this.tsbSave = new System.Windows.Forms.ToolStripButton();
+            this.tsbEdit = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbAdd = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbDraw = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1.SuspendLayout();
             this.mainStatusStrip.SuspendLayout();
             this.tcMain.SuspendLayout();
             this.tpParticipants.SuspendLayout();
             this.cmsSetResult.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -258,8 +268,8 @@
             // 
             // tcMain
             // 
-            this.tcMain.Controls.Add(this.tpParticipants);
             resources.ApplyResources(this.tcMain, "tcMain");
+            this.tcMain.Controls.Add(this.tpParticipants);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
             // 
@@ -430,10 +440,83 @@
             this.toolStripMenuItem12.Tag = "5";
             this.toolStripMenuItem12.Click += new System.EventHandler(this.SetResultToolStripMenuItem1_Click);
             // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsbNew,
+            this.tsbLoad,
+            this.tsbSave,
+            this.tsbEdit,
+            this.toolStripSeparator3,
+            this.tsbAdd,
+            this.toolStripSeparator4,
+            this.tsbDraw});
+            resources.ApplyResources(this.toolStrip1, "toolStrip1");
+            this.toolStrip1.Name = "toolStrip1";
+            // 
+            // tsbNew
+            // 
+            this.tsbNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbNew.Image = global::PonzianiSwissGui.Properties.Resources._new;
+            resources.ApplyResources(this.tsbNew, "tsbNew");
+            this.tsbNew.Name = "tsbNew";
+            this.tsbNew.Click += new System.EventHandler(this.NewToolStripMenuItem_Click);
+            // 
+            // tsbLoad
+            // 
+            this.tsbLoad.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbLoad.Image = global::PonzianiSwissGui.Properties.Resources.open;
+            resources.ApplyResources(this.tsbLoad, "tsbLoad");
+            this.tsbLoad.Name = "tsbLoad";
+            this.tsbLoad.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
+            // 
+            // tsbSave
+            // 
+            this.tsbSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.tsbSave, "tsbSave");
+            this.tsbSave.Image = global::PonzianiSwissGui.Properties.Resources.save;
+            this.tsbSave.Name = "tsbSave";
+            this.tsbSave.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
+            // 
+            // tsbEdit
+            // 
+            this.tsbEdit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.tsbEdit, "tsbEdit");
+            this.tsbEdit.Image = global::PonzianiSwissGui.Properties.Resources.edit;
+            this.tsbEdit.Name = "tsbEdit";
+            this.tsbEdit.Click += new System.EventHandler(this.EditHeaderToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            resources.ApplyResources(this.toolStripSeparator3, "toolStripSeparator3");
+            // 
+            // tsbAdd
+            // 
+            this.tsbAdd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.tsbAdd, "tsbAdd");
+            this.tsbAdd.Image = global::PonzianiSwissGui.Properties.Resources.add_participant;
+            this.tsbAdd.Name = "tsbAdd";
+            this.tsbAdd.Click += new System.EventHandler(this.AddToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            resources.ApplyResources(this.toolStripSeparator4, "toolStripSeparator4");
+            // 
+            // tsbDraw
+            // 
+            this.tsbDraw.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.tsbDraw, "tsbDraw");
+            this.tsbDraw.Image = global::PonzianiSwissGui.Properties.Resources.draw;
+            this.tsbDraw.Name = "tsbDraw";
+            this.tsbDraw.Click += new System.EventHandler(this.DrawToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.tcMain);
             this.Controls.Add(this.mainStatusStrip);
             this.Controls.Add(this.menuStrip1);
@@ -447,6 +530,8 @@
             this.tcMain.ResumeLayout(false);
             this.tpParticipants.ResumeLayout(false);
             this.cmsSetResult.ResumeLayout(false);
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -503,5 +588,14 @@
         private ToolStripMenuItem testTRFCreationToolStripMenuItem;
         private ToolStripMenuItem toolStripMenuItem13;
         private ToolStripMenuItem gERToolStripMenuItem;
+        private ToolStrip toolStrip1;
+        private ToolStripButton tsbNew;
+        private ToolStripButton tsbLoad;
+        private ToolStripButton tsbSave;
+        private ToolStripSeparator toolStripSeparator3;
+        private ToolStripButton tsbEdit;
+        private ToolStripButton tsbAdd;
+        private ToolStripSeparator toolStripSeparator4;
+        private ToolStripButton tsbDraw;
     }
 }

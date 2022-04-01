@@ -9,6 +9,7 @@ namespace PonzianiSwissGui
         {
             InitializeComponent();
             participantsToolStripMenuItem.Enabled = false;
+            tsbAdd.Enabled = false;
         }
 
         private Tournament? _tournament;
@@ -24,16 +25,17 @@ namespace PonzianiSwissGui
 
         private void UpdateUI()
         {
-            saveToolStripMenuItem.Enabled = _tournament != null;
+            saveToolStripMenuItem.Enabled = tsbSave.Enabled = _tournament != null;
             saveAsToolStripMenuItem.Enabled = _tournament != null;
-            editHeaderToolStripMenuItem.Enabled = _tournament != null;
+            editHeaderToolStripMenuItem.Enabled = tsbEdit.Enabled = _tournament != null;
             roundToolStripMenuItem.Enabled = _tournament != null;
             exportToolStripMenuItem.Enabled = _tournament != null;
             tRFToolStripMenuItem.Enabled = _tournament != null && _tournament.Rounds.Count > 0;
             if (_tournament != null) Text = _tournament.Name;
-            participantsToolStripMenuItem.Enabled = true;
+            participantsToolStripMenuItem.Enabled = tsbAdd.Enabled = true;
             lvParticipants.Items.Clear();
             deleteLastRoundToolStripMenuItem.Enabled = _tournament != null && _tournament.Rounds.Count > 0;
+            drawToolStripMenuItem.Enabled = tsbDraw.Enabled = _tournament != null && _tournament.DrawNextRoundPossible;
             if (_tournament != null)
             {
                 foreach (var p in _tournament.Participants)
@@ -249,6 +251,7 @@ namespace PonzianiSwissGui
                 ((Pairing)selectedItem.Tag).Result = r;
                 selectedItem.SubItems[4].Text = result_strings[(int)r];
                 selectedItem.BackColor = r == Result.Open ? Color.White : Color.LightGray;
+                drawToolStripMenuItem.Enabled = tsbDraw.Enabled = _tournament != null && _tournament.DrawNextRoundPossible;
                 Invalidate(selectedItem.Bounds);
             }
         }

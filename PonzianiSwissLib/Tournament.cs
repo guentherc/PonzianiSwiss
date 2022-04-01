@@ -417,6 +417,8 @@ namespace PonzianiSwissLib
             return true;
         }
 
+        public bool DrawNextRoundPossible => Rounds.Count == 0 || (Rounds.Count < CountRounds && !Rounds.Last().Pairings.Where(p => p.Result == Result.Open).Any());
+
         object ICloneable.Clone()
         {
             string json = this.Serialize();
