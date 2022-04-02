@@ -113,6 +113,9 @@ namespace PonzianiSwissGui
             item.SubItems.Add(p.FideId.ToString());
             item.SubItems.Add(p.TournamentRating.ToString());
             item.SubItems.Add(p.ParticipantId?.ToString());
+            item.SubItems.Add(p.FideRating > 0 ? p.FideRating.ToString() : string.Empty);
+            item.SubItems.Add(p.AlternativeRating > 0 ? p.AlternativeRating.ToString() : string.Empty);
+            item.SubItems.Add(p.Club ?? string.Empty);
             item.Tag = p;
             lvParticipants.Items.Add(item);
         }

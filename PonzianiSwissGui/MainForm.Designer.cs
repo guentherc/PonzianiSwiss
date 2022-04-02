@@ -88,6 +88,9 @@
             this.tsbAdd = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbDraw = new System.Windows.Forms.ToolStripButton();
+            this.chFideRating = new System.Windows.Forms.ColumnHeader();
+            this.chAlternativeRating = new System.Windows.Forms.ColumnHeader();
+            this.chClub = new System.Windows.Forms.ColumnHeader();
             this.menuStrip1.SuspendLayout();
             this.mainStatusStrip.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -286,7 +289,10 @@
             this.chName,
             this.chFideId,
             this.chRating,
-            this.chTournamentId});
+            this.chTournamentId,
+            this.chFideRating,
+            this.chAlternativeRating,
+            this.chClub});
             resources.ApplyResources(this.lvParticipants, "lvParticipants");
             this.lvParticipants.Name = "lvParticipants";
             this.lvParticipants.UseCompatibleStateImageBehavior = false;
@@ -512,6 +518,18 @@
             this.tsbDraw.Name = "tsbDraw";
             this.tsbDraw.Click += new System.EventHandler(this.DrawToolStripMenuItem_Click);
             // 
+            // chFideRating
+            // 
+            resources.ApplyResources(this.chFideRating, "chFideRating");
+            // 
+            // chAlternativeRating
+            // 
+            resources.ApplyResources(this.chAlternativeRating, "chAlternativeRating");
+            // 
+            // chClub
+            // 
+            resources.ApplyResources(this.chClub, "chClub");
+            // 
             // MainForm
             // 
             resources.ApplyResources(this, "$this");
@@ -597,5 +615,8 @@
         private ToolStripButton tsbAdd;
         private ToolStripSeparator toolStripSeparator4;
         private ToolStripButton tsbDraw;
+        private ColumnHeader chFideRating;
+        private ColumnHeader chAlternativeRating;
+        private ColumnHeader chClub;
     }
 }
