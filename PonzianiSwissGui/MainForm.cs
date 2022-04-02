@@ -117,6 +117,27 @@ namespace PonzianiSwissGui
             item.SubItems.Add(p.AlternativeRating > 0 ? p.AlternativeRating.ToString() : string.Empty);
             item.SubItems.Add(p.Club ?? string.Empty);
             item.Tag = p;
+            if (p.Active != null && Tournament != null)
+            {
+                bool abandoned = true;
+                bool paused = !p.Active[Tournament.Rounds.Count];
+                for (int i = Tournament.Rounds.Count; i < Tournament.CountRounds; ++i)
+                {
+                    if (p.Active[i])
+                    {
+                        abandoned = false;
+                        break;
+                    }
+                }
+                if (abandoned)
+                {
+                    item.Font = new Font(item.Font, FontStyle.Strikeout);
+                }
+                else if (paused)
+                {
+                    item.Font = new Font(item.Font, FontStyle.Italic);
+                }
+            }
             lvParticipants.Items.Add(item);
         }
 
@@ -248,7 +269,7 @@ namespace PonzianiSwissGui
 
         private void SetResultToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            if (selectedItem != null)
+            if (selectedItem != null && selectedItem.Tag != null && selectedItem.Tag is Result)
             {
                 Result r = (Result)int.Parse((string)((ToolStripMenuItem)sender).Tag);
                 ((Pairing)selectedItem.Tag).Result = r;
@@ -331,13 +352,14 @@ namespace PonzianiSwissGui
 
         private string? SortedColumnId = null;
         private bool SortAscending = false;
-        private void lvParticipants_ColumnClick(object sender, ColumnClickEventArgs e)
+        private void LvParticipants_ColumnClick(object sender, ColumnClickEventArgs e)
         {
             ColumnHeader ch = ((ListView)sender).Columns[e.Column];
             if (SortedColumnId != null && SortedColumnId == ch.Name)
             {
                 SortAscending = !SortAscending;
-            } else
+            }
+            else
             {
                 SortAscending = false;
                 SortedColumnId = ch.Name;
@@ -345,7 +367,8 @@ namespace PonzianiSwissGui
             if (ch == chName)
             {
                 Tournament?.Participants.Sort((p1, p2) => SortAscending ? (p2.Name ?? String.Empty).CompareTo(p1.Name) : (p1.Name ?? String.Empty).CompareTo(p2.Name));
-            } else if (ch == chTournamentId)
+            }
+            else if (ch == chTournamentId)
             {
                 Tournament?.Participants.Sort((p1, p2) => SortAscending ? (p2.ParticipantId ?? String.Empty).CompareTo(p1.ParticipantId) : (p1.ParticipantId ?? String.Empty).CompareTo(p2.ParticipantId));
             }
@@ -366,6 +389,41 @@ namespace PonzianiSwissGui
                 Tournament?.Participants.Sort((p1, p2) => SortAscending ? p2.AlternativeRating.CompareTo(p1.AlternativeRating) : p1.AlternativeRating.CompareTo(p2.AlternativeRating));
             }
             UpdateUI();
+        }
+
+        private void AbandonTournamentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Tournament != null && selectedItem != null && selectedItem.Tag != null && selectedItem.Tag is Participant)
+            {
+                Participant p = (Participant)selectedItem.Tag;
+                if (p.Active == null)
+                {
+                    p.Active = new bool[Tournament.CountRounds];
+                    Array.Fill(p.Active, true);
+                }
+                for (int i = Tournament.Rounds.Count; i < Tournament.CountRounds; ++i) p.Active[i] = false;
+                UpdateUI();
+            }
+        }
+
+        private void PauseNextRoundToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Tournament != null && selectedItem != null && selectedItem.Tag != null && selectedItem.Tag is Participant)
+            {
+                Participant p = (Participant)selectedItem.Tag;
+                if (p.Active == null)
+                {
+                    p.Active = new bool[Tournament.CountRounds];
+                    Array.Fill(p.Active, true);
+                }
+                p.Active[Tournament.Rounds.Count] = false;
+                UpdateUI();
+            }
+        }
+
+        private void CmsParticipant_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            abandonTournamentToolStripMenuItem.Enabled = pauseNextRoundToolStripMenuItem.Enabled = Tournament != null && Tournament.Rounds.Count < Tournament.CountRounds;
         }
     }
 }

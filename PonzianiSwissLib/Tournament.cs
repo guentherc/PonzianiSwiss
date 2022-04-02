@@ -377,6 +377,13 @@ namespace PonzianiSwissLib
         /// <returns>true, if successful</returns>
         public async Task<bool> DrawAsync(int round = int.MaxValue, Side? SideForTopRanked = null, Dictionary<string, Result>? byes = null)
         {
+            if (byes == null) {
+                byes = new();
+                foreach (Participant p in Participants.Where(p => p.Active != null && !p.Active[Rounds.Count])) {
+                    if (p.ParticipantId != null)
+                        byes.Add(p.ParticipantId, Result.ZeroPointBye);
+                }
+            }
             var trf = CreateTRF(round, SideForTopRanked, byes);
             var file = Path.GetTempFileName();
             await File.WriteAllLinesAsync(file, trf, Encoding.UTF8);

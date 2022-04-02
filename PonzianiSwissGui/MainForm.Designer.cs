@@ -57,6 +57,9 @@
             this.mainStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tpParticipants = new System.Windows.Forms.TabPage();
+            this.cmsParticipant = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.abandonTournamentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pauseNextRoundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lvParticipants = new System.Windows.Forms.ListView();
             this.chName = new System.Windows.Forms.ColumnHeader();
             this.chFideId = new System.Windows.Forms.ColumnHeader();
@@ -95,6 +98,7 @@
             this.mainStatusStrip.SuspendLayout();
             this.tcMain.SuspendLayout();
             this.tpParticipants.SuspendLayout();
+            this.cmsParticipant.SuspendLayout();
             this.cmsSetResult.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -278,10 +282,32 @@
             // 
             // tpParticipants
             // 
+            this.tpParticipants.ContextMenuStrip = this.cmsParticipant;
             this.tpParticipants.Controls.Add(this.lvParticipants);
             resources.ApplyResources(this.tpParticipants, "tpParticipants");
             this.tpParticipants.Name = "tpParticipants";
             this.tpParticipants.UseVisualStyleBackColor = true;
+            // 
+            // cmsParticipant
+            // 
+            this.cmsParticipant.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.abandonTournamentToolStripMenuItem,
+            this.pauseNextRoundToolStripMenuItem});
+            this.cmsParticipant.Name = "cmsParticipant";
+            resources.ApplyResources(this.cmsParticipant, "cmsParticipant");
+            this.cmsParticipant.Opening += new System.ComponentModel.CancelEventHandler(this.CmsParticipant_Opening);
+            // 
+            // abandonTournamentToolStripMenuItem
+            // 
+            this.abandonTournamentToolStripMenuItem.Name = "abandonTournamentToolStripMenuItem";
+            resources.ApplyResources(this.abandonTournamentToolStripMenuItem, "abandonTournamentToolStripMenuItem");
+            this.abandonTournamentToolStripMenuItem.Click += new System.EventHandler(this.AbandonTournamentToolStripMenuItem_Click);
+            // 
+            // pauseNextRoundToolStripMenuItem
+            // 
+            this.pauseNextRoundToolStripMenuItem.Name = "pauseNextRoundToolStripMenuItem";
+            resources.ApplyResources(this.pauseNextRoundToolStripMenuItem, "pauseNextRoundToolStripMenuItem");
+            this.pauseNextRoundToolStripMenuItem.Click += new System.EventHandler(this.PauseNextRoundToolStripMenuItem_Click);
             // 
             // lvParticipants
             // 
@@ -300,7 +326,8 @@
             this.lvParticipants.Name = "lvParticipants";
             this.lvParticipants.UseCompatibleStateImageBehavior = false;
             this.lvParticipants.View = System.Windows.Forms.View.Details;
-            this.lvParticipants.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lvParticipants_ColumnClick);
+            this.lvParticipants.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.LvParticipants_ColumnClick);
+            this.lvParticipants.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Lv_MouseDown);
             // 
             // chName
             // 
@@ -551,6 +578,7 @@
             this.mainStatusStrip.PerformLayout();
             this.tcMain.ResumeLayout(false);
             this.tpParticipants.ResumeLayout(false);
+            this.cmsParticipant.ResumeLayout(false);
             this.cmsSetResult.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
@@ -622,5 +650,8 @@
         private ColumnHeader chFideRating;
         private ColumnHeader chAlternativeRating;
         private ColumnHeader chClub;
+        private ContextMenuStrip cmsParticipant;
+        private ToolStripMenuItem abandonTournamentToolStripMenuItem;
+        private ToolStripMenuItem pauseNextRoundToolStripMenuItem;
     }
 }

@@ -354,18 +354,6 @@
   <data name="tbYearOfBirth.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
   </data>
-  <data name="&gt;&gt;tbYearOfBirth.Name" xml:space="preserve">
-    <value>tbYearOfBirth</value>
-  </data>
-  <data name="&gt;&gt;tbYearOfBirth.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tbYearOfBirth.Parent" xml:space="preserve">
-    <value>gpPlayerData</value>
-  </data>
-  <data name="&gt;&gt;tbYearOfBirth.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="lblYearOfBirth.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -383,19 +371,7 @@
   </data>
   <data name="lblYearOfBirth.Text" xml:space="preserve">
     <value>Year of Birth</value>
-  </data>
-  <data name="&gt;&gt;lblYearOfBirth.Name" xml:space="preserve">
-    <value>lblYearOfBirth</value>
-  </data>
-  <data name="&gt;&gt;lblYearOfBirth.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblYearOfBirth.Parent" xml:space="preserve">
-    <value>gpPlayerData</value>
-  </data>
-  <data name="&gt;&gt;lblYearOfBirth.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
+  </data>  
   <data name="cbFemale.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -411,18 +387,6 @@
   <data name="cbFemale.Text" xml:space="preserve">
     <value>Female</value>
   </data>
-  <data name="&gt;&gt;cbFemale.Name" xml:space="preserve">
-    <value>cbFemale</value>
-  </data>
-  <data name="&gt;&gt;cbFemale.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cbFemale.Parent" xml:space="preserve">
-    <value>gpPlayerData</value>
-  </data>
-  <data name="&gt;&gt;cbFemale.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <data name="tbFederation.Location" type="System.Drawing.Point, System.Drawing">
     <value>362, 22</value>
   </data>
@@ -431,18 +395,6 @@
   </data>
   <data name="tbFederation.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
-  </data>
-  <data name="&gt;&gt;tbFederation.Name" xml:space="preserve">
-    <value>tbFederation</value>
-  </data>
-  <data name="&gt;&gt;tbFederation.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tbFederation.Parent" xml:space="preserve">
-    <value>gpPlayerData</value>
-  </data>
-  <data name="&gt;&gt;tbFederation.ZOrder" xml:space="preserve">
-    <value>3</value>
   </data>
   <data name="lblFederation.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -462,18 +414,6 @@
   <data name="lblFederation.Text" xml:space="preserve">
     <value>Federation</value>
   </data>
-  <data name="&gt;&gt;lblFederation.Name" xml:space="preserve">
-    <value>lblFederation</value>
-  </data>
-  <data name="&gt;&gt;lblFederation.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblFederation.Parent" xml:space="preserve">
-    <value>gpPlayerData</value>
-  </data>
-  <data name="&gt;&gt;lblFederation.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
   <data name="tbClub.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
@@ -485,18 +425,6 @@
   </data>
   <data name="tbClub.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
-  </data>
-  <data name="&gt;&gt;tbClub.Name" xml:space="preserve">
-    <value>tbClub</value>
-  </data>
-  <data name="&gt;&gt;tbClub.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tbClub.Parent" xml:space="preserve">
-    <value>gpPlayerData</value>
-  </data>
-  <data name="&gt;&gt;tbClub.ZOrder" xml:space="preserve">
-    <value>5</value>
   </data>
   <data name="lblClub.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -516,18 +444,6 @@
   <data name="lblClub.Text" xml:space="preserve">
     <value>Club</value>
   </data>
-  <data name="&gt;&gt;lblClub.Name" xml:space="preserve">
-    <value>lblClub</value>
-  </data>
-  <data name="&gt;&gt;lblClub.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblClub.Parent" xml:space="preserve">
-    <value>gpPlayerData</value>
-  </data>
-  <data name="&gt;&gt;lblClub.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
   <data name="tbRating.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
@@ -540,19 +456,7 @@
   <data name="tbRating.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
   </data>
-  <data name="&gt;&gt;tbRating.Name" xml:space="preserve">
-    <value>tbRating</value>
-  </data>
-  <data name="&gt;&gt;tbRating.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tbRating.Parent" xml:space="preserve">
-    <value>gpPlayerData</value>
-  </data>
-  <data name="&gt;&gt;tbRating.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="lblRating.AutoSize" type="System.Boolean, mscorlib">
+   <data name="lblRating.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="lblRating.Location" type="System.Drawing.Point, System.Drawing">
@@ -566,18 +470,6 @@
   </data>
   <data name="lblRating.Text" xml:space="preserve">
     <value>National Rating</value>
-  </data>
-  <data name="&gt;&gt;lblRating.Name" xml:space="preserve">
-    <value>lblRating</value>
-  </data>
-  <data name="&gt;&gt;lblRating.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblRating.Parent" xml:space="preserve">
-    <value>gpPlayerData</value>
-  </data>
-  <data name="&gt;&gt;lblRating.ZOrder" xml:space="preserve">
-    <value>8</value>
   </data>
   <data name="btnCancel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
