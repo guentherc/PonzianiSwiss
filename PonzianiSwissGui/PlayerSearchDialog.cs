@@ -1,14 +1,6 @@
 ﻿using PonzianiPlayerBase;
 using PonzianiSwissLib;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace PonzianiSwissGui
 {
@@ -46,7 +38,7 @@ namespace PonzianiSwissGui
                     tbName.AutoCompleteCustomSource = new();
                     tbName.AutoCompleteCustomSource.AddRange(PlayerBase.Find(tbName.Text).Select(p => p.Name).ToArray());
                 }));
-            } 
+            }
             if (tbName.AutoCompleteCustomSource.Count > 0)
             {
                 Invoke((MethodInvoker)(() =>
@@ -62,13 +54,14 @@ namespace PonzianiSwissGui
         {
             if (Player != null)
             {
-                tbId.Text = Player.Id;  
+                tbId.Text = Player.Id;
                 tbRating.Text = Player.Rating.ToString();
                 tbClub.Text = Player.Club;
                 tbFederation.Text = Player.Federation;
                 cbFemale.Checked = Player.Sex == Sex.Female;
                 tbYearOfBirth.Text = Player.YearOfBirth.ToString();
-            } else
+            }
+            else
             {
                 tbId.Text = String.Empty;
                 tbRating.Text = String.Empty;

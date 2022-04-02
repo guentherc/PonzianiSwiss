@@ -1,14 +1,5 @@
-﻿using PonzianiPlayerBase;
-using PonzianiSwissLib;
-using System;
-using System.Collections.Generic;
+﻿using PonzianiSwissLib;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace PonzianiSwissGui
 {
@@ -109,7 +100,7 @@ namespace PonzianiSwissGui
 
         private void TbscoringSchemeFloat_Validating(object sender, CancelEventArgs e)
         {
-            if (!float.TryParse(((TextBox)sender).Text, out float val)) 
+            if (!float.TryParse(((TextBox)sender).Text, out float val))
                 ErrorProvider.SetError((Control)sender, Properties.Strings.InvalidFloat);
             else ((TextBox)sender).Text = val.ToString("F1");
 

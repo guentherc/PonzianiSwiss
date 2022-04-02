@@ -1,12 +1,8 @@
 ﻿using CsvHelper;
 using PonzianiSwissLib;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO.Compression;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace PonzianiPlayerBase
 {
@@ -49,7 +45,7 @@ namespace PonzianiPlayerBase
                     using var creader = ccmd.ExecuteReader();
                     while (creader.Read())
                     {
-                        result[0].Club = creader.GetString(0);  
+                        result[0].Club = creader.GetString(0);
                     }
                 }
             }
@@ -180,7 +176,7 @@ namespace PonzianiPlayerBase
                             string fideid = csv.GetField<string>(12);
                             if (fideid != null && ulong.TryParse(fideid, out ulong f))
                                 cmd.Parameters["@FideId"].Value = f;
-                            else 
+                            else
                                 cmd.Parameters["@FideId"].Value = 0;
                             if (count == 1) await cmd.PrepareAsync();
                             await cmd.ExecuteNonQueryAsync();

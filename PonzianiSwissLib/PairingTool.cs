@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace PonzianiSwissLib
 {
@@ -125,7 +121,7 @@ namespace PonzianiSwissLib
             string data = await reader.ReadToEndAsync();
 
             return data;
-        }    
+        }
 
         private static readonly string executable;
 

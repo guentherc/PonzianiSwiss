@@ -46,6 +46,8 @@
             this.btnSearch = new System.Windows.Forms.Button();
             this.tbYearOfBirth = new System.Windows.Forms.TextBox();
             this.lblYearOfBirth = new System.Windows.Forms.Label();
+            this.lblClub = new System.Windows.Forms.Label();
+            this.tbClub = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudRating)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudAltRating)).BeginInit();
             this.SuspendLayout();
@@ -183,7 +185,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.btnCancel.Location = new System.Drawing.Point(726, 129);
+            this.btnCancel.Location = new System.Drawing.Point(726, 158);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 14;
@@ -195,7 +197,7 @@
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOk.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnOk.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.btnOk.Location = new System.Drawing.Point(645, 129);
+            this.btnOk.Location = new System.Drawing.Point(645, 158);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 13;
@@ -241,12 +243,32 @@
             this.lblYearOfBirth.TabIndex = 18;
             this.lblYearOfBirth.Text = "Year of Birth";
             // 
+            // lblClub
+            // 
+            this.lblClub.AutoSize = true;
+            this.lblClub.Location = new System.Drawing.Point(13, 125);
+            this.lblClub.Name = "lblClub";
+            this.lblClub.Size = new System.Drawing.Size(32, 15);
+            this.lblClub.TabIndex = 20;
+            this.lblClub.Text = "Club";
+            // 
+            // tbClub
+            // 
+            this.tbClub.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbClub.Location = new System.Drawing.Point(112, 122);
+            this.tbClub.Name = "tbClub";
+            this.tbClub.Size = new System.Drawing.Size(608, 23);
+            this.tbClub.TabIndex = 21;
+            // 
             // PlayerDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(813, 164);
+            this.ClientSize = new System.Drawing.Size(813, 193);
+            this.Controls.Add(this.tbClub);
+            this.Controls.Add(this.lblClub);
             this.Controls.Add(this.tbYearOfBirth);
             this.Controls.Add(this.lblYearOfBirth);
             this.Controls.Add(this.btnSearch);
@@ -295,5 +317,7 @@
         private Button btnSearch;
         private TextBox tbYearOfBirth;
         private Label lblYearOfBirth;
+        private Label lblClub;
+        private TextBox tbClub;
     }
 }

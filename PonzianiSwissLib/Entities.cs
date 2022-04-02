@@ -86,7 +86,8 @@
             return list.Sum();
         }
 
-        public float BuchholzCut1() { 
+        public float BuchholzCut1()
+        {
             var list = Entries.Select(e => e.Opponent.Scorecard?.Score() ?? 0).ToList();
             list.Sort();
             list.RemoveAt(0);
@@ -100,7 +101,7 @@
             list.RemoveAt(0);
             return list.Sum();
         }
-       
+
         public float RefinedBuchholz() => Entries.Select(e => e.Opponent.Scorecard?.Buchholz() ?? 0).Sum();
         public float RefinedBuchholz(int round) => Entries.Where(e => e.Round < round).Select(e => e.Opponent.Scorecard?.Buchholz(round) ?? 0).Sum();
 
@@ -155,9 +156,11 @@
 
     public class ScoringScheme
     {
-        public float PointsForWin { 
-            set { _scores[(int)Result.Win] = value; _scores[(int)Result.UnratedWin] = value; _scores[(int)Result.ForfeitWin] = value; _scores[(int)Result.FullPointBye] = value; } 
-            get { return _scores[(int)Result.Win]; } }
+        public float PointsForWin
+        {
+            set { _scores[(int)Result.Win] = value; _scores[(int)Result.UnratedWin] = value; _scores[(int)Result.ForfeitWin] = value; _scores[(int)Result.FullPointBye] = value; }
+            get { return _scores[(int)Result.Win]; }
+        }
         public float PointsForDraw
         {
             set { _scores[(int)Result.Draw] = value; _scores[(int)Result.HalfPointBye] = value; _scores[(int)Result.UnratedDraw] = value; }
@@ -180,14 +183,16 @@
         }
         public float PointsForPairingAllocatedBye
         {
-            set { 
-                _scores[(int)Result.PairingAllocatedBye] = value; 
+            set
+            {
+                _scores[(int)Result.PairingAllocatedBye] = value;
             }
             get { return _scores[(int)Result.PairingAllocatedBye]; }
         }
 
-        internal float Score(Result r) {  
-            return _scores[(int)r]; 
+        internal float Score(Result r)
+        {
+            return _scores[(int)r];
         }
 
         public bool IsDefault => _scores.SequenceEqual(default_scores);

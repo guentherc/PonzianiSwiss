@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace PonzianiSwissLib
 {
@@ -329,9 +323,9 @@ namespace PonzianiSwissLib
             foreach (Participant p in Participants)
             {
                 if (p == Participant.BYE || p.ParticipantId == Participant.BYE.ParticipantId) continue;
-                char s = p.Attributes.ContainsKey(Participant.AttributeKey.Sex) && (Sex)p.Attributes[Participant.AttributeKey.Sex] == Sex.Female ? 'f' : 'm';
+                char s = p.Sex == Sex.Female ? 'f' : 'm';
                 string birthdate = p.Attributes.ContainsKey(Participant.AttributeKey.Birthdate) ? ((DateTime)p.Attributes[Participant.AttributeKey.Birthdate]).ToString("yyyy/MM/dd")
-                                  : p.Attributes.ContainsKey(Participant.AttributeKey.Birthyear) ? ((int)p.Attributes[Participant.AttributeKey.Birthyear]).ToString() : string.Empty;
+                                  : p.YearOfBirth > 0 ? p.YearOfBirth.ToString() : string.Empty;
                 StringBuilder pline = new(FormattableString.Invariant($"001 {p.ParticipantId,4} {s} {title_string[(int)p.Title],2} {p.Name,-33} {p.FideRating,4} {p.Federation,3 } {(p.FideId != 0 ? p.FideId : string.Empty),11} {birthdate,-10} { p.Scorecard?.Score(round) ?? 0,4} { p.Rank,4}"));
                 for (int r = 1; r <= round; ++r)
                 {
@@ -358,7 +352,7 @@ namespace PonzianiSwissLib
                 int G1 = 2 * (int)Math.Ceiling(Participants.Count / 4.0);
                 int CountAccRounds = (CountRounds + 1) / 2;
                 int CountFullAccRounds = (CountAccRounds + 1) / 2;
-                for (int i = 0; i<G1; ++i)
+                for (int i = 0; i < G1; ++i)
                 {
                     string pline = $"XXA {Participants[i].ParticipantId,4}";
                     for (int j = 0; j < Math.Min(Rounds.Count + 1, CountFullAccRounds); j++)

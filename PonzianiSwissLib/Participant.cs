@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
 namespace PonzianiSwissLib
 {
     public class Participant
     {
-        public enum AttributeKey { Sex, Birthdate, Birthyear, Club };
+        public enum AttributeKey { Birthdate };
 
         public Participant()
         {
@@ -74,7 +69,19 @@ namespace PonzianiSwissLib
         /// <summary>
         /// Rank within tournament
         /// </summary>
-        public int Rank {  set; get; }
+        public int Rank { set; get; }
+
+        /// <summary>
+        /// Club or team
+        /// </summary>
+        public string? Club { set; get; }
+
+        /// <summary>
+        /// Year of Birth
+        /// </summary>
+        public int YearOfBirth { set; get; } = 0;
+
+        public Sex Sex { set; get; } = Sex.Male;
 
         /// <summary>
         /// Property bag to store additional attributes

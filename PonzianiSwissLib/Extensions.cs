@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace PonzianiSwissLib
 {
@@ -34,16 +28,16 @@ namespace PonzianiSwissLib
                         float value = float.Parse(line[3..].Trim(), CultureInfo.InvariantCulture);
                         switch (c)
                         {
-                            case 'W': 
+                            case 'W':
                                 tournament.ScoringScheme.PointsForWin = value;
-                                if (!bbuAvailable) 
+                                if (!bbuAvailable)
                                     tournament.ScoringScheme.PointsForPairingAllocatedBye = value;
                                 break;
                             case 'D': tournament.ScoringScheme.PointsForDraw = value; break;
                             case 'L': tournament.ScoringScheme.PointsForPlayedLoss = value; break;
                             case 'Z': tournament.ScoringScheme.PointsForZeroPointBye = value; break;
                             case 'F': tournament.ScoringScheme.PointsForForfeitedLoss = value; break;
-                            case 'U': 
+                            case 'U':
                                 tournament.ScoringScheme.PointsForPairingAllocatedBye = value;
                                 bbuAvailable = true;
                                 break;
@@ -116,8 +110,8 @@ namespace PonzianiSwissLib
                 string fideId = line.Substring(57, 11).Trim();
                 if (fideId.Length > 0) p.FideId = ulong.Parse(fideId);
                 char c = line[9];
-                if (c == 'f' || ((int)p.Title & 1) == 1) p.Attributes.Add(Participant.AttributeKey.Sex, Sex.Female);
-                else if (c == 'm') p.Attributes.Add(Participant.AttributeKey.Sex, Sex.Male);
+                if (c == 'f' || ((int)p.Title & 1) == 1) p.Sex = Sex.Female;
+                else if (c == 'm') p.Sex = Sex.Male;
                 tournament.Participants.Add(p);
             }
             //Parse results
@@ -294,7 +288,7 @@ namespace PonzianiSwissLib
             double pWin = blackIsStronger ? 1 - winExp : winExp;
             double pDraw = 2 * drawRate * (1 - pWin);
             double pStronger = pWin - pDraw / 2;
-            double pWeaker = (1 - pWin) -  pDraw/ 2;
+            double pWeaker = (1 - pWin) - pDraw / 2;
             Debug.Assert(pStronger >= 0 && pWeaker >= 0 && pStronger <= 1 && pWeaker <= 1 && pDraw <= 1);
             Debug.Assert(Math.Abs(1 - pStronger - pWeaker - pDraw) <= 0.00001);
             double r = rnd.NextDouble();
@@ -302,7 +296,7 @@ namespace PonzianiSwissLib
             else if (r < pDraw + pStronger) return blackIsStronger ? Result.Loss : Result.Win;
             else return blackIsStronger ? Result.Win : Result.Loss;
         }
-       
+
         public static double WinProbability(double eloWhite, double eloBlack, double bonusWhite = 20)
         {
             double ratingWhite = eloWhite + bonusWhite;

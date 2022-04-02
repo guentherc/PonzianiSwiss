@@ -1,8 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
 using PonzianiSwissLib;
-using System.IO.Compression;
-using System.Text;
-using System.Text.Json;
 
 namespace PonzianiPlayerBase
 {
@@ -96,7 +93,8 @@ namespace PonzianiPlayerBase
                     bases.Add(b, new FidePlayerBase());
                     bases[b].Initialize();
 
-                } else if (b == Base.GER)
+                }
+                else if (b == Base.GER)
                 {
                     bases.Add(b, new GermanPlayerBase());
                     bases[b].Initialize();
@@ -137,7 +135,7 @@ namespace PonzianiPlayerBase
 
         public int RatingBlitz { get; set; } = 0;
 
-        public string? Club {  get; set; }
+        public string? Club { get; set; }
 
         public ulong FideId { set; get; } = 0;
     }

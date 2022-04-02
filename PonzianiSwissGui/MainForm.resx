@@ -328,18 +328,6 @@
   <data name="tpParticipants.Text" xml:space="preserve">
     <value>Participants</value>
   </data>
-  <data name="&gt;&gt;tpParticipants.Name" xml:space="preserve">
-    <value>tpParticipants</value>
-  </data>
-  <data name="&gt;&gt;tpParticipants.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tpParticipants.Parent" xml:space="preserve">
-    <value>tcMain</value>
-  </data>
-  <data name="&gt;&gt;tpParticipants.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="lvParticipants.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -350,18 +338,6 @@
     <value>786, 347</value>
   </data>
   <data name="lvParticipants.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;lvParticipants.Name" xml:space="preserve">
-    <value>lvParticipants</value>
-  </data>
-  <data name="&gt;&gt;lvParticipants.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ListView, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lvParticipants.Parent" xml:space="preserve">
-    <value>tpParticipants</value>
-  </data>
-  <data name="&gt;&gt;lvParticipants.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="chName.Text" xml:space="preserve">
