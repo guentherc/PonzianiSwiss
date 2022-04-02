@@ -62,6 +62,9 @@
             this.chFideId = new System.Windows.Forms.ColumnHeader();
             this.chRating = new System.Windows.Forms.ColumnHeader();
             this.chTournamentId = new System.Windows.Forms.ColumnHeader();
+            this.chFideRating = new System.Windows.Forms.ColumnHeader();
+            this.chAlternativeRating = new System.Windows.Forms.ColumnHeader();
+            this.chClub = new System.Windows.Forms.ColumnHeader();
             this.cmsSetResult = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
@@ -88,9 +91,6 @@
             this.tsbAdd = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbDraw = new System.Windows.Forms.ToolStripButton();
-            this.chFideRating = new System.Windows.Forms.ColumnHeader();
-            this.chAlternativeRating = new System.Windows.Forms.ColumnHeader();
-            this.chClub = new System.Windows.Forms.ColumnHeader();
             this.menuStrip1.SuspendLayout();
             this.mainStatusStrip.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -285,6 +285,8 @@
             // 
             // lvParticipants
             // 
+            this.lvParticipants.AllowColumnReorder = true;
+            this.lvParticipants.AutoArrange = false;
             this.lvParticipants.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.chName,
             this.chFideId,
@@ -294,9 +296,11 @@
             this.chAlternativeRating,
             this.chClub});
             resources.ApplyResources(this.lvParticipants, "lvParticipants");
+            this.lvParticipants.GridLines = true;
             this.lvParticipants.Name = "lvParticipants";
             this.lvParticipants.UseCompatibleStateImageBehavior = false;
             this.lvParticipants.View = System.Windows.Forms.View.Details;
+            this.lvParticipants.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lvParticipants_ColumnClick);
             // 
             // chName
             // 
@@ -313,6 +317,18 @@
             // chTournamentId
             // 
             resources.ApplyResources(this.chTournamentId, "chTournamentId");
+            // 
+            // chFideRating
+            // 
+            resources.ApplyResources(this.chFideRating, "chFideRating");
+            // 
+            // chAlternativeRating
+            // 
+            resources.ApplyResources(this.chAlternativeRating, "chAlternativeRating");
+            // 
+            // chClub
+            // 
+            resources.ApplyResources(this.chClub, "chClub");
             // 
             // cmsSetResult
             // 
@@ -517,18 +533,6 @@
             this.tsbDraw.Image = global::PonzianiSwissGui.Properties.Resources.draw;
             this.tsbDraw.Name = "tsbDraw";
             this.tsbDraw.Click += new System.EventHandler(this.DrawToolStripMenuItem_Click);
-            // 
-            // chFideRating
-            // 
-            resources.ApplyResources(this.chFideRating, "chFideRating");
-            // 
-            // chAlternativeRating
-            // 
-            resources.ApplyResources(this.chAlternativeRating, "chAlternativeRating");
-            // 
-            // chClub
-            // 
-            resources.ApplyResources(this.chClub, "chClub");
             // 
             // MainForm
             // 

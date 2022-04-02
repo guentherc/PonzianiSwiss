@@ -63,9 +63,9 @@ namespace PonzianiSwissLib
         public string? Team { set; get; }
 
         /// <summary>
-        /// Participant is active and shall be paired. If false participant is currently taking a break or withdrew
+        /// Active status per Round of the Participant. If null, then Participant is active in all rounds
         /// </summary>
-        public bool Active { set; get; } = true;
+        public bool[]? Active { set; get; }
         /// <summary>
         /// Rank within tournament
         /// </summary>

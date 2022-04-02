@@ -328,5 +328,44 @@ namespace PonzianiSwissGui
                 PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE);
             }));
         }
+
+        private string? SortedColumnId = null;
+        private bool SortAscending = false;
+        private void lvParticipants_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            ColumnHeader ch = ((ListView)sender).Columns[e.Column];
+            if (SortedColumnId != null && SortedColumnId == ch.Name)
+            {
+                SortAscending = !SortAscending;
+            } else
+            {
+                SortAscending = false;
+                SortedColumnId = ch.Name;
+            }
+            if (ch == chName)
+            {
+                Tournament?.Participants.Sort((p1, p2) => SortAscending ? (p2.Name ?? String.Empty).CompareTo(p1.Name) : (p1.Name ?? String.Empty).CompareTo(p2.Name));
+            } else if (ch == chTournamentId)
+            {
+                Tournament?.Participants.Sort((p1, p2) => SortAscending ? (p2.ParticipantId ?? String.Empty).CompareTo(p1.ParticipantId) : (p1.ParticipantId ?? String.Empty).CompareTo(p2.ParticipantId));
+            }
+            else if (ch == chFideId)
+            {
+                Tournament?.Participants.Sort((p1, p2) => SortAscending ? p2.FideId.CompareTo(p1.FideId) : p1.FideId.CompareTo(p2.FideId));
+            }
+            else if (ch == chRating)
+            {
+                Tournament?.Participants.Sort((p1, p2) => SortAscending ? p2.TournamentRating.CompareTo(p1.TournamentRating) : p1.TournamentRating.CompareTo(p2.TournamentRating));
+            }
+            else if (ch == chFideRating)
+            {
+                Tournament?.Participants.Sort((p1, p2) => SortAscending ? p2.FideRating.CompareTo(p1.FideRating) : p1.FideRating.CompareTo(p2.FideRating));
+            }
+            else if (ch == chAlternativeRating)
+            {
+                Tournament?.Participants.Sort((p1, p2) => SortAscending ? p2.AlternativeRating.CompareTo(p1.AlternativeRating) : p1.AlternativeRating.CompareTo(p2.AlternativeRating));
+            }
+            UpdateUI();
+        }
     }
 }
