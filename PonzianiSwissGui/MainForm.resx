@@ -271,19 +271,25 @@
     <value>498, 17</value>
   </metadata>
   <data name="abandonTournamentToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>190, 22</value>
+    <value>191, 22</value>
   </data>
   <data name="abandonTournamentToolStripMenuItem.Text" xml:space="preserve">
     <value>Abandon Tournament</value>
   </data>
   <data name="pauseNextRoundToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>190, 22</value>
+    <value>191, 22</value>
   </data>
   <data name="pauseNextRoundToolStripMenuItem.Text" xml:space="preserve">
     <value>Pause Next Round</value>
   </data>
+  <data name="undoAbandonPauseToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>191, 22</value>
+  </data>
+  <data name="undoAbandonPauseToolStripMenuItem.Text" xml:space="preserve">
+    <value>Undo Abandon/Pause</value>
+  </data>
   <data name="cmsParticipant.Size" type="System.Drawing.Size, System.Drawing">
-    <value>191, 70</value>
+    <value>192, 92</value>
   </data>
   <data name="&gt;&gt;cmsParticipant.Name" xml:space="preserve">
     <value>cmsParticipant</value>
@@ -942,6 +948,12 @@
   </data>
   <data name="&gt;&gt;tsbDraw.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;undoAbandonPauseToolStripMenuItem.Name" xml:space="preserve">
+    <value>undoAbandonPauseToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;undoAbandonPauseToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>MainForm</value>

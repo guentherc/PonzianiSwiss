@@ -94,6 +94,7 @@
             this.tsbAdd = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbDraw = new System.Windows.Forms.ToolStripButton();
+            this.undoAbandonPauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.mainStatusStrip.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -292,7 +293,8 @@
             // 
             this.cmsParticipant.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.abandonTournamentToolStripMenuItem,
-            this.pauseNextRoundToolStripMenuItem});
+            this.pauseNextRoundToolStripMenuItem,
+            this.undoAbandonPauseToolStripMenuItem});
             this.cmsParticipant.Name = "cmsParticipant";
             resources.ApplyResources(this.cmsParticipant, "cmsParticipant");
             this.cmsParticipant.Opening += new System.ComponentModel.CancelEventHandler(this.CmsParticipant_Opening);
@@ -561,6 +563,12 @@
             this.tsbDraw.Name = "tsbDraw";
             this.tsbDraw.Click += new System.EventHandler(this.DrawToolStripMenuItem_Click);
             // 
+            // undoAbandonPauseToolStripMenuItem
+            // 
+            this.undoAbandonPauseToolStripMenuItem.Name = "undoAbandonPauseToolStripMenuItem";
+            resources.ApplyResources(this.undoAbandonPauseToolStripMenuItem, "undoAbandonPauseToolStripMenuItem");
+            this.undoAbandonPauseToolStripMenuItem.Click += new System.EventHandler(this.UndoAbandonPauseToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             resources.ApplyResources(this, "$this");
@@ -653,5 +661,6 @@
         private ContextMenuStrip cmsParticipant;
         private ToolStripMenuItem abandonTournamentToolStripMenuItem;
         private ToolStripMenuItem pauseNextRoundToolStripMenuItem;
+        private ToolStripMenuItem undoAbandonPauseToolStripMenuItem;
     }
 }

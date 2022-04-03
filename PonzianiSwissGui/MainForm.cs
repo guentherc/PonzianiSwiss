@@ -423,7 +423,28 @@ namespace PonzianiSwissGui
 
         private void CmsParticipant_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            abandonTournamentToolStripMenuItem.Enabled = pauseNextRoundToolStripMenuItem.Enabled = Tournament != null && Tournament.Rounds.Count < Tournament.CountRounds;
+            bool abEnabled = Tournament != null && Tournament.Rounds.Count < Tournament.CountRounds;
+            if (abEnabled && selectedItem != null && selectedItem.Tag != null && selectedItem.Tag is Participant)
+            {
+                Participant p = (Participant)selectedItem.Tag;
+                if (Tournament != null && p.Active != null && !p.Active[Tournament.Rounds.Count]) abEnabled = false;
+            }
+            undoAbandonPauseToolStripMenuItem.Enabled = !abEnabled && Tournament != null && Tournament.Rounds.Count < Tournament.CountRounds;
+            abandonTournamentToolStripMenuItem.Enabled = abEnabled;
+            pauseNextRoundToolStripMenuItem.Enabled = abEnabled;
+        }
+
+        private void UndoAbandonPauseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Tournament != null && selectedItem != null && selectedItem.Tag != null && selectedItem.Tag is Participant)
+            {
+                Participant p = (Participant)selectedItem.Tag;
+                if (p.Active != null)
+                {
+                    for (int i = Tournament.Rounds.Count; i < Tournament.CountRounds; ++i) p.Active[i] = true;
+                }
+                UpdateUI();
+            }
         }
     }
 }
