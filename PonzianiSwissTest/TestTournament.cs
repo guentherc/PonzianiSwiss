@@ -211,7 +211,7 @@ namespace PonzianiSwissTest
                 }
                 foreach (var p in testTournament.Rounds[round].Pairings)
                 {
-                    p.Result = Utils.Simulate(p.White.TournamentRating, p.Black.TournamentRating);
+                    p.Result = Utils.Simulate(testTournament.Rating(p.White), testTournament.Rating(p.Black));
                 }
             }
         }

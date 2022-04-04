@@ -67,6 +67,8 @@
             this.lblPointsForWin = new System.Windows.Forms.Label();
             this.cbFederation = new System.Windows.Forms.ComboBox();
             this.cbAcceleration = new System.Windows.Forms.CheckBox();
+            this.lblRatingDetermination = new System.Windows.Forms.Label();
+            this.cbRatingDetermination = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudRounds)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
             this.gpScoringScheme.SuspendLayout();
@@ -292,11 +294,24 @@
             this.cbAcceleration.Name = "cbAcceleration";
             this.cbAcceleration.UseVisualStyleBackColor = true;
             // 
+            // lblRatingDetermination
+            // 
+            resources.ApplyResources(this.lblRatingDetermination, "lblRatingDetermination");
+            this.lblRatingDetermination.Name = "lblRatingDetermination";
+            // 
+            // cbRatingDetermination
+            // 
+            this.cbRatingDetermination.FormattingEnabled = true;
+            resources.ApplyResources(this.cbRatingDetermination, "cbRatingDetermination");
+            this.cbRatingDetermination.Name = "cbRatingDetermination";
+            // 
             // TournamentDialog
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
+            this.Controls.Add(this.cbRatingDetermination);
+            this.Controls.Add(this.lblRatingDetermination);
             this.Controls.Add(this.cbAcceleration);
             this.Controls.Add(this.cbFederation);
             this.Controls.Add(this.gpScoringScheme);
@@ -371,5 +386,7 @@
         private Label lblPointsForWin;
         private ComboBox cbFederation;
         private CheckBox cbAcceleration;
+        private ComboBox cbRatingDetermination;
+        private Label lblRatingDetermination;
     }
 }

@@ -34,12 +34,7 @@ namespace PonzianiSwissLib
         /// Alternative rating
         /// </summary>
         public int AlternativeRating { set; get; }
-
-        /// <summary>
-        /// Tournament rating
-        /// </summary>
-        public int TournamentRating => Math.Max(FideRating, AlternativeRating);
-
+      
         /// <summary>
         /// Title (e.g. GM - Grand Master or WIM - female international master)
         /// </summary>

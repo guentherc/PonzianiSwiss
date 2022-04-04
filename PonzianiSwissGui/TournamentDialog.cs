@@ -35,6 +35,15 @@ namespace PonzianiSwissGui
             cbPairingSystem.ValueMember = "Value";
             cbPairingSystem.SelectedValue = ((int)Tournament.PairingSystem).ToString();
             tbTimeControl.Text = Tournament.TimeControl;
+            List<KeyValuePair<TournamentRatingDetermination, string>> rdl = new();
+            foreach (TournamentRatingDetermination trd in Enum.GetValues(typeof(TournamentRatingDetermination)))
+            {
+                rdl.Add(new KeyValuePair<TournamentRatingDetermination, string>(trd, ((int)trd).ToString()));
+            }
+            cbRatingDetermination.DataSource = rdl;
+            cbRatingDetermination.DisplayMember = "Key";
+            cbRatingDetermination.ValueMember = "Value";
+            cbRatingDetermination.SelectedValue = ((int)Tournament.RatingDetermination).ToString();
             tbPointsForWin.Text = Tournament.ScoringScheme.PointsForWin.ToString("F1");
             tbPointsForDraw.Text = Tournament.ScoringScheme.PointsForDraw.ToString("F1");
             tbPointsForPlayedLoss.Text = Tournament.ScoringScheme.PointsForPlayedLoss.ToString("F1");
@@ -84,6 +93,7 @@ namespace PonzianiSwissGui
             Tournament.DeputyChiefArbiter = tbArbiters.Text;
             Tournament.PairingSystem = (PairingSystem)cbPairingSystem.SelectedIndex;
             Tournament.TimeControl = tbTimeControl.Text;
+            Tournament.RatingDetermination = (TournamentRatingDetermination)(int.Parse((string)cbRatingDetermination.SelectedValue));
             Tournament.ScoringScheme.PointsForWin = float.Parse(tbPointsForWin.Text);
             Tournament.ScoringScheme.PointsForDraw = float.Parse(tbPointsForDraw.Text);
             Tournament.ScoringScheme.PointsForPlayedLoss = float.Parse(tbPointsForPlayedLoss.Text);

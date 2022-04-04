@@ -111,7 +111,7 @@ namespace PonzianiSwissGui
         {
             ListViewItem item = new(p.Name);
             item.SubItems.Add(p.FideId.ToString());
-            item.SubItems.Add(p.TournamentRating.ToString());
+            item.SubItems.Add(Tournament?.Rating(p).ToString());
             item.SubItems.Add(p.ParticipantId?.ToString());
             item.SubItems.Add(p.FideRating > 0 ? p.FideRating.ToString() : string.Empty);
             item.SubItems.Add(p.AlternativeRating > 0 ? p.AlternativeRating.ToString() : string.Empty);
@@ -378,7 +378,7 @@ namespace PonzianiSwissGui
             }
             else if (ch == chRating)
             {
-                Tournament?.Participants.Sort((p1, p2) => SortAscending ? p2.TournamentRating.CompareTo(p1.TournamentRating) : p1.TournamentRating.CompareTo(p2.TournamentRating));
+                Tournament?.Participants.Sort((p1, p2) => SortAscending ? (Tournament?.Rating(p2) ?? 0).CompareTo(Tournament?.Rating(p1) ?? 0) : (Tournament?.Rating(p1) ?? 0).CompareTo(Tournament?.Rating(p2) ?? 0));
             }
             else if (ch == chFideRating)
             {
@@ -393,9 +393,8 @@ namespace PonzianiSwissGui
 
         private void AbandonTournamentToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Tournament != null && selectedItem != null && selectedItem.Tag != null && selectedItem.Tag is Participant)
+            if (Tournament != null && selectedItem != null && selectedItem.Tag != null && selectedItem.Tag is Participant p)
             {
-                Participant p = (Participant)selectedItem.Tag;
                 if (p.Active == null)
                 {
                     p.Active = new bool[Tournament.CountRounds];
@@ -408,9 +407,8 @@ namespace PonzianiSwissGui
 
         private void PauseNextRoundToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Tournament != null && selectedItem != null && selectedItem.Tag != null && selectedItem.Tag is Participant)
+            if (Tournament != null && selectedItem != null && selectedItem.Tag != null && selectedItem.Tag is Participant p)
             {
-                Participant p = (Participant)selectedItem.Tag;
                 if (p.Active == null)
                 {
                     p.Active = new bool[Tournament.CountRounds];
@@ -424,9 +422,8 @@ namespace PonzianiSwissGui
         private void CmsParticipant_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             bool abEnabled = Tournament != null && Tournament.Rounds.Count < Tournament.CountRounds;
-            if (abEnabled && selectedItem != null && selectedItem.Tag != null && selectedItem.Tag is Participant)
+            if (abEnabled && selectedItem != null && selectedItem.Tag != null && selectedItem.Tag is Participant p)
             {
-                Participant p = (Participant)selectedItem.Tag;
                 if (Tournament != null && p.Active != null && !p.Active[Tournament.Rounds.Count]) abEnabled = false;
             }
             undoAbandonPauseToolStripMenuItem.Enabled = !abEnabled && Tournament != null && Tournament.Rounds.Count < Tournament.CountRounds;
@@ -436,9 +433,8 @@ namespace PonzianiSwissGui
 
         private void UndoAbandonPauseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Tournament != null && selectedItem != null && selectedItem.Tag != null && selectedItem.Tag is Participant)
+            if (Tournament != null && selectedItem != null && selectedItem.Tag != null && selectedItem.Tag is Participant p)
             {
-                Participant p = (Participant)selectedItem.Tag;
                 if (p.Active != null)
                 {
                     for (int i = Tournament.Rounds.Count; i < Tournament.CountRounds; ++i) p.Active[i] = true;

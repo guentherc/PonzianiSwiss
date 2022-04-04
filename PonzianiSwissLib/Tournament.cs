@@ -64,6 +64,29 @@ namespace PonzianiSwissLib
     public enum PairingSystem { Dutch, Burstein }
 
     /// <summary>
+    /// Options how to determine Tournament Rating, if FIDE Elo and national Rating exists
+    /// </summary>
+    public enum TournamentRatingDetermination
+    {
+        /// <summary>
+        /// Use higer value
+        /// </summary>
+        Max,
+        /// <summary>
+        /// Take Average between Elo and Natopnal Rating
+        /// </summary>
+        Average,
+        /// <summary>
+        /// Take Fide Elo Rating, if available
+        /// </summary>
+        Elo,
+        /// <summary>
+        /// Take National Rating, if available 
+        /// </summary>
+        National
+    };
+
+    /// <summary>
     /// Swiss chess tournament
     /// </summary>
     public class Tournament : ICloneable
@@ -148,6 +171,11 @@ namespace PonzianiSwissLib
         public bool BakuAcceleration { set; get; } = false;
 
         /// <summary>
+        /// How tournament rating is determined
+        /// </summary>
+        public TournamentRatingDetermination RatingDetermination { set; get; } = TournamentRatingDetermination.Max;
+
+        /// <summary>
         /// Calculates the scorecards for all participants
         /// </summary>
         /// <param name="round">The (0-based) round number up to which the scorecards will be calculated</param>
@@ -183,7 +211,7 @@ namespace PonzianiSwissLib
             GetScorecards();
             Participants.Sort((p2, p1) =>
             {
-                if (round == 0) return p1.TournamentRating.CompareTo(p2.TournamentRating);
+                if (round == 0) return Rating(p1).CompareTo(Rating(p2));
                 else
                 {
                     Scorecard? sc1 = p1.Scorecard;
@@ -226,7 +254,7 @@ namespace PonzianiSwissLib
             {
                 if (round == 0)
                 {
-                    if (p1.TournamentRating != p2.TournamentRating) return p1.TournamentRating.CompareTo(p2.TournamentRating);
+                    if (Rating(p1) != Rating(p2)) return Rating(p1).CompareTo(Rating(p2));
                     else if (p1.ParticipantId != null && p2.ParticipantId != null) return p2.ParticipantId.CompareTo(p1.ParticipantId);
                     else return 0;
                 }
@@ -420,6 +448,22 @@ namespace PonzianiSwissLib
 
         public bool DrawNextRoundPossible => Rounds.Count == 0 || (Rounds.Count < CountRounds && !Rounds.Last().Pairings.Where(p => p.Result == Result.Open).Any());
 
+        public int Rating(Participant p)
+        {
+            if (p.FideRating == 0) return p.AlternativeRating;
+            else if(p.AlternativeRating == 0) return p.FideRating;
+            else {
+                return RatingDetermination switch
+                {
+                    TournamentRatingDetermination.Max => Math.Max(p.FideRating, p.AlternativeRating),
+                    TournamentRatingDetermination.Average => (p.FideRating + p.AlternativeRating) / 2,
+                    TournamentRatingDetermination.National => p.AlternativeRating,
+                    TournamentRatingDetermination.Elo => p.FideRating,
+                    _ => 0,
+                };
+            }
+        }
+        
         object ICloneable.Clone()
         {
             string json = this.Serialize();
