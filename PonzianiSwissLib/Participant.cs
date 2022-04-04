@@ -53,11 +53,6 @@ namespace PonzianiSwissLib
         public string? ParticipantId { set; get; }
 
         /// <summary>
-        /// Team or club for team scores
-        /// </summary>
-        public string? Team { set; get; }
-
-        /// <summary>
         /// Active status per Round of the Participant. If null, then Participant is active in all rounds
         /// </summary>
         public bool[]? Active { set; get; }

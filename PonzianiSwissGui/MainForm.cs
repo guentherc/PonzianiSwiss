@@ -442,5 +442,43 @@ namespace PonzianiSwissGui
                 UpdateUI();
             }
         }
+
+        private void EditPlayerToolstripItem(object sender, EventArgs e)
+        {
+            if (Tournament != null && selectedItem != null && selectedItem.Tag != null && selectedItem.Tag is Participant p)
+            {
+                Participant cp = new() { 
+                    Name = p.Name, 
+                    FideId = p.FideId, 
+                    FideRating = p.FideRating, 
+                    AlternativeRating = p.AlternativeRating, 
+                    Active = p.Active,
+                    Attributes = new(p.Attributes),
+                    Club = p.Club,
+                    Federation = p.Federation,
+                    ParticipantId = p.ParticipantId,
+                    Sex = p.Sex,
+                    Title = p.Title,
+                    YearOfBirth = p.YearOfBirth                 
+                };
+                PlayerDialog pd = new(cp);
+                if (pd.ShowDialog() == DialogResult.OK)
+                {
+                    p.Name = cp.Name;
+                    p.FideId = cp.FideId;
+                    p.FideRating = cp.FideRating;
+                    p.AlternativeRating = cp.AlternativeRating;
+                    p.Active = cp.Active;
+                    p.Attributes = new(cp.Attributes);
+                    p.Club = cp.Club;
+                    p.Federation = cp.Federation;
+                    p.ParticipantId = cp.ParticipantId;
+                    p.Sex = cp.Sex;
+                    p.Title = cp.Title;
+                    p.YearOfBirth = cp.YearOfBirth;
+                    UpdateUI();
+                }
+            }
+        }
     }
 }

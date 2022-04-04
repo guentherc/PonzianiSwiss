@@ -132,7 +132,7 @@
     <value>Tournament</value>
   </data>
   <data name="addToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>96, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="addToolStripMenuItem.Text" xml:space="preserve">
     <value>Add</value>
@@ -270,6 +270,15 @@
   <metadata name="cmsParticipant.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>498, 17</value>
   </metadata>
+  <data name="editToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>191, 22</value>
+  </data>
+  <data name="editToolStripMenuItem.Text" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>188, 6</value>
+  </data>
   <data name="abandonTournamentToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>191, 22</value>
   </data>
@@ -289,7 +298,7 @@
     <value>Undo Abandon/Pause</value>
   </data>
   <data name="cmsParticipant.Size" type="System.Drawing.Size, System.Drawing">
-    <value>192, 92</value>
+    <value>192, 120</value>
   </data>
   <data name="&gt;&gt;cmsParticipant.Name" xml:space="preserve">
     <value>cmsParticipant</value>
@@ -763,6 +772,12 @@
   <data name="&gt;&gt;pauseNextRoundToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;undoAbandonPauseToolStripMenuItem.Name" xml:space="preserve">
+    <value>undoAbandonPauseToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;undoAbandonPauseToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;chName.Name" xml:space="preserve">
     <value>chName</value>
   </data>
@@ -949,11 +964,17 @@
   <data name="&gt;&gt;tsbDraw.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;undoAbandonPauseToolStripMenuItem.Name" xml:space="preserve">
-    <value>undoAbandonPauseToolStripMenuItem</value>
+  <data name="&gt;&gt;editToolStripMenuItem.Name" xml:space="preserve">
+    <value>editToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;undoAbandonPauseToolStripMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;editToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator5.Name" xml:space="preserve">
+    <value>toolStripSeparator5</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>MainForm</value>

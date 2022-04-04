@@ -164,7 +164,6 @@ namespace PonzianiSwissGui
             {
                 Name = p.Name,
                 Title = p.Title,
-                Team = p.Club,
                 AlternativeRating = p.Rating,
                 Federation = p.Federation,
                 FideId = p.FideId,

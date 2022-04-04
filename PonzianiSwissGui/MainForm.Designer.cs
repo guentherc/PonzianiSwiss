@@ -60,6 +60,7 @@
             this.cmsParticipant = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.abandonTournamentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pauseNextRoundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.undoAbandonPauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lvParticipants = new System.Windows.Forms.ListView();
             this.chName = new System.Windows.Forms.ColumnHeader();
             this.chFideId = new System.Windows.Forms.ColumnHeader();
@@ -94,7 +95,8 @@
             this.tsbAdd = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbDraw = new System.Windows.Forms.ToolStripButton();
-            this.undoAbandonPauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.mainStatusStrip.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -292,6 +294,8 @@
             // cmsParticipant
             // 
             this.cmsParticipant.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editToolStripMenuItem,
+            this.toolStripSeparator5,
             this.abandonTournamentToolStripMenuItem,
             this.pauseNextRoundToolStripMenuItem,
             this.undoAbandonPauseToolStripMenuItem});
@@ -310,6 +314,12 @@
             this.pauseNextRoundToolStripMenuItem.Name = "pauseNextRoundToolStripMenuItem";
             resources.ApplyResources(this.pauseNextRoundToolStripMenuItem, "pauseNextRoundToolStripMenuItem");
             this.pauseNextRoundToolStripMenuItem.Click += new System.EventHandler(this.PauseNextRoundToolStripMenuItem_Click);
+            // 
+            // undoAbandonPauseToolStripMenuItem
+            // 
+            this.undoAbandonPauseToolStripMenuItem.Name = "undoAbandonPauseToolStripMenuItem";
+            resources.ApplyResources(this.undoAbandonPauseToolStripMenuItem, "undoAbandonPauseToolStripMenuItem");
+            this.undoAbandonPauseToolStripMenuItem.Click += new System.EventHandler(this.UndoAbandonPauseToolStripMenuItem_Click);
             // 
             // lvParticipants
             // 
@@ -563,11 +573,16 @@
             this.tsbDraw.Name = "tsbDraw";
             this.tsbDraw.Click += new System.EventHandler(this.DrawToolStripMenuItem_Click);
             // 
-            // undoAbandonPauseToolStripMenuItem
+            // editToolStripMenuItem
             // 
-            this.undoAbandonPauseToolStripMenuItem.Name = "undoAbandonPauseToolStripMenuItem";
-            resources.ApplyResources(this.undoAbandonPauseToolStripMenuItem, "undoAbandonPauseToolStripMenuItem");
-            this.undoAbandonPauseToolStripMenuItem.Click += new System.EventHandler(this.UndoAbandonPauseToolStripMenuItem_Click);
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            resources.ApplyResources(this.editToolStripMenuItem, "editToolStripMenuItem");
+            this.editToolStripMenuItem.Click += new System.EventHandler(this.EditPlayerToolstripItem);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            resources.ApplyResources(this.toolStripSeparator5, "toolStripSeparator5");
             // 
             // MainForm
             // 
@@ -662,5 +677,7 @@
         private ToolStripMenuItem abandonTournamentToolStripMenuItem;
         private ToolStripMenuItem pauseNextRoundToolStripMenuItem;
         private ToolStripMenuItem undoAbandonPauseToolStripMenuItem;
+        private ToolStripMenuItem editToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator5;
     }
 }
