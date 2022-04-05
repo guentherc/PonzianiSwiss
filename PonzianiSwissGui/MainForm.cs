@@ -447,11 +447,12 @@ namespace PonzianiSwissGui
         {
             if (Tournament != null && selectedItem != null && selectedItem.Tag != null && selectedItem.Tag is Participant p)
             {
-                Participant cp = new() { 
-                    Name = p.Name, 
-                    FideId = p.FideId, 
-                    FideRating = p.FideRating, 
-                    AlternativeRating = p.AlternativeRating, 
+                Participant cp = new()
+                {
+                    Name = p.Name,
+                    FideId = p.FideId,
+                    FideRating = p.FideRating,
+                    AlternativeRating = p.AlternativeRating,
                     Active = p.Active,
                     Attributes = new(p.Attributes),
                     Club = p.Club,
@@ -459,7 +460,7 @@ namespace PonzianiSwissGui
                     ParticipantId = p.ParticipantId,
                     Sex = p.Sex,
                     Title = p.Title,
-                    YearOfBirth = p.YearOfBirth                 
+                    YearOfBirth = p.YearOfBirth
                 };
                 PlayerDialog pd = new(cp);
                 if (pd.ShowDialog() == DialogResult.OK)
@@ -479,6 +480,17 @@ namespace PonzianiSwissGui
                     UpdateUI();
                 }
             }
+        }
+
+        private HTMLViewer htmlViewer = new();
+
+        private void ExportParticipantListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (sender == byStartingRankToolStripMenuItem)
+                htmlViewer.Html = Tournament?.ParticipantListHTML("Rating", true);
+            else if (sender == byNameToolStripMenuItem)
+                htmlViewer.Html = Tournament?.ParticipantListHTML("Name", false);
+            htmlViewer.ShowDialog();
         }
     }
 }

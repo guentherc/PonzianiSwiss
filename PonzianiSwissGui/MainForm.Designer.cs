@@ -41,6 +41,9 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tRFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.participantListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.byStartingRankToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.byNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.participantsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.roundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,6 +61,8 @@
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tpParticipants = new System.Windows.Forms.TabPage();
             this.cmsParticipant = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.abandonTournamentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pauseNextRoundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.undoAbandonPauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -95,8 +100,6 @@
             this.tsbAdd = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbDraw = new System.Windows.Forms.ToolStripButton();
-            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.mainStatusStrip.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -174,7 +177,8 @@
             // exportToolStripMenuItem
             // 
             this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tRFToolStripMenuItem});
+            this.tRFToolStripMenuItem,
+            this.participantListToolStripMenuItem});
             resources.ApplyResources(this.exportToolStripMenuItem, "exportToolStripMenuItem");
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
             // 
@@ -183,6 +187,26 @@
             resources.ApplyResources(this.tRFToolStripMenuItem, "tRFToolStripMenuItem");
             this.tRFToolStripMenuItem.Name = "tRFToolStripMenuItem";
             this.tRFToolStripMenuItem.Click += new System.EventHandler(this.TRFToolStripMenuItem_Click);
+            // 
+            // participantListToolStripMenuItem
+            // 
+            this.participantListToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.byStartingRankToolStripMenuItem,
+            this.byNameToolStripMenuItem});
+            this.participantListToolStripMenuItem.Name = "participantListToolStripMenuItem";
+            resources.ApplyResources(this.participantListToolStripMenuItem, "participantListToolStripMenuItem");
+            // 
+            // byStartingRankToolStripMenuItem
+            // 
+            this.byStartingRankToolStripMenuItem.Name = "byStartingRankToolStripMenuItem";
+            resources.ApplyResources(this.byStartingRankToolStripMenuItem, "byStartingRankToolStripMenuItem");
+            this.byStartingRankToolStripMenuItem.Click += new System.EventHandler(this.ExportParticipantListToolStripMenuItem_Click);
+            // 
+            // byNameToolStripMenuItem
+            // 
+            this.byNameToolStripMenuItem.Name = "byNameToolStripMenuItem";
+            resources.ApplyResources(this.byNameToolStripMenuItem, "byNameToolStripMenuItem");
+            this.byNameToolStripMenuItem.Click += new System.EventHandler(this.ExportParticipantListToolStripMenuItem_Click);
             // 
             // participantsToolStripMenuItem
             // 
@@ -302,6 +326,17 @@
             this.cmsParticipant.Name = "cmsParticipant";
             resources.ApplyResources(this.cmsParticipant, "cmsParticipant");
             this.cmsParticipant.Opening += new System.ComponentModel.CancelEventHandler(this.CmsParticipant_Opening);
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            resources.ApplyResources(this.editToolStripMenuItem, "editToolStripMenuItem");
+            this.editToolStripMenuItem.Click += new System.EventHandler(this.EditPlayerToolstripItem);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            resources.ApplyResources(this.toolStripSeparator5, "toolStripSeparator5");
             // 
             // abandonTournamentToolStripMenuItem
             // 
@@ -573,17 +608,6 @@
             this.tsbDraw.Name = "tsbDraw";
             this.tsbDraw.Click += new System.EventHandler(this.DrawToolStripMenuItem_Click);
             // 
-            // editToolStripMenuItem
-            // 
-            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            resources.ApplyResources(this.editToolStripMenuItem, "editToolStripMenuItem");
-            this.editToolStripMenuItem.Click += new System.EventHandler(this.EditPlayerToolstripItem);
-            // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            resources.ApplyResources(this.toolStripSeparator5, "toolStripSeparator5");
-            // 
             // MainForm
             // 
             resources.ApplyResources(this, "$this");
@@ -679,5 +703,8 @@
         private ToolStripMenuItem undoAbandonPauseToolStripMenuItem;
         private ToolStripMenuItem editToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator5;
+        private ToolStripMenuItem participantListToolStripMenuItem;
+        private ToolStripMenuItem byStartingRankToolStripMenuItem;
+        private ToolStripMenuItem byNameToolStripMenuItem;
     }
 }
