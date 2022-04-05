@@ -487,9 +487,15 @@ namespace PonzianiSwissGui
         private void ExportParticipantListToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (sender == byStartingRankToolStripMenuItem)
+            {
+                htmlViewer.Title = Properties.Strings.ParticipantListByRank;
                 htmlViewer.Html = Tournament?.ParticipantListHTML("Rating", true);
+            }
             else if (sender == byNameToolStripMenuItem)
+            {
+                htmlViewer.Title = Properties.Strings.ParticipantListByName;
                 htmlViewer.Html = Tournament?.ParticipantListHTML("Name", false);
+            }
             htmlViewer.ShowDialog();
         }
     }

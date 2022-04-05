@@ -14,6 +14,7 @@ namespace PonzianiSwissGui
     {
 
         public string? Html { set; get; }
+        public string? Title { set; get; }
         public HTMLViewer()
         {
             InitializeComponent();
@@ -24,6 +25,28 @@ namespace PonzianiSwissGui
             if (Html != null)
             {
                 WebViewer.NavigateToString(Html);
+            }
+            if (Title != null)
+            {
+                this.Text = Title;
+            }
+        }
+
+        private async void btnSave_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog dialog = new()
+            {
+                Filter = $"{Properties.Strings.HTMLFiles}|*.html|{Properties.Strings.PDFFiles}|*.pdf|{Properties.Strings.AllFiles}|*.*",
+                FileName = $"{Title}.html",
+                AddExtension = true
+            };
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                if (Path.GetExtension(dialog.FileName) == ".pdf")
+                {
+                    bool result = await WebViewer.CoreWebView2.PrintToPdfAsync(dialog.FileName).ConfigureAwait(false);
+                }
+                else File.WriteAllText(dialog.FileName, Html);
             }
         }
     }

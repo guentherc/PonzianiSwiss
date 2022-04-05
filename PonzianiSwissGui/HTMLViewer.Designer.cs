@@ -30,22 +30,31 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HTMLViewer));
             this.WebViewer = new Microsoft.Web.WebView2.WinForms.WebView2();
+            this.btnSave = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.WebViewer)).BeginInit();
             this.SuspendLayout();
             // 
             // WebViewer
             // 
+            resources.ApplyResources(this.WebViewer, "WebViewer");
             this.WebViewer.CreationProperties = null;
             this.WebViewer.DefaultBackgroundColor = System.Drawing.Color.White;
-            resources.ApplyResources(this.WebViewer, "WebViewer");
             this.WebViewer.Name = "WebViewer";
             this.WebViewer.Source = new System.Uri("https://www.google.de", System.UriKind.Absolute);
             this.WebViewer.ZoomFactor = 1D;
+            // 
+            // btnSave
+            // 
+            resources.ApplyResources(this.btnSave, "btnSave");
+            this.btnSave.Name = "btnSave";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // HTMLViewer
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnSave);
             this.Controls.Add(this.WebViewer);
             this.Name = "HTMLViewer";
             this.Load += new System.EventHandler(this.HTMLViewer_Load);
@@ -57,5 +66,6 @@
         #endregion
 
         private Microsoft.Web.WebView2.WinForms.WebView2 WebViewer;
+        private Button btnSave;
     }
 }

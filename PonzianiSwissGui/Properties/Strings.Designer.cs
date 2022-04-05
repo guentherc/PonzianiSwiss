@@ -106,6 +106,15 @@ namespace PonzianiSwissGui.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to HTML Files.
+        /// </summary>
+        public static string HTMLFiles {
+            get {
+                return ResourceManager.GetString("HTMLFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid Value - Please enter a float value!.
         /// </summary>
         public static string InvalidFloat {
@@ -120,6 +129,33 @@ namespace PonzianiSwissGui.Properties {
         public static string OpenTournamentFile {
             get {
                 return ResourceManager.GetString("OpenTournamentFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Participant List (By Name).
+        /// </summary>
+        public static string ParticipantListByName {
+            get {
+                return ResourceManager.GetString("ParticipantListByName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Participant List (By Starting Rank).
+        /// </summary>
+        public static string ParticipantListByRank {
+            get {
+                return ResourceManager.GetString("ParticipantListByRank", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PDF Files.
+        /// </summary>
+        public static string PDFFiles {
+            get {
+                return ResourceManager.GetString("PDFFiles", resourceCulture);
             }
         }
         

@@ -132,11 +132,23 @@
   <data name="ExportTRF" xml:space="preserve">
     <value>Export Tournament Report File</value>
   </data>
+  <data name="HTMLFiles" xml:space="preserve">
+    <value>HTML Files</value>
+  </data>
   <data name="InvalidFloat" xml:space="preserve">
     <value>Invalid Value - Please enter a float value!</value>
   </data>
   <data name="OpenTournamentFile" xml:space="preserve">
     <value>Load Tournament</value>
+  </data>
+  <data name="ParticipantListByName" xml:space="preserve">
+    <value>Participant List (By Name)</value>
+  </data>
+  <data name="ParticipantListByRank" xml:space="preserve">
+    <value>Participant List (By Starting Rank)</value>
+  </data>
+  <data name="PDFFiles" xml:space="preserve">
+    <value>PDF Files</value>
   </data>
   <data name="PlayerListUpdate" xml:space="preserve">
     <value>Downloading and Updating Player Base...</value>
