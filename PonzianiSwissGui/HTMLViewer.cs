@@ -32,7 +32,7 @@ namespace PonzianiSwissGui
             }
         }
 
-        private async void btnSave_Click(object sender, EventArgs e)
+        private async void BtnSave_Click(object sender, EventArgs e)
         {
             SaveFileDialog dialog = new()
             {
@@ -44,7 +44,7 @@ namespace PonzianiSwissGui
             {
                 if (Path.GetExtension(dialog.FileName) == ".pdf")
                 {
-                    bool result = await WebViewer.CoreWebView2.PrintToPdfAsync(dialog.FileName).ConfigureAwait(false);
+                    await WebViewer.CoreWebView2.PrintToPdfAsync(dialog.FileName).ConfigureAwait(false);
                 }
                 else File.WriteAllText(dialog.FileName, Html);
             }

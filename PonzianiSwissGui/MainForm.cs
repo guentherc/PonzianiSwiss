@@ -482,7 +482,7 @@ namespace PonzianiSwissGui
             }
         }
 
-        private HTMLViewer htmlViewer = new();
+        private readonly HTMLViewer htmlViewer = new();
 
         private void ExportParticipantListToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -496,6 +496,13 @@ namespace PonzianiSwissGui
                 htmlViewer.Title = Properties.Strings.ParticipantListByName;
                 htmlViewer.Html = Tournament?.ParticipantListHTML("Name", false);
             }
+            htmlViewer.ShowDialog();
+        }
+
+        private void crosstableToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            htmlViewer.Title = Properties.Strings.Crosstable;
+            htmlViewer.Html = Tournament?.CrosstableHTML();
             htmlViewer.ShowDialog();
         }
     }

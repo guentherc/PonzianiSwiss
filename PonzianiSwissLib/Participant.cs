@@ -53,6 +53,11 @@ namespace PonzianiSwissLib
         public string? ParticipantId { set; get; }
 
         /// <summary>
+        /// Rank Id within tournament (current Rank)
+        /// </summary>
+        public string? RankId { set; get; }
+
+        /// <summary>
         /// Active status per Round of the Participant. If null, then Participant is active in all rounds
         /// </summary>
         public bool[]? Active { set; get; }

@@ -134,6 +134,12 @@
   <data name="participantListToolStripMenuItem.Text" xml:space="preserve">
     <value>Participant List</value>
   </data>
+  <data name="crosstableToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="crosstableToolStripMenuItem.Text" xml:space="preserve">
+    <value>Crosstable</value>
+  </data>
   <data name="exportToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -1011,6 +1017,12 @@
   </data>
   <data name="&gt;&gt;tsbDraw.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;crosstableToolStripMenuItem.Name" xml:space="preserve">
+    <value>crosstableToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;crosstableToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>MainForm</value>

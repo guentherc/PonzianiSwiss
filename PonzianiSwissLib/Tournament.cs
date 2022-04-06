@@ -211,10 +211,14 @@ namespace PonzianiSwissLib
         public void OrderByRank(int round = int.MaxValue)
         {
             round = Math.Min(round, Rounds.Count);
-            GetScorecards();
+            GetScorecards(round);
             ScoreCardComparer scc = new();
             scc.Tiebreaks = TieBreak;
             Participants.Sort(scc);
+            for (int i = 0; i < Participants.Count; i++)
+            {
+                Participants[i].RankId = $"{i + 1}";
+            }
         }
 
 

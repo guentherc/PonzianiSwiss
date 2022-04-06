@@ -100,6 +100,7 @@
             this.tsbAdd = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbDraw = new System.Windows.Forms.ToolStripButton();
+            this.crosstableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.mainStatusStrip.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -178,7 +179,8 @@
             // 
             this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tRFToolStripMenuItem,
-            this.participantListToolStripMenuItem});
+            this.participantListToolStripMenuItem,
+            this.crosstableToolStripMenuItem});
             resources.ApplyResources(this.exportToolStripMenuItem, "exportToolStripMenuItem");
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
             // 
@@ -608,6 +610,12 @@
             this.tsbDraw.Name = "tsbDraw";
             this.tsbDraw.Click += new System.EventHandler(this.DrawToolStripMenuItem_Click);
             // 
+            // crosstableToolStripMenuItem
+            // 
+            this.crosstableToolStripMenuItem.Name = "crosstableToolStripMenuItem";
+            resources.ApplyResources(this.crosstableToolStripMenuItem, "crosstableToolStripMenuItem");
+            this.crosstableToolStripMenuItem.Click += new System.EventHandler(this.crosstableToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             resources.ApplyResources(this, "$this");
@@ -706,5 +714,6 @@
         private ToolStripMenuItem participantListToolStripMenuItem;
         private ToolStripMenuItem byStartingRankToolStripMenuItem;
         private ToolStripMenuItem byNameToolStripMenuItem;
+        private ToolStripMenuItem crosstableToolStripMenuItem;
     }
 }

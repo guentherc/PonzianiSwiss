@@ -70,6 +70,15 @@ namespace PonzianiSwissLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cross Table after Round &amp;.
+        /// </summary>
+        internal static string CrossTableForRound {
+            get {
+                return ResourceManager.GetString("CrossTableForRound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Federation.
         /// </summary>
         internal static string Federation {

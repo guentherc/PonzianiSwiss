@@ -88,6 +88,15 @@ namespace PonzianiSwissGui.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Crosstable.
+        /// </summary>
+        public static string Crosstable {
+            get {
+                return ResourceManager.GetString("Crosstable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to End Date less than Start Date.
         /// </summary>
         public static string EndDateLTStartDate {

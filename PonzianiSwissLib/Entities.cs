@@ -129,6 +129,30 @@
             return sum;
         }
 
+        public float GetTieBreak(TieBreak tieBreak)
+        {
+            switch (tieBreak)
+            {
+                case TieBreak.Score:
+                    return Score();
+                case TieBreak.Buchholz:
+                    return Buchholz();
+                case TieBreak.BuchholzMedian:
+                    return BuchholzMedian();
+                case TieBreak.BuchholzCut1:
+                    return BuchholzCut1();
+                case TieBreak.RefinedBuchholz:
+                    return RefinedBuchholz();
+                case TieBreak.CountWin:
+                    return CountWin();
+                case TieBreak.CountWinWithBlack:
+                    return CountBlackWin();
+                case TieBreak.CumulativeScore:
+                    return CumulativeScore();
+            }
+            return 0;
+        }
+
         public class Entry
         {
             internal Entry(Participant opponent, Side side, Result result, int round, Tournament tournament)
@@ -230,35 +254,7 @@
             if (Tiebreaks == null || x == null || y == null) return 0;
             foreach (var tieBreak in Tiebreaks)
             {
-                int cv = 0;
-                switch (tieBreak)
-                {
-                    case TieBreak.Score:
-                        cv = y.Score().CompareTo(x.Score());
-                        break;
-                    case TieBreak.Buchholz:
-                        cv = y.Buchholz().CompareTo(x.Buchholz());
-                        break;
-                    case TieBreak.BuchholzMedian:
-                        cv = y.BuchholzMedian().CompareTo(x.BuchholzMedian());
-                        break;
-                    case TieBreak.BuchholzCut1:
-                        cv = y.BuchholzCut1().CompareTo(x.BuchholzCut1());
-                        break;
-                    case TieBreak.RefinedBuchholz:
-                        cv = y.RefinedBuchholz().CompareTo(x.RefinedBuchholz());
-                        break;
-                    case TieBreak.CountWin:
-                        cv = y.CountWin().CompareTo(x.CountWin());
-                        break;
-                    case TieBreak.CountWinWithBlack:
-                        cv = y.CountBlackWin().CompareTo(x.CountBlackWin());
-                        break;
-                    case TieBreak.CumulativeScore:
-                        cv = y.CumulativeScore().CompareTo(x.CumulativeScore());
-                        break;
-
-                }
+                int cv = y.GetTieBreak(tieBreak).CompareTo(x.GetTieBreak(tieBreak));
                 if (cv != 0) return cv;
             }
             return 0;

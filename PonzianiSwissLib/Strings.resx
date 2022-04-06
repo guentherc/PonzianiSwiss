@@ -120,6 +120,9 @@
   <data name="Club" xml:space="preserve">
     <value>Club</value>
   </data>
+  <data name="CrossTableForRound" xml:space="preserve">
+    <value>Cross Table after Round &amp;</value>
+  </data>
   <data name="Federation" xml:space="preserve">
     <value>Federation</value>
   </data>
