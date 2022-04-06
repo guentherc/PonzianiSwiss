@@ -218,4 +218,55 @@
         }
 
     }
+
+    public enum TieBreak { Score, Buchholz, BuchholzMedian, BuchholzCut1, RefinedBuchholz, SonnebornBerger, CountWin, CountWinWithBlack, CumulativeScore }
+
+    internal class ScoreCardComparer : IComparer<Scorecard>, IComparer<Participant>
+    {
+        public List<TieBreak>? Tiebreaks { get; set; }
+
+        public int Compare(Scorecard? x, Scorecard? y)
+        {
+            if (Tiebreaks == null || x == null || y == null) return 0;
+            foreach (var tieBreak in Tiebreaks)
+            {
+                int cv = 0;
+                switch (tieBreak)
+                {
+                    case TieBreak.Score:
+                        cv = y.Score().CompareTo(x.Score());
+                        break;
+                    case TieBreak.Buchholz:
+                        cv = y.Buchholz().CompareTo(x.Buchholz());
+                        break;
+                    case TieBreak.BuchholzMedian:
+                        cv = y.BuchholzMedian().CompareTo(x.BuchholzMedian());
+                        break;
+                    case TieBreak.BuchholzCut1:
+                        cv = y.BuchholzCut1().CompareTo(x.BuchholzCut1());
+                        break;
+                    case TieBreak.RefinedBuchholz:
+                        cv = y.RefinedBuchholz().CompareTo(x.RefinedBuchholz());
+                        break;
+                    case TieBreak.CountWin:
+                        cv = y.CountWin().CompareTo(x.CountWin());
+                        break;
+                    case TieBreak.CountWinWithBlack:
+                        cv = y.CountBlackWin().CompareTo(x.CountBlackWin());
+                        break;
+                    case TieBreak.CumulativeScore:
+                        cv = y.CumulativeScore().CompareTo(x.CumulativeScore());
+                        break;
+
+                }
+                if (cv != 0) return cv;
+            }
+            return 0;
+        }
+
+        public int Compare(Participant? x, Participant? y)
+        {
+            return Compare(x?.Scorecard, y?.Scorecard);
+        }
+    }
 }

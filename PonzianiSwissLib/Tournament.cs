@@ -168,6 +168,9 @@ namespace PonzianiSwissLib
 
         public ScoringScheme ScoringScheme { set; get; } = new();
 
+        public List<TieBreak> TieBreak { set; get; } = new List<TieBreak>() { PonzianiSwissLib.TieBreak.Score, PonzianiSwissLib.TieBreak.BuchholzCut1,
+                                                                              PonzianiSwissLib.TieBreak.Buchholz, PonzianiSwissLib.TieBreak.CountWin, PonzianiSwissLib.TieBreak.CountWinWithBlack };
+
         public bool BakuAcceleration { set; get; } = false;
 
         /// <summary>
@@ -209,34 +212,9 @@ namespace PonzianiSwissLib
         {
             round = Math.Min(round, Rounds.Count);
             GetScorecards();
-            Participants.Sort((p2, p1) =>
-            {
-                if (round == 0) return Rating(p1).CompareTo(Rating(p2));
-                else
-                {
-                    Scorecard? sc1 = p1.Scorecard;
-                    Scorecard? sc2 = p2.Scorecard;
-                    if (sc1 != null && sc2 != null)
-                    {
-                        float score1 = sc1.Score(round);
-                        float score2 = sc2.Score(round);
-                        if (score1 != score2) return score1.CompareTo(score2);
-                        score1 = sc1.BuchholzCut1(round);
-                        score2 = sc2.BuchholzCut1(round);
-                        if (score1 != score2) return score1.CompareTo(score2);
-                        score1 = sc1.Buchholz(round);
-                        score2 = sc2.Buchholz(round);
-                        if (score1 != score2) return score1.CompareTo(score2);
-                        int cwin1 = sc1.CountWin(round);
-                        int cwin2 = sc2.CountWin(round);
-                        if (cwin1 != cwin2) return cwin1.CompareTo(cwin2);
-                        cwin1 = sc1.CountBlackWin(round);
-                        cwin2 = sc2.CountBlackWin(round);
-                        return cwin1.CompareTo(cwin2);
-                    }
-                    else return 0;
-                }
-            });
+            ScoreCardComparer scc = new();
+            scc.Tiebreaks = TieBreak;
+            Participants.Sort(scc);
         }
 
 
