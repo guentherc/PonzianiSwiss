@@ -117,13 +117,13 @@
     <value>TRF</value>
   </data>
   <data name="byStartingRankToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>160, 22</value>
   </data>
   <data name="byStartingRankToolStripMenuItem.Text" xml:space="preserve">
     <value>By Starting Rank</value>
   </data>
   <data name="byNameToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>160, 22</value>
   </data>
   <data name="byNameToolStripMenuItem.Text" xml:space="preserve">
     <value>By Name</value>
@@ -139,6 +139,12 @@
   </data>
   <data name="crosstableToolStripMenuItem.Text" xml:space="preserve">
     <value>Crosstable</value>
+  </data>
+  <data name="pairingsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="pairingsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Pairings</value>
   </data>
   <data name="exportToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -724,6 +730,12 @@
   <data name="&gt;&gt;byNameToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;crosstableToolStripMenuItem.Name" xml:space="preserve">
+    <value>crosstableToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;crosstableToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;participantsToolStripMenuItem.Name" xml:space="preserve">
     <value>participantsToolStripMenuItem</value>
   </data>
@@ -1018,10 +1030,10 @@
   <data name="&gt;&gt;tsbDraw.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;crosstableToolStripMenuItem.Name" xml:space="preserve">
-    <value>crosstableToolStripMenuItem</value>
+  <data name="&gt;&gt;pairingsToolStripMenuItem.Name" xml:space="preserve">
+    <value>pairingsToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;crosstableToolStripMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;pairingsToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

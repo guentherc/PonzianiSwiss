@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BoardNumber" xml:space="preserve">
+    <value>Board</value>
+  </data>
+  <data name="Bye" xml:space="preserve">
+    <value>Bye</value>
+  </data>
   <data name="Club" xml:space="preserve">
     <value>Club</value>
   </data>
@@ -128,6 +134,9 @@
   </data>
   <data name="Participant" xml:space="preserve">
     <value>Participant</value>
+  </data>
+  <data name="ParticipantIdShort" xml:space="preserve">
+    <value>Id</value>
   </data>
   <data name="ParticipantListByStartOrder" xml:space="preserve">
     <value>Participant List (Ordered By Starting Rank)</value>
@@ -143,6 +152,15 @@
   </data>
   <data name="ParticpantListRank" xml:space="preserve">
     <value>Rank</value>
+  </data>
+  <data name="Result" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="RoundResults" xml:space="preserve">
+    <value>Results of Round &amp;</value>
+  </data>
+  <data name="Score" xml:space="preserve">
+    <value>Score</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>Title</value>

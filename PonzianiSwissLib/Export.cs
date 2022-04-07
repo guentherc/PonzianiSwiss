@@ -10,6 +10,48 @@ namespace PonzianiSwissLib
 {
     public static class Export
     {
+        public static string RoundHTML(this Tournament tournament, int round = int.MaxValue)
+        {
+            round = Math.Min(round, tournament.Rounds.Count - 1);
+            tournament.OrderByRank(round);
+            StringBuilder sb = new();
+            sb.AppendLine($"<h2 align=\"center\">{HttpUtility.HtmlEncode(tournament.Name)}</h2>");
+            sb.AppendLine(@"<div align=""center"">");
+            sb.AppendLine(@"<center>");
+            sb.AppendLine(@"<table border=""2"" cellpadding=""2"" cellspacing=""2"" style=""border-collapse: collapse"" bordercolor=""#111111"" >");
+            sb.AppendLine(@"<thead>");
+            sb.AppendLine(@"<tr>");
+            sb.AppendLine($"<td colspan=\"8\">{HttpUtility.HtmlEncode(Strings.RoundResults).Replace("&", (round + 1).ToString())} </td>");
+            sb.AppendLine(@"</tr>");
+
+            List<string> columnNames = new() { Strings.BoardNumber, Strings.ParticipantIdShort, Strings.Participant, Strings.Title, Strings.Score, "-",
+                                                          Strings.ParticipantIdShort, Strings.Participant, Strings.Title, Strings.Score, Strings.Result };
+            sb.AppendLine(@"<tr>");
+            foreach (string columnName in columnNames) sb.AppendLine($"<th>{HttpUtility.HtmlEncode(columnName)}</th>");
+            sb.AppendLine(@"</tr>");
+
+            int board = 1;
+            foreach (var p in tournament.Rounds[round].Pairings)
+            {
+                sb.AppendLine(@"<tr>");
+                sb.AppendLine($"<td>{board}</td>");
+                sb.AppendLine($"<td>{p.White.RankId}</td>");
+                sb.AppendLine($"<td>{p.White.Name}</td>");
+                sb.AppendLine($"<td>{(p.White.Title == FideTitle.NONE ? string.Empty : p.White.Title.ToString())}</td>");
+                sb.AppendLine($"<td>({p.White.Scorecard?.Score(round):F1})</td>");
+                sb.AppendLine($"<td>-</td>");
+                sb.AppendLine($"<td>{p.Black.RankId}</td>");
+                sb.AppendLine($"<td>{p.Black.Name}</td>");
+                sb.AppendLine($"<td>{(p.Black.Title == FideTitle.NONE ? string.Empty : p.Black.Title.ToString())}</td>");
+                sb.AppendLine($"<td>({p.Black.Scorecard?.Score(round):F1})</td>");
+                sb.AppendLine($"<td>{Tournament.result_strings[(int)p.Result]}</td>");
+                sb.AppendLine(@"</tr>");
+                ++board;
+            }
+
+            return sb.ToString();
+        }
+        
         public static string CrosstableHTML(this Tournament tournament, int round = int.MaxValue)
         {
             round = Math.Min(round, tournament.Rounds.Count);
@@ -25,15 +67,14 @@ namespace PonzianiSwissLib
                 sb.AppendLine(@"<tr>");
                 sb.AppendLine($"<td colspan=\"8\">{HttpUtility.HtmlEncode(Strings.CrossTableForRound).Replace("&", round.ToString())} </td>");
                 sb.AppendLine(@"</tr>");
-                sb.AppendLine(@"<tr>");
-
-                List<string> columnNames = new List<string>() { Strings.ParticpantListRank, Strings.Participant, Strings.ParticipantListFideRating,
+                List<string> columnNames = new() { Strings.ParticpantListRank, Strings.Participant, Strings.ParticipantListFideRating,
                                                   Strings.ParticipantListNationalRating };
                 for (int i = 1; i<= round; i++) columnNames.Add(i.ToString());
                 foreach(var tb in tournament.TieBreak)
                 {
                     columnNames.Add(tb.ToString());
                 }
+                sb.AppendLine(@"<tr>");
                 foreach (string columnName in columnNames) sb.AppendLine($"<th>{HttpUtility.HtmlEncode(columnName)}</th>");
                 sb.AppendLine(@"</tr>");
                 int rank = 1;

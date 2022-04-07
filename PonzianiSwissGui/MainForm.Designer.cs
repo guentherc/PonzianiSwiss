@@ -44,6 +44,7 @@
             this.participantListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.byStartingRankToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.byNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.crosstableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.participantsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.roundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -100,7 +101,7 @@
             this.tsbAdd = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbDraw = new System.Windows.Forms.ToolStripButton();
-            this.crosstableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pairingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.mainStatusStrip.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -180,7 +181,8 @@
             this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tRFToolStripMenuItem,
             this.participantListToolStripMenuItem,
-            this.crosstableToolStripMenuItem});
+            this.crosstableToolStripMenuItem,
+            this.pairingsToolStripMenuItem});
             resources.ApplyResources(this.exportToolStripMenuItem, "exportToolStripMenuItem");
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
             // 
@@ -209,6 +211,12 @@
             this.byNameToolStripMenuItem.Name = "byNameToolStripMenuItem";
             resources.ApplyResources(this.byNameToolStripMenuItem, "byNameToolStripMenuItem");
             this.byNameToolStripMenuItem.Click += new System.EventHandler(this.ExportParticipantListToolStripMenuItem_Click);
+            // 
+            // crosstableToolStripMenuItem
+            // 
+            this.crosstableToolStripMenuItem.Name = "crosstableToolStripMenuItem";
+            resources.ApplyResources(this.crosstableToolStripMenuItem, "crosstableToolStripMenuItem");
+            this.crosstableToolStripMenuItem.Click += new System.EventHandler(this.CrosstableToolStripMenuItem_Click);
             // 
             // participantsToolStripMenuItem
             // 
@@ -610,11 +618,11 @@
             this.tsbDraw.Name = "tsbDraw";
             this.tsbDraw.Click += new System.EventHandler(this.DrawToolStripMenuItem_Click);
             // 
-            // crosstableToolStripMenuItem
+            // pairingsToolStripMenuItem
             // 
-            this.crosstableToolStripMenuItem.Name = "crosstableToolStripMenuItem";
-            resources.ApplyResources(this.crosstableToolStripMenuItem, "crosstableToolStripMenuItem");
-            this.crosstableToolStripMenuItem.Click += new System.EventHandler(this.crosstableToolStripMenuItem_Click);
+            this.pairingsToolStripMenuItem.Name = "pairingsToolStripMenuItem";
+            resources.ApplyResources(this.pairingsToolStripMenuItem, "pairingsToolStripMenuItem");
+            this.pairingsToolStripMenuItem.Click += new System.EventHandler(this.pairingsToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -715,5 +723,6 @@
         private ToolStripMenuItem byStartingRankToolStripMenuItem;
         private ToolStripMenuItem byNameToolStripMenuItem;
         private ToolStripMenuItem crosstableToolStripMenuItem;
+        private ToolStripMenuItem pairingsToolStripMenuItem;
     }
 }

@@ -131,26 +131,18 @@
 
         public float GetTieBreak(TieBreak tieBreak)
         {
-            switch (tieBreak)
+            return tieBreak switch
             {
-                case TieBreak.Score:
-                    return Score();
-                case TieBreak.Buchholz:
-                    return Buchholz();
-                case TieBreak.BuchholzMedian:
-                    return BuchholzMedian();
-                case TieBreak.BuchholzCut1:
-                    return BuchholzCut1();
-                case TieBreak.RefinedBuchholz:
-                    return RefinedBuchholz();
-                case TieBreak.CountWin:
-                    return CountWin();
-                case TieBreak.CountWinWithBlack:
-                    return CountBlackWin();
-                case TieBreak.CumulativeScore:
-                    return CumulativeScore();
-            }
-            return 0;
+                TieBreak.Score => Score(),
+                TieBreak.Buchholz => Buchholz(),
+                TieBreak.BuchholzMedian => BuchholzMedian(),
+                TieBreak.BuchholzCut1 => BuchholzCut1(),
+                TieBreak.RefinedBuchholz => RefinedBuchholz(),
+                TieBreak.CountWin => CountWin(),
+                TieBreak.CountWinWithBlack => CountBlackWin(),
+                TieBreak.CumulativeScore => CumulativeScore(),
+                _ => 0,
+            };
         }
 
         public class Entry

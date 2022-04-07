@@ -61,6 +61,24 @@ namespace PonzianiSwissLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Board.
+        /// </summary>
+        internal static string BoardNumber {
+            get {
+                return ResourceManager.GetString("BoardNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bye.
+        /// </summary>
+        internal static string Bye {
+            get {
+                return ResourceManager.GetString("Bye", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Club.
         /// </summary>
         internal static string Club {
@@ -93,6 +111,15 @@ namespace PonzianiSwissLib {
         internal static string Participant {
             get {
                 return ResourceManager.GetString("Participant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Id.
+        /// </summary>
+        internal static string ParticipantIdShort {
+            get {
+                return ResourceManager.GetString("ParticipantIdShort", resourceCulture);
             }
         }
         
@@ -138,6 +165,33 @@ namespace PonzianiSwissLib {
         internal static string ParticpantListRank {
             get {
                 return ResourceManager.GetString("ParticpantListRank", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Result.
+        /// </summary>
+        internal static string Result {
+            get {
+                return ResourceManager.GetString("Result", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Results of Round &amp;.
+        /// </summary>
+        internal static string RoundResults {
+            get {
+                return ResourceManager.GetString("RoundResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Score.
+        /// </summary>
+        internal static string Score {
+            get {
+                return ResourceManager.GetString("Score", resourceCulture);
             }
         }
         

@@ -144,6 +144,9 @@
   <data name="OpenTournamentFile" xml:space="preserve">
     <value>Load Tournament</value>
   </data>
+  <data name="Pairings" xml:space="preserve">
+    <value>Pairings</value>
+  </data>
   <data name="ParticipantListByName" xml:space="preserve">
     <value>Participant List (By Name)</value>
   </data>

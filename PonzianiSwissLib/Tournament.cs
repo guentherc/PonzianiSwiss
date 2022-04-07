@@ -496,6 +496,22 @@ namespace PonzianiSwissLib
 
         internal static readonly string[] title_string = { "g", "wg", "m", "wm", "f", "wf", "c", "wc", "", "h" };
         internal static readonly string result_char = "*-0LZU=DH1W+F-";
+        internal static readonly string[] result_strings = new string[14] {
+            "*",
+            "--+",
+            "0-1",
+            "0-1",
+            Strings.Bye + " 0",
+            Strings.Bye,
+            "1/2-1/2",
+            "1/2-1/2",
+            Strings.Bye + " 1/2",
+            "1-0",
+            "1-0",
+            "+--",
+            Strings.Bye + " 1",
+            "---"
+        };
 
     }
 }

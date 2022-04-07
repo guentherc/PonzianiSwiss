@@ -142,6 +142,15 @@ namespace PonzianiSwissGui.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pairings.
+        /// </summary>
+        public static string Pairings {
+            get {
+                return ResourceManager.GetString("Pairings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Participant List (By Name).
         /// </summary>
         public static string ParticipantListByName {

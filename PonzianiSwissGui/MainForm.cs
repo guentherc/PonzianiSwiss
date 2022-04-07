@@ -264,6 +264,7 @@ namespace PonzianiSwissGui
         private void DeleteLastRoundToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _tournament?.Rounds.Remove(_tournament.Rounds.Last());
+            _tournament?.OrderByRank();
             UpdateUI();
         }
 
@@ -499,10 +500,17 @@ namespace PonzianiSwissGui
             htmlViewer.ShowDialog();
         }
 
-        private void crosstableToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CrosstableToolStripMenuItem_Click(object sender, EventArgs e)
         {
             htmlViewer.Title = Properties.Strings.Crosstable;
             htmlViewer.Html = Tournament?.CrosstableHTML();
+            htmlViewer.ShowDialog();
+        }
+
+        private void pairingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            htmlViewer.Title = Properties.Strings.Pairings;
+            htmlViewer.Html = Tournament?.RoundHTML();
             htmlViewer.ShowDialog();
         }
     }
