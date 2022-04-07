@@ -387,6 +387,7 @@ namespace PonzianiSwissLib
         /// <returns>true, if successful</returns>
         public async Task<bool> DrawAsync(int round = int.MaxValue, Side? SideForTopRanked = null, Dictionary<string, Result>? byes = null)
         {
+            OrderByRank();
             if (byes == null) {
                 byes = new();
                 foreach (Participant p in Participants.Where(p => p.Active != null && !p.Active[Rounds.Count])) {

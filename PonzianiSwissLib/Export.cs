@@ -107,7 +107,7 @@ namespace PonzianiSwissLib
                 foreach (Participant participant in participants)
                 {
                     sb.AppendLine(@"<tr>");
-                    sb.AppendLine($"<td>{HttpUtility.HtmlEncode(participant.ParticipantId)}</td>");
+                    sb.AppendLine($"<td>{HttpUtility.HtmlEncode(participant.RankId)}</td>");
                     sb.AppendLine($"<td>{HttpUtility.HtmlEncode(participant.Name)}</td>");
                     sb.AppendLine($"<td>{HttpUtility.HtmlEncode(participant.Title == FideTitle.NONE ? " " : participant.Title)}</td>");
                     sb.AppendLine($"<td>{HttpUtility.HtmlEncode(tournament.Rating(participant).ToString())}</td>");

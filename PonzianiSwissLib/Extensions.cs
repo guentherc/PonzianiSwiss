@@ -82,6 +82,7 @@ namespace PonzianiSwissLib
             }
             tournament.ProcessPlayerTRF(plist);
             tournament.CountRounds = tournament.Rounds.Count;
+            tournament.OrderByRank();
         }
 
         private static readonly string[] ShortTitles = { "g", "wg", "m", "wm", "f", "wf", "c", "wc", string.Empty };

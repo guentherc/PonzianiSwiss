@@ -80,9 +80,9 @@ namespace PonzianiSwissGui
                     lvr.Items.Clear();
                     foreach (var p in round.Pairings)
                     {
-                        ListViewItem lvi = new(p.White.ParticipantId);
+                        ListViewItem lvi = new(p.White.RankId);
                         lvi.SubItems.Add($"{p.White.Name?.Trim()} ({p.White.Scorecard?.Score(indx)})");
-                        lvi.SubItems.Add(p.Black.ParticipantId);
+                        lvi.SubItems.Add(p.Black.RankId);
                         lvi.SubItems.Add($"{p.Black.Name?.Trim()} ({p.Black.Scorecard?.Score(indx)})");
                         lvi.SubItems.Add(result_strings[(int)p.Result]);
                         lvi.Tag = p;
@@ -112,7 +112,7 @@ namespace PonzianiSwissGui
             ListViewItem item = new(p.Name);
             item.SubItems.Add(p.FideId.ToString());
             item.SubItems.Add(Tournament?.Rating(p).ToString());
-            item.SubItems.Add(p.ParticipantId?.ToString());
+            item.SubItems.Add(p.RankId?.ToString());
             item.SubItems.Add(p.FideRating > 0 ? p.FideRating.ToString() : string.Empty);
             item.SubItems.Add(p.AlternativeRating > 0 ? p.AlternativeRating.ToString() : string.Empty);
             item.SubItems.Add(p.Club ?? string.Empty);
