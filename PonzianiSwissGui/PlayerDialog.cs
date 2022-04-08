@@ -173,5 +173,10 @@ namespace PonzianiSwissGui
             };
             return participant;
         }
+
+        private void TbName_TextChanged(object sender, EventArgs e)
+        {
+            btnOk.Enabled = tbName.Text.Trim().Length > 0;
+        }
     }
 }

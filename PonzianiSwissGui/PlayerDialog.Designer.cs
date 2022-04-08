@@ -81,6 +81,7 @@
             this.tbName.Name = "tbName";
             this.tbName.Size = new System.Drawing.Size(609, 23);
             this.tbName.TabIndex = 3;
+            this.tbName.TextChanged += new System.EventHandler(this.TbName_TextChanged);
             this.tbName.Enter += new System.EventHandler(this.TbName_Enter);
             this.tbName.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TbName_KeyUp);
             // 
@@ -195,6 +196,7 @@
             // btnOk
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOk.Enabled = false;
             this.btnOk.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnOk.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnOk.Location = new System.Drawing.Point(645, 158);
