@@ -224,12 +224,13 @@ namespace PonzianiSwissGui
         private void AddToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (Tournament == null) return;
-            PlayerDialog pd = new(new());
-            if (pd.ShowDialog() == DialogResult.OK)
+            PlayerDialog pd = new(new(), _tournament);
+            if (pd.ShowDialog() == DialogResult.OK && pd.Player != null && pd.Player.Name != null && pd.Player.Name.Trim().Length > 0)
             {
+                Tournament.Participants.RemoveAll(p => p.FideId > 0 && p.FideId == pd.Player.FideId);
                 Tournament.Participants.Add(pd.Player);
-                AddPlayerToListView(pd.Player);
             }
+            UpdateUI();
         }
 
         private async void CreateTestTournamentToolStripMenuItem_Click(object sender, EventArgs e)
@@ -463,7 +464,7 @@ namespace PonzianiSwissGui
                     Title = p.Title,
                     YearOfBirth = p.YearOfBirth
                 };
-                PlayerDialog pd = new(cp);
+                PlayerDialog pd = new(cp, _tournament);
                 if (pd.ShowDialog() == DialogResult.OK)
                 {
                     p.Name = cp.Name;
@@ -512,6 +513,11 @@ namespace PonzianiSwissGui
             htmlViewer.Title = Properties.Strings.Pairings;
             htmlViewer.Html = Tournament?.RoundHTML();
             htmlViewer.ShowDialog();
+        }
+
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

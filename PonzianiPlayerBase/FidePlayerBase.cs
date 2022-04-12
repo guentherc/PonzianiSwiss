@@ -157,6 +157,9 @@ namespace PonzianiPlayerBase
                 lastUpdate = DateTime.UtcNow;
                 await cmd.ExecuteNonQueryAsync();
                 transaction.Commit();
+                cmd = connection.CreateCommand();
+                cmd.CommandText = $"VACUUM";
+                await cmd.ExecuteNonQueryAsync();
             }
 
             //Clean up

@@ -48,6 +48,7 @@
             this.lblYearOfBirth = new System.Windows.Forms.Label();
             this.lblClub = new System.Windows.Forms.Label();
             this.tbClub = new System.Windows.Forms.TextBox();
+            this.btnAdd = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.nudRating)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudAltRating)).BeginInit();
             this.SuspendLayout();
@@ -190,7 +191,7 @@
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 14;
-            this.btnCancel.Text = "Cancel";
+            this.btnCancel.Text = "Close";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
             // btnOk
@@ -263,12 +264,23 @@
             this.tbClub.Size = new System.Drawing.Size(608, 23);
             this.tbClub.TabIndex = 21;
             // 
+            // btnAdd
+            // 
+            this.btnAdd.Location = new System.Drawing.Point(564, 158);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(75, 23);
+            this.btnAdd.TabIndex = 22;
+            this.btnAdd.Text = "Add";
+            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.BtnAdd_Click);
+            // 
             // PlayerDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(813, 193);
+            this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.tbClub);
             this.Controls.Add(this.lblClub);
             this.Controls.Add(this.tbYearOfBirth);
@@ -321,5 +333,6 @@
         private Label lblYearOfBirth;
         private Label lblClub;
         private TextBox tbClub;
+        private Button btnAdd;
     }
 }

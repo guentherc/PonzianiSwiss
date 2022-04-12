@@ -6,15 +6,20 @@ namespace PonzianiSwissGui
 {
     public partial class PlayerDialog : Form
     {
-        public PlayerDialog(Participant player)
+        public PlayerDialog(Participant player, Tournament? tournament)
         {
             InitializeComponent();
             Player = player;
+            Tournament = tournament;
+            PlayersAdded = 0;
         }
 
         private readonly IPlayerBase FideBase = PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE);
 
         public Participant Player { private set; get; }
+        public Tournament? Tournament { private set; get; }
+
+        public int PlayersAdded { private set; get; }
 
         private void PlayerDialog_Shown(object sender, EventArgs e)
         {
@@ -177,6 +182,19 @@ namespace PonzianiSwissGui
         private void TbName_TextChanged(object sender, EventArgs e)
         {
             btnOk.Enabled = tbName.Text.Trim().Length > 0;
+        }
+
+        private void BtnAdd_Click(object sender, EventArgs e)
+        {
+            UpdateFromUI();
+            if (Tournament != null)
+            {
+                Tournament.Participants.RemoveAll(p => p.FideId > 0 && p.FideId == Player.FideId);
+                Tournament.Participants.Add(Player);
+                ++PlayersAdded;
+                Player = new();
+                UpdateUI();
+            }
         }
     }
 }
