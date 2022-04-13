@@ -39,6 +39,25 @@ namespace PonzianiSwissTest
         }
 
         [TestMethod]
+        public void TestRunTournament()
+        {
+            if (app == null) Assert.Fail();
+            if (!File.Exists(tournament_file)) TestWithRealData();
+            using (var automation = new UIA2Automation())
+            {
+                //Load Tournament from file
+                var window = app.GetMainWindow(automation);
+                LoadTournament(window, tournament_file);
+                var tsMain = window.FindFirstByXPath("/Tab").AsTab();
+                var lvPlayer = tsMain.FindFirstChild().AsListBox();
+                Assert.IsTrue(lvPlayer?.Items?.Count() > 100);
+                //Draw first round
+                var drawButton = window.FindFirstByXPath("/ToolBar/Button[6]").AsButton();
+                drawButton.Click();
+            }
+        }
+
+        [TestMethod]
         public void TestWithRealData()
         {
             if (app == null) Assert.Fail();
@@ -66,15 +85,16 @@ namespace PonzianiSwissTest
                     Assert.IsNotNull(btnAdd);
                     btnAdd.Click();
                 }
-                var btnCancel= playerDialog.FindAllByXPath("/Button").Where(e => e.AutomationId == "btnCancel").First().AsButton();
+                var btnCancel = playerDialog.FindAllByXPath("/Button").Where(e => e.AutomationId == "btnCancel").First().AsButton();
                 Assert.IsNotNull(btnCancel);
                 btnCancel.Click();
-                string tfile = Path.Combine(Path.GetTempPath(), "test1.tjson");
-                if (File.Exists(tfile)) File.Delete(tfile);
-                SaveTournament(window, Path.Combine(Path.GetTempPath(), "test1.tjson"));
+                if (File.Exists(tournament_file)) File.Delete(tournament_file);
+                SaveTournament(window, tournament_file);
                 Retry.WhileNull(() => window.FindFirstByXPath("/ToolBar/Button[3]"));
             }
         }
+
+        private static string tournament_file = Path.Combine(Path.GetTempPath(), "test1.tjson");
 
         [TestMethod]
         public void TestCreateTournamentSimple()

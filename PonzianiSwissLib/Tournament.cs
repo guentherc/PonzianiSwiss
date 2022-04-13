@@ -336,7 +336,7 @@ namespace PonzianiSwissLib
                 char s = p.Sex == Sex.Female ? 'f' : 'm';
                 string birthdate = p.Attributes.ContainsKey(Participant.AttributeKey.Birthdate) ? ((DateTime)p.Attributes[Participant.AttributeKey.Birthdate]).ToString("yyyy/MM/dd")
                                   : p.YearOfBirth > 0 ? p.YearOfBirth.ToString() : string.Empty;
-                StringBuilder pline = new(FormattableString.Invariant($"001 {p.ParticipantId,4} {s} {title_string[(int)p.Title],2} {p.Name,-33} {p.FideRating,4} {p.Federation,3 } {(p.FideId != 0 ? p.FideId : string.Empty),11} {birthdate,-10} { p.Scorecard?.Score(round) ?? 0,4} { p.Rank,4}"));
+                StringBuilder pline = new(FormattableString.Invariant($"001 {p.ParticipantId,4} {s} {title_string[(int)p.Title],2} {(p.Name?.Length > 33 ? p.Name?.Substring(0,33) : p.Name),-33} {p.FideRating,4} {p.Federation,3 } {(p.FideId != 0 ? p.FideId : string.Empty),11} {birthdate,-10} { p.Scorecard?.Score(round) ?? 0,4} { p.Rank,4}"));
                 for (int r = 1; r <= round; ++r)
                 {
                     var entries = p.Scorecard?.Entries.Where(e => e.Round == r - 1);
@@ -406,11 +406,14 @@ namespace PonzianiSwissLib
             for (int i = 1; i < lines.Length; i++)
             {
                 string[] n = lines[i].Trim().Split(' ');
-                if (n.Length != 2) continue;
+                if (n.Length != 2) 
+                    continue;
                 Participant p1 = Participants.Where(p => p.ParticipantId == n[0]).First();
                 Participant p2 = n[1] != "0" ? Participants.Where(p => p.ParticipantId == n[1]).First() : Participant.BYE;
                 Rounds[round].Pairings.Add(new(p1, p2));
             }
+            foreach (Pairing p in Rounds[round].Pairings.Where(p => p.Black == Participant.BYE)) 
+                p.Result = Result.PairingAllocatedBye;
             //Byes
             if (byes != null)
             {

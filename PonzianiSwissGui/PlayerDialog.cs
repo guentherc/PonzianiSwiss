@@ -187,7 +187,7 @@ namespace PonzianiSwissGui
         private void BtnAdd_Click(object sender, EventArgs e)
         {
             UpdateFromUI();
-            if (Tournament != null)
+            if (Tournament != null && Player.Name != null && Player.Name.Trim().Length > 0)
             {
                 Tournament.Participants.RemoveAll(p => p.FideId > 0 && p.FideId == Player.FideId);
                 Tournament.Participants.Add(Player);
