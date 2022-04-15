@@ -21,7 +21,7 @@ namespace PonzianiSwissLib
             sb.AppendLine(@"<table border=""2"" cellpadding=""2"" cellspacing=""2"" style=""border-collapse: collapse"" bordercolor=""#111111"" >");
             sb.AppendLine(@"<thead>");
             sb.AppendLine(@"<tr>");
-            sb.AppendLine($"<td colspan=\"8\">{HttpUtility.HtmlEncode(Strings.RoundResults).Replace("&", (round + 1).ToString())} </td>");
+            sb.AppendLine($"<td colspan=\"8\">{HttpUtility.HtmlEncode(Strings.RoundResults.Replace("&", (round + 1).ToString()))} </td>");
             sb.AppendLine(@"</tr>");
 
             List<string> columnNames = new() { Strings.BoardNumber, Strings.ParticipantIdShort, Strings.Participant, Strings.Title, Strings.Score, "-",
@@ -65,7 +65,7 @@ namespace PonzianiSwissLib
                 sb.AppendLine(@"<table border=""2"" cellpadding=""2"" cellspacing=""2"" style=""border-collapse: collapse"" bordercolor=""#111111"" >");
                 sb.AppendLine(@"<thead>");
                 sb.AppendLine(@"<tr>");
-                sb.AppendLine($"<td colspan=\"8\">{HttpUtility.HtmlEncode(Strings.CrossTableForRound).Replace("&", round.ToString())} </td>");
+                sb.AppendLine($"<td colspan=\"8\">{HttpUtility.HtmlEncode(Strings.CrossTableForRound.Replace("&", round.ToString()))} </td>");
                 sb.AppendLine(@"</tr>");
                 List<string> columnNames = new() { Strings.ParticpantListRank, Strings.Participant, Strings.ParticipantListFideRating,
                                                   Strings.ParticipantListNationalRating };

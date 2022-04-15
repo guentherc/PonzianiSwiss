@@ -51,6 +51,7 @@ namespace PonzianiSwissGui
                     }
                 }
                 int indx = 0;
+                int selTabIndx = tcMain.SelectedIndex;
                 foreach (var round in _tournament.Rounds)
                 {
                     string id = $"tpRound_{indx}";
@@ -91,6 +92,7 @@ namespace PonzianiSwissGui
                     }
                     ++indx;
                 }
+                tcMain.SelectedIndex = selTabIndx;
             }
             Invalidate();
         }
@@ -271,7 +273,7 @@ namespace PonzianiSwissGui
 
         private void SetResultToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            if (selectedItem != null && selectedItem.Tag != null && selectedItem.Tag is Result)
+            if (selectedItem != null && selectedItem.Tag != null && sender is ToolStripMenuItem && ((ToolStripMenuItem)sender).Tag != null)
             {
                 Result r = (Result)int.Parse((string)((ToolStripMenuItem)sender).Tag);
                 ((Pairing)selectedItem.Tag).Result = r;
@@ -298,6 +300,7 @@ namespace PonzianiSwissGui
                 {
                     UpdateUI();
                     Cursor = Cursors.Default;
+                    tcMain.SelectedIndex = tcMain.TabPages.Count - 1;
                 }));
             }
         }
@@ -508,7 +511,7 @@ namespace PonzianiSwissGui
             htmlViewer.ShowDialog();
         }
 
-        private void pairingsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void PairingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             htmlViewer.Title = Properties.Strings.Pairings;
             htmlViewer.Html = Tournament?.RoundHTML();
