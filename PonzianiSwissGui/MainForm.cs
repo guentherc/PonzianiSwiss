@@ -332,17 +332,17 @@ namespace PonzianiSwissGui
             }));
         }
 
-        private async void GERToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void NPBToolStripMenuItem_Click(object sender, EventArgs e)
         {
             PlayerBaseUpdateToolStripMenuItem.Enabled = false;
-            gERToolStripMenuItem.Enabled = false;
+            ((ToolStripMenuItem)sender).Enabled = false;
             mainStatusLabel.Text = Properties.Strings.PlayerListUpdate;
-            IPlayerBase pbase = PlayerBaseFactory.Get(PlayerBaseFactory.Base.GER);
+            IPlayerBase pbase = PlayerBaseFactory.Get((PlayerBaseFactory.Base)int.Parse((string)((ToolStripMenuItem)sender).Tag));
             await pbase.UpdateAsync().ConfigureAwait(false);
             Invoke((MethodInvoker)(() =>
             {
                 PlayerBaseUpdateToolStripMenuItem.Enabled = true;
-                gERToolStripMenuItem.Enabled = true;
+                ((ToolStripMenuItem)sender).Enabled = true;
                 mainStatusLabel.Text = String.Empty;
             }));
         }

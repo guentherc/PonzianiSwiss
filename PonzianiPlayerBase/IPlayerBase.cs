@@ -74,13 +74,14 @@ namespace PonzianiPlayerBase
             @"CREATE TABLE IF NOT EXISTS ""Player"" ( ""Federation"" TEXT NOT NULL, ""Id"" TEXT NOT NULL, ""Club"" TEXT, ""Name"" TEXT NOT NULL, ""Sex"" INTEGER, ""Rating"" INTEGER, ""Inactive"" INTEGER, ""Birthyear"" INTEGER, ""FideId"" INTEGER, PRIMARY KEY(""Federation"",""Id""))",
             @"CREATE INDEX IF NOT EXISTS ""IndxName"" ON ""Player"" (""Name"" ASC )",
             $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"0\", \"FIDE\", \"{DateTime.MinValue.Ticks}\")",
-            $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"1\", \"GER\", \"{DateTime.MinValue.Ticks}\")"
+            $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"1\", \"GER\", \"{DateTime.MinValue.Ticks}\")",
+            $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"2\", \"ENG\", \"{DateTime.MinValue.Ticks}\")"
         };
     }
 
     public class PlayerBaseFactory
     {
-        public enum Base { FIDE, GER }
+        public enum Base { FIDE, GER, ENG }
 
         private static readonly Dictionary<Base, IPlayerBase> bases = new();
 
@@ -99,6 +100,11 @@ namespace PonzianiPlayerBase
                     bases.Add(b, new GermanPlayerBase());
                     bases[b].Initialize();
                 }
+                else if (b == Base.ENG)
+                {
+                    bases.Add(b, new EnglishPlayerBase());
+                    bases[b].Initialize();
+                }
             }
             return bases[b];
         }
@@ -106,7 +112,8 @@ namespace PonzianiPlayerBase
         public static List<KeyValuePair<Base, string>> AvailableBases => new()
         {
             new KeyValuePair<Base, string>(Base.FIDE, Strings.BaseDescription_FIDE),
-            new KeyValuePair<Base, string>(Base.GER, Strings.BaseDescription_GER)
+            new KeyValuePair<Base, string>(Base.GER, Strings.BaseDescription_GER),
+            new KeyValuePair<Base, string>(Base.ENG, Strings.BaseDescription_ENG)
         };
     }
 

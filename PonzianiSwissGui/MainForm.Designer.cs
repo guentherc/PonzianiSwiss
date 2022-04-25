@@ -57,6 +57,7 @@
             this.PlayerBaseUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updateFideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gERToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.eNGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createTestTournamentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testTRFCreationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -284,7 +285,8 @@
             // 
             this.PlayerBaseUpdateToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.updateFideToolStripMenuItem,
-            this.gERToolStripMenuItem});
+            this.gERToolStripMenuItem,
+            this.eNGToolStripMenuItem});
             this.PlayerBaseUpdateToolStripMenuItem.Name = "PlayerBaseUpdateToolStripMenuItem";
             resources.ApplyResources(this.PlayerBaseUpdateToolStripMenuItem, "PlayerBaseUpdateToolStripMenuItem");
             // 
@@ -298,7 +300,15 @@
             // 
             this.gERToolStripMenuItem.Name = "gERToolStripMenuItem";
             resources.ApplyResources(this.gERToolStripMenuItem, "gERToolStripMenuItem");
-            this.gERToolStripMenuItem.Click += new System.EventHandler(this.GERToolStripMenuItem_Click);
+            this.gERToolStripMenuItem.Tag = "1";
+            this.gERToolStripMenuItem.Click += new System.EventHandler(this.NPBToolStripMenuItem_Click);
+            // 
+            // eNGToolStripMenuItem
+            // 
+            this.eNGToolStripMenuItem.Name = "eNGToolStripMenuItem";
+            resources.ApplyResources(this.eNGToolStripMenuItem, "eNGToolStripMenuItem");
+            this.eNGToolStripMenuItem.Tag = "2";
+            this.eNGToolStripMenuItem.Click += new System.EventHandler(this.NPBToolStripMenuItem_Click);
             // 
             // toolsToolStripMenuItem
             // 
@@ -756,5 +766,6 @@
         private ToolStripSeparator toolStripSeparator6;
         private ToolStripMenuItem exitToolStripMenuItem;
         private HelpProvider helpProvider1;
+        private ToolStripMenuItem eNGToolStripMenuItem;
     }
 }

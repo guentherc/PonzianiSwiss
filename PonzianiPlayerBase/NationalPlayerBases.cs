@@ -6,18 +6,16 @@ using System.Text;
 
 namespace PonzianiPlayerBase
 {
-    public class GermanPlayerBase : PlayerBase
+    public abstract class NationalPlayerBase: PlayerBase
     {
-        public override string Description => Strings.BaseDescription_GER;
-
-        public override PlayerBaseFactory.Base Key => PlayerBaseFactory.Base.GER;
-
         public override List<Player> Find(string searchstring, int max = 0)
         {
+            string federation = Key.ToString();
             List<Player> result = new();
             using var cmd = connection?.CreateCommand();
             if (cmd == null) return result;
-            cmd.CommandText = max > 0 ? $"SELECT * FROM Player WHERE Name LIKE @ss LIMIT { max }" : "SELECT * FROM Player WHERE Name LIKE @ss";
+            cmd.CommandText = max > 0 ? $"SELECT * FROM Player WHERE Federation = @fed AND Name LIKE @ss LIMIT { max }" : "SELECT * FROM Player WHERE Federation = @fed AND  Name LIKE @ss";
+            cmd.Parameters.AddWithValue("@fed", federation);
             cmd.Parameters.AddWithValue("@ss", searchstring + '%');
             cmd.Prepare();
             using (var reader = cmd.ExecuteReader())
@@ -54,9 +52,10 @@ namespace PonzianiPlayerBase
 
         public override Player? GetById(string id)
         {
+            string federation = Key.ToString();
             using var cmd = connection?.CreateCommand();
             if (cmd == null) return null;
-            cmd.CommandText = $"SELECT * FROM Player WHERE Federation = \"GER\" AND Id = \"{id}\"";
+            cmd.CommandText = $"SELECT * FROM Player WHERE Federation = \"{federation}\" AND Id = \"{id}\"";
             using var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -73,6 +72,111 @@ namespace PonzianiPlayerBase
             }
             return null;
         }
+
+    }
+
+    public class EnglishPlayerBase : NationalPlayerBase
+    {
+        public override string Description => Strings.BaseDescription_ENG;
+
+        public override PlayerBaseFactory.Base Key => PlayerBaseFactory.Base.ENG;
+
+
+        public override async Task<bool> UpdateAsync()
+        {
+            var httpClient = new HttpClient();
+            var tmpDir = Path.GetTempPath();
+            tmpDir = Path.Combine(tmpDir, "ecf");
+            Directory.CreateDirectory(tmpDir);
+            var tmpFile = Path.Combine(tmpDir, "ecf.csv");
+
+            if (!File.Exists(tmpFile))
+            {
+                using var stream = await httpClient.GetStreamAsync("https://www.ecfrating.org.uk/v2/new/api.php?v2/rating_list_csv");
+                using var fileStream = new FileStream(tmpFile, FileMode.CreateNew);
+                await stream.CopyToAsync(fileStream);
+            }
+
+            if (connection == null || !File.Exists(tmpFile)) return false;
+
+            using (var transaction = connection.BeginTransaction())
+            {
+                using (var del = connection.CreateCommand())
+                {
+                    del.CommandText = "DELETE FROM Player WHERE Federation = \"ENG\"";
+                    await del.ExecuteNonQueryAsync();
+                    del.CommandText = "DELETE FROM Club WHERE Federation = \"ENG\"";
+                    await del.ExecuteNonQueryAsync();
+                }
+
+
+                //Process player
+                using (var cmd = connection.CreateCommand())
+                {
+                    cmd.CommandText = "INSERT INTO Player VALUES(@Federation, @Id, @Club, @Name, @Sex, @Rating, @Inactive, @Birthyear, @FideId)";
+                    string[] parameters = new[] { "@Federation", "@Id", "@Club", "@Name", "@Sex", "@Rating", "@Inactive", "@Birthyear", "@FideId" };
+                    foreach (var p in parameters)
+                    {
+                        var parameter = cmd.CreateParameter();
+                        parameter.ParameterName = p;
+                        cmd.Parameters.Add(parameter);
+                    }
+
+                    int count = 0;
+                    using StreamReader reader = new(tmpFile, Encoding.Latin1);
+                    using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+                    csv.Read();
+                    csv.ReadHeader();
+                    while (csv.Read())
+                    {
+                        try
+                        {
+                            if (csv.GetField<string>(6).Length <= 0) continue;
+                            ++count;
+                            cmd.Parameters["@Id"].Value = $"{csv.GetField<string>(0)}";
+                            cmd.Parameters["@Inactive"].Value = "0";
+                            cmd.Parameters["@Name"].Value = csv.GetField<string>(1);
+                            cmd.Parameters["@Sex"].Value = csv.GetField<string>(4).Length > 0 && csv.GetField<char>(4) == 'F' ? "1" : "0";
+                            cmd.Parameters["@Federation"].Value = "ENG";
+                            cmd.Parameters["@Club"].Value = $"{csv.GetField<string>(19)}";
+                            cmd.Parameters["@Rating"].Value = $"{csv.GetField<int>(6)}";
+                            cmd.Parameters["@Birthyear"].Value = $"0000";
+                            string fideid = csv.GetField<string>(3);
+                            if (fideid != null && ulong.TryParse(fideid, out ulong f))
+                                cmd.Parameters["@FideId"].Value = f;
+                            else
+                                cmd.Parameters["@FideId"].Value = 0;
+                            if (count == 1) await cmd.PrepareAsync();
+                            await cmd.ExecuteNonQueryAsync();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.ToString());
+                        }
+                    }
+                }
+                var command = connection.CreateCommand();
+                command.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"{(int)PlayerBaseFactory.Base.ENG}\"";
+                lastUpdate = DateTime.UtcNow;
+                await command.ExecuteNonQueryAsync();
+                transaction.Commit();
+                command = connection.CreateCommand();
+                command.CommandText = $"VACUUM";
+                await command.ExecuteNonQueryAsync();
+            }
+
+            //Clean up
+            foreach (string f in Directory.GetFiles(tmpDir)) File.Delete(f);
+            Directory.Delete(tmpDir);
+            return true;
+        }
+    }
+
+    public class GermanPlayerBase : NationalPlayerBase
+    {
+        public override string Description => Strings.BaseDescription_GER;
+
+        public override PlayerBaseFactory.Base Key => PlayerBaseFactory.Base.GER;
 
         public async override Task<bool> UpdateAsync()
         {

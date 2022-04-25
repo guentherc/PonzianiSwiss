@@ -61,6 +61,15 @@ namespace PonzianiPlayerBase {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ECF Ratings.
+        /// </summary>
+        internal static string BaseDescription_ENG {
+            get {
+                return ResourceManager.GetString("BaseDescription_ENG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to FIDE Global Ratingbase.
         /// </summary>
         internal static string BaseDescription_FIDE {
