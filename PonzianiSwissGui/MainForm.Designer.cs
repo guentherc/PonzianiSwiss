@@ -104,6 +104,7 @@
             this.tsbAdd = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbDraw = new System.Windows.Forms.ToolStripButton();
+            this.helpProvider1 = new System.Windows.Forms.HelpProvider();
             this.menuStrip1.SuspendLayout();
             this.mainStatusStrip.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -569,6 +570,9 @@
             // 
             // toolStrip1
             // 
+            this.helpProvider1.SetHelpKeyword(this.toolStrip1, resources.GetString("toolStrip1.HelpKeyword"));
+            this.helpProvider1.SetHelpNavigator(this.toolStrip1, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("toolStrip1.HelpNavigator"))));
+            this.helpProvider1.SetHelpString(this.toolStrip1, resources.GetString("toolStrip1.HelpString"));
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsbNew,
             this.tsbLoad,
@@ -580,6 +584,7 @@
             this.tsbDraw});
             resources.ApplyResources(this.toolStrip1, "toolStrip1");
             this.toolStrip1.Name = "toolStrip1";
+            this.helpProvider1.SetShowHelp(this.toolStrip1, ((bool)(resources.GetObject("toolStrip1.ShowHelp"))));
             // 
             // tsbNew
             // 
@@ -639,6 +644,10 @@
             this.tsbDraw.Name = "tsbDraw";
             this.tsbDraw.Click += new System.EventHandler(this.DrawToolStripMenuItem_Click);
             // 
+            // helpProvider1
+            // 
+            resources.ApplyResources(this.helpProvider1, "helpProvider1");
+            // 
             // MainForm
             // 
             resources.ApplyResources(this, "$this");
@@ -647,8 +656,13 @@
             this.Controls.Add(this.tcMain);
             this.Controls.Add(this.mainStatusStrip);
             this.Controls.Add(this.menuStrip1);
+            this.HelpButton = true;
+            this.helpProvider1.SetHelpNavigator(this, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("$this.HelpNavigator"))));
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "MainForm";
+            this.helpProvider1.SetShowHelp(this, ((bool)(resources.GetObject("$this.ShowHelp"))));
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -741,5 +755,6 @@
         private ToolStripMenuItem pairingsToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator6;
         private ToolStripMenuItem exitToolStripMenuItem;
+        private HelpProvider helpProvider1;
     }
 }

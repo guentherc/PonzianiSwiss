@@ -252,6 +252,9 @@
   <data name="toolsToolStripMenuItem.Text" xml:space="preserve">
     <value>Tools</value>
   </data>
+  <data name="toolsToolStripMenuItem.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="menuStrip1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -449,25 +452,25 @@
     <value>269, 17</value>
   </metadata>
   <data name="openToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>119, 22</value>
   </data>
   <data name="openToolStripMenuItem1.Text" xml:space="preserve">
     <value>* (Open)</value>
   </data>
   <data name="toolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>119, 22</value>
   </data>
   <data name="toolStripMenuItem2.Text" xml:space="preserve">
     <value>1-0</value>
   </data>
   <data name="toolStripMenuItem3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>119, 22</value>
   </data>
   <data name="toolStripMenuItem3.Text" xml:space="preserve">
     <value>1/2-1/2</value>
   </data>
   <data name="toolStripMenuItem4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>119, 22</value>
   </data>
   <data name="toolStripMenuItem4.Text" xml:space="preserve">
     <value>0-1</value>
@@ -491,7 +494,7 @@
     <value>0-1</value>
   </data>
   <data name="unratedToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>119, 22</value>
   </data>
   <data name="unratedToolStripMenuItem.Text" xml:space="preserve">
     <value>Unrated</value>
@@ -515,7 +518,7 @@
     <value>---</value>
   </data>
   <data name="forfeitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>119, 22</value>
   </data>
   <data name="forfeitToolStripMenuItem.Text" xml:space="preserve">
     <value>Forfeit</value>
@@ -539,13 +542,13 @@
     <value>0</value>
   </data>
   <data name="byeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>119, 22</value>
   </data>
   <data name="byeToolStripMenuItem.Text" xml:space="preserve">
     <value>Bye</value>
   </data>
   <data name="cmsSetResult.Size" type="System.Drawing.Size, System.Drawing">
-    <value>181, 180</value>
+    <value>120, 158</value>
   </data>
   <data name="&gt;&gt;cmsSetResult.Name" xml:space="preserve">
     <value>cmsSetResult</value>
@@ -556,6 +559,21 @@
   <metadata name="toolStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>393, 17</value>
   </metadata>
+  <metadata name="helpProvider1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>629, 17</value>
+  </metadata>
+  <data name="helpProvider1.HelpNamespace" xml:space="preserve">
+    <value>Doc\PonzianiSwiss.chm</value>
+  </data>
+  <data name="toolStrip1.HelpKeyword" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="toolStrip1.HelpNavigator" type="System.Windows.Forms.HelpNavigator, System.Windows.Forms">
+    <value>Index</value>
+  </data>
+  <data name="toolStrip1.HelpString" xml:space="preserve">
+    <value>The toolbar contains the most important actions necessary to run the tournament</value>
+  </data>
   <data name="tsbNew.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
   </data>
@@ -631,6 +649,9 @@
   <data name="toolStrip1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 24</value>
   </data>
+  <data name="toolStrip1.ShowHelp" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="toolStrip1.Size" type="System.Drawing.Size, System.Drawing">
     <value>800, 25</value>
   </data>
@@ -660,6 +681,12 @@
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>800, 450</value>
+  </data>
+  <data name="$this.HelpNavigator" type="System.Windows.Forms.HelpNavigator, System.Windows.Forms">
+    <value>TableOfContents</value>
+  </data>
+  <data name="$this.ShowHelp" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Ponziani Swiss Pairing Program</value>
@@ -1059,6 +1086,12 @@
   </data>
   <data name="&gt;&gt;tsbDraw.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;helpProvider1.Name" xml:space="preserve">
+    <value>helpProvider1</value>
+  </data>
+  <data name="&gt;&gt;helpProvider1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.HelpProvider, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>MainForm</value>

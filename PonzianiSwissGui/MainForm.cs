@@ -273,9 +273,9 @@ namespace PonzianiSwissGui
 
         private void SetResultToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            if (selectedItem != null && selectedItem.Tag != null && sender is ToolStripMenuItem && ((ToolStripMenuItem)sender).Tag != null)
+            if (selectedItem != null && selectedItem.Tag != null && sender is ToolStripMenuItem item && item.Tag != null)
             {
-                Result r = (Result)int.Parse((string)((ToolStripMenuItem)sender).Tag);
+                Result r = (Result)int.Parse((string)item.Tag);
                 ((Pairing)selectedItem.Tag).Result = r;
                 selectedItem.SubItems[4].Text = result_strings[(int)r];
                 selectedItem.BackColor = r == Result.Open ? Color.White : Color.LightGray;

@@ -52,12 +52,12 @@ namespace PonzianiSwissTest
                DrawAndSimulateRound(window, i+1);
         }
 
-        private Tab DrawAndSimulateRound(Window window, int round)
+        private void DrawAndSimulateRound(Window window, int round)
         {
             Tab tsMain;
             var drawButton = window.FindFirstByXPath("/ToolBar/Button[6]").AsButton();
             drawButton.Click();
-            app.WaitWhileBusy();
+            app?.WaitWhileBusy();
             Thread.Sleep(1000);
             tsMain = window.FindFirstByXPath("/Tab").AsTab();
             tsMain.FocusNative();
@@ -70,7 +70,7 @@ namespace PonzianiSwissTest
             Dictionary<ulong, string> participantNames = new();
             Dictionary<ulong, int> ratings = new();
             Dictionary<int, ulong> ids = new();
-            foreach (var item in lvPlayer?.Items)
+            foreach (var item in lvPlayer.Items)
             {
                 var subItems = item.FindAllChildren();
                 if (subItems[3].AsListBoxItem().Text.Trim().Length == 0) continue;
@@ -87,17 +87,15 @@ namespace PonzianiSwissTest
                 Keyboard.Type(FlaUI.Core.WindowsAPI.VirtualKeyShort.RIGHT);
             Thread.Sleep(1000);
             SimulateRound(window, ratings, ids);
-            return tsMain;
         }
 
         private static void SimulateRound(Window window, Dictionary<ulong, int> ratings, Dictionary<int, ulong> ids)
         {
             Tab tsMain = window.FindFirstByXPath("/Tab").AsTab();
             var lvRound = tsMain.FindFirstChild().AsListBox();
-            List<ulong[]> pairing = new List<ulong[]>();
             int indx = 0;
             lvRound.Select(indx);
-            while (indx < lvRound?.Items.Count())
+            while (indx < lvRound?.Items.Length)
             {
                 Wait.UntilInputIsProcessed();
                 List<VirtualKeyShort> keys = new();
