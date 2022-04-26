@@ -106,6 +106,7 @@
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbDraw = new System.Windows.Forms.ToolStripButton();
             this.helpProvider1 = new System.Windows.Forms.HelpProvider();
+            this.sUIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.mainStatusStrip.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -286,7 +287,8 @@
             this.PlayerBaseUpdateToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.updateFideToolStripMenuItem,
             this.gERToolStripMenuItem,
-            this.eNGToolStripMenuItem});
+            this.eNGToolStripMenuItem,
+            this.sUIToolStripMenuItem});
             this.PlayerBaseUpdateToolStripMenuItem.Name = "PlayerBaseUpdateToolStripMenuItem";
             resources.ApplyResources(this.PlayerBaseUpdateToolStripMenuItem, "PlayerBaseUpdateToolStripMenuItem");
             // 
@@ -658,6 +660,13 @@
             // 
             resources.ApplyResources(this.helpProvider1, "helpProvider1");
             // 
+            // sUIToolStripMenuItem
+            // 
+            this.sUIToolStripMenuItem.Name = "sUIToolStripMenuItem";
+            resources.ApplyResources(this.sUIToolStripMenuItem, "sUIToolStripMenuItem");
+            this.sUIToolStripMenuItem.Tag = "3";
+            this.sUIToolStripMenuItem.Click += new System.EventHandler(this.NPBToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             resources.ApplyResources(this, "$this");
@@ -767,5 +776,6 @@
         private ToolStripMenuItem exitToolStripMenuItem;
         private HelpProvider helpProvider1;
         private ToolStripMenuItem eNGToolStripMenuItem;
+        private ToolStripMenuItem sUIToolStripMenuItem;
     }
 }

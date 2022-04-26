@@ -1,4 +1,5 @@
 ﻿using CsvHelper;
+using CsvHelper.Configuration;
 using PonzianiSwissLib;
 using System.Globalization;
 using System.IO.Compression;
@@ -73,6 +74,105 @@ namespace PonzianiPlayerBase
             return null;
         }
 
+    }
+
+    public class SuissePlayerBase : NationalPlayerBase
+    {
+        public override string Description => Strings.BaseDescription_SUI;
+
+        public override PlayerBaseFactory.Base Key => PlayerBaseFactory.Base.SUI;
+
+
+        public override async Task<bool> UpdateAsync()
+        {
+            var httpClient = new HttpClient();
+            var tmpDir = Path.GetTempPath();
+            tmpDir = Path.Combine(tmpDir, "sui");
+            Directory.CreateDirectory(tmpDir);
+            var tmpFile = Path.Combine(tmpDir, "sui.csv");
+
+            if (!File.Exists(tmpFile))
+            {
+                using var stream = await httpClient.GetStreamAsync("http://adapter.swisschess.ch/schachsport/fl/export.php?profile=swissmanager&output=csv");
+                using var fileStream = new FileStream(tmpFile, FileMode.CreateNew);
+                await stream.CopyToAsync(fileStream);
+            }
+
+            if (connection == null || !File.Exists(tmpFile)) return false;
+
+            using (var transaction = connection.BeginTransaction())
+            {
+                using (var del = connection.CreateCommand())
+                {
+                    del.CommandText = "DELETE FROM Player WHERE Federation = \"SUI\"";
+                    await del.ExecuteNonQueryAsync();
+                    del.CommandText = "DELETE FROM Club WHERE Federation = \"SUI\"";
+                    await del.ExecuteNonQueryAsync();
+                }
+
+
+                //Process player
+                using (var cmd = connection.CreateCommand())
+                {
+                    cmd.CommandText = "INSERT INTO Player VALUES(@Federation, @Id, @Club, @Name, @Sex, @Rating, @Inactive, @Birthyear, @FideId)";
+                    string[] parameters = new[] { "@Federation", "@Id", "@Club", "@Name", "@Sex", "@Rating", "@Inactive", "@Birthyear", "@FideId" };
+                    foreach (var p in parameters)
+                    {
+                        var parameter = cmd.CreateParameter();
+                        parameter.ParameterName = p;
+                        cmd.Parameters.Add(parameter);
+                    }
+                    
+                    int count = 0;
+                    using StreamReader reader = new(tmpFile, Encoding.Latin1);
+                    CsvConfiguration config = new(CultureInfo.InvariantCulture);
+                    config.Delimiter = ";";
+                    using var csv = new CsvReader(reader, config);
+                    csv.Read();
+                    csv.ReadHeader();
+                    while (csv.Read())
+                    {
+                        try
+                        {
+                            if (csv.GetField<string>(6).Length <= 0) continue;
+                            ++count;
+                            cmd.Parameters["@Id"].Value = $"{csv.GetField<string>(0)}";
+                            cmd.Parameters["@Inactive"].Value = "0";
+                            cmd.Parameters["@Name"].Value = csv.GetField<string>(1);
+                            cmd.Parameters["@Sex"].Value = csv.GetField<string>(2).Length > 0 && csv.GetField<char>(2) == 'f' ? "1" : "0";
+                            cmd.Parameters["@Federation"].Value = "SUI";
+                            cmd.Parameters["@Club"].Value = $"{csv.GetField<string>(5)}";
+                            cmd.Parameters["@Rating"].Value = $"{(csv.GetField<string>(7).Length > 0 ? csv.GetField<int>(7) : 0)}";
+                            cmd.Parameters["@Birthyear"].Value = $"{csv.GetField<int>(6)}";
+                            string fideid = csv.GetField<string>(8);
+                            if (fideid != null && ulong.TryParse(fideid, out ulong f))
+                                cmd.Parameters["@FideId"].Value = f;
+                            else
+                                cmd.Parameters["@FideId"].Value = 0;
+                            if (count == 1) await cmd.PrepareAsync();
+                            await cmd.ExecuteNonQueryAsync();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.ToString());
+                        }
+                    }
+                }
+                var command = connection.CreateCommand();
+                command.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"{(int)PlayerBaseFactory.Base.SUI}\"";
+                lastUpdate = DateTime.UtcNow;
+                await command.ExecuteNonQueryAsync();
+                transaction.Commit();
+                command = connection.CreateCommand();
+                command.CommandText = $"VACUUM";
+                await command.ExecuteNonQueryAsync();
+            }
+
+            //Clean up
+            foreach (string f in Directory.GetFiles(tmpDir)) File.Delete(f);
+            Directory.Delete(tmpDir);
+            return true;
+        }
     }
 
     public class EnglishPlayerBase : NationalPlayerBase

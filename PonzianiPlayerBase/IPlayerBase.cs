@@ -75,13 +75,14 @@ namespace PonzianiPlayerBase
             @"CREATE INDEX IF NOT EXISTS ""IndxName"" ON ""Player"" (""Name"" ASC )",
             $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"0\", \"FIDE\", \"{DateTime.MinValue.Ticks}\")",
             $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"1\", \"GER\", \"{DateTime.MinValue.Ticks}\")",
-            $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"2\", \"ENG\", \"{DateTime.MinValue.Ticks}\")"
+            $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"2\", \"ENG\", \"{DateTime.MinValue.Ticks}\")",
+            $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"3\", \"SUI\", \"{DateTime.MinValue.Ticks}\")"
         };
     }
 
     public class PlayerBaseFactory
     {
-        public enum Base { FIDE, GER, ENG }
+        public enum Base { FIDE, GER, ENG, SUI }
 
         private static readonly Dictionary<Base, IPlayerBase> bases = new();
 
@@ -105,6 +106,11 @@ namespace PonzianiPlayerBase
                     bases.Add(b, new EnglishPlayerBase());
                     bases[b].Initialize();
                 }
+                else if (b == Base.SUI)
+                {
+                    bases.Add(b, new SuissePlayerBase());
+                    bases[b].Initialize();
+                }
             }
             return bases[b];
         }
@@ -113,7 +119,8 @@ namespace PonzianiPlayerBase
         {
             new KeyValuePair<Base, string>(Base.FIDE, Strings.BaseDescription_FIDE),
             new KeyValuePair<Base, string>(Base.GER, Strings.BaseDescription_GER),
-            new KeyValuePair<Base, string>(Base.ENG, Strings.BaseDescription_ENG)
+            new KeyValuePair<Base, string>(Base.ENG, Strings.BaseDescription_ENG),
+            new KeyValuePair<Base, string>(Base.SUI, Strings.BaseDescription_SUI)
         };
     }
 

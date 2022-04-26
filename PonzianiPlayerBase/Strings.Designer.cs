@@ -86,5 +86,14 @@ namespace PonzianiPlayerBase {
                 return ResourceManager.GetString("BaseDescription_GER", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Suisse Ratingbase.
+        /// </summary>
+        internal static string BaseDescription_SUI {
+            get {
+                return ResourceManager.GetString("BaseDescription_SUI", resourceCulture);
+            }
+        }
     }
 }
