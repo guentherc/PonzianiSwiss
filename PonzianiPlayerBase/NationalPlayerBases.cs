@@ -76,6 +76,97 @@ namespace PonzianiPlayerBase
 
     }
 
+    public class AustraliaPlayerBase : NationalPlayerBase
+    {
+        public override string Description => Strings.BaseDescription_AUS;
+
+        public override PlayerBaseFactory.Base Key => PlayerBaseFactory.Base.AUS;
+
+
+        public override async Task<bool> UpdateAsync()
+        {
+            if (connection == null) return false;
+            var httpClient = new HttpClient();
+            string page = await httpClient.GetStringAsync("https://auschess.org.au/rating-lists/");
+            var links = LinkFinder.Find(page);
+            int indx = page.IndexOf("Classic ACF Master File");
+            var rl = links.Find(l => l.ToIndex < indx && l.ToIndex + 20 > indx);
+            if (rl.Href == null || rl.Href.Trim().Length == 0) return false;
+            string rating_data = await httpClient.GetStringAsync($"https://auschess.org.au{rl.Href}");
+            if (rating_data == null || rating_data.Length == 0) return false;
+            string[] rating_data_lines = rating_data.Split(new String[] { "\r\n", "\n", "\r" }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+
+            using (var transaction = connection.BeginTransaction())
+            {
+                using (var del = connection.CreateCommand())
+                {
+                    del.CommandText = "DELETE FROM Player WHERE Federation = \"AUS\"";
+                    await del.ExecuteNonQueryAsync();
+                    del.CommandText = "DELETE FROM Club WHERE Federation = \"AUS\"";
+                    await del.ExecuteNonQueryAsync();
+                }
+
+
+                //Process player
+                using (var cmd = connection.CreateCommand())
+                {
+                    cmd.CommandText = "INSERT INTO Player VALUES(@Federation, @Id, @Club, @Name, @Sex, @Rating, @Inactive, @Birthyear, @FideId)";
+                    string[] parameters = new[] { "@Federation", "@Id", "@Club", "@Name", "@Sex", "@Rating", "@Inactive", "@Birthyear", "@FideId" };
+                    foreach (var p in parameters)
+                    {
+                        var parameter = cmd.CreateParameter();
+                        parameter.ParameterName = p;
+                        cmd.Parameters.Add(parameter);
+                    }
+                    
+                    int count = 0;
+                    for (int i = 1; i<rating_data_lines.Length; ++i)
+                    {
+                        string l = rating_data_lines[i].Trim();
+                        try
+                        {
+                            ++count;
+                            cmd.Parameters["@Id"].Value = l.Substring(0, 7);
+                            cmd.Parameters["@Inactive"].Value = "0";
+                            cmd.Parameters["@Name"].Value = l.Substring(24);
+                            cmd.Parameters["@Sex"].Value = "0";
+                            cmd.Parameters["@Federation"].Value = "AUS";
+                            cmd.Parameters["@Club"].Value = string.Empty;
+                            string rs = l.Substring(9, 4);
+                            if (int.TryParse(rs, out int rating))
+                            {
+                                cmd.Parameters["@Rating"].Value = rating;
+                            }
+                            else
+                            {
+                                cmd.Parameters["@Rating"].Value = 0;
+                            }
+                            cmd.Parameters["@Birthyear"].Value = 0;
+                            cmd.Parameters["@FideId"].Value = 0;
+                            if (count == 1) await cmd.PrepareAsync();
+                            await cmd.ExecuteNonQueryAsync();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.ToString());
+                        }
+                    }
+                }
+                var command = connection.CreateCommand();
+                command.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"{(int)PlayerBaseFactory.Base.AUS}\"";
+                lastUpdate = DateTime.UtcNow;
+                await command.ExecuteNonQueryAsync();
+                transaction.Commit();
+                command = connection.CreateCommand();
+                command.CommandText = $"VACUUM";
+                await command.ExecuteNonQueryAsync();
+            }
+
+            return true;
+        }
+    }
+
+
     public class SuissePlayerBase : NationalPlayerBase
     {
         public override string Description => Strings.BaseDescription_SUI;
@@ -134,7 +225,6 @@ namespace PonzianiPlayerBase
                     {
                         try
                         {
-                            if (csv.GetField<string>(6).Length <= 0) continue;
                             ++count;
                             cmd.Parameters["@Id"].Value = $"{csv.GetField<string>(0)}";
                             cmd.Parameters["@Inactive"].Value = "0";
@@ -143,7 +233,7 @@ namespace PonzianiPlayerBase
                             cmd.Parameters["@Federation"].Value = "SUI";
                             cmd.Parameters["@Club"].Value = $"{csv.GetField<string>(5)}";
                             cmd.Parameters["@Rating"].Value = $"{(csv.GetField<string>(7).Length > 0 ? csv.GetField<int>(7) : 0)}";
-                            cmd.Parameters["@Birthyear"].Value = $"{csv.GetField<int>(6)}";
+                            cmd.Parameters["@Birthyear"].Value = $"{(csv.GetField<string>(6).Length > 0 ? csv.GetField<int>(6) : 0)}";
                             string fideid = csv.GetField<string>(8);
                             if (fideid != null && ulong.TryParse(fideid, out ulong f))
                                 cmd.Parameters["@FideId"].Value = f;

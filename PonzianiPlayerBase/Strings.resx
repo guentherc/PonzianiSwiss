@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BaseDescription_AUS" xml:space="preserve">
+    <value>Australian Chess Federation</value>
+  </data>
   <data name="BaseDescription_ENG" xml:space="preserve">
     <value>ECF Ratings</value>
   </data>

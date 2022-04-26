@@ -61,6 +61,15 @@ namespace PonzianiPlayerBase {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Australian Chess Federation.
+        /// </summary>
+        internal static string BaseDescription_AUS {
+            get {
+                return ResourceManager.GetString("BaseDescription_AUS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ECF Ratings.
         /// </summary>
         internal static string BaseDescription_ENG {
