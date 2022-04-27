@@ -25,7 +25,7 @@ namespace PonzianiPlayerBase
     {
         public static List<LinkItem> Find(string file)
         {
-            List<LinkItem> list = new List<LinkItem>();
+            List<LinkItem> list = new();
 
             // 1.
             // Find all matches in file.
@@ -37,9 +37,11 @@ namespace PonzianiPlayerBase
             foreach (Match m in m1)
             {
                 string value = m.Groups[1].Value;
-                LinkItem i = new LinkItem();
-                i.FromIndex = m.Index;
-                i.ToIndex = m.Index + m.Length;
+                LinkItem i = new()
+                {
+                    FromIndex = m.Index,
+                    ToIndex = m.Index + m.Length
+                };
 
                 // 3.
                 // Get href attribute.
