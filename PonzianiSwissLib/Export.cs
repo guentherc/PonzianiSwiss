@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 
 namespace PonzianiSwissLib
@@ -51,7 +47,7 @@ namespace PonzianiSwissLib
 
             return sb.ToString();
         }
-        
+
         public static string CrosstableHTML(this Tournament tournament, int round = int.MaxValue)
         {
             round = Math.Min(round, tournament.Rounds.Count);
@@ -69,8 +65,8 @@ namespace PonzianiSwissLib
                 sb.AppendLine(@"</tr>");
                 List<string> columnNames = new() { Strings.ParticpantListRank, Strings.Participant, Strings.ParticipantListFideRating,
                                                   Strings.ParticipantListNationalRating };
-                for (int i = 1; i<= round; i++) columnNames.Add(i.ToString());
-                foreach(var tb in tournament.TieBreak)
+                for (int i = 1; i <= round; i++) columnNames.Add(i.ToString());
+                foreach (var tb in tournament.TieBreak)
                 {
                     columnNames.Add(tb.ToString());
                 }
@@ -85,7 +81,7 @@ namespace PonzianiSwissLib
                     sb.AppendLine($"<td>{p.Name}.</td>");
                     sb.AppendLine($"<td>{p.FideRating}</td>");
                     sb.AppendLine($"<td>{p.AlternativeRating}</td>");
-                    for (int i = 0;i<round; ++i)
+                    for (int i = 0; i < round; ++i)
                     {
                         var entry = p.Scorecard?.Entries.Where(e => e.Round == i).ToList();
                         if (entry == null || entry.Count == 0) sb.AppendLine($"<td></td>");

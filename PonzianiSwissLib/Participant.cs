@@ -34,7 +34,7 @@ namespace PonzianiSwissLib
         /// Alternative rating
         /// </summary>
         public int AlternativeRating { set; get; }
-      
+
         /// <summary>
         /// Title (e.g. GM - Grand Master or WIM - female international master)
         /// </summary>

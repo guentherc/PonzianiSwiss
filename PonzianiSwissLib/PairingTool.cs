@@ -11,11 +11,11 @@ namespace PonzianiSwissLib
             executable = "bbpPairings";
             if (RuntimeInformation.OSArchitecture == Architecture.X86) executable += "32";
             else if (RuntimeInformation.OSArchitecture == Architecture.X64) executable += "64";
-            else throw new Exception($"OS Architecture { RuntimeInformation.OSArchitecture } not supported! Only x86 and x64 architecture supported!");
+            else throw new Exception($"OS Architecture {RuntimeInformation.OSArchitecture} not supported! Only x86 and x64 architecture supported!");
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) executable += ".exe";
             else if (!RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) throw new Exception($"OS {RuntimeInformation.OSDescription} not supported");
             executable = Path.Combine("bbpPairings", executable);
-            Trace.WriteLine($"Archicture {RuntimeInformation.OSArchitecture }, OS {RuntimeInformation.OSDescription} detected! => {executable} will be used!");
+            Trace.WriteLine($"Archicture {RuntimeInformation.OSArchitecture}, OS {RuntimeInformation.OSDescription} detected! => {executable} will be used!");
         }
 
         public static async Task<bool> CheckExecutableAsync()
@@ -76,7 +76,7 @@ namespace PonzianiSwissLib
                 UseShellExecute = false,
                 CreateNoWindow = true,
                 RedirectStandardOutput = true,
-                Arguments = $"--{ pairing_system }  -g {tmpFile} -o {trfname}"
+                Arguments = $"--{pairing_system}  -g {tmpFile} -o {trfname}"
             };
             if (seed != 0) psi.Arguments += $" -s {seed}";
 
@@ -162,12 +162,14 @@ namespace PonzianiSwissLib
 
             internal List<string> CreateConfigFileContent()
             {
-                List<string> content = new();
-                content.Add($"PlayersNumber={CountParticipants}");
-                content.Add($"RoundsNumber={CountRounds}");
-                content.Add($"ForfeitRate={ForfeitRate}");
-                content.Add($"HighestRating={HighestRating}");
-                content.Add($"LowestRating={LowestRating}");
+                List<string> content = new()
+                {
+                    $"PlayersNumber={CountParticipants}",
+                    $"RoundsNumber={CountRounds}",
+                    $"ForfeitRate={ForfeitRate}",
+                    $"HighestRating={HighestRating}",
+                    $"LowestRating={LowestRating}"
+                };
                 if (!ScoringScheme.IsDefault)
                 {
                     content.Add(FormattableString.Invariant($"PointsForWin={ScoringScheme.PointsForWin:F1}"));

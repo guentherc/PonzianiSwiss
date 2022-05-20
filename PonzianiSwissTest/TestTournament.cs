@@ -266,7 +266,7 @@ namespace PonzianiSwissTest
                     if (pActual != null && pActual.Black == Participant.BYE) pActual.Black = Participant.BYE;
                     if (pActual == null || pExpected.Black.ParticipantId != pActual.Black.ParticipantId)
                     {
-                        Console.WriteLine($"Issue with {pExpected.White.ParticipantId} - {pExpected.Black.ParticipantId} Round { round }");
+                        Console.WriteLine($"Issue with {pExpected.White.ParticipantId} - {pExpected.Black.ParticipantId} Round {round}");
                         PrintGeneratedTRF(trfFile0);
                     }
                     Assert.IsNotNull(pActual);
