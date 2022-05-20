@@ -60,6 +60,7 @@
             this.eNGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sUIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aUSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aUTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createTestTournamentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testTRFCreationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,6 +74,8 @@
             this.abandonTournamentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pauseNextRoundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.undoAbandonPauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.tspDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.lvParticipants = new System.Windows.Forms.ListView();
             this.chName = new System.Windows.Forms.ColumnHeader();
             this.chFideId = new System.Windows.Forms.ColumnHeader();
@@ -107,8 +110,6 @@
             this.tsbAdd = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbDraw = new System.Windows.Forms.ToolStripButton();
-            this.helpProvider1 = new System.Windows.Forms.HelpProvider();
-            this.aUTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.mainStatusStrip.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -330,6 +331,13 @@
             this.aUSToolStripMenuItem.Tag = "4";
             this.aUSToolStripMenuItem.Click += new System.EventHandler(this.NPBToolStripMenuItem_Click);
             // 
+            // aUTToolStripMenuItem
+            // 
+            this.aUTToolStripMenuItem.Name = "aUTToolStripMenuItem";
+            resources.ApplyResources(this.aUTToolStripMenuItem, "aUTToolStripMenuItem");
+            this.aUTToolStripMenuItem.Tag = "5";
+            this.aUTToolStripMenuItem.Click += new System.EventHandler(this.NPBToolStripMenuItem_Click);
+            // 
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -384,7 +392,9 @@
             this.toolStripSeparator5,
             this.abandonTournamentToolStripMenuItem,
             this.pauseNextRoundToolStripMenuItem,
-            this.undoAbandonPauseToolStripMenuItem});
+            this.undoAbandonPauseToolStripMenuItem,
+            this.toolStripSeparator7,
+            this.tspDelete});
             this.cmsParticipant.Name = "cmsParticipant";
             resources.ApplyResources(this.cmsParticipant, "cmsParticipant");
             this.cmsParticipant.Opening += new System.ComponentModel.CancelEventHandler(this.CmsParticipant_Opening);
@@ -417,6 +427,17 @@
             this.undoAbandonPauseToolStripMenuItem.Name = "undoAbandonPauseToolStripMenuItem";
             resources.ApplyResources(this.undoAbandonPauseToolStripMenuItem, "undoAbandonPauseToolStripMenuItem");
             this.undoAbandonPauseToolStripMenuItem.Click += new System.EventHandler(this.UndoAbandonPauseToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            resources.ApplyResources(this.toolStripSeparator7, "toolStripSeparator7");
+            // 
+            // tspDelete
+            // 
+            this.tspDelete.Name = "tspDelete";
+            resources.ApplyResources(this.tspDelete, "tspDelete");
+            this.tspDelete.Click += new System.EventHandler(this.tspDelete_Click);
             // 
             // lvParticipants
             // 
@@ -600,9 +621,6 @@
             // 
             // toolStrip1
             // 
-            this.helpProvider1.SetHelpKeyword(this.toolStrip1, resources.GetString("toolStrip1.HelpKeyword"));
-            this.helpProvider1.SetHelpNavigator(this.toolStrip1, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("toolStrip1.HelpNavigator"))));
-            this.helpProvider1.SetHelpString(this.toolStrip1, resources.GetString("toolStrip1.HelpString"));
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsbNew,
             this.tsbLoad,
@@ -614,7 +632,6 @@
             this.tsbDraw});
             resources.ApplyResources(this.toolStrip1, "toolStrip1");
             this.toolStrip1.Name = "toolStrip1";
-            this.helpProvider1.SetShowHelp(this.toolStrip1, ((bool)(resources.GetObject("toolStrip1.ShowHelp"))));
             // 
             // tsbNew
             // 
@@ -674,17 +691,6 @@
             this.tsbDraw.Name = "tsbDraw";
             this.tsbDraw.Click += new System.EventHandler(this.DrawToolStripMenuItem_Click);
             // 
-            // helpProvider1
-            // 
-            resources.ApplyResources(this.helpProvider1, "helpProvider1");
-            // 
-            // aUTToolStripMenuItem
-            // 
-            this.aUTToolStripMenuItem.Name = "aUTToolStripMenuItem";
-            resources.ApplyResources(this.aUTToolStripMenuItem, "aUTToolStripMenuItem");
-            this.aUTToolStripMenuItem.Tag = "5";
-            this.aUTToolStripMenuItem.Click += new System.EventHandler(this.NPBToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             resources.ApplyResources(this, "$this");
@@ -693,13 +699,9 @@
             this.Controls.Add(this.tcMain);
             this.Controls.Add(this.mainStatusStrip);
             this.Controls.Add(this.menuStrip1);
-            this.HelpButton = true;
-            this.helpProvider1.SetHelpNavigator(this, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("$this.HelpNavigator"))));
             this.MainMenuStrip = this.menuStrip1;
-            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MainForm";
-            this.helpProvider1.SetShowHelp(this, ((bool)(resources.GetObject("$this.ShowHelp"))));
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -792,10 +794,11 @@
         private ToolStripMenuItem pairingsToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator6;
         private ToolStripMenuItem exitToolStripMenuItem;
-        private HelpProvider helpProvider1;
         private ToolStripMenuItem eNGToolStripMenuItem;
         private ToolStripMenuItem sUIToolStripMenuItem;
         private ToolStripMenuItem aUSToolStripMenuItem;
         private ToolStripMenuItem aUTToolStripMenuItem;
+        private ToolStripMenuItem tspDelete;
+        private ToolStripSeparator toolStripSeparator7;
     }
 }

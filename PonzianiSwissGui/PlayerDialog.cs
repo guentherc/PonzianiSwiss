@@ -97,7 +97,7 @@ namespace PonzianiSwissGui
                     tbName.AutoCompleteCustomSource.AddRange(FideBase.Find(tbName.Text).Select(p => p.Name).ToArray());
                 }));
             }
-            if (tbName.AutoCompleteCustomSource.Count > 0)
+            if (tbName.AutoCompleteCustomSource != null)
             {
                 Invoke((MethodInvoker)(() =>
                 {
@@ -105,6 +105,10 @@ namespace PonzianiSwissGui
                     if (player.Count > 0)
                     {
                         UpdateFromPlayer(player[0]);
+                    }
+                    else
+                    {
+                        Player.FideId = 0;
                     }
                     UpdateUI(sender);
                 }));

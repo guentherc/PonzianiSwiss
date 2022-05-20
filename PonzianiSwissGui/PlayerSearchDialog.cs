@@ -13,13 +13,14 @@ namespace PonzianiSwissGui
         public PlayerSearchDialog()
         {
             InitializeComponent();
+            cbDataSource.DataSource = PlayerBaseFactory.AvailableBases;
+            cbDataSource.DisplayMember = "Value";
+            cbDataSource.ValueMember = "Key";
         }
 
         private void PlayerSearchDialog_Shown(object sender, EventArgs e)
         {
-            cbDataSource.DataSource = PlayerBaseFactory.AvailableBases;
-            cbDataSource.DisplayMember = "Value";
-            cbDataSource.ValueMember = "Key";
+
         }
 
         private void CbDataSource_SelectedValueChanged(object sender, EventArgs e)
@@ -44,8 +45,11 @@ namespace PonzianiSwissGui
                 Invoke((MethodInvoker)(() =>
                 {
                     var player = PlayerBase.Find(tbName.Text, 1);
-                    if (player.Count > 0) Player = player[0];
-                    UpdateUI();
+                    if (player.Count > 0)
+                    {
+                        Player = player[0];
+                        UpdateUI();
+                    }
                 }));
             }
         }

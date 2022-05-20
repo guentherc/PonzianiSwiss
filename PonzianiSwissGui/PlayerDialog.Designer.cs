@@ -302,7 +302,7 @@
             this.Controls.Add(this.tbFideId);
             this.Controls.Add(this.lblFideId);
             this.Name = "PlayerDialog";
-            this.Text = "PlayerDialog";
+            this.Text = "Edit Participant";
             this.Shown += new System.EventHandler(this.PlayerDialog_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.nudRating)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudAltRating)).EndInit();

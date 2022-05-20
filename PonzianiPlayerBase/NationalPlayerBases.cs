@@ -141,7 +141,8 @@ namespace PonzianiPlayerBase
                             try
                             {
                                 ++count;
-                                cmd.Parameters["@Id"].Value = $"{reader.GetDouble(0)}-{reader.GetDouble(1)}";
+                                int daysSince2000 = (reader.GetDateTime(11) - new DateTime(2000, 1, 1)).Days;
+                                cmd.Parameters["@Id"].Value = $"{reader.GetDouble(0)}-{reader.GetDouble(1)}-{daysSince2000}";
                                 cmd.Parameters["@Inactive"].Value = "0";
                                 cmd.Parameters["@Name"].Value = $"{reader.GetString(2).Trim()}, {reader.GetString(3).Trim()}";
                                 cmd.Parameters["@Sex"].Value = reader.GetString(5) == "w" ? "1" : "0";
@@ -153,9 +154,9 @@ namespace PonzianiPlayerBase
                                 if (count == 1) await cmd.PrepareAsync();
                                 await cmd.ExecuteNonQueryAsync();
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
-                                Console.WriteLine(ex.ToString());
+                                continue;
                             }
                         }
                     } while (reader.NextResult());

@@ -61,6 +61,37 @@
     <value>17, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="menuStrip1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="menuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>800, 24</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="menuStrip1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="menuStrip1.Text" xml:space="preserve">
+    <value>menuStrip1</value>
+  </data>
+  <data name="&gt;&gt;menuStrip1.Name" xml:space="preserve">
+    <value>menuStrip1</value>
+  </data>
+  <data name="&gt;&gt;menuStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;menuStrip1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;menuStrip1.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="tournamentToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>83, 20</value>
+  </data>
+  <data name="tournamentToolStripMenuItem.Text" xml:space="preserve">
+    <value>Tournament</value>
+  </data>
   <data name="newToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>174, 22</value>
   </data>
@@ -73,7 +104,6 @@
   <data name="openToolStripMenuItem.Text" xml:space="preserve">
     <value>Open ...</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="saveToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -107,6 +137,15 @@
   <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
     <value>171, 6</value>
   </data>
+  <data name="exportToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="exportToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>174, 22</value>
+  </data>
+  <data name="exportToolStripMenuItem.Text" xml:space="preserve">
+    <value>Export</value>
+  </data>
   <data name="tRFToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -115,6 +154,12 @@
   </data>
   <data name="tRFToolStripMenuItem.Text" xml:space="preserve">
     <value>TRF</value>
+  </data>
+  <data name="participantListToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="participantListToolStripMenuItem.Text" xml:space="preserve">
+    <value>Participant List</value>
   </data>
   <data name="byStartingRankToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>160, 22</value>
@@ -128,12 +173,6 @@
   <data name="byNameToolStripMenuItem.Text" xml:space="preserve">
     <value>By Name</value>
   </data>
-  <data name="participantListToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="participantListToolStripMenuItem.Text" xml:space="preserve">
-    <value>Participant List</value>
-  </data>
   <data name="crosstableToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 22</value>
   </data>
@@ -145,15 +184,6 @@
   </data>
   <data name="pairingsToolStripMenuItem.Text" xml:space="preserve">
     <value>Pairings</value>
-  </data>
-  <data name="exportToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="exportToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>174, 22</value>
-  </data>
-  <data name="exportToolStripMenuItem.Text" xml:space="preserve">
-    <value>Export</value>
   </data>
   <data name="toolStripSeparator6.Size" type="System.Drawing.Size, System.Drawing">
     <value>171, 6</value>
@@ -168,18 +198,6 @@
   <data name="exitToolStripMenuItem.Text" xml:space="preserve">
     <value>Exit</value>
   </data>
-  <data name="tournamentToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>83, 20</value>
-  </data>
-  <data name="tournamentToolStripMenuItem.Text" xml:space="preserve">
-    <value>Tournament</value>
-  </data>
-  <data name="addToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>96, 22</value>
-  </data>
-  <data name="addToolStripMenuItem.Text" xml:space="preserve">
-    <value>Add</value>
-  </data>
   <data name="participantsToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -188,6 +206,21 @@
   </data>
   <data name="participantsToolStripMenuItem.Text" xml:space="preserve">
     <value>Participants</value>
+  </data>
+  <data name="addToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>96, 22</value>
+  </data>
+  <data name="addToolStripMenuItem.Text" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="roundToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="roundToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 20</value>
+  </data>
+  <data name="roundToolStripMenuItem.Text" xml:space="preserve">
+    <value>Round</value>
   </data>
   <data name="drawToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>169, 22</value>
@@ -201,62 +234,62 @@
   <data name="deleteLastRoundToolStripMenuItem.Text" xml:space="preserve">
     <value>Delete Last Round</value>
   </data>
-  <data name="roundToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="roundToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 20</value>
-  </data>
-  <data name="roundToolStripMenuItem.Text" xml:space="preserve">
-    <value>Round</value>
-  </data>
-  <data name="updateFideToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
-  </data>
-  <data name="updateFideToolStripMenuItem.Text" xml:space="preserve">
-    <value>FIDE</value>
-  </data>
-  <data name="gERToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
-  </data>
-  <data name="gERToolStripMenuItem.Text" xml:space="preserve">
-    <value>GER</value>
-  </data>
-  <data name="eNGToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
-  </data>
-  <data name="eNGToolStripMenuItem.Text" xml:space="preserve">
-    <value>ENG</value>
-  </data>
-  <data name="sUIToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
-  </data>
-  <data name="sUIToolStripMenuItem.Text" xml:space="preserve">
-    <value>SUI</value>
-  </data>
-  <data name="aUSToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
-  </data>
-  <data name="aUSToolStripMenuItem.Text" xml:space="preserve">
-    <value>AUS</value>
-  </data>
-  <data name="aUTToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
-  </data>
-  <data name="aUTToolStripMenuItem.Text" xml:space="preserve">
-    <value>AUT</value>
-  </data>
-  <data name="PlayerBaseUpdateToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
-  </data>
-  <data name="PlayerBaseUpdateToolStripMenuItem.Text" xml:space="preserve">
-    <value>Update</value>
-  </data>
   <data name="playerBaseToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>78, 20</value>
   </data>
   <data name="playerBaseToolStripMenuItem.Text" xml:space="preserve">
     <value>Player Base</value>
+  </data>
+  <data name="PlayerBaseUpdateToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>112, 22</value>
+  </data>
+  <data name="PlayerBaseUpdateToolStripMenuItem.Text" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="updateFideToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>97, 22</value>
+  </data>
+  <data name="updateFideToolStripMenuItem.Text" xml:space="preserve">
+    <value>FIDE</value>
+  </data>
+  <data name="gERToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>97, 22</value>
+  </data>
+  <data name="gERToolStripMenuItem.Text" xml:space="preserve">
+    <value>GER</value>
+  </data>
+  <data name="eNGToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>97, 22</value>
+  </data>
+  <data name="eNGToolStripMenuItem.Text" xml:space="preserve">
+    <value>ENG</value>
+  </data>
+  <data name="sUIToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>97, 22</value>
+  </data>
+  <data name="sUIToolStripMenuItem.Text" xml:space="preserve">
+    <value>SUI</value>
+  </data>
+  <data name="aUSToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>97, 22</value>
+  </data>
+  <data name="aUSToolStripMenuItem.Text" xml:space="preserve">
+    <value>AUS</value>
+  </data>
+  <data name="aUTToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>97, 22</value>
+  </data>
+  <data name="aUTToolStripMenuItem.Text" xml:space="preserve">
+    <value>AUT</value>
+  </data>
+  <data name="toolsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>46, 20</value>
+  </data>
+  <data name="toolsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Tools</value>
+  </data>
+  <data name="toolsToolStripMenuItem.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="createTestTournamentToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>198, 22</value>
@@ -270,45 +303,9 @@
   <data name="testTRFCreationToolStripMenuItem.Text" xml:space="preserve">
     <value>Test TRF Creation</value>
   </data>
-  <data name="toolsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>46, 20</value>
-  </data>
-  <data name="toolsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Tools</value>
-  </data>
-  <data name="toolsToolStripMenuItem.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="menuStrip1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="menuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>800, 24</value>
-  </data>
-  <data name="menuStrip1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="menuStrip1.Text" xml:space="preserve">
-    <value>menuStrip1</value>
-  </data>
-  <data name="&gt;&gt;menuStrip1.Name" xml:space="preserve">
-    <value>menuStrip1</value>
-  </data>
-  <data name="&gt;&gt;menuStrip1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;menuStrip1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;menuStrip1.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
   <metadata name="mainStatusStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>132, 17</value>
   </metadata>
-  <data name="mainStatusLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 17</value>
-  </data>
   <data name="mainStatusStrip.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 428</value>
   </data>
@@ -333,71 +330,56 @@
   <data name="&gt;&gt;mainStatusStrip.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <data name="mainStatusLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>0, 17</value>
+  </data>
   <data name="tcMain.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="&gt;&gt;tpParticipants.Name" xml:space="preserve">
+    <value>tpParticipants</value>
+  </data>
+  <data name="&gt;&gt;tpParticipants.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tpParticipants.Parent" xml:space="preserve">
+    <value>tcMain</value>
+  </data>
+  <data name="&gt;&gt;tpParticipants.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tcMain.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 47</value>
+  </data>
+  <data name="tcMain.Size" type="System.Drawing.Size, System.Drawing">
+    <value>800, 381</value>
+  </data>
+  <data name="tcMain.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;tcMain.Name" xml:space="preserve">
+    <value>tcMain</value>
+  </data>
+  <data name="&gt;&gt;tcMain.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tcMain.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;tcMain.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
   <metadata name="cmsParticipant.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>498, 17</value>
   </metadata>
-  <data name="editToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>191, 22</value>
-  </data>
-  <data name="editToolStripMenuItem.Text" xml:space="preserve">
-    <value>Edit</value>
-  </data>
-  <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 6</value>
-  </data>
-  <data name="abandonTournamentToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>191, 22</value>
-  </data>
-  <data name="abandonTournamentToolStripMenuItem.Text" xml:space="preserve">
-    <value>Abandon Tournament</value>
-  </data>
-  <data name="pauseNextRoundToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>191, 22</value>
-  </data>
-  <data name="pauseNextRoundToolStripMenuItem.Text" xml:space="preserve">
-    <value>Pause Next Round</value>
-  </data>
-  <data name="undoAbandonPauseToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>191, 22</value>
-  </data>
-  <data name="undoAbandonPauseToolStripMenuItem.Text" xml:space="preserve">
-    <value>Undo Abandon/Pause</value>
-  </data>
   <data name="cmsParticipant.Size" type="System.Drawing.Size, System.Drawing">
-    <value>192, 98</value>
+    <value>192, 126</value>
   </data>
   <data name="&gt;&gt;cmsParticipant.Name" xml:space="preserve">
     <value>cmsParticipant</value>
   </data>
   <data name="&gt;&gt;cmsParticipant.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="chName.Text" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="chName.Width" type="System.Int32, mscorlib">
-    <value>200</value>
-  </data>
-  <data name="chFideId.Text" xml:space="preserve">
-    <value>Fide Id</value>
-  </data>
-  <data name="chRating.Text" xml:space="preserve">
-    <value>Rating</value>
-  </data>
-  <data name="chTournamentId.Text" xml:space="preserve">
-    <value>Tournament Id</value>
-  </data>
-  <data name="chFideRating.Text" xml:space="preserve">
-    <value>Elo</value>
-  </data>
-  <data name="chAlternativeRating.Text" xml:space="preserve">
-    <value>National Rating</value>
-  </data>
-  <data name="chClub.Text" xml:space="preserve">
-    <value>Club</value>
   </data>
   <data name="lvParticipants.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -439,42 +421,78 @@
   <data name="tpParticipants.Text" xml:space="preserve">
     <value>Participants</value>
   </data>
-  <data name="&gt;&gt;tpParticipants.Name" xml:space="preserve">
-    <value>tpParticipants</value>
+  <data name="editToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>191, 22</value>
   </data>
-  <data name="&gt;&gt;tpParticipants.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="editToolStripMenuItem.Text" xml:space="preserve">
+    <value>Edit</value>
   </data>
-  <data name="&gt;&gt;tpParticipants.Parent" xml:space="preserve">
-    <value>tcMain</value>
+  <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>188, 6</value>
   </data>
-  <data name="&gt;&gt;tpParticipants.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="abandonTournamentToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>191, 22</value>
   </data>
-  <data name="tcMain.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 47</value>
+  <data name="abandonTournamentToolStripMenuItem.Text" xml:space="preserve">
+    <value>Abandon Tournament</value>
   </data>
-  <data name="tcMain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>800, 381</value>
+  <data name="pauseNextRoundToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>191, 22</value>
   </data>
-  <data name="tcMain.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+  <data name="pauseNextRoundToolStripMenuItem.Text" xml:space="preserve">
+    <value>Pause Next Round</value>
   </data>
-  <data name="&gt;&gt;tcMain.Name" xml:space="preserve">
-    <value>tcMain</value>
+  <data name="undoAbandonPauseToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>191, 22</value>
   </data>
-  <data name="&gt;&gt;tcMain.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="undoAbandonPauseToolStripMenuItem.Text" xml:space="preserve">
+    <value>Undo Abandon/Pause</value>
   </data>
-  <data name="&gt;&gt;tcMain.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="toolStripSeparator7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>188, 6</value>
   </data>
-  <data name="&gt;&gt;tcMain.ZOrder" xml:space="preserve">
-    <value>3</value>
+  <data name="tspDelete.Size" type="System.Drawing.Size, System.Drawing">
+    <value>191, 22</value>
+  </data>
+  <data name="tspDelete.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="chName.Text" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="chName.Width" type="System.Int32, mscorlib">
+    <value>200</value>
+  </data>
+  <data name="chFideId.Text" xml:space="preserve">
+    <value>Fide Id</value>
+  </data>
+  <data name="chRating.Text" xml:space="preserve">
+    <value>Rating</value>
+  </data>
+  <data name="chTournamentId.Text" xml:space="preserve">
+    <value>Tournament Id</value>
+  </data>
+  <data name="chFideRating.Text" xml:space="preserve">
+    <value>Elo</value>
+  </data>
+  <data name="chAlternativeRating.Text" xml:space="preserve">
+    <value>National Rating</value>
+  </data>
+  <data name="chClub.Text" xml:space="preserve">
+    <value>Club</value>
   </data>
   <metadata name="cmsSetResult.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>269, 17</value>
   </metadata>
+  <data name="cmsSetResult.Size" type="System.Drawing.Size, System.Drawing">
+    <value>120, 158</value>
+  </data>
+  <data name="&gt;&gt;cmsSetResult.Name" xml:space="preserve">
+    <value>cmsSetResult</value>
+  </data>
+  <data name="&gt;&gt;cmsSetResult.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="openToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
     <value>119, 22</value>
   </data>
@@ -499,6 +517,12 @@
   <data name="toolStripMenuItem4.Text" xml:space="preserve">
     <value>0-1</value>
   </data>
+  <data name="unratedToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 22</value>
+  </data>
+  <data name="unratedToolStripMenuItem.Text" xml:space="preserve">
+    <value>Unrated</value>
+  </data>
   <data name="toolStripMenuItem5.Size" type="System.Drawing.Size, System.Drawing">
     <value>113, 22</value>
   </data>
@@ -517,11 +541,11 @@
   <data name="toolStripMenuItem7.Text" xml:space="preserve">
     <value>0-1</value>
   </data>
-  <data name="unratedToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="forfeitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>119, 22</value>
   </data>
-  <data name="unratedToolStripMenuItem.Text" xml:space="preserve">
-    <value>Unrated</value>
+  <data name="forfeitToolStripMenuItem.Text" xml:space="preserve">
+    <value>Forfeit</value>
   </data>
   <data name="toolStripMenuItem8.Size" type="System.Drawing.Size, System.Drawing">
     <value>92, 22</value>
@@ -541,11 +565,11 @@
   <data name="toolStripMenuItem13.Text" xml:space="preserve">
     <value>---</value>
   </data>
-  <data name="forfeitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="byeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>119, 22</value>
   </data>
-  <data name="forfeitToolStripMenuItem.Text" xml:space="preserve">
-    <value>Forfeit</value>
+  <data name="byeToolStripMenuItem.Text" xml:space="preserve">
+    <value>Bye</value>
   </data>
   <data name="toolStripMenuItem10.Size" type="System.Drawing.Size, System.Drawing">
     <value>91, 22</value>
@@ -565,38 +589,32 @@
   <data name="toolStripMenuItem12.Text" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="byeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>119, 22</value>
-  </data>
-  <data name="byeToolStripMenuItem.Text" xml:space="preserve">
-    <value>Bye</value>
-  </data>
-  <data name="cmsSetResult.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 158</value>
-  </data>
-  <data name="&gt;&gt;cmsSetResult.Name" xml:space="preserve">
-    <value>cmsSetResult</value>
-  </data>
-  <data name="&gt;&gt;cmsSetResult.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <metadata name="toolStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>393, 17</value>
   </metadata>
-  <metadata name="helpProvider1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>629, 17</value>
-  </metadata>
-  <data name="helpProvider1.HelpNamespace" xml:space="preserve">
-    <value>Doc\PonzianiSwiss.chm</value>
+  <data name="toolStrip1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 24</value>
   </data>
-  <data name="toolStrip1.HelpKeyword" xml:space="preserve">
-    <value>6</value>
+  <data name="toolStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>800, 25</value>
   </data>
-  <data name="toolStrip1.HelpNavigator" type="System.Windows.Forms.HelpNavigator, System.Windows.Forms">
-    <value>Index</value>
+  <data name="toolStrip1.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
   </data>
-  <data name="toolStrip1.HelpString" xml:space="preserve">
-    <value>The toolbar contains the most important actions necessary to run the tournament</value>
+  <data name="toolStrip1.Text" xml:space="preserve">
+    <value>toolStrip1</value>
+  </data>
+  <data name="&gt;&gt;toolStrip1.Name" xml:space="preserve">
+    <value>toolStrip1</value>
+  </data>
+  <data name="&gt;&gt;toolStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStrip, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStrip1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;toolStrip1.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <data name="tsbNew.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
@@ -670,33 +688,6 @@
   <data name="tsbDraw.Text" xml:space="preserve">
     <value>Draw Next Round</value>
   </data>
-  <data name="toolStrip1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 24</value>
-  </data>
-  <data name="toolStrip1.ShowHelp" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="toolStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>800, 25</value>
-  </data>
-  <data name="toolStrip1.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="toolStrip1.Text" xml:space="preserve">
-    <value>toolStrip1</value>
-  </data>
-  <data name="&gt;&gt;toolStrip1.Name" xml:space="preserve">
-    <value>toolStrip1</value>
-  </data>
-  <data name="&gt;&gt;toolStrip1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStrip, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStrip1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;toolStrip1.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -705,12 +696,6 @@
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>800, 450</value>
-  </data>
-  <data name="$this.HelpNavigator" type="System.Windows.Forms.HelpNavigator, System.Windows.Forms">
-    <value>TableOfContents</value>
-  </data>
-  <data name="$this.ShowHelp" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Ponziani Swiss Pairing Program</value>
@@ -889,6 +874,12 @@
   <data name="&gt;&gt;aUSToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;aUTToolStripMenuItem.Name" xml:space="preserve">
+    <value>aUTToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;aUTToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;toolsToolStripMenuItem.Name" xml:space="preserve">
     <value>toolsToolStripMenuItem</value>
   </data>
@@ -941,6 +932,18 @@
     <value>undoAbandonPauseToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;undoAbandonPauseToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator7.Name" xml:space="preserve">
+    <value>toolStripSeparator7</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tspDelete.Name" xml:space="preserve">
+    <value>tspDelete</value>
+  </data>
+  <data name="&gt;&gt;tspDelete.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;chName.Name" xml:space="preserve">
@@ -1128,18 +1131,6 @@
   </data>
   <data name="&gt;&gt;tsbDraw.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;helpProvider1.Name" xml:space="preserve">
-    <value>helpProvider1</value>
-  </data>
-  <data name="&gt;&gt;helpProvider1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.HelpProvider, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;aUTToolStripMenuItem.Name" xml:space="preserve">
-    <value>aUTToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;aUTToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>MainForm</value>

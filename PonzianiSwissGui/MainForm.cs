@@ -426,6 +426,12 @@ namespace PonzianiSwissGui
 
         private void CmsParticipant_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            if (selectedItem == null)
+            {
+                e.Cancel = true;
+                return;
+            }
+            tspDelete.Enabled = selectedItem.Tag is Participant p0 && (p0.Scorecard == null || p0.Scorecard.Entries.Count == 0);
             bool abEnabled = Tournament != null && Tournament.Rounds.Count < Tournament.CountRounds;
             if (abEnabled && selectedItem != null && selectedItem.Tag != null && selectedItem.Tag is Participant p)
             {
@@ -521,6 +527,15 @@ namespace PonzianiSwissGui
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void tspDelete_Click(object sender, EventArgs e)
+        {
+            if (Tournament != null && selectedItem != null && selectedItem.Tag != null && selectedItem.Tag is Participant p)
+            {
+                Tournament.Participants.Remove(p);
+                UpdateUI();
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 using FlaUI.Core.Input;
 using FlaUI.Core.Tools;
 using FlaUI.UIA2;
+using PonzianiPlayerBase;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,6 +56,8 @@ namespace PonzianiSwissGuiUtils
             AddPlayerByName(window, "Kramnik, Vladimir");
             //Add player unknown to player databases
             AddPlayer(window, "Magath, Felix", 0, 1953, "GER", "Hertha BSC");
+            //Add player from national player base
+            AddNationalPlayer(window, PlayerBaseFactory.Base.GER, "Jäger,Mario");
             app.Close();
         }
 
@@ -66,6 +69,26 @@ namespace PonzianiSwissGuiUtils
             Retry.WhileNull(() => window.FindFirstByXPath("/Window"), TimeSpan.FromSeconds(5));
             var playerDialog = window.FindFirstByXPath("/Window");
             return playerDialog;
+        }
+
+        private void AddNationalPlayer(Window window, PlayerBaseFactory.Base pbase, string name)
+        {
+            AutomationElement playerDialog = OpenPlayerDialog(window);
+            playerDialog.FindAllByXPath("/Button").Where(btn => btn.AutomationId == "btnSearch").First().Click();
+            Retry.WhileNull(() => playerDialog.FindFirstByXPath("/Window"), TimeSpan.FromSeconds(5));
+            var searchDialog = playerDialog.FindFirstByXPath("/Window");
+            Thread.Sleep(1000);
+            Retry.WhileNull(() => searchDialog.FindFirstByXPath("/ComboBox"));
+            var cbDataSource = searchDialog.FindFirstByXPath("/ComboBox").AsComboBox();
+            cbDataSource.Value = PlayerBaseFactory.AvailableBases[(int)pbase].Value;
+            Wait.UntilInputIsProcessed();
+            var inpName = searchDialog.FindAllByXPath("/Edit").Where(e => e.AutomationId == "tbName").First().AsTextBox();
+            inpName.Focus();
+            foreach (char c in name) Keyboard.Type(c);
+            Wait.UntilInputIsProcessed();
+            searchDialog.CaptureToFile(Path.Combine(CaptureDirectory, $"walktrough{++captureIndex}.png"));
+            searchDialog.FindAllByXPath("/Button").Where(e => e.AutomationId == "btnOk").First().AsButton().Click();
+            playerDialog.FindAllByXPath("/Button").Where(e => e.AutomationId == "btnOk").First().AsButton().Click();
         }
 
         private static void AddPlayer(Window window, string name, int rating, int? yearOfBirth, string? federation, string? club, bool isFemale = false)
