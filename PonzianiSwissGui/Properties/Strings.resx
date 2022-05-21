@@ -129,8 +129,17 @@
   <data name="Crosstable" xml:space="preserve">
     <value>Crosstable</value>
   </data>
+  <data name="DownloadFailed" xml:space="preserve">
+    <value>Download failed - try again later!</value>
+  </data>
+  <data name="DownloadOk" xml:space="preserve">
+    <value>Update was successful!</value>
+  </data>
   <data name="EndDateLTStartDate" xml:space="preserve">
     <value>End Date less than Start Date</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
   </data>
   <data name="ExportTRF" xml:space="preserve">
     <value>Export Tournament Report File</value>
@@ -167,6 +176,9 @@
   </data>
   <data name="SaveTournamentFile" xml:space="preserve">
     <value>Save Tournament File</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Success</value>
   </data>
   <data name="TournamentFiles" xml:space="preserve">
     <value>Tournament Files</value>

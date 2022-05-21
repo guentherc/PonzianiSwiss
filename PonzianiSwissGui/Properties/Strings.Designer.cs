@@ -97,11 +97,38 @@ namespace PonzianiSwissGui.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download failed - try again later!.
+        /// </summary>
+        public static string DownloadFailed {
+            get {
+                return ResourceManager.GetString("DownloadFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update was successful!.
+        /// </summary>
+        public static string DownloadOk {
+            get {
+                return ResourceManager.GetString("DownloadOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to End Date less than Start Date.
         /// </summary>
         public static string EndDateLTStartDate {
             get {
                 return ResourceManager.GetString("EndDateLTStartDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        public static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
             }
         }
         
@@ -210,6 +237,15 @@ namespace PonzianiSwissGui.Properties {
         public static string SaveTournamentFile {
             get {
                 return ResourceManager.GetString("SaveTournamentFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Success.
+        /// </summary>
+        public static string Success {
+            get {
+                return ResourceManager.GetString("Success", resourceCulture);
             }
         }
         

@@ -79,12 +79,19 @@ namespace PonzianiPlayerBase
             tmpDir = Path.Combine(tmpDir, "ratings");
             Directory.CreateDirectory(tmpDir);
             var tmpFile = Path.Combine(tmpDir, "ratings.zip");
-
-            if (!File.Exists(tmpFile))
+            try
             {
-                using var stream = await httpClient.GetStreamAsync("http://ratings.fide.com/download/players_list.zip");
-                using var fileStream = new FileStream(tmpFile, FileMode.CreateNew);
-                await stream.CopyToAsync(fileStream);
+                if (!File.Exists(tmpFile))
+                {
+                    using var stream = await httpClient.GetStreamAsync("http://ratings.fide.com/download/players_list.zip");
+                    using var fileStream = new FileStream(tmpFile, FileMode.CreateNew);
+                    await stream.CopyToAsync(fileStream);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
             }
             if (!Directory.GetFiles(tmpDir).Where(f => Path.GetExtension(f) == ".txt").Any())
             {

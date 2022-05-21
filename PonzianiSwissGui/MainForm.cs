@@ -214,9 +214,11 @@ namespace PonzianiSwissGui
             updateFideToolStripMenuItem.Enabled = false;
             mainStatusLabel.Text = Properties.Strings.PlayerListUpdate;
             IPlayerBase pbase = PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE);
-            await pbase.UpdateAsync().ConfigureAwait(false);
+            bool ok = await pbase.UpdateAsync().ConfigureAwait(false);
             Invoke((MethodInvoker)(() =>
             {
+                if (ok) MessageBox.Show(Properties.Strings.Success, Properties.Strings.DownloadOk, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else MessageBox.Show(Properties.Strings.Error, Properties.Strings.DownloadFailed, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 PlayerBaseUpdateToolStripMenuItem.Enabled = true;
                 updateFideToolStripMenuItem.Enabled = true;
                 mainStatusLabel.Text = String.Empty;
@@ -338,9 +340,11 @@ namespace PonzianiSwissGui
             ((ToolStripMenuItem)sender).Enabled = false;
             mainStatusLabel.Text = Properties.Strings.PlayerListUpdate;
             IPlayerBase pbase = PlayerBaseFactory.Get((PlayerBaseFactory.Base)int.Parse((string)((ToolStripMenuItem)sender).Tag));
-            await pbase.UpdateAsync().ConfigureAwait(false);
+            bool ok = await pbase.UpdateAsync().ConfigureAwait(false);
             Invoke((MethodInvoker)(() =>
             {
+                if (ok) MessageBox.Show(Properties.Strings.Success, Properties.Strings.DownloadOk, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else MessageBox.Show(Properties.Strings.Error, Properties.Strings.DownloadFailed, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 PlayerBaseUpdateToolStripMenuItem.Enabled = true;
                 ((ToolStripMenuItem)sender).Enabled = true;
                 mainStatusLabel.Text = String.Empty;

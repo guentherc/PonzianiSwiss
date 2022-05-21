@@ -16,7 +16,7 @@ namespace PonzianiPlayerBase
             List<Player> result = new();
             using var cmd = connection?.CreateCommand();
             if (cmd == null) return result;
-            cmd.CommandText = max > 0 ? $"SELECT * FROM Player WHERE Federation = @fed AND Name LIKE @ss LIMIT { max }" : "SELECT * FROM Player WHERE Federation = @fed AND  Name LIKE @ss";
+            cmd.CommandText = max > 0 ? $"SELECT * FROM Player WHERE Federation = @fed AND Name LIKE @ss LIMIT {max}" : "SELECT * FROM Player WHERE Federation = @fed AND  Name LIKE @ss";
             cmd.Parameters.AddWithValue("@fed", federation);
             cmd.Parameters.AddWithValue("@ss", searchstring + '%');
             cmd.Prepare();
@@ -41,7 +41,7 @@ namespace PonzianiPlayerBase
                 using var ccmd = connection?.CreateCommand();
                 if (ccmd != null)
                 {
-                    ccmd.CommandText = $"SELECT Name FROM Club WHERE Federation = \"GER\" and Id = \"{ result[0].Club }\"";
+                    ccmd.CommandText = $"SELECT Name FROM Club WHERE Federation = \"GER\" and Id = \"{result[0].Club}\"";
                     using var creader = ccmd.ExecuteReader();
                     while (creader.Read())
                     {
@@ -189,82 +189,90 @@ namespace PonzianiPlayerBase
         public override async Task<bool> UpdateAsync()
         {
             if (connection == null) return false;
-            var httpClient = new HttpClient();
-            string page = await httpClient.GetStringAsync("https://auschess.org.au/rating-lists/");
-            var links = LinkFinder.Find(page);
-            int indx = page.IndexOf("Classic ACF Master File");
-            var rl = links.Find(l => l.ToIndex < indx && l.ToIndex + 20 > indx);
-            if (rl.Href == null || rl.Href.Trim().Length == 0) return false;
-            string rating_data = await httpClient.GetStringAsync($"https://auschess.org.au{rl.Href}");
-            if (rating_data == null || rating_data.Length == 0) return false;
-            string[] rating_data_lines = rating_data.Split(new String[] { "\r\n", "\n", "\r" }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-
-            using (var transaction = connection.BeginTransaction())
+            try
             {
-                using (var del = connection.CreateCommand())
-                {
-                    del.CommandText = "DELETE FROM Player WHERE Federation = \"AUS\"";
-                    await del.ExecuteNonQueryAsync();
-                    del.CommandText = "DELETE FROM Club WHERE Federation = \"AUS\"";
-                    await del.ExecuteNonQueryAsync();
-                }
+                var httpClient = new HttpClient();
+                string page = await httpClient.GetStringAsync("https://auschess.org.au/rating-lists/");
+                var links = LinkFinder.Find(page);
+                int indx = page.IndexOf("Classic ACF Master File");
+                var rl = links.Find(l => l.ToIndex < indx && l.ToIndex + 20 > indx);
+                if (rl.Href == null || rl.Href.Trim().Length == 0) return false;
+                string rating_data = await httpClient.GetStringAsync($"https://auschess.org.au{rl.Href}");
+                if (rating_data == null || rating_data.Length == 0) return false;
+                string[] rating_data_lines = rating_data.Split(new String[] { "\r\n", "\n", "\r" }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
 
-
-                //Process player
-                using (var cmd = connection.CreateCommand())
+                using (var transaction = connection.BeginTransaction())
                 {
-                    cmd.CommandText = "INSERT INTO Player VALUES(@Federation, @Id, @Club, @Name, @Sex, @Rating, @Inactive, @Birthyear, @FideId)";
-                    string[] parameters = new[] { "@Federation", "@Id", "@Club", "@Name", "@Sex", "@Rating", "@Inactive", "@Birthyear", "@FideId" };
-                    foreach (var p in parameters)
+                    using (var del = connection.CreateCommand())
                     {
-                        var parameter = cmd.CreateParameter();
-                        parameter.ParameterName = p;
-                        cmd.Parameters.Add(parameter);
+                        del.CommandText = "DELETE FROM Player WHERE Federation = \"AUS\"";
+                        await del.ExecuteNonQueryAsync();
+                        del.CommandText = "DELETE FROM Club WHERE Federation = \"AUS\"";
+                        await del.ExecuteNonQueryAsync();
                     }
 
-                    int count = 0;
-                    for (int i = 1; i < rating_data_lines.Length; ++i)
+
+                    //Process player
+                    using (var cmd = connection.CreateCommand())
                     {
-                        string l = rating_data_lines[i].Trim();
-                        try
+                        cmd.CommandText = "INSERT INTO Player VALUES(@Federation, @Id, @Club, @Name, @Sex, @Rating, @Inactive, @Birthyear, @FideId)";
+                        string[] parameters = new[] { "@Federation", "@Id", "@Club", "@Name", "@Sex", "@Rating", "@Inactive", "@Birthyear", "@FideId" };
+                        foreach (var p in parameters)
                         {
-                            ++count;
-                            cmd.Parameters["@Id"].Value = l[..7];
-                            cmd.Parameters["@Inactive"].Value = "0";
-                            cmd.Parameters["@Name"].Value = l[24..];
-                            cmd.Parameters["@Sex"].Value = "0";
-                            cmd.Parameters["@Federation"].Value = "AUS";
-                            cmd.Parameters["@Club"].Value = string.Empty;
-                            string rs = l.Substring(9, 4);
-                            if (int.TryParse(rs, out int rating))
-                            {
-                                cmd.Parameters["@Rating"].Value = rating;
-                            }
-                            else
-                            {
-                                cmd.Parameters["@Rating"].Value = 0;
-                            }
-                            cmd.Parameters["@Birthyear"].Value = 0;
-                            cmd.Parameters["@FideId"].Value = 0;
-                            if (count == 1) await cmd.PrepareAsync();
-                            await cmd.ExecuteNonQueryAsync();
+                            var parameter = cmd.CreateParameter();
+                            parameter.ParameterName = p;
+                            cmd.Parameters.Add(parameter);
                         }
-                        catch (Exception ex)
+
+                        int count = 0;
+                        for (int i = 1; i < rating_data_lines.Length; ++i)
                         {
-                            Console.WriteLine(ex.ToString());
+                            string l = rating_data_lines[i].Trim();
+                            try
+                            {
+                                ++count;
+                                cmd.Parameters["@Id"].Value = l[..7];
+                                cmd.Parameters["@Inactive"].Value = "0";
+                                cmd.Parameters["@Name"].Value = l[24..];
+                                cmd.Parameters["@Sex"].Value = "0";
+                                cmd.Parameters["@Federation"].Value = "AUS";
+                                cmd.Parameters["@Club"].Value = string.Empty;
+                                string rs = l.Substring(9, 4);
+                                if (int.TryParse(rs, out int rating))
+                                {
+                                    cmd.Parameters["@Rating"].Value = rating;
+                                }
+                                else
+                                {
+                                    cmd.Parameters["@Rating"].Value = 0;
+                                }
+                                cmd.Parameters["@Birthyear"].Value = 0;
+                                cmd.Parameters["@FideId"].Value = 0;
+                                if (count == 1) await cmd.PrepareAsync();
+                                await cmd.ExecuteNonQueryAsync();
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.ToString());
+                            }
                         }
                     }
+                    var command = connection.CreateCommand();
+                    command.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"{(int)PlayerBaseFactory.Base.AUS}\"";
+                    lastUpdate = DateTime.UtcNow;
+                    await command.ExecuteNonQueryAsync();
+                    transaction.Commit();
+                    command = connection.CreateCommand();
+                    command.CommandText = $"VACUUM";
+                    await command.ExecuteNonQueryAsync();
                 }
-                var command = connection.CreateCommand();
-                command.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"{(int)PlayerBaseFactory.Base.AUS}\"";
-                lastUpdate = DateTime.UtcNow;
-                await command.ExecuteNonQueryAsync();
-                transaction.Commit();
-                command = connection.CreateCommand();
-                command.CommandText = $"VACUUM";
-                await command.ExecuteNonQueryAsync();
+
             }
-
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return false;
+            }
             return true;
         }
     }
@@ -283,12 +291,19 @@ namespace PonzianiPlayerBase
             tmpDir = Path.Combine(tmpDir, "sui");
             Directory.CreateDirectory(tmpDir);
             var tmpFile = Path.Combine(tmpDir, "sui.csv");
-
-            if (!File.Exists(tmpFile))
+            try
             {
-                using var stream = await httpClient.GetStreamAsync("http://adapter.swisschess.ch/schachsport/fl/export.php?profile=swissmanager&output=csv");
-                using var fileStream = new FileStream(tmpFile, FileMode.CreateNew);
-                await stream.CopyToAsync(fileStream);
+                if (!File.Exists(tmpFile))
+                {
+                    using var stream = await httpClient.GetStreamAsync("http://adapter.swisschess.ch/schachsport/fl/export.php?profile=swissmanager&output=csv");
+                    using var fileStream = new FileStream(tmpFile, FileMode.CreateNew);
+                    await stream.CopyToAsync(fileStream);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return false;
             }
 
             if (connection == null || !File.Exists(tmpFile)) return false;
@@ -382,11 +397,19 @@ namespace PonzianiPlayerBase
             Directory.CreateDirectory(tmpDir);
             var tmpFile = Path.Combine(tmpDir, "ecf.csv");
 
-            if (!File.Exists(tmpFile))
+            try
             {
-                using var stream = await httpClient.GetStreamAsync("https://www.ecfrating.org.uk/v2/new/api.php?v2/rating_list_csv");
-                using var fileStream = new FileStream(tmpFile, FileMode.CreateNew);
-                await stream.CopyToAsync(fileStream);
+                if (!File.Exists(tmpFile))
+                {
+                    using var stream = await httpClient.GetStreamAsync("https://www.ecfrating.org.uk/v2/new/api.php?v2/rating_list_csv");
+                    using var fileStream = new FileStream(tmpFile, FileMode.CreateNew);
+                    await stream.CopyToAsync(fileStream);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return false;
             }
 
             if (connection == null || !File.Exists(tmpFile)) return false;
@@ -478,11 +501,19 @@ namespace PonzianiPlayerBase
             Directory.CreateDirectory(tmpDir);
             var tmpFile = Path.Combine(tmpDir, "dwz.zip");
 
-            if (!File.Exists(tmpFile))
+            try
             {
-                using var stream = await httpClient.GetStreamAsync("https://dwz.svw.info/services/files/export/csv/LV-0-csv.zip");
-                using var fileStream = new FileStream(tmpFile, FileMode.CreateNew);
-                await stream.CopyToAsync(fileStream);
+                if (!File.Exists(tmpFile))
+                {
+                    using var stream = await httpClient.GetStreamAsync("https://dwz.svw.info/services/files/export/csv/LV-0-csv.zip");
+                    using var fileStream = new FileStream(tmpFile, FileMode.CreateNew);
+                    await stream.CopyToAsync(fileStream);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return false;
             }
             if (!Directory.GetFiles(tmpDir).Where(f => Path.GetExtension(f) == ".csv").Any())
             {
