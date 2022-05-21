@@ -362,3 +362,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /PonzianiSwissGui/Doc/PonzianiSwiss.lck
+
+!docs/
+!docs/Installer/*
