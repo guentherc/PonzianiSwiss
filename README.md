@@ -1,6 +1,8 @@
 # PonzianiSwiss
-Swiss Pairing Program
+Swiss Pairing Program based on [BBPPairings](https://github.com/BieremaBoyzProgramming/bbpPairings) pairing engine
 
+## Installation
+Download [Setup.exe](https://raw.githubusercontent.com/guentherc/PonzianiSwiss/master/docs/Installer/setup.exe) and execute
 
 ## Acknowledgements ##
 
