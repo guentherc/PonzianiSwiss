@@ -3,6 +3,9 @@ Swiss Pairing Program based on [BBPPairings](https://github.com/BieremaBoyzProgr
 
 Intention is to provide a free alternative to the existing commercial programs. As PonzianiSwiss uses a standard pairing engine, the pairings will be as good and correct as those of the comercial programs. However PonzianiSwiss offers only the basic and most important features needed to run swiss chess tournaments. 
 
+## Documentation
+Please have a look at the [Online Documentation](https://guentherc.github.io/PonzianiSwiss/)
+
 ## Installation
 Download [Setup.exe](https://raw.githubusercontent.com/guentherc/PonzianiSwiss/master/docs/Installer/setup.exe) and execute
 
