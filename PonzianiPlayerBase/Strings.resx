@@ -123,6 +123,9 @@
   <data name="BaseDescription_AUT" xml:space="preserve">
     <value>Austrian Chess Federation</value>
   </data>
+  <data name="BaseDescription_CZE" xml:space="preserve">
+    <value>Czech Ratings</value>
+  </data>
   <data name="BaseDescription_ENG" xml:space="preserve">
     <value>ECF Ratings</value>
   </data>

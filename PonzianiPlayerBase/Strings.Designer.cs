@@ -79,6 +79,15 @@ namespace PonzianiPlayerBase {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Czech Ratings.
+        /// </summary>
+        internal static string BaseDescription_CZE {
+            get {
+                return ResourceManager.GetString("BaseDescription_CZE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ECF Ratings.
         /// </summary>
         internal static string BaseDescription_ENG {

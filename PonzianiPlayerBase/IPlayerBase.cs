@@ -78,13 +78,14 @@ namespace PonzianiPlayerBase
             $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"2\", \"ENG\", \"{DateTime.MinValue.Ticks}\")",
             $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"3\", \"SUI\", \"{DateTime.MinValue.Ticks}\")",
             $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"4\", \"AUS\", \"{DateTime.MinValue.Ticks}\")",
-            $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"5\", \"AUT\", \"{DateTime.MinValue.Ticks}\")"
+            $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"5\", \"AUT\", \"{DateTime.MinValue.Ticks}\")",
+            $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"6\", \"CZE\", \"{DateTime.MinValue.Ticks}\")"
         };
     }
 
     public class PlayerBaseFactory
     {
-        public enum Base { FIDE, GER, ENG, SUI, AUS, AUT }
+        public enum Base { FIDE, GER, ENG, SUI, AUS, AUT, CZE }
 
         private static readonly Dictionary<Base, IPlayerBase> bases = new();
 
@@ -123,6 +124,11 @@ namespace PonzianiPlayerBase
                     bases.Add(b, new AustriaPlayerBase());
                     bases[b].Initialize();
                 }
+                else if (b == Base.CZE)
+                {
+                    bases.Add(b, new CzechPlayerBase());
+                    bases[b].Initialize();
+                }
             }
             return bases[b];
         }
@@ -134,7 +140,8 @@ namespace PonzianiPlayerBase
             new KeyValuePair<Base, string>(Base.ENG, Strings.BaseDescription_ENG),
             new KeyValuePair<Base, string>(Base.SUI, Strings.BaseDescription_SUI),
             new KeyValuePair<Base, string>(Base.AUS, Strings.BaseDescription_AUS),
-            new KeyValuePair<Base, string>(Base.AUT, Strings.BaseDescription_AUT)
+            new KeyValuePair<Base, string>(Base.AUT, Strings.BaseDescription_AUT),
+            new KeyValuePair<Base, string>(Base.CZE, Strings.BaseDescription_CZE)
         };
     }
 

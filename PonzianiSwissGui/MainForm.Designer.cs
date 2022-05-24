@@ -110,6 +110,7 @@
             this.tsbAdd = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbDraw = new System.Windows.Forms.ToolStripButton();
+            this.cZEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.mainStatusStrip.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -293,7 +294,8 @@
             this.eNGToolStripMenuItem,
             this.sUIToolStripMenuItem,
             this.aUSToolStripMenuItem,
-            this.aUTToolStripMenuItem});
+            this.aUTToolStripMenuItem,
+            this.cZEToolStripMenuItem});
             this.PlayerBaseUpdateToolStripMenuItem.Name = "PlayerBaseUpdateToolStripMenuItem";
             resources.ApplyResources(this.PlayerBaseUpdateToolStripMenuItem, "PlayerBaseUpdateToolStripMenuItem");
             // 
@@ -691,6 +693,13 @@
             this.tsbDraw.Name = "tsbDraw";
             this.tsbDraw.Click += new System.EventHandler(this.DrawToolStripMenuItem_Click);
             // 
+            // cZEToolStripMenuItem
+            // 
+            this.cZEToolStripMenuItem.Name = "cZEToolStripMenuItem";
+            resources.ApplyResources(this.cZEToolStripMenuItem, "cZEToolStripMenuItem");
+            this.cZEToolStripMenuItem.Tag = "6";
+            this.cZEToolStripMenuItem.Click += new System.EventHandler(this.NPBToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             resources.ApplyResources(this, "$this");
@@ -800,5 +809,6 @@
         private ToolStripMenuItem aUTToolStripMenuItem;
         private ToolStripMenuItem tspDelete;
         private ToolStripSeparator toolStripSeparator7;
+        private ToolStripMenuItem cZEToolStripMenuItem;
     }
 }

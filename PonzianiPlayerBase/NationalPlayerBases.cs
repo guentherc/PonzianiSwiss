@@ -24,15 +24,17 @@ namespace PonzianiPlayerBase
             {
                 while (reader.Read())
                 {
-                    Player player = new($"{reader.GetString(0)}_{reader.GetString(1)}", reader.GetString(3));
-                    player.Federation = reader.GetString(0);
-                    player.Club = reader.GetString(2);
-                    player.Title = (FideTitle)reader.GetInt32(3);
-                    player.Sex = (Sex)reader.GetInt16(4);
-                    player.Rating = reader.GetInt32(5);
-                    player.Inactive = reader.GetInt16(6) == 1;
-                    player.YearOfBirth = reader.GetInt16(7);
-                    player.FideId = (ulong)reader.GetInt64(8);
+                    Player player = new($"{reader.GetString(0)}_{reader.GetString(1)}", reader.GetString(3))
+                    {
+                        Federation = reader.GetString(0),
+                        Club = reader.GetString(2),
+                        Title = (FideTitle)reader.GetInt32(3),
+                        Sex = (Sex)reader.GetInt16(4),
+                        Rating = reader.GetInt32(5),
+                        Inactive = reader.GetInt16(6) == 1,
+                        YearOfBirth = reader.GetInt16(7),
+                        FideId = (ulong)reader.GetInt64(8)
+                    };
                     result.Add(player);
                 }
             }
@@ -61,21 +63,116 @@ namespace PonzianiPlayerBase
             using var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                Player player = new($"{reader.GetString(0)}_{reader.GetString(1)}", reader.GetString(3));
-                player.Federation = reader.GetString(0);
-                player.Club = reader.GetString(2);
-                player.Title = (FideTitle)reader.GetInt32(3);
-                player.Sex = (Sex)reader.GetInt16(4);
-                player.Rating = reader.GetInt32(5);
-                player.Inactive = reader.GetInt16(6) == 1;
-                player.YearOfBirth = reader.GetInt16(7);
-                player.FideId = (ulong)reader.GetInt64(8);
+                Player player = new($"{reader.GetString(0)}_{reader.GetString(1)}", reader.GetString(3))
+                {
+                    Federation = reader.GetString(0),
+                    Club = reader.GetString(2),
+                    Title = (FideTitle)reader.GetInt32(3),
+                    Sex = (Sex)reader.GetInt16(4),
+                    Rating = reader.GetInt32(5),
+                    Inactive = reader.GetInt16(6) == 1,
+                    YearOfBirth = reader.GetInt16(7),
+                    FideId = (ulong)reader.GetInt64(8)
+                };
                 return player;
             }
             return null;
         }
 
     }
+
+    public class CzechPlayerBase : NationalPlayerBase
+    {
+        public override string Description => Strings.BaseDescription_CZE;
+        public override PlayerBaseFactory.Base Key => PlayerBaseFactory.Base.CZE;
+
+        public override async Task<bool> UpdateAsync()
+        {
+            if (connection == null) return false;
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+            var httpClient = new HttpClient();
+            var tmpDir = Path.GetTempPath();
+            tmpDir = Path.Combine(tmpDir, "cze");
+            Directory.CreateDirectory(tmpDir);
+            var tmpFile = Path.Combine(tmpDir, "cze.xls");
+            if (!File.Exists(tmpFile))
+            {
+                using var stream = await httpClient.GetStreamAsync("http://elo.miramal.com/download/lok_sm_cz.xls");
+                using var fileStream = new FileStream(tmpFile, FileMode.CreateNew);
+                await stream.CopyToAsync(fileStream);
+            }
+            string file = Directory.GetFiles(tmpDir).Where(f => Path.GetExtension(f) == ".xls").First();
+            if (file == null || file.Trim().Length == 0) return false;
+
+            using (var transaction = connection.BeginTransaction())
+            {
+                using (var del = connection.CreateCommand())
+                {
+                    del.CommandText = "DELETE FROM Player WHERE Federation = \"CZE\"";
+                    await del.ExecuteNonQueryAsync();
+                    del.CommandText = "DELETE FROM Club WHERE Federation = \"CZE\"";
+                    await del.ExecuteNonQueryAsync();
+                }
+                using (var cmd = connection.CreateCommand())
+                {
+                    cmd.CommandText = "INSERT INTO Player VALUES(@Federation, @Id, @Club, @Name, @Sex, @Rating, @Inactive, @Birthyear, @FideId)";
+                    string[] parameters = new[] { "@Federation", "@Id", "@Club", "@Name", "@Sex", "@Rating", "@Inactive", "@Birthyear", "@FideId" };
+                    foreach (var p in parameters)
+                    {
+                        var parameter = cmd.CreateParameter();
+                        parameter.ParameterName = p;
+                        cmd.Parameters.Add(parameter);
+                    }
+
+                    int count = 0;
+                    using var stream = File.Open(file, FileMode.Open, FileAccess.Read);
+                    using var reader = ExcelReaderFactory.CreateReader(stream);
+                    //skip header rows
+                    for (int i = 0; i < 1; i++) reader.Read();
+                    do
+                    {
+                        while (reader.Read())
+                        {
+                            try
+                            {
+                                ++count;
+                                cmd.Parameters["@Id"].Value = $"{reader.GetDouble(0)}";
+                                cmd.Parameters["@Inactive"].Value = "0";
+                                cmd.Parameters["@Name"].Value = $"{reader.GetString(1).Trim()}";
+                                cmd.Parameters["@Sex"].Value = reader.GetString(4) == "f" ? "1" : "0";
+                                cmd.Parameters["@Federation"].Value = reader.GetString(9);
+                                cmd.Parameters["@Club"].Value = reader.GetString(2) ?? string.Empty;
+                                cmd.Parameters["@Rating"].Value = (int)reader.GetDouble(5);
+                                cmd.Parameters["@Birthyear"].Value = int.Parse(reader.GetString(3).Substring(6).Trim());
+                                cmd.Parameters["@FideId"].Value = reader.GetValue(8) != null ? (ulong)reader.GetDouble(8) : 0;
+                                if (count == 1) await cmd.PrepareAsync();
+                                await cmd.ExecuteNonQueryAsync();
+                            }
+                            catch (Exception)
+                            {
+                                continue;
+                            }
+                        }
+                    } while (reader.NextResult());
+                }
+                var command = connection.CreateCommand();
+                command.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"{(int)PlayerBaseFactory.Base.CZE}\"";
+                lastUpdate = DateTime.UtcNow;
+                await command.ExecuteNonQueryAsync();
+                transaction.Commit();
+                command = connection.CreateCommand();
+                command.CommandText = $"VACUUM";
+                await command.ExecuteNonQueryAsync();
+            }
+
+            //Clean up
+            foreach (string f in Directory.GetFiles(tmpDir)) File.Delete(f);
+            Directory.Delete(tmpDir);
+            return true;
+        }
+
+    }
+
 
     public class AustriaPlayerBase : NationalPlayerBase
     {
@@ -201,71 +298,69 @@ namespace PonzianiPlayerBase
                 if (rating_data == null || rating_data.Length == 0) return false;
                 string[] rating_data_lines = rating_data.Split(new String[] { "\r\n", "\n", "\r" }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
 
-                using (var transaction = connection.BeginTransaction())
+                using var transaction = connection.BeginTransaction();
+                using (var del = connection.CreateCommand())
                 {
-                    using (var del = connection.CreateCommand())
-                    {
-                        del.CommandText = "DELETE FROM Player WHERE Federation = \"AUS\"";
-                        await del.ExecuteNonQueryAsync();
-                        del.CommandText = "DELETE FROM Club WHERE Federation = \"AUS\"";
-                        await del.ExecuteNonQueryAsync();
-                    }
-
-
-                    //Process player
-                    using (var cmd = connection.CreateCommand())
-                    {
-                        cmd.CommandText = "INSERT INTO Player VALUES(@Federation, @Id, @Club, @Name, @Sex, @Rating, @Inactive, @Birthyear, @FideId)";
-                        string[] parameters = new[] { "@Federation", "@Id", "@Club", "@Name", "@Sex", "@Rating", "@Inactive", "@Birthyear", "@FideId" };
-                        foreach (var p in parameters)
-                        {
-                            var parameter = cmd.CreateParameter();
-                            parameter.ParameterName = p;
-                            cmd.Parameters.Add(parameter);
-                        }
-
-                        int count = 0;
-                        for (int i = 1; i < rating_data_lines.Length; ++i)
-                        {
-                            string l = rating_data_lines[i].Trim();
-                            try
-                            {
-                                ++count;
-                                cmd.Parameters["@Id"].Value = l[..7];
-                                cmd.Parameters["@Inactive"].Value = "0";
-                                cmd.Parameters["@Name"].Value = l[24..];
-                                cmd.Parameters["@Sex"].Value = "0";
-                                cmd.Parameters["@Federation"].Value = "AUS";
-                                cmd.Parameters["@Club"].Value = string.Empty;
-                                string rs = l.Substring(9, 4);
-                                if (int.TryParse(rs, out int rating))
-                                {
-                                    cmd.Parameters["@Rating"].Value = rating;
-                                }
-                                else
-                                {
-                                    cmd.Parameters["@Rating"].Value = 0;
-                                }
-                                cmd.Parameters["@Birthyear"].Value = 0;
-                                cmd.Parameters["@FideId"].Value = 0;
-                                if (count == 1) await cmd.PrepareAsync();
-                                await cmd.ExecuteNonQueryAsync();
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine(ex.ToString());
-                            }
-                        }
-                    }
-                    var command = connection.CreateCommand();
-                    command.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"{(int)PlayerBaseFactory.Base.AUS}\"";
-                    lastUpdate = DateTime.UtcNow;
-                    await command.ExecuteNonQueryAsync();
-                    transaction.Commit();
-                    command = connection.CreateCommand();
-                    command.CommandText = $"VACUUM";
-                    await command.ExecuteNonQueryAsync();
+                    del.CommandText = "DELETE FROM Player WHERE Federation = \"AUS\"";
+                    await del.ExecuteNonQueryAsync();
+                    del.CommandText = "DELETE FROM Club WHERE Federation = \"AUS\"";
+                    await del.ExecuteNonQueryAsync();
                 }
+
+
+                //Process player
+                using (var cmd = connection.CreateCommand())
+                {
+                    cmd.CommandText = "INSERT INTO Player VALUES(@Federation, @Id, @Club, @Name, @Sex, @Rating, @Inactive, @Birthyear, @FideId)";
+                    string[] parameters = new[] { "@Federation", "@Id", "@Club", "@Name", "@Sex", "@Rating", "@Inactive", "@Birthyear", "@FideId" };
+                    foreach (var p in parameters)
+                    {
+                        var parameter = cmd.CreateParameter();
+                        parameter.ParameterName = p;
+                        cmd.Parameters.Add(parameter);
+                    }
+
+                    int count = 0;
+                    for (int i = 1; i < rating_data_lines.Length; ++i)
+                    {
+                        string l = rating_data_lines[i].Trim();
+                        try
+                        {
+                            ++count;
+                            cmd.Parameters["@Id"].Value = l[..7];
+                            cmd.Parameters["@Inactive"].Value = "0";
+                            cmd.Parameters["@Name"].Value = l[24..];
+                            cmd.Parameters["@Sex"].Value = "0";
+                            cmd.Parameters["@Federation"].Value = "AUS";
+                            cmd.Parameters["@Club"].Value = string.Empty;
+                            string rs = l.Substring(9, 4);
+                            if (int.TryParse(rs, out int rating))
+                            {
+                                cmd.Parameters["@Rating"].Value = rating;
+                            }
+                            else
+                            {
+                                cmd.Parameters["@Rating"].Value = 0;
+                            }
+                            cmd.Parameters["@Birthyear"].Value = 0;
+                            cmd.Parameters["@FideId"].Value = 0;
+                            if (count == 1) await cmd.PrepareAsync();
+                            await cmd.ExecuteNonQueryAsync();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.ToString());
+                        }
+                    }
+                }
+                var command = connection.CreateCommand();
+                command.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"{(int)PlayerBaseFactory.Base.AUS}\"";
+                lastUpdate = DateTime.UtcNow;
+                await command.ExecuteNonQueryAsync();
+                transaction.Commit();
+                command = connection.CreateCommand();
+                command.CommandText = $"VACUUM";
+                await command.ExecuteNonQueryAsync();
 
             }
             catch (Exception ex)
@@ -333,8 +428,10 @@ namespace PonzianiPlayerBase
 
                     int count = 0;
                     using StreamReader reader = new(tmpFile, Encoding.Latin1);
-                    CsvConfiguration config = new(CultureInfo.InvariantCulture);
-                    config.Delimiter = ";";
+                    CsvConfiguration config = new(CultureInfo.InvariantCulture)
+                    {
+                        Delimiter = ";"
+                    };
                     using var csv = new CsvReader(reader, config);
                     csv.Read();
                     csv.ReadHeader();
