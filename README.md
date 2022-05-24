@@ -16,10 +16,10 @@ The current version is an alpha version. It should work, but there might be lots
 [GNU GENERAL PUBLIC LICENSE Version 3](https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ## Acknowledgements ##
-
-* [CSV Helper](https://joshclose.github.io/CsvHelper/)
-* [FlaUI](https://github.com/FlaUI/FlaUI)
-* [BBPPairings](https://github.com/BieremaBoyzProgramming/bbpPairings)
+* Pairing Engine [BBPPairings](https://github.com/BieremaBoyzProgramming/bbpPairings) 
+* [CSV Helper](https://joshclose.github.io/CsvHelper/) 
+* [ExcelDataReader](https://github.com/ExcelDataReader/ExcelDataReader)
+* [FlaUI](https://github.com/FlaUI/FlaUI) for automated tests
 * Icons:
   - https://commons.wikimedia.org/wiki/File:Linearicons_dice.svg
   - http://www.famfamfam.com/lab/icons/silk/
