@@ -115,6 +115,15 @@ namespace PonzianiPlayerBase {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Elo Italia.
+        /// </summary>
+        internal static string BaseDescription_ITA {
+            get {
+                return ResourceManager.GetString("BaseDescription_ITA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Suisse Ratingbase.
         /// </summary>
         internal static string BaseDescription_SUI {

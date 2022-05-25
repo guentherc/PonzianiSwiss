@@ -79,13 +79,14 @@ namespace PonzianiPlayerBase
             $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"3\", \"SUI\", \"{DateTime.MinValue.Ticks}\")",
             $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"4\", \"AUS\", \"{DateTime.MinValue.Ticks}\")",
             $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"5\", \"AUT\", \"{DateTime.MinValue.Ticks}\")",
-            $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"6\", \"CZE\", \"{DateTime.MinValue.Ticks}\")"
+            $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"6\", \"CZE\", \"{DateTime.MinValue.Ticks}\")",
+            $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"7\", \"ITA\", \"{DateTime.MinValue.Ticks}\")"
         };
     }
 
     public class PlayerBaseFactory
     {
-        public enum Base { FIDE, GER, ENG, SUI, AUS, AUT, CZE }
+        public enum Base { FIDE, GER, ENG, SUI, AUS, AUT, CZE, ITA }
 
         private static readonly Dictionary<Base, IPlayerBase> bases = new();
 
@@ -129,6 +130,11 @@ namespace PonzianiPlayerBase
                     bases.Add(b, new CzechPlayerBase());
                     bases[b].Initialize();
                 }
+                else if (b == Base.ITA)
+                {
+                    bases.Add(b, new ItalianPlayerBase());
+                    bases[b].Initialize();
+                }
             }
             return bases[b];
         }
@@ -141,7 +147,8 @@ namespace PonzianiPlayerBase
             new KeyValuePair<Base, string>(Base.SUI, Strings.BaseDescription_SUI),
             new KeyValuePair<Base, string>(Base.AUS, Strings.BaseDescription_AUS),
             new KeyValuePair<Base, string>(Base.AUT, Strings.BaseDescription_AUT),
-            new KeyValuePair<Base, string>(Base.CZE, Strings.BaseDescription_CZE)
+            new KeyValuePair<Base, string>(Base.CZE, Strings.BaseDescription_CZE),
+            new KeyValuePair<Base, string>(Base.ITA, Strings.BaseDescription_ITA)
         };
     }
 

@@ -135,6 +135,9 @@
   <data name="BaseDescription_GER" xml:space="preserve">
     <value>German DWZ Database</value>
   </data>
+  <data name="BaseDescription_ITA" xml:space="preserve">
+    <value>Elo Italia</value>
+  </data>
   <data name="BaseDescription_SUI" xml:space="preserve">
     <value>Suisse Ratingbase</value>
   </data>

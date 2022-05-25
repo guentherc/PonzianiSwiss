@@ -81,6 +81,106 @@ namespace PonzianiPlayerBase
 
     }
 
+    public class ItalianPlayerBase : NationalPlayerBase
+    {
+        public override string Description => Strings.BaseDescription_ITA;
+        public override PlayerBaseFactory.Base Key => PlayerBaseFactory.Base.ITA;
+
+        public override async Task<bool> UpdateAsync()
+        {
+            if (connection == null) return false;
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+            var httpClient = new HttpClient();
+            var tmpDir = Path.GetTempPath();
+            tmpDir = Path.Combine(tmpDir, "ita");
+            Directory.CreateDirectory(tmpDir);
+            var tmpFile = Path.Combine(tmpDir, "ita.csv");
+            if (!File.Exists(tmpFile))
+            {
+                using var stream = await httpClient.GetStreamAsync("http://www.torneionline.com/dwn/allin.csv");
+                using var fileStream = new FileStream(tmpFile, FileMode.CreateNew);
+                await stream.CopyToAsync(fileStream);
+            }
+            string file = Directory.GetFiles(tmpDir).Where(f => Path.GetExtension(f) == ".csv").First();
+            if (file == null || file.Trim().Length == 0) return false;
+
+            using (var transaction = connection.BeginTransaction())
+            {
+                using (var del = connection.CreateCommand())
+                {
+                    del.CommandText = "DELETE FROM Player WHERE Federation = \"CZE\"";
+                    await del.ExecuteNonQueryAsync();
+                    del.CommandText = "DELETE FROM Club WHERE Federation = \"CZE\"";
+                    await del.ExecuteNonQueryAsync();
+                }
+                using (var cmd = connection.CreateCommand())
+                {
+                    cmd.CommandText = "INSERT INTO Player VALUES(@Federation, @Id, @Club, @Name, @Sex, @Rating, @Inactive, @Birthyear, @FideId)";
+                    string[] parameters = new[] { "@Federation", "@Id", "@Club", "@Name", "@Sex", "@Rating", "@Inactive", "@Birthyear", "@FideId" };
+                    foreach (var p in parameters)
+                    {
+                        var parameter = cmd.CreateParameter();
+                        parameter.ParameterName = p;
+                        cmd.Parameters.Add(parameter);
+                    }
+
+                    int count = 0;
+                    using StreamReader reader = new(file, Encoding.UTF8);
+                    CsvConfiguration config = new(CultureInfo.InvariantCulture)
+                    {
+                        Delimiter = ";"
+                    };
+                    using var csv = new CsvReader(reader, config);
+                    csv.Read();
+                    csv.ReadHeader();
+                    while (csv.Read())
+                    {
+                        try
+                        {
+                            int id = csv.GetField<int>(6);
+                            if (id == 0) continue;
+                            ++count;
+                            cmd.Parameters["@Id"].Value = $"{id}";
+                            cmd.Parameters["@Inactive"].Value = csv.GetField<string>(18) == "N" ? "1" : "0";
+                            cmd.Parameters["@Name"].Value = csv.GetField<string>(0);
+                            cmd.Parameters["@Sex"].Value = csv.GetField<string>(7).Trim() == "F" ? "1" : "0";
+                            cmd.Parameters["@Federation"].Value = "ITA";
+                            cmd.Parameters["@Club"].Value = $"";
+                            cmd.Parameters["@Rating"].Value = $"{csv.GetField<int>(1)}";
+                            cmd.Parameters["@Birthyear"].Value = $"{csv.GetField<int>(5)}";
+                            string fideid = csv.GetField<string>(8);
+                            if (fideid != null && ulong.TryParse(fideid, out ulong f))
+                                cmd.Parameters["@FideId"].Value = f;
+                            else
+                                cmd.Parameters["@FideId"].Value = 0;
+                            if (count == 1) await cmd.PrepareAsync();
+                            await cmd.ExecuteNonQueryAsync();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.ToString());
+                        }
+                    }
+                }
+                var command = connection.CreateCommand();
+                command.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"{(int)PlayerBaseFactory.Base.ITA}\"";
+                lastUpdate = DateTime.UtcNow;
+                await command.ExecuteNonQueryAsync();
+                transaction.Commit();
+                command = connection.CreateCommand();
+                command.CommandText = $"VACUUM";
+                await command.ExecuteNonQueryAsync();
+            }
+
+            //Clean up
+            foreach (string f in Directory.GetFiles(tmpDir)) File.Delete(f);
+            Directory.Delete(tmpDir);
+            return true;
+        }
+
+    }
+
+
     public class CzechPlayerBase : NationalPlayerBase
     {
         public override string Description => Strings.BaseDescription_CZE;
@@ -140,7 +240,7 @@ namespace PonzianiPlayerBase
                                 cmd.Parameters["@Inactive"].Value = "0";
                                 cmd.Parameters["@Name"].Value = $"{reader.GetString(1).Trim()}";
                                 cmd.Parameters["@Sex"].Value = reader.GetString(4) == "f" ? "1" : "0";
-                                cmd.Parameters["@Federation"].Value = reader.GetString(9);
+                                cmd.Parameters["@Federation"].Value = "CZE";
                                 cmd.Parameters["@Club"].Value = reader.GetString(2) ?? string.Empty;
                                 cmd.Parameters["@Rating"].Value = (int)reader.GetDouble(5);
                                 cmd.Parameters["@Birthyear"].Value = int.Parse(reader.GetString(3).Substring(6).Trim());
