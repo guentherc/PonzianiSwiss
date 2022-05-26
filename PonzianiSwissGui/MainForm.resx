@@ -258,6 +258,12 @@
   <data name="iTAToolStripMenuItem.Text" xml:space="preserve">
     <value>ITA</value>
   </data>
+  <data name="cROToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="cROToolStripMenuItem.Text" xml:space="preserve">
+    <value>CRO</value>
+  </data>
   <data name="PlayerBaseUpdateToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>180, 22</value>
   </data>
@@ -898,6 +904,12 @@
   <data name="&gt;&gt;cZEToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;iTAToolStripMenuItem.Name" xml:space="preserve">
+    <value>iTAToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;iTAToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;toolsToolStripMenuItem.Name" xml:space="preserve">
     <value>toolsToolStripMenuItem</value>
   </data>
@@ -1150,10 +1162,10 @@
   <data name="&gt;&gt;tsbDraw.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;iTAToolStripMenuItem.Name" xml:space="preserve">
-    <value>iTAToolStripMenuItem</value>
+  <data name="&gt;&gt;cROToolStripMenuItem.Name" xml:space="preserve">
+    <value>cROToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;iTAToolStripMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;cROToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

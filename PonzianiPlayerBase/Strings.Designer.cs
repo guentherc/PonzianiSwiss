@@ -79,6 +79,15 @@ namespace PonzianiPlayerBase {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Croatian Ratings.
+        /// </summary>
+        internal static string BaseDescription_CRO {
+            get {
+                return ResourceManager.GetString("BaseDescription_CRO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Czech Ratings.
         /// </summary>
         internal static string BaseDescription_CZE {

@@ -80,13 +80,14 @@ namespace PonzianiPlayerBase
             $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"4\", \"AUS\", \"{DateTime.MinValue.Ticks}\")",
             $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"5\", \"AUT\", \"{DateTime.MinValue.Ticks}\")",
             $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"6\", \"CZE\", \"{DateTime.MinValue.Ticks}\")",
-            $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"7\", \"ITA\", \"{DateTime.MinValue.Ticks}\")"
+            $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"7\", \"ITA\", \"{DateTime.MinValue.Ticks}\")",
+            $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"8\", \"CRO\", \"{DateTime.MinValue.Ticks}\")"
         };
     }
 
     public class PlayerBaseFactory
     {
-        public enum Base { FIDE, GER, ENG, SUI, AUS, AUT, CZE, ITA }
+        public enum Base { FIDE, GER, ENG, SUI, AUS, AUT, CZE, ITA, CRO }
 
         private static readonly Dictionary<Base, IPlayerBase> bases = new();
 
@@ -135,6 +136,11 @@ namespace PonzianiPlayerBase
                     bases.Add(b, new ItalianPlayerBase());
                     bases[b].Initialize();
                 }
+                else if (b == Base.CRO)
+                {
+                    bases.Add(b, new CroatiaPlayerBase());
+                    bases[b].Initialize();
+                }
             }
             return bases[b];
         }
@@ -148,7 +154,8 @@ namespace PonzianiPlayerBase
             new KeyValuePair<Base, string>(Base.AUS, Strings.BaseDescription_AUS),
             new KeyValuePair<Base, string>(Base.AUT, Strings.BaseDescription_AUT),
             new KeyValuePair<Base, string>(Base.CZE, Strings.BaseDescription_CZE),
-            new KeyValuePair<Base, string>(Base.ITA, Strings.BaseDescription_ITA)
+            new KeyValuePair<Base, string>(Base.ITA, Strings.BaseDescription_ITA),
+            new KeyValuePair<Base, string>(Base.CRO, Strings.BaseDescription_CRO)
         };
     }
 
