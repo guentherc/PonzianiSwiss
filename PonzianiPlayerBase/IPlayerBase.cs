@@ -52,7 +52,13 @@ namespace PonzianiPlayerBase
             Console.WriteLine($"Fideplayer File: {filename}");
             connection = new SqliteConnection($"Data Source={filename}");
             connection.Open();
-            foreach (string sql in SQLCreate)
+            List<string> sqls = new List<string>(SQLCreate);
+            var bases = Enum.GetValues(typeof(PlayerBaseFactory.Base));
+            foreach (var b in bases)
+            {
+                sqls.Add($"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"{(int)b}\", \"{b.ToString()}\", \"{DateTime.MinValue.Ticks}\")");
+            }
+            foreach (string sql in sqls)
             {
                 var command = connection.CreateCommand();
                 command.CommandText = sql;
@@ -64,7 +70,7 @@ namespace PonzianiPlayerBase
         public abstract Task<bool> UpdateAsync();
 
 
-        private static readonly string[] SQLCreate = new string[]
+        private static readonly List<string> SQLCreate = new()
         {
             @"PRAGMA encoding = 'UTF-8'",
             @"CREATE TABLE IF NOT EXISTS ""FidePlayer"" ( ""Id"" INTEGER, ""Name"" TEXT, ""Federation"" TEXT, ""Title"" INTEGER, ""Sex"" INTEGER, ""Rating"" INTEGER, ""Inactive"" INTEGER, ""Birthyear"" INTEGER, PRIMARY KEY(""Id"") )",
@@ -72,22 +78,13 @@ namespace PonzianiPlayerBase
             @"CREATE TABLE IF NOT EXISTS ""AdminData"" ( ""Id"" INTEGER NOT NULL UNIQUE, ""Name""	TEXT, ""LastUpdate"" INTEGER, PRIMARY KEY(""Id"" AUTOINCREMENT) )",
             @"CREATE TABLE IF NOT EXISTS ""Club"" ( ""Federation"" TEXT NOT NULL, ""Id"" TEXT NOT NULL, ""Name"" TEXT NOT NULL, PRIMARY KEY(""Id"") )",
             @"CREATE TABLE IF NOT EXISTS ""Player"" ( ""Federation"" TEXT NOT NULL, ""Id"" TEXT NOT NULL, ""Club"" TEXT, ""Name"" TEXT NOT NULL, ""Sex"" INTEGER, ""Rating"" INTEGER, ""Inactive"" INTEGER, ""Birthyear"" INTEGER, ""FideId"" INTEGER, PRIMARY KEY(""Federation"",""Id""))",
-            @"CREATE INDEX IF NOT EXISTS ""IndxName"" ON ""Player"" (""Name"" ASC )",
-            $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"0\", \"FIDE\", \"{DateTime.MinValue.Ticks}\")",
-            $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"1\", \"GER\", \"{DateTime.MinValue.Ticks}\")",
-            $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"2\", \"ENG\", \"{DateTime.MinValue.Ticks}\")",
-            $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"3\", \"SUI\", \"{DateTime.MinValue.Ticks}\")",
-            $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"4\", \"AUS\", \"{DateTime.MinValue.Ticks}\")",
-            $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"5\", \"AUT\", \"{DateTime.MinValue.Ticks}\")",
-            $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"6\", \"CZE\", \"{DateTime.MinValue.Ticks}\")",
-            $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"7\", \"ITA\", \"{DateTime.MinValue.Ticks}\")",
-            $"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"8\", \"CRO\", \"{DateTime.MinValue.Ticks}\")"
+            @"CREATE INDEX IF NOT EXISTS ""IndxName"" ON ""Player"" (""Name"" ASC )"
         };
     }
 
     public class PlayerBaseFactory
     {
-        public enum Base { FIDE, GER, ENG, SUI, AUS, AUT, CZE, ITA, CRO }
+        public enum Base { FIDE, GER, ENG, SUI, AUS, AUT, CZE, ITA, CRO, NED }
 
         private static readonly Dictionary<Base, IPlayerBase> bases = new();
 
@@ -141,6 +138,11 @@ namespace PonzianiPlayerBase
                     bases.Add(b, new CroatiaPlayerBase());
                     bases[b].Initialize();
                 }
+                else if (b == Base.NED)
+                {
+                    bases.Add(b, new NetherlandsPlayerBase());
+                    bases[b].Initialize();
+                }
             }
             return bases[b];
         }
@@ -155,7 +157,8 @@ namespace PonzianiPlayerBase
             new KeyValuePair<Base, string>(Base.AUT, Strings.BaseDescription_AUT),
             new KeyValuePair<Base, string>(Base.CZE, Strings.BaseDescription_CZE),
             new KeyValuePair<Base, string>(Base.ITA, Strings.BaseDescription_ITA),
-            new KeyValuePair<Base, string>(Base.CRO, Strings.BaseDescription_CRO)
+            new KeyValuePair<Base, string>(Base.CRO, Strings.BaseDescription_CRO),
+            new KeyValuePair<Base, string>(Base.NED, Strings.BaseDescription_NED)
         };
     }
 

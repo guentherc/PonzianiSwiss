@@ -81,6 +81,105 @@ namespace PonzianiPlayerBase
 
     }
 
+    public class NetherlandsPlayerBase : NationalPlayerBase
+    {
+        public override string Description => Strings.BaseDescription_NED;
+        public override PlayerBaseFactory.Base Key => PlayerBaseFactory.Base.NED;
+
+        public override async Task<bool> UpdateAsync()
+        {
+            if (connection == null) return false;
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+            var httpClient = new HttpClient();
+            var tmpDir = Path.GetTempPath();
+            tmpDir = Path.Combine(tmpDir, "ned");
+            Directory.CreateDirectory(tmpDir);
+            var tmpFile = Path.Combine(tmpDir, "ned.zip");
+            if (!File.Exists(tmpFile))
+            {
+                using var stream = await httpClient.GetStreamAsync("https://schaakbond.nl/sites/default/files/userfiles/schaken/rating/KNSB.zip");
+                using var fileStream = new FileStream(tmpFile, FileMode.CreateNew);
+                await stream.CopyToAsync(fileStream);
+            }
+            if (!Directory.GetFiles(tmpDir).Where(f => Path.GetExtension(f) == ".csv").Any())
+            {
+                ZipFile.ExtractToDirectory(tmpFile, tmpDir);
+            }
+            string file = Directory.GetFiles(tmpDir).Where(f => Path.GetExtension(f) == ".csv").First();
+            if (file == null || file.Trim().Length == 0) return false;
+
+            using (var transaction = connection.BeginTransaction())
+            {
+                using (var del = connection.CreateCommand())
+                {
+                    del.CommandText = "DELETE FROM Player WHERE Federation = \"NED\"";
+                    await del.ExecuteNonQueryAsync();
+                    del.CommandText = "DELETE FROM Club WHERE Federation = \"NED\"";
+                    await del.ExecuteNonQueryAsync();
+                }
+                using (var cmd = connection.CreateCommand())
+                {
+                    cmd.CommandText = "INSERT INTO Player VALUES(@Federation, @Id, @Club, @Name, @Sex, @Rating, @Inactive, @Birthyear, @FideId)";
+                    string[] parameters = new[] { "@Federation", "@Id", "@Club", "@Name", "@Sex", "@Rating", "@Inactive", "@Birthyear", "@FideId" };
+                    foreach (var p in parameters)
+                    {
+                        var parameter = cmd.CreateParameter();
+                        parameter.ParameterName = p;
+                        cmd.Parameters.Add(parameter);
+                    }
+
+                    int count = 0;
+                    using StreamReader reader = new(file, Encoding.UTF8);
+                    CsvConfiguration config = new(CultureInfo.InvariantCulture)
+                    {
+                        Delimiter = ";"
+                    };
+                    using var csv = new CsvReader(reader, config);
+                    csv.Read();
+                    csv.ReadHeader();
+                    while (csv.Read())
+                    {
+                        try
+                        {
+                            int id = csv.GetField<int>(0);
+                            if (id == 0) continue;
+                            ++count;
+                            cmd.Parameters["@Id"].Value = $"{id}";
+                            cmd.Parameters["@Inactive"].Value = "0";
+                            cmd.Parameters["@Name"].Value = csv.GetField<string>(1);
+                            cmd.Parameters["@Sex"].Value = csv.GetField<string>(7).Trim() == "w" ? "1" : "0";
+                            cmd.Parameters["@Federation"].Value = "NED";
+                            cmd.Parameters["@Club"].Value = $"";
+                            cmd.Parameters["@Rating"].Value = $"{(csv.GetField<string>(4).Length > 0 ? csv.GetField<int>(4) : 0)}";
+                            cmd.Parameters["@Birthyear"].Value = $"{(csv.GetField<string>(6).Length > 0 ? csv.GetField<int>(6) : 0)}";
+                            cmd.Parameters["@FideId"].Value = 0;
+                            if (count == 1) await cmd.PrepareAsync();
+                            await cmd.ExecuteNonQueryAsync();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.ToString());
+                        }
+                    }
+                }
+                var command = connection.CreateCommand();
+                command.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"{(int)PlayerBaseFactory.Base.NED}\"";
+                lastUpdate = DateTime.UtcNow;
+                await command.ExecuteNonQueryAsync();
+                transaction.Commit();
+                command = connection.CreateCommand();
+                command.CommandText = $"VACUUM";
+                await command.ExecuteNonQueryAsync();
+            }
+
+            //Clean up
+            foreach (string f in Directory.GetFiles(tmpDir)) File.Delete(f);
+            Directory.Delete(tmpDir);
+            return true;
+        }
+
+    }
+
     public class CroatiaPlayerBase : NationalPlayerBase
     {
         public override string Description => Strings.BaseDescription_CRO;

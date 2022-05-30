@@ -133,6 +133,15 @@ namespace PonzianiPlayerBase {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to KNSB (Netherlands).
+        /// </summary>
+        internal static string BaseDescription_NED {
+            get {
+                return ResourceManager.GetString("BaseDescription_NED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Suisse Ratingbase.
         /// </summary>
         internal static string BaseDescription_SUI {

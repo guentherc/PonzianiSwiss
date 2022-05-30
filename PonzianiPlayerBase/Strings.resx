@@ -141,6 +141,9 @@
   <data name="BaseDescription_ITA" xml:space="preserve">
     <value>Elo Italia</value>
   </data>
+  <data name="BaseDescription_NED" xml:space="preserve">
+    <value>KNSB (Netherlands)</value>
+  </data>
   <data name="BaseDescription_SUI" xml:space="preserve">
     <value>Suisse Ratingbase</value>
   </data>
