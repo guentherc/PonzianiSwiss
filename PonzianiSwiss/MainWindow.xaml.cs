@@ -20,6 +20,7 @@ using Extensions = PonzianiSwissLib.Extensions;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Reflection;
+using PonzianiPlayerBase;
 
 namespace PonzianiSwiss
 {
@@ -33,9 +34,12 @@ namespace PonzianiSwiss
             InitializeComponent();
             Model = new();
             DataContext = Model;
+            FideBase = PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE);
         }
 
         public MainModel Model { set; get; }
+
+        private IPlayerBase? FideBase = null;
 
         private void MenuItem_Tournament_New_Click(object sender, RoutedEventArgs e)
         {
@@ -101,6 +105,16 @@ namespace PonzianiSwiss
             if (td.ShowDialog() ?? false)
             {
                 Model.Tournament = td.Model.Tournament;
+            }
+        }
+
+        private void MenuItem_Participant_Add_Click(object sender, RoutedEventArgs e)
+        {
+            ParticipantDialog pd = new(new(), Model.Tournament);
+            pd.Title = "Add Participant";
+            if (pd.ShowDialog() ?? false)
+            {
+                Model.Tournament?.Participants.Add(pd.Model.Participant);
             }
         }
     }

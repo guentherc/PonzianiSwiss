@@ -246,14 +246,18 @@ namespace PonzianiSwiss
     {
         private Tournament tournament;
 
-        public Tournament Tournament { get => tournament; set {
+        public Tournament  Tournament
+        {
+            get => tournament; set
+            {
                 tournament = value;
-                RaisePropertyChange(); }
+                RaisePropertyChange();
+            }
         }
 
-                public TournamentModel(Tournament tournament)
+        public TournamentModel(Tournament tournament)
         {
-            Tournament = tournament;
+            this.tournament = tournament;
         }
     }
 }

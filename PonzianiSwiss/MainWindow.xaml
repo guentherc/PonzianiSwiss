@@ -5,21 +5,45 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PonzianiSwiss"
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
         Title="{Binding Path=Tournament.Name}" Height="450" Width="800" TitleCharacterCasing="Normal">
     <DockPanel>
+        <StackPanel>
         <Menu DockPanel.Dock="Top">
-            <MenuItem x:Name="MenuItem_Tournament" Header="Tournament">
-                <MenuItem x:Name="MenuItem_Tournament_New" Header="New" Click="MenuItem_Tournament_New_Click"/>
-                <MenuItem x:Name="MenuItem_Tournament_Open" Header="Open ..." Click="MenuItem_Tournament_Open_Click" IsEnabled="True"/>
-                <MenuItem x:Name="MenuItem_Tournament_Save" Header="Save" Click="MenuItem_Tournament_Save_Click" IsEnabled="{Binding Path=SaveEnabled}"/>
-                <MenuItem x:Name="MenuItem_Tournament_Save_As" Header="Save As ..." Click="MenuItem_Tournament_Save_As_Click" IsEnabled="{Binding Path=SaveAsEnabled}"/>
-                <Separator/>
-                <MenuItem x:Name="MenuItem_Tournament_Edit" Header="Edit" Click="MenuItem_Tournament_Edit_Click" IsEnabled="{Binding Path=SaveEnabled}" />
-                <Separator/>
-                <MenuItem x:Name="MenuItem_Tournament_Exit" Header="Exit" Click="MenuItem_Tournament_Exit_Click"/>
-            </MenuItem>
-        </Menu>
-
+                <MenuItem x:Name="MenuItem_Tournament" Header="Tournament">
+                    <MenuItem x:Name="MenuItem_Tournament_New" Header="New" Click="MenuItem_Tournament_New_Click"/>
+                    <MenuItem x:Name="MenuItem_Tournament_Open" Header="Open ..." Click="MenuItem_Tournament_Open_Click" IsEnabled="True"/>
+                    <MenuItem x:Name="MenuItem_Tournament_Save" Header="Save" Click="MenuItem_Tournament_Save_Click" IsEnabled="{Binding Path=SaveEnabled}"/>
+                    <MenuItem x:Name="MenuItem_Tournament_Save_As" Header="Save As ..." Click="MenuItem_Tournament_Save_As_Click" IsEnabled="{Binding Path=SaveAsEnabled}"/>
+                    <Separator/>
+                    <MenuItem x:Name="MenuItem_Tournament_Edit" Header="Edit" Click="MenuItem_Tournament_Edit_Click" IsEnabled="{Binding Path=SaveEnabled}" />
+                    <Separator/>
+                    <MenuItem x:Name="MenuItem_Tournament_Exit" Header="Exit" Click="MenuItem_Tournament_Exit_Click"/>
+                </MenuItem>
+            </Menu>
+            <ToolBar Height="32">
+                <Button Click="MenuItem_Tournament_New_Click" ToolTip="Create New Tournament">
+                    <iconPacks:PackIconCodicons Kind="NewFile" />
+                </Button>
+                <Button Click="MenuItem_Tournament_Open_Click" ToolTip="Load Tournament">
+                    <iconPacks:PackIconCodicons Kind="FolderOpened" />
+                </Button>
+                <Button Click="MenuItem_Tournament_Save_Click" ToolTip="Save Tournament" IsEnabled="{Binding Path=SaveEnabled}">
+                    <iconPacks:PackIconCodicons Kind="Save" />
+                </Button>
+                <Button Click="MenuItem_Tournament_Edit_Click" ToolTip="Edit Tournament" IsEnabled="{Binding Path=SaveAsEnabled}">
+                    <iconPacks:PackIconCodicons Kind="Edit" />
+                </Button>
+                <Separator></Separator>
+                <Button Click="MenuItem_Participant_Add_Click" ToolTip="Add Player" IsEnabled="{Binding Path=SaveAsEnabled}">
+                <iconPacks:PackIconCodicons Kind="PersonAdd" />
+                </Button>
+                <Separator></Separator>
+                <Button Click="MenuItem_Tournament_Edit_Click" ToolTip="Draw Next Round" IsEnabled="{Binding Path=SaveAsEnabled}">
+                    <iconPacks:PackIconJamIcons Kind="Dices" />
+                </Button>
+            </ToolBar>
+        </StackPanel>
     </DockPanel>
 </mah:MetroWindow>
