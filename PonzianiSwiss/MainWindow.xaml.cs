@@ -21,6 +21,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Reflection;
 using PonzianiPlayerBase;
+using System.Collections.ObjectModel;
 
 namespace PonzianiSwiss
 {
@@ -35,6 +36,7 @@ namespace PonzianiSwiss
             Model = new();
             DataContext = Model;
             FideBase = PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE);
+            lvParticipants.ItemsSource = Model.Participants;
         }
 
         public MainModel Model { set; get; }
@@ -71,7 +73,11 @@ namespace PonzianiSwiss
                 string json = File.ReadAllText(openFileDialog.FileName);
                 Model.Tournament = Extensions.Deserialize(json);
                 if (Model.Tournament != null)
+                {
                     Model.FileName = openFileDialog.FileName;
+                    Model.SyncParticipants();
+                    Model.SyncRounds();
+                }
             }
         }
 
@@ -115,7 +121,25 @@ namespace PonzianiSwiss
             if (pd.ShowDialog() ?? false)
             {
                 Model.Tournament?.Participants.Add(pd.Model.Participant);
+                Model.SyncParticipants();
             }
+        }
+
+        private void MenuItem_Round_Delete_Click(object sender, RoutedEventArgs e)
+        {
+            Model.Tournament?.Rounds.Remove(Model.Tournament.Rounds.Last());
+            Model.Tournament?.OrderByRank();
+            Model.SyncRounds();
+        }
+
+        private async void MenuItem_Round_Draw_Click(object sender, RoutedEventArgs e)
+        {
+            Model.Tournament?.GetScorecards();
+            if (Model.Tournament != null && await Model.Tournament.DrawAsync(Model.Tournament.Rounds.Count).ConfigureAwait(false))
+            {
+                Model.Tournament?.GetScorecards();
+            }
+            Model.SyncRounds();
         }
     }
 
@@ -185,6 +209,8 @@ namespace PonzianiSwiss
         private Tournament? tournament;
         private string? fileName;
 
+        internal ObservableCollection<TournamentParticipant> Participants { get; } = new();
+
         [DependentProperties("SaveEnabled", "SaveAsEnabled")]
         public Tournament? Tournament { get => tournament; set { if (tournament != value) { tournament = value; RaisePropertyChange(); } } }
         
@@ -194,5 +220,48 @@ namespace PonzianiSwiss
         public bool SaveAsEnabled => Tournament != null;
 
         public bool SaveEnabled => Tournament != null && FileName != null && File.Exists(FileName);
+
+        public bool DrawEnabled { get => Tournament != null && Tournament.Participants.Count > 0 
+                && (Tournament.Rounds.Count == 0 || !Tournament.Rounds[Tournament.Rounds.Count - 1].Pairings.Where(p => p.Result == Result.Open).Any());
+        }
+
+        public bool DeletelastRoundEnabled { get => Tournament != null && Tournament.Rounds.Count > 0; }
+
+        public Visibility ParticipantListVisibility => Tournament?.Participants.Count > 0  ? Visibility.Visible : Visibility.Hidden;
+
+        internal void SyncParticipants()
+        {
+            Participants.Clear();
+            if (Tournament != null)
+            {
+                foreach (Participant p in Tournament.Participants)
+                {
+                    Participants.Add(new(tournament, p));
+                }
+            }
+            RaisePropertyChange("ParticipantListVisibility");
+        }
+
+        internal void SyncRounds()
+        {
+            RaisePropertyChange("DrawEnabled");
+            RaisePropertyChange("DeleteLastRoundEnabled");            
+        }
+    }
+    
+    internal class TournamentParticipant: Participant
+    {
+        private Tournament? tournament;
+        
+        public Participant Participant { set; get; }
+
+        public TournamentParticipant(Tournament? tournament, Participant participant)
+        {
+            this.tournament = tournament;
+            this.Participant = participant;
+        }
+
+
+        public int TournamentRating { get => tournament?.Rating(Participant) ?? 0; }
     }
 }

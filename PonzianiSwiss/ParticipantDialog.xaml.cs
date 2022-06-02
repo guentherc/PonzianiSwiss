@@ -39,18 +39,17 @@ namespace PonzianiSwiss
 
         public ParticipantModel Model { set; get; }
 
-        private void TournamentDialogOkButton_Click(object sender, RoutedEventArgs e)
+        private void ParticipantDialogOkButton_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
             this.Close();
         }
 
-        private void TournamentDialogCancelButton_Click(object sender, RoutedEventArgs e)
+        private void ParticipantDialogCancelButton_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = true;
+            this.DialogResult = false;
             this.Close();
         }
-
     }
 
     public class ParticipantModel : ViewModel

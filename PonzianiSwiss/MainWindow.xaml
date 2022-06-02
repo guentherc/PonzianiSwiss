@@ -9,8 +9,8 @@
         mc:Ignorable="d"
         Title="{Binding Path=Tournament.Name}" Height="450" Width="800" TitleCharacterCasing="Normal">
     <DockPanel>
-        <StackPanel>
-        <Menu DockPanel.Dock="Top">
+        <StackPanel DockPanel.Dock="Top">
+            <Menu>
                 <MenuItem x:Name="MenuItem_Tournament" Header="Tournament">
                     <MenuItem x:Name="MenuItem_Tournament_New" Header="New" Click="MenuItem_Tournament_New_Click"/>
                     <MenuItem x:Name="MenuItem_Tournament_Open" Header="Open ..." Click="MenuItem_Tournament_Open_Click" IsEnabled="True"/>
@@ -21,8 +21,15 @@
                     <Separator/>
                     <MenuItem x:Name="MenuItem_Tournament_Exit" Header="Exit" Click="MenuItem_Tournament_Exit_Click"/>
                 </MenuItem>
+                <MenuItem x:Name="MenuItem_Participants" Header="Participants" IsEnabled="{Binding Path=SaveEnabled}">
+                    <MenuItem x:Name="MenuItem_Participants_Add" Header="New" Click="MenuItem_Participant_Add_Click" IsEnabled="{Binding Path=SaveEnabled}"/>
+                </MenuItem>
+                <MenuItem x:Name="MenuItem_Round" Header="Round" IsEnabled="{Binding Path=SaveEnabled}">
+                    <MenuItem x:Name="MenuItem_Round_Draw" Header="Draw" Click="MenuItem_Round_Draw_Click" IsEnabled="{Binding Path=DrawEnabled}"/>
+                    <MenuItem x:Name="MenuItem_Round_Delete" Header="Delete Last Round" Click="MenuItem_Round_Delete_Click" IsEnabled="{Binding Path=DeletelastRoundEnabled}"/>
+                </MenuItem>
             </Menu>
-            <ToolBar Height="32">
+            <ToolBar Height="32" Grid.Row="1">
                 <Button Click="MenuItem_Tournament_New_Click" ToolTip="Create New Tournament">
                     <iconPacks:PackIconCodicons Kind="NewFile" />
                 </Button>
@@ -37,13 +44,30 @@
                 </Button>
                 <Separator></Separator>
                 <Button Click="MenuItem_Participant_Add_Click" ToolTip="Add Player" IsEnabled="{Binding Path=SaveAsEnabled}">
-                <iconPacks:PackIconCodicons Kind="PersonAdd" />
+                    <iconPacks:PackIconCodicons Kind="PersonAdd" />
                 </Button>
                 <Separator></Separator>
-                <Button Click="MenuItem_Tournament_Edit_Click" ToolTip="Draw Next Round" IsEnabled="{Binding Path=SaveAsEnabled}">
+                <Button Click="MenuItem_Round_Draw_Click" ToolTip="Draw Next Round" IsEnabled="{Binding Path=DrawEnabled}">
                     <iconPacks:PackIconJamIcons Kind="Dices" />
                 </Button>
             </ToolBar>
         </StackPanel>
+        <TabControl  Grid.Row="2">
+            <TabItem Header="Participants" Visibility="{Binding Path=ParticipantListVisibility}">
+                <ListView Margin="10" Name="lvParticipants" Visibility="{Binding Path=ParticipantListVisibility}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding Path=Participant.Name}" />
+                            <GridViewColumn Header="Fide Id" Width="60" DisplayMemberBinding="{Binding Path=Participant.FideId}" />
+                            <GridViewColumn Header="Rating" Width="60" DisplayMemberBinding="{Binding Path=TournamentRating}" />
+                            <GridViewColumn Header="Tournament Id" Width="120" DisplayMemberBinding="{Binding Path=Participant.ParticipantId}" />
+                            <GridViewColumn Header="Elo" Width="60" DisplayMemberBinding="{Binding Path=Participant.FideRating}" />
+                            <GridViewColumn Header="National Rating" Width="60" DisplayMemberBinding="{Binding Path=Participant.AlternativeRating}" />
+                            <GridViewColumn Header="Club" Width="120" DisplayMemberBinding="{Binding Path=Participant.Club}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+        </TabControl>
     </DockPanel>
 </mah:MetroWindow>
