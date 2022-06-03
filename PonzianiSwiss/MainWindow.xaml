@@ -54,16 +54,78 @@
         </StackPanel>
         <TabControl  Grid.Row="2">
             <TabItem Header="Participants" Visibility="{Binding Path=ParticipantListVisibility}">
-                <ListView Margin="10" Name="lvParticipants" Visibility="{Binding Path=ParticipantListVisibility}">
+                <ListView Margin="10" Name="lvParticipants" Visibility="{Binding Path=ParticipantListVisibility}" mah:ControlsHelper.ContentCharacterCasing="Normal">
+                    <ListView.ContextMenu>
+                        <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                            <MenuItem Header="Edit" Click="MenuItem_Participant_Edit_Click"/>
+                            <Separator></Separator>
+                            <MenuItem Header="Abandon Tournament" Click="MenuItem_Participant_Abandon_Click"/>
+                            <MenuItem Header="Pause Next Round" Click="MenuItem_Participant_Pause_Click"/>
+                            <MenuItem Header="Undo Abandon/Pause" Click="MenuItem_Participant_UndoPause_Click"/>
+                            <Separator></Separator>
+                            <MenuItem Header="Delete" Click="MenuItem_Participant_Delete_Click"/>
+                        </ContextMenu>
+                    </ListView.ContextMenu>
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding Path=Participant.Name}" />
-                            <GridViewColumn Header="Fide Id" Width="60" DisplayMemberBinding="{Binding Path=Participant.FideId}" />
-                            <GridViewColumn Header="Rating" Width="60" DisplayMemberBinding="{Binding Path=TournamentRating}" />
-                            <GridViewColumn Header="Tournament Id" Width="120" DisplayMemberBinding="{Binding Path=Participant.ParticipantId}" />
-                            <GridViewColumn Header="Elo" Width="60" DisplayMemberBinding="{Binding Path=Participant.FideRating}" />
-                            <GridViewColumn Header="National Rating" Width="60" DisplayMemberBinding="{Binding Path=Participant.AlternativeRating}" />
-                            <GridViewColumn Header="Club" Width="120" DisplayMemberBinding="{Binding Path=Participant.Club}" />
+                            <GridViewColumn Width="120">
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Name</GridViewColumnHeader>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Participant.Name}" 
+                                                   TextDecorations="{Binding Path=TextDecoration}"
+                                                   FontStyle="{Binding Path=FontStyle}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="60">
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Fide Id</GridViewColumnHeader>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Participant.FideId}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="60">
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Rating</GridViewColumnHeader>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=TournamentRating}" TextAlignment="Right"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="120">
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Id</GridViewColumnHeader>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Participant.ParticipantId}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="60">
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Elo</GridViewColumnHeader>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Participant.FideRating}" TextAlignment="Right"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="60">
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">National Rating</GridViewColumnHeader>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Participant.AlternativeRating}" TextAlignment="Right"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="120">
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Club</GridViewColumnHeader>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Participant.Club}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
                         </GridView>
                     </ListView.View>
                 </ListView>

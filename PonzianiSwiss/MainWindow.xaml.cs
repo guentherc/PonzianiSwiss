@@ -22,6 +22,7 @@ using System.Runtime.CompilerServices;
 using System.Reflection;
 using PonzianiPlayerBase;
 using System.Collections.ObjectModel;
+using System.Threading;
 
 namespace PonzianiSwiss
 {
@@ -134,12 +135,81 @@ namespace PonzianiSwiss
 
         private async void MenuItem_Round_Draw_Click(object sender, RoutedEventArgs e)
         {
+            var uiContext = SynchronizationContext.Current;
             Model.Tournament?.GetScorecards();
             if (Model.Tournament != null && await Model.Tournament.DrawAsync(Model.Tournament.Rounds.Count).ConfigureAwait(false))
             {
                 Model.Tournament?.GetScorecards();
             }
-            Model.SyncRounds();
+            uiContext?.Send(x => Model.SyncRounds(), null);
+            uiContext?.Send(x => Model.SyncParticipants(), null);            
+        }
+
+        private void MenuItem_Participant_Edit_Click(object sender, RoutedEventArgs e)
+        {
+            TournamentParticipant? p = lvParticipants?.SelectedItem as TournamentParticipant;
+            if (p!=null)
+            {
+                ParticipantDialog pd = new(p.Participant, Model.Tournament);
+                pd.Title = $"Edit Participant {p.Participant.Name}";
+                if (pd.ShowDialog() ?? false)
+                {
+                    Model.SyncParticipants();
+                }
+            }
+        }
+
+        private void MenuItem_Participant_Abandon_Click(object sender, RoutedEventArgs e)
+        {
+            TournamentParticipant? p = lvParticipants?.SelectedItem as TournamentParticipant;
+            if (p != null && Model.Tournament != null)
+            {
+                if (p.Participant.Active == null)
+                {
+                    p.Participant.Active = new bool[Model.Tournament.CountRounds];
+                    Array.Fill(p.Participant.Active, true);
+                }
+                for (int i = Model.Tournament.Rounds.Count; i < Model.Tournament.CountRounds; ++i) p.Participant.Active[i] = false;
+                Model.SyncParticipants();
+            }
+        }
+
+        private void MenuItem_Participant_Pause_Click(object sender, RoutedEventArgs e)
+        {
+            TournamentParticipant? p = lvParticipants?.SelectedItem as TournamentParticipant;
+            if (p != null && Model.Tournament != null)
+            {
+                if (p.Participant.Active == null)
+                {
+                    p.Participant.Active = new bool[Model.Tournament.CountRounds];
+                    Array.Fill(p.Participant.Active, true);
+                }
+                p.Participant.Active[Model.Tournament.Rounds.Count] = false;
+                Model.SyncParticipants();
+            }
+        }
+
+        private void MenuItem_Participant_UndoPause_Click(object sender, RoutedEventArgs e)
+        {
+            TournamentParticipant? p = lvParticipants?.SelectedItem as TournamentParticipant;
+            if (p != null && Model.Tournament != null)
+            {
+                if (p.Participant.Active != null)
+                {
+                    Array.Fill(p.Participant.Active, true);
+                }
+                Model.SyncParticipants();
+            }
+        }
+
+        private void MenuItem_Participant_Delete_Click(object sender, RoutedEventArgs e)
+        {
+            TournamentParticipant? p = lvParticipants?.SelectedItem as TournamentParticipant;
+            if (p != null && Model.Tournament != null)
+            {
+                Model.Tournament.Participants.Remove(p.Participant);
+                Model.SyncParticipants();
+            }
         }
     }
 
@@ -249,7 +319,7 @@ namespace PonzianiSwiss
         }
     }
     
-    internal class TournamentParticipant: Participant
+    internal class TournamentParticipant
     {
         private Tournament? tournament;
         
@@ -263,5 +333,37 @@ namespace PonzianiSwiss
 
 
         public int TournamentRating { get => tournament?.Rating(Participant) ?? 0; }
+
+        /// <summary>
+        /// Abandoned párticipants will be renderedwith strikethrough
+        /// </summary>
+        public TextDecorationCollection? TextDecoration
+        {
+            get
+            {
+                if (tournament == null) return null;
+                for (int i = tournament.Rounds.Count; i < tournament.CountRounds; ++i)
+                {
+                    if ((bool)(Participant.Active?.GetValue(i) ?? true))
+                    {
+                        return null;
+                    }
+                }
+                return TextDecorations.Strikethrough;
+            }
+        }
+
+        /// <summary>
+        /// Paused participants will be rendered in italics
+        /// </summary>
+        public FontStyle FontStyle
+        {
+            get
+            {
+                if (tournament == null) return FontStyles.Normal;
+                bool paused = !((bool)(Participant.Active?.GetValue(tournament.Rounds.Count) ?? true));
+                return paused ? FontStyles.Italic : FontStyles.Normal;
+            }
+        }
     }
 }
