@@ -52,7 +52,7 @@
                 </Button>
             </ToolBar>
         </StackPanel>
-        <TabControl  Grid.Row="2">
+        <TabControl x:Name="MainTabControl"  Grid.Row="2">
             <TabItem Header="Participants" Visibility="{Binding Path=ParticipantListVisibility}">
                 <ListView Margin="10" Name="lvParticipants" Visibility="{Binding Path=ParticipantListVisibility}" mah:ControlsHelper.ContentCharacterCasing="Normal">
                     <ListView.ContextMenu>

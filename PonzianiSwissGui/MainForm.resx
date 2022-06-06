@@ -175,7 +175,7 @@
     <value>Tournament</value>
   </data>
   <data name="addToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>96, 22</value>
   </data>
   <data name="addToolStripMenuItem.Text" xml:space="preserve">
     <value>Add</value>
@@ -190,13 +190,13 @@
     <value>Participants</value>
   </data>
   <data name="drawToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>169, 22</value>
   </data>
   <data name="drawToolStripMenuItem.Text" xml:space="preserve">
     <value>Draw</value>
   </data>
   <data name="deleteLastRoundToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>169, 22</value>
   </data>
   <data name="deleteLastRoundToolStripMenuItem.Text" xml:space="preserve">
     <value>Delete Last Round</value>
@@ -271,7 +271,7 @@
     <value>NED</value>
   </data>
   <data name="PlayerBaseUpdateToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>112, 22</value>
   </data>
   <data name="PlayerBaseUpdateToolStripMenuItem.Text" xml:space="preserve">
     <value>Update</value>
@@ -400,7 +400,7 @@
     <value>Delete</value>
   </data>
   <data name="cmsParticipant.Size" type="System.Drawing.Size, System.Drawing">
-    <value>192, 148</value>
+    <value>192, 126</value>
   </data>
   <data name="&gt;&gt;cmsParticipant.Name" xml:space="preserve">
     <value>cmsParticipant</value>
@@ -509,103 +509,103 @@
     <value>269, 17</value>
   </metadata>
   <data name="openToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>119, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="openToolStripMenuItem1.Text" xml:space="preserve">
     <value>* (Open)</value>
   </data>
   <data name="toolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>119, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="toolStripMenuItem2.Text" xml:space="preserve">
     <value>1-0</value>
   </data>
   <data name="toolStripMenuItem3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>119, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="toolStripMenuItem3.Text" xml:space="preserve">
     <value>1/2-1/2</value>
   </data>
   <data name="toolStripMenuItem4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>119, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="toolStripMenuItem4.Text" xml:space="preserve">
     <value>0-1</value>
   </data>
   <data name="toolStripMenuItem5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>113, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="toolStripMenuItem5.Text" xml:space="preserve">
     <value>1-0</value>
   </data>
   <data name="toolStripMenuItem6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>113, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="toolStripMenuItem6.Text" xml:space="preserve">
     <value>1/2-1/2</value>
   </data>
   <data name="toolStripMenuItem7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>113, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="toolStripMenuItem7.Text" xml:space="preserve">
     <value>0-1</value>
   </data>
   <data name="unratedToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>119, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="unratedToolStripMenuItem.Text" xml:space="preserve">
     <value>Unrated</value>
   </data>
   <data name="toolStripMenuItem8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>92, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="toolStripMenuItem8.Text" xml:space="preserve">
     <value>+--</value>
   </data>
   <data name="toolStripMenuItem9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>92, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="toolStripMenuItem9.Text" xml:space="preserve">
     <value>--+</value>
   </data>
   <data name="toolStripMenuItem13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>92, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="toolStripMenuItem13.Text" xml:space="preserve">
     <value>---</value>
   </data>
   <data name="forfeitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>119, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="forfeitToolStripMenuItem.Text" xml:space="preserve">
     <value>Forfeit</value>
   </data>
   <data name="toolStripMenuItem10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>91, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="toolStripMenuItem10.Text" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="toolStripMenuItem11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>91, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="toolStripMenuItem11.Text" xml:space="preserve">
     <value>1/2</value>
   </data>
   <data name="toolStripMenuItem12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>91, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="toolStripMenuItem12.Text" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="byeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>119, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="byeToolStripMenuItem.Text" xml:space="preserve">
     <value>Bye</value>
   </data>
   <data name="cmsSetResult.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 158</value>
+    <value>181, 180</value>
   </data>
   <data name="&gt;&gt;cmsSetResult.Name" xml:space="preserve">
     <value>cmsSetResult</value>

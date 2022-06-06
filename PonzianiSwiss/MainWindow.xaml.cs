@@ -130,7 +130,8 @@ namespace PonzianiSwiss
         {
             Model.Tournament?.Rounds.Remove(Model.Tournament.Rounds.Last());
             Model.Tournament?.OrderByRank();
-            Model.SyncRounds();
+            AdjustTabitems();
+            Model.SyncRounds();           
         }
 
         private async void MenuItem_Round_Draw_Click(object sender, RoutedEventArgs e)
@@ -142,7 +143,8 @@ namespace PonzianiSwiss
                 Model.Tournament?.GetScorecards();
             }
             uiContext?.Send(x => Model.SyncRounds(), null);
-            uiContext?.Send(x => Model.SyncParticipants(), null);            
+            uiContext?.Send(x => Model.SyncParticipants(), null);
+            uiContext?.Send(x => AdjustTabitems(), null);
         }
 
         private void MenuItem_Participant_Edit_Click(object sender, RoutedEventArgs e)
@@ -209,6 +211,27 @@ namespace PonzianiSwiss
             {
                 Model.Tournament.Participants.Remove(p.Participant);
                 Model.SyncParticipants();
+            }
+        }
+
+        private void AdjustTabitems()
+        {
+            while ((Model.Tournament?.Rounds.Count ?? 0) + 1  < MainTabControl.Items.Count)
+            {
+                MainTabControl.Items.Remove(MainTabControl.Items[MainTabControl.Items.Count - 1]);
+            }
+            for (int tabIndx = MainTabControl.Items.Count; tabIndx <= (Model.Tournament?.Rounds.Count ?? 0); ++tabIndx)
+            {
+                if (Model.Tournament != null)
+                {
+                    var content = new Round(Model.Tournament, tabIndx - 1) { DataContext = Model };
+                    ((Round)content).ResultSet += (s, e) => Model.SyncRounds();
+                    MainTabControl.Items.Add(new TabItem()
+                    {
+                        Header = $"Round {tabIndx}",
+                        Content = content
+                    });
+                }
             }
         }
     }
