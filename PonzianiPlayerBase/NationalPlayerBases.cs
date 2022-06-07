@@ -74,6 +74,20 @@ namespace PonzianiPlayerBase
                     FideId = (ulong)reader.GetInt64(8),
                     Title = FideTitle.NONE
                 };
+                if (player.Club != null && player.Club != string.Empty)
+                {
+                    using var ccmd = connection?.CreateCommand();
+                    if (ccmd != null)
+                    {
+                        ccmd.CommandText = $"SELECT Name FROM Club WHERE Federation = \"{federation}\" and Id = \"{player.Club ?? String.Empty}\"";
+                        using var creader = ccmd.ExecuteReader();
+                        while (creader.Read())
+                        {
+                            player.Club = creader.GetString(0);
+                        }
+                    }
+                }
+
                 return player;
             }
             return null;

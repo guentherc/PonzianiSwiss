@@ -50,6 +50,31 @@ namespace PonzianiSwiss
             this.DialogResult = false;
             this.Close();
         }
+
+        private void MenuItem_PlayerSearch_Open_Click(object sender, RoutedEventArgs e)
+        {
+            PlayerSearchDialog psd = new();
+            if (psd.ShowDialog() ?? false)
+            {
+                Player? nplayer = psd.Model.Player;
+                if (nplayer != null && nplayer.FideId != 0)
+                {
+                    Model.FideId = nplayer.FideId;
+
+                }
+                else
+                {
+                    Model.Name = nplayer?.Name ?? string.Empty;
+                    Model.Title = nplayer?.Title ?? FideTitle.NONE;
+
+                    Model.Federation = nplayer?.Federation ?? "FIDE";
+                    Model.Year = nplayer?.YearOfBirth ?? 0;
+                    Model.Female = (nplayer?.Sex ?? Sex.Male) == Sex.Female;
+                }
+                Model.Club = nplayer?.Club ?? string.Empty;
+                Model.AlternativeRating = nplayer?.Rating ?? 0;
+            }
+        }
     }
 
     public class ParticipantModel : ViewModel
