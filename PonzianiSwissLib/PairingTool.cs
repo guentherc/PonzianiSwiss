@@ -15,7 +15,7 @@ namespace PonzianiSwissLib
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) executable += ".exe";
             else if (!RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) throw new Exception($"OS {RuntimeInformation.OSDescription} not supported");
             executable = Path.Combine("bbpPairings", executable);
-            Trace.WriteLine($"Archicture {RuntimeInformation.OSArchitecture}, OS {RuntimeInformation.OSDescription} detected! => {executable} will be used!");
+            Trace.WriteLine($"Architecture {RuntimeInformation.OSArchitecture}, OS {RuntimeInformation.OSDescription} detected! => {executable} will be used!");
         }
 
         public static async Task<bool> CheckExecutableAsync()

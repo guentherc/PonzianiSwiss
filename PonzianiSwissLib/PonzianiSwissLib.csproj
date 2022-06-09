@@ -12,7 +12,25 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="bbpPairings\" />
+    <None Remove="bbpPairings\bbpPairings32" />
+    <None Remove="bbpPairings\bbpPairings32.exe" />
+    <None Remove="bbpPairings\bbpPairings64" />
+    <None Remove="bbpPairings\bbpPairings64.exe" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="bbpPairings\bbpPairings32">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="bbpPairings\bbpPairings32.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="bbpPairings\bbpPairings64">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="bbpPairings\bbpPairings64.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -28,21 +46,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="bbpPairings\bbpPairings32">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="bbpPairings\bbpPairings32.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="bbpPairings\bbpPairings64">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="bbpPairings\bbpPairings64.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>
