@@ -54,7 +54,11 @@
             <TextBox VerticalAlignment="Center" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="3" Text="{Binding Path=Tournament.TimeControl}" Margin="5,5,5,5"/>
             <Label VerticalAlignment="Center" Margin="5,5,5,5" Grid.Row="7">Rating Determination:</Label>
             <ComboBox x:Name="ComboBox_RatingDetermination" Grid.Column="1" Grid.Row="7" VerticalAlignment="Center" SelectedValue="{Binding Path=Tournament.RatingDetermination}" MinWidth="100" Margin="5,5,5,5"/>
-            <GroupBox Header="Scoring Scheme" Grid.Row="8" Grid.ColumnSpan="4" mah:ControlsHelper.ContentCharacterCasing="Normal">
+            <GroupBox Header="Scoring Scheme" Grid.Row="8" Grid.ColumnSpan="4" mah:ControlsHelper.ContentCharacterCasing="Normal"
+                      Style="{DynamicResource MahApps.Styles.GroupBox.Clean}">
+                <GroupBox.Resources>
+                    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Clean/Controls.xaml" />
+                </GroupBox.Resources>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />

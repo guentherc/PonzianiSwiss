@@ -29,7 +29,11 @@
             <wpf:AutoCompleteTextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="6" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding Path=Player.Name}"
                                      Provider="{StaticResource ResourceKey=NParticipantProvider}"
                                      SelectedItem="{Binding SelectedName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
-            <GroupBox Grid.Row="2" Grid.ColumnSpan="2" Header="Data" Margin="5,5,5,5" mah:ControlsHelper.ContentCharacterCasing="Normal">
+            <GroupBox Grid.Row="2" Grid.ColumnSpan="2" Header="Data" Margin="5,5,5,5" mah:ControlsHelper.ContentCharacterCasing="Normal"
+                      Style="{DynamicResource MahApps.Styles.GroupBox.Clean}">
+                <GroupBox.Resources>
+                    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Clean/Controls.xaml" />
+                </GroupBox.Resources>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
