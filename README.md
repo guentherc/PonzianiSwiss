@@ -17,11 +17,8 @@ The current version is an alpha version. It should work, but there might be lots
 
 ## Acknowledgements ##
 * Pairing Engine [BBPPairings](https://github.com/BieremaBoyzProgramming/bbpPairings) 
+* [MahApps.Metro](https://mahapps.com/)
 * [CSV Helper](https://joshclose.github.io/CsvHelper/) 
 * [ExcelDataReader](https://github.com/ExcelDataReader/ExcelDataReader)
 * [FlaUI](https://github.com/FlaUI/FlaUI) for automated tests
-* Icons:
-  - https://commons.wikimedia.org/wiki/File:Linearicons_dice.svg
-  - http://www.famfamfam.com/lab/icons/silk/
-  - https://fedorahosted.org/echo-icon-theme/
-  - http://www.oxygen-icons.org/
+* Icons: [MahApps.Metro.IconPacks](https://github.com/MahApps/MahApps.Metro.IconPacks)
