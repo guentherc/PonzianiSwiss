@@ -13,9 +13,48 @@ namespace PonzianiSwissLib
             else if (RuntimeInformation.OSArchitecture == Architecture.X64) executable += "64";
             else throw new Exception($"OS Architecture {RuntimeInformation.OSArchitecture} not supported! Only x86 and x64 architecture supported!");
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) executable += ".exe";
-            else if (!RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) throw new Exception($"OS {RuntimeInformation.OSDescription} not supported");
-            executable = Path.Combine("bbpPairings", executable);
+            else if (!RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) throw new Exception($"OS {RuntimeInformation.OSDescription} not supported");           
+            if (!File.Exists(Path.Combine("bbpPairings", executable)))
+            {
+                executable = LoadFromOneDrive();
+            }
+            else executable = Path.Combine("bbpPairings", executable);
             Trace.WriteLine($"Architecture {RuntimeInformation.OSArchitecture}, OS {RuntimeInformation.OSDescription} detected! => {executable} will be used!");
+        }
+
+        private static string LoadFromOneDrive()
+        {
+            string file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bbpPairings", executable);
+            if (File.Exists(file))
+            {
+                executable = file;
+                return executable;
+            }
+            string directory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bbpPairings");
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+            //Download from github
+            string url = string.Empty;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                if (RuntimeInformation.OSArchitecture == Architecture.X86) url = "https://onedrive.live.com/download?cid=88BDB7962BB5DA40&resid=88BDB7962BB5DA40%21855896&authkey=AAGA8xogdvOvoYc";
+                else if (RuntimeInformation.OSArchitecture == Architecture.X64) url = "https://onedrive.live.com/download?cid=88BDB7962BB5DA40&resid=88BDB7962BB5DA40%21855895&authkey=AGd-uVZOaW4wgKM";
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                if (RuntimeInformation.OSArchitecture == Architecture.X86) url = "https://onedrive.live.com/download?cid=88BDB7962BB5DA40&resid=88BDB7962BB5DA40%21855815&authkey=AHx9MQedkE5Vxk8";
+                else if (RuntimeInformation.OSArchitecture == Architecture.X64) url = "https://onedrive.live.com/download?cid=88BDB7962BB5DA40&resid=88BDB7962BB5DA40%21855813&authkey=AH1TocDLxKao7eg";
+
+            }
+            else throw new Exception($"OS {RuntimeInformation.OSDescription} not supported");
+            HttpClient client = new HttpClient();
+            using var stream = client.GetStreamAsync(url).Result;
+            using var fileStream = new FileStream(file, FileMode.CreateNew);
+            stream.CopyToAsync(fileStream).Wait();
+            executable = file;
+            return executable;
         }
 
         public static async Task<bool> CheckExecutableAsync()
@@ -123,7 +162,7 @@ namespace PonzianiSwissLib
             return data;
         }
 
-        private static readonly string executable;
+        private static string executable;
 
         /// <summary>
         /// Configuration for Tournament Generator
