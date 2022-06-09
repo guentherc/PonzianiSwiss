@@ -34,10 +34,44 @@ namespace PonzianiSwiss
         public MainWindow()
         {
             InitializeComponent();
+            //Add Playerbase Update entries dynamically
+            foreach (var entry in PlayerBaseFactory.AvailableBases)
+            {
+                MenuItem mi = new MenuItem()
+                {
+                    Header = $"{entry.Key} ({entry.Value})",
+                    Tag = entry.Key,
+                };
+                mi.Click += Update_Base;
+                MenuItem_PlayerBase_Update.Items.Add(mi);
+            }
+            //MenuItem_PlayerBase_Update.
             Model = new();
             DataContext = Model;
             FideBase = PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE);
             lvParticipants.ItemsSource = Model.Participants;
+        }
+
+        private async void Update_Base(object sender, RoutedEventArgs e)
+        {
+            var uiContext = SynchronizationContext.Current;
+            var mi = sender as MenuItem;
+            if (mi == null) return;
+            mi.IsEnabled = false;
+            var b = (PlayerBaseFactory.Base)mi.Tag;
+            IPlayerBase pbase = PlayerBaseFactory.Get(b);
+            bool ok = await pbase.UpdateAsync();
+            if (ok)
+                uiContext?.Send(x =>
+                {
+                    MessageBox.Show(this, "Update successful", $"Update of Player Base {b}", MessageBoxButton.OK, MessageBoxImage.Information);
+                }, null);
+            else
+                uiContext?.Send(x =>
+                {
+                    MessageBox.Show(this, "Update failed", $"Update of Player Base {b}", MessageBoxButton.OK, MessageBoxImage.Error);
+                }, null);
+            uiContext?.Send(x => { mi.IsEnabled = true; }, null);
         }
 
         public MainModel Model { set; get; }
@@ -132,7 +166,7 @@ namespace PonzianiSwiss
             Model.Tournament?.Rounds.Remove(Model.Tournament.Rounds.Last());
             Model.Tournament?.OrderByRank();
             AdjustTabitems();
-            Model.SyncRounds();           
+            Model.SyncRounds();
         }
 
         private async void MenuItem_Round_Draw_Click(object sender, RoutedEventArgs e)
@@ -151,7 +185,7 @@ namespace PonzianiSwiss
         private void MenuItem_Participant_Edit_Click(object sender, RoutedEventArgs e)
         {
             TournamentParticipant? p = lvParticipants?.SelectedItem as TournamentParticipant;
-            if (p!=null)
+            if (p != null)
             {
                 ParticipantDialog pd = new(p.Participant, Model.Tournament);
                 pd.Title = $"Edit Participant {p.Participant.Name}";
@@ -217,7 +251,7 @@ namespace PonzianiSwiss
 
         private void AdjustTabitems()
         {
-            while ((Model.Tournament?.Rounds.Count ?? 0) + 1  < MainTabControl.Items.Count)
+            while ((Model.Tournament?.Rounds.Count ?? 0) + 1 < MainTabControl.Items.Count)
             {
                 MainTabControl.Items.Remove(MainTabControl.Items[MainTabControl.Items.Count - 1]);
             }
@@ -336,7 +370,7 @@ namespace PonzianiSwiss
 
         [DependentProperties("SaveEnabled", "SaveAsEnabled")]
         public Tournament? Tournament { get => tournament; set { if (tournament != value) { tournament = value; RaisePropertyChange(); } } }
-        
+
         [DependentProperties("SaveEnabled")]
         public string? FileName { get => fileName; set { if (fileName != value) { fileName = value; RaisePropertyChange(); } } }
 
@@ -344,13 +378,15 @@ namespace PonzianiSwiss
 
         public bool SaveEnabled => Tournament != null && FileName != null && File.Exists(FileName);
 
-        public bool DrawEnabled { get => Tournament != null && Tournament.Participants.Count > 0 
+        public bool DrawEnabled
+        {
+            get => Tournament != null && Tournament.Participants.Count > 0
                 && (Tournament.Rounds.Count == 0 || !Tournament.Rounds[Tournament.Rounds.Count - 1].Pairings.Where(p => p.Result == Result.Open).Any());
         }
 
         public bool DeletelastRoundEnabled { get => Tournament != null && Tournament.Rounds.Count > 0; }
 
-        public Visibility ParticipantListVisibility => Tournament?.Participants.Count > 0  ? Visibility.Visible : Visibility.Hidden;
+        public Visibility ParticipantListVisibility => Tournament?.Participants.Count > 0 ? Visibility.Visible : Visibility.Hidden;
 
         internal void SyncParticipants()
         {
@@ -368,14 +404,14 @@ namespace PonzianiSwiss
         internal void SyncRounds()
         {
             RaisePropertyChange("DrawEnabled");
-            RaisePropertyChange("DeleteLastRoundEnabled");            
+            RaisePropertyChange("DeleteLastRoundEnabled");
         }
     }
-    
+
     internal class TournamentParticipant
     {
         private Tournament? tournament;
-        
+
         public Participant Participant { set; get; }
 
         public TournamentParticipant(Tournament? tournament, Participant participant)

@@ -37,6 +37,9 @@
                     <MenuItem x:Name="MenuItem_Round_Draw" Header="Draw" Click="MenuItem_Round_Draw_Click" IsEnabled="{Binding Path=DrawEnabled}"/>
                     <MenuItem x:Name="MenuItem_Round_Delete" Header="Delete Last Round" Click="MenuItem_Round_Delete_Click" IsEnabled="{Binding Path=DeletelastRoundEnabled}"/>
                 </MenuItem>
+                <MenuItem Header="Player Base" x:Name="MenuItem_PlayerBase">
+                    <MenuItem x:Name="MenuItem_PlayerBase_Update" Header="Update"/>
+                </MenuItem>
             </Menu>
             <ToolBar Height="32" Grid.Row="1">
                 <Button Click="MenuItem_Tournament_New_Click" ToolTip="Create New Tournament">
