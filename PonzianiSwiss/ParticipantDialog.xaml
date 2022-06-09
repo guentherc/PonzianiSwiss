@@ -1,0 +1,61 @@
+﻿<mah:MetroWindow x:Class="PonzianiSwiss.ParticipantDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:wpf="http://wpfcontrols.com/"
+        xmlns:local="clr-namespace:PonzianiSwiss" xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                 mc:Ignorable="d"
+        Title="ParticipantDialog" Height="270" Width="800" TitleCharacterCasing="Normal">
+    <Window.Resources>
+        <local:ParticipantProvider x:Key="ParticipantProvider" />
+    </Window.Resources>
+    <StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" VerticalAlignment="Center" Margin="5,5,5,5">Fide ID:</Label>
+            <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="5" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding FideId}"/>
+            <CheckBox Grid.Column="6" VerticalAlignment="Center" IsChecked="{Binding Path=Female}" Margin="5,5,5,5" Content="Female"/>
+            <Label Grid.Row="1" VerticalAlignment="Center" Margin="5,5,5,5">Name:</Label>
+            <wpf:AutoCompleteTextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="5" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding Name}"
+                                     Provider="{StaticResource ResourceKey=ParticipantProvider}"
+                                     SelectedItem="{Binding SelectedName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Grid.Row="1" Grid.Column="6" Click="MenuItem_PlayerSearch_Open_Click" ToolTip="Search Player in National Base" Width="30"
+                    VerticalAlignment="Center" Margin="5,5,5,5" HorizontalAlignment="Left">
+                <iconPacks:PackIconCodicons Kind="Search" />
+            </Button>
+            <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="5,5,5,5">Title:</Label>
+            <ComboBox x:Name="ComboBox_Title" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" SelectedValue="{Binding Path=Title}" MinWidth="100" Margin="5,5,5,5"/>
+            <Label Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Margin="5,5,5,5">Federation:</Label>
+            <ComboBox x:Name="ComboBox_Federation" Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" SelectedValue="{Binding Path=Federation}"  MinWidth="100" Margin="5,5,5,5"/>
+            <Label Grid.Row="2" Grid.Column="4" VerticalAlignment="Center" Margin="5,5,5,5">Year of Birth:</Label>
+            <TextBox Grid.Row="2" Grid.Column="5" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding Path=Year}"/>
+            <Label Grid.Row="3" VerticalAlignment="Center" Margin="5,5,5,5">Rating:</Label>
+            <TextBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding Path=Rating}"/>
+            <Label Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" Margin="5,5,5,5">Alternative Rating:</Label>
+            <TextBox Grid.Row="3" Grid.Column="3" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding Path=AlternativeRating}"/>
+            <Label Grid.Row="4" VerticalAlignment="Center" Margin="5,5,5,5">Club:</Label>
+            <TextBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="6" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding Path=Club}"/>
+        </Grid>
+        <WrapPanel Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+            <Button x:Name="ParticipantDialogOkButton" Content="Ok" Padding="10" Margin="0,0,10,0" Click="ParticipantDialogOkButton_Click" Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
+            <Button x:Name="ParticipantDialogCancelButton" Content="Cancel" Padding="10" Click="ParticipantDialogCancelButton_Click"  Style="{DynamicResource MahApps.Styles.Button.Square}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
+        </WrapPanel>   
+    </StackPanel>
+</mah:MetroWindow>

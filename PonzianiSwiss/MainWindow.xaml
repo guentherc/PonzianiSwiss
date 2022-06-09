@@ -1,0 +1,147 @@
+﻿<mah:MetroWindow x:Class="PonzianiSwiss.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PonzianiSwiss"
+        xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        mc:Ignorable="d"
+        Title="{Binding Path=Tournament.Name}" Height="450" Width="800" TitleCharacterCasing="Normal">
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top">
+            <Menu>
+                <MenuItem x:Name="MenuItem_Tournament" Header="Tournament">
+                    <MenuItem x:Name="MenuItem_Tournament_New" Header="New" Click="MenuItem_Tournament_New_Click"/>
+                    <MenuItem x:Name="MenuItem_Tournament_Open" Header="Open ..." Click="MenuItem_Tournament_Open_Click" IsEnabled="True"/>
+                    <MenuItem x:Name="MenuItem_Tournament_Save" Header="Save" Click="MenuItem_Tournament_Save_Click" IsEnabled="{Binding Path=SaveEnabled}"/>
+                    <MenuItem x:Name="MenuItem_Tournament_Save_As" Header="Save As ..." Click="MenuItem_Tournament_Save_As_Click" IsEnabled="{Binding Path=SaveAsEnabled}"/>
+                    <Separator/>
+                    <MenuItem x:Name="MenuItem_Tournament_Edit" Header="Edit" Click="MenuItem_Tournament_Edit_Click" IsEnabled="{Binding Path=SaveEnabled}" />
+                    <Separator/>
+                    <MenuItem x:Name="MenuItem_Tournament_Export" Header="Export">
+                        <MenuItem x:Name="MenuItem_Tournament_Participant_List" Header="Participant List">
+                            <MenuItem x:Name="MenuItem_Tournament_Participant_List_Rank" Header="By Starting Rank" Tag="0" Click="MenuItem_Export_Click"/>
+                            <MenuItem x:Name="MenuItem_Tournament_Participant_List_Name" Header="By Name" Tag="1" Click="MenuItem_Export_Click"/>
+                        </MenuItem>
+                        <MenuItem x:Name="MenuItem_Tournament_Crosstable" Header="Crosstable" Tag="2" Click="MenuItem_Export_Click"/>
+                        <MenuItem x:Name="MenuItem_Tournament_Pairings" Header="Pairings" Tag="3" Click="MenuItem_Export_Click"/>
+                    </MenuItem>
+                    <Separator/>
+                    <MenuItem x:Name="MenuItem_Tournament_Exit" Header="Exit" Click="MenuItem_Tournament_Exit_Click"/>
+                </MenuItem>
+                <MenuItem x:Name="MenuItem_Participants" Header="Participants" IsEnabled="{Binding Path=SaveEnabled}">
+                    <MenuItem x:Name="MenuItem_Participants_Add" Header="New" Click="MenuItem_Participant_Add_Click" IsEnabled="{Binding Path=SaveEnabled}"/>
+                </MenuItem>
+                <MenuItem x:Name="MenuItem_Round" Header="Round" IsEnabled="{Binding Path=SaveEnabled}">
+                    <MenuItem x:Name="MenuItem_Round_Draw" Header="Draw" Click="MenuItem_Round_Draw_Click" IsEnabled="{Binding Path=DrawEnabled}"/>
+                    <MenuItem x:Name="MenuItem_Round_Delete" Header="Delete Last Round" Click="MenuItem_Round_Delete_Click" IsEnabled="{Binding Path=DeletelastRoundEnabled}"/>
+                </MenuItem>
+                <MenuItem Header="Player Base" x:Name="MenuItem_PlayerBase">
+                    <MenuItem x:Name="MenuItem_PlayerBase_Update" Header="Update"/>
+                </MenuItem>
+            </Menu>
+            <ToolBar Height="32" Grid.Row="1">
+                <Button Click="MenuItem_Tournament_New_Click" ToolTip="Create New Tournament">
+                    <iconPacks:PackIconCodicons Kind="NewFile" />
+                </Button>
+                <Button Click="MenuItem_Tournament_Open_Click" ToolTip="Load Tournament">
+                    <iconPacks:PackIconCodicons Kind="FolderOpened" />
+                </Button>
+                <Button Click="MenuItem_Tournament_Save_Click" ToolTip="Save Tournament" IsEnabled="{Binding Path=SaveEnabled}">
+                    <iconPacks:PackIconCodicons Kind="Save" />
+                </Button>
+                <Button Click="MenuItem_Tournament_Edit_Click" ToolTip="Edit Tournament" IsEnabled="{Binding Path=SaveAsEnabled}">
+                    <iconPacks:PackIconCodicons Kind="Edit" />
+                </Button>
+                <Separator></Separator>
+                <Button Click="MenuItem_Participant_Add_Click" ToolTip="Add Player" IsEnabled="{Binding Path=SaveAsEnabled}">
+                    <iconPacks:PackIconCodicons Kind="PersonAdd" />
+                </Button>
+                <Separator></Separator>
+                <Button Click="MenuItem_Round_Draw_Click" ToolTip="Draw Next Round" IsEnabled="{Binding Path=DrawEnabled}">
+                    <iconPacks:PackIconJamIcons Kind="Dices" />
+                </Button>
+            </ToolBar>
+        </StackPanel>
+        <TabControl x:Name="MainTabControl"  Grid.Row="2">
+            <TabItem Header="Participants" Visibility="{Binding Path=ParticipantListVisibility}">
+                <ListView Margin="10" Name="lvParticipants" Visibility="{Binding Path=ParticipantListVisibility}" mah:ControlsHelper.ContentCharacterCasing="Normal">
+                    <ListView.ContextMenu>
+                        <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                            <MenuItem Header="Edit" Click="MenuItem_Participant_Edit_Click"/>
+                            <Separator></Separator>
+                            <MenuItem Header="Abandon Tournament" Click="MenuItem_Participant_Abandon_Click"/>
+                            <MenuItem Header="Pause Next Round" Click="MenuItem_Participant_Pause_Click"/>
+                            <MenuItem Header="Undo Abandon/Pause" Click="MenuItem_Participant_UndoPause_Click"/>
+                            <Separator></Separator>
+                            <MenuItem Header="Delete" Click="MenuItem_Participant_Delete_Click"/>
+                        </ContextMenu>
+                    </ListView.ContextMenu>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="120">
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Name</GridViewColumnHeader>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Participant.Name}" 
+                                                   TextDecorations="{Binding Path=TextDecoration}"
+                                                   FontStyle="{Binding Path=FontStyle}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="60">
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Fide Id</GridViewColumnHeader>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Participant.FideId}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="60">
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Rating</GridViewColumnHeader>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=TournamentRating}" TextAlignment="Right"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="120">
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Id</GridViewColumnHeader>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Participant.ParticipantId}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="60">
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Elo</GridViewColumnHeader>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Participant.FideRating}" TextAlignment="Right"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="60">
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">National Rating</GridViewColumnHeader>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Participant.AlternativeRating}" TextAlignment="Right"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="120">
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Club</GridViewColumnHeader>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Participant.Club}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</mah:MetroWindow>

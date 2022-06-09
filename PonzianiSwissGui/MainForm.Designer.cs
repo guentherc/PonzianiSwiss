@@ -64,6 +64,7 @@
             this.cZEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.iTAToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cROToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.nEDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createTestTournamentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testTRFCreationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -113,7 +114,6 @@
             this.tsbAdd = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbDraw = new System.Windows.Forms.ToolStripButton();
-            this.nEDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.mainStatusStrip.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -366,6 +366,13 @@
             resources.ApplyResources(this.cROToolStripMenuItem, "cROToolStripMenuItem");
             this.cROToolStripMenuItem.Tag = "8";
             this.cROToolStripMenuItem.Click += new System.EventHandler(this.NPBToolStripMenuItem_Click);
+            // 
+            // nEDToolStripMenuItem
+            // 
+            this.nEDToolStripMenuItem.Name = "nEDToolStripMenuItem";
+            resources.ApplyResources(this.nEDToolStripMenuItem, "nEDToolStripMenuItem");
+            this.nEDToolStripMenuItem.Tag = "9";
+            this.nEDToolStripMenuItem.Click += new System.EventHandler(this.NPBToolStripMenuItem_Click);
             // 
             // toolsToolStripMenuItem
             // 
@@ -719,13 +726,6 @@
             this.tsbDraw.Image = global::PonzianiSwissGui.Properties.Resources.draw;
             this.tsbDraw.Name = "tsbDraw";
             this.tsbDraw.Click += new System.EventHandler(this.DrawToolStripMenuItem_Click);
-            // 
-            // nEDToolStripMenuItem
-            // 
-            this.nEDToolStripMenuItem.Name = "nEDToolStripMenuItem";
-            resources.ApplyResources(this.nEDToolStripMenuItem, "nEDToolStripMenuItem");
-            this.nEDToolStripMenuItem.Tag = "9";
-            this.nEDToolStripMenuItem.Click += new System.EventHandler(this.NPBToolStripMenuItem_Click);
             // 
             // MainForm
             // 
