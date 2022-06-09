@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PonzianiSwissGui\PonzianiSwissGui.csproj" />
+    <ProjectReference Include="..\PonzianiPlayerBase\PonzianiPlayerBase.csproj" />
     <ProjectReference Include="..\PonzianiSwissLib\PonzianiSwissLib.csproj" />
   </ItemGroup>
 
