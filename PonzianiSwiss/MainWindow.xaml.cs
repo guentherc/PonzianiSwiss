@@ -43,6 +43,7 @@ namespace PonzianiSwiss
         public MainModel Model { set; get; }
 
         private IPlayerBase? FideBase = null;
+        private readonly HTMLViewer htmlViewer = new();
 
         private void MenuItem_Tournament_New_Click(object sender, RoutedEventArgs e)
         {
@@ -233,6 +234,35 @@ namespace PonzianiSwiss
                     });
                 }
             }
+        }
+
+        private void MenuItem_Export_Click(object sender, RoutedEventArgs e)
+        {
+            int tag = int.Parse((string)((MenuItem)sender).Tag);
+            string html = string.Empty;
+            string title = string.Empty;
+            switch (tag)
+            {
+                case 0:
+                    title = "Participant List by Starting Rank";
+                    html = Model.Tournament?.ParticipantListHTML("Rating", true) ?? string.Empty;
+                    break;
+                case 1:
+                    title = "Participant List by Name";
+                    html = Model.Tournament?.ParticipantListHTML("Name", false) ?? string.Empty;
+                    break;
+                case 2:
+                    title = "Crosstable";
+                    html = Model.Tournament?.CrosstableHTML() ?? string.Empty;
+                    break;
+                case 3:
+                    title = $"Pairings Round {Model.Tournament?.Rounds.Count ?? 0}";
+                    html = Model.Tournament?.RoundHTML() ?? string.Empty;
+                    break;
+            }
+            htmlViewer.Html = html;
+            htmlViewer.Title = title;
+            htmlViewer.ShowDialog();
         }
     }
 

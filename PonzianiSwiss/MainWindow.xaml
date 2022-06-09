@@ -19,6 +19,15 @@
                     <Separator/>
                     <MenuItem x:Name="MenuItem_Tournament_Edit" Header="Edit" Click="MenuItem_Tournament_Edit_Click" IsEnabled="{Binding Path=SaveEnabled}" />
                     <Separator/>
+                    <MenuItem x:Name="MenuItem_Tournament_Export" Header="Export">
+                        <MenuItem x:Name="MenuItem_Tournament_Participant_List" Header="Participant List">
+                            <MenuItem x:Name="MenuItem_Tournament_Participant_List_Rank" Header="By Starting Rank" Tag="0" Click="MenuItem_Export_Click"/>
+                            <MenuItem x:Name="MenuItem_Tournament_Participant_List_Name" Header="By Name" Tag="1" Click="MenuItem_Export_Click"/>
+                        </MenuItem>
+                        <MenuItem x:Name="MenuItem_Tournament_Crosstable" Header="Crosstable" Tag="2" Click="MenuItem_Export_Click"/>
+                        <MenuItem x:Name="MenuItem_Tournament_Pairings" Header="Pairings" Tag="3" Click="MenuItem_Export_Click"/>
+                    </MenuItem>
+                    <Separator/>
                     <MenuItem x:Name="MenuItem_Tournament_Exit" Header="Exit" Click="MenuItem_Tournament_Exit_Click"/>
                 </MenuItem>
                 <MenuItem x:Name="MenuItem_Participants" Header="Participants" IsEnabled="{Binding Path=SaveEnabled}">
