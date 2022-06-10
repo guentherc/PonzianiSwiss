@@ -47,6 +47,32 @@ namespace PonzianiSwiss
                 ResultSet?.Invoke(this, new());
             }
         }
+
+        private void lvRound_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.OriginalSource is ListViewItem)
+            {
+                if (e.Key == Key.D0 || e.Key == Key.D1 || e.Key == Key.OemPlus || e.Key == Key.D8)
+                {
+                    ListViewItem item = (ListViewItem)e.OriginalSource;
+                    if (item.DataContext is RoundPairing)
+                    {
+                        RoundPairing p = (RoundPairing)item.DataContext;
+                        if (e.Key == Key.D0 && e.IsToggled)
+                            p.Pairing.Result = Result.Draw;
+                        else if (e.Key == Key.D0)
+                            p.Pairing.Result = Result.Loss;
+                        else if (e.Key == Key.D1)
+                            p.Pairing.Result = Result.Win;
+                        else if (e.Key == Key.OemPlus || e.Key == Key.D8)
+                            p.Pairing.Result = Result.Open;
+                        else return;
+                        Model.SyncRound();
+                        ResultSet?.Invoke(this, new());
+                    }
+                }
+            }
+        }
     }
 
     public class RoundModel : ViewModel

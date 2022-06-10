@@ -11,7 +11,7 @@
         <local:ResultConverter x:Key="ResultConverter" />
     </UserControl.Resources>
     <Grid>
-        <ListView x:Name="lvRound" d:ItemsSource="{d:SampleData ItemCount=5}" mah:ControlsHelper.ContentCharacterCasing="Normal">
+        <ListView x:Name="lvRound" d:ItemsSource="{d:SampleData ItemCount=5}" mah:ControlsHelper.ContentCharacterCasing="Normal" KeyUp="lvRound_KeyUp">
             <ListView.Resources>
                 <Style TargetType="{x:Type ListViewItem}">
                     <Setter Property="Background" Value="LightGray" />
