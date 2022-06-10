@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,7 +40,7 @@ namespace PonzianiSwiss
             RoundPairing? p = lvRound?.SelectedItem as RoundPairing;
             MenuItem? mi = sender as MenuItem;
             if (p != null && mi != null)
-            {               
+            {
                 Result r = (Result)int.Parse((string)mi.Tag);
                 p.Pairing.Result = r;
                 Model.SyncRound();
@@ -83,14 +84,16 @@ namespace PonzianiSwiss
         }
 
         public Pairing Pairing { set; get; }
-
-        public string Result => result_strings[(int)Pairing.Result];
         public string White => $"{Pairing.White.Name?.Trim()} ({Pairing.White.Scorecard?.Score(RoundIndex)})";
         public string Black => $"{Pairing.Black.Name?.Trim()} ({Pairing.Black.Scorecard?.Score(RoundIndex)})";
-       
+
         private int RoundIndex { set; get; }
 
-        internal static readonly string[] result_strings = new string[14] {
+    }
+
+    public class ResultConverter : IValueConverter
+    {
+        private static readonly string[] result_strings = new string[14] {
             "*",
             "--+",
             "0-1",
@@ -106,5 +109,25 @@ namespace PonzianiSwiss
             "Bye 1",
             "---"
         };
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value is Result r)
+                return result_strings[(int)r];
+            return "";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is string s)
+            {
+                for (int i = 0; i < result_strings.Length; i++)
+                {
+                    if (result_strings[i] == s)
+                        return (Result)i;
+                }
+            }
+            return Result.Open;
+        }
     }
+
 }

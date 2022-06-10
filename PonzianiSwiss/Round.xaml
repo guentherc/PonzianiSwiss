@@ -7,13 +7,16 @@
              xmlns:local="clr-namespace:PonzianiSwiss"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <local:ResultConverter x:Key="ResultConverter" />
+    </UserControl.Resources>
     <Grid>
         <ListView x:Name="lvRound" d:ItemsSource="{d:SampleData ItemCount=5}" mah:ControlsHelper.ContentCharacterCasing="Normal">
             <ListView.Resources>
                 <Style TargetType="{x:Type ListViewItem}">
                     <Setter Property="Background" Value="LightGray" />
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Result}" Value="*">
+                        <DataTrigger Binding="{Binding Pairing.Result}" Value="0">
                             <Setter Property="Background" Value="Transparent" />
                         </DataTrigger>
                     </Style.Triggers>
@@ -80,7 +83,7 @@
                         <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Result</GridViewColumnHeader>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Path=Result}"/>
+                                <TextBlock Text="{Binding Path=Pairing.Result, Converter={StaticResource ResultConverter}}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
