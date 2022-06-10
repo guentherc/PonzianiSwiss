@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
@@ -12,9 +13,28 @@ namespace PonzianiSwissLib
     {
         public static async Task<List<Federation>?> GetFederations()
         {
-            HttpClient client = new();
-            string url = "https://app.fide.com/api/v1/client/directory/federations?&q";
-            var result = await client.GetFromJsonAsync<List<Federation>>(url);
+            List<Federation>? result = null;
+            try
+            {
+                HttpClient client = new();
+                client.Timeout = TimeSpan.FromSeconds(10);
+                string url = "https://app.fide.com/api/v1/client/directory/federations?&q";
+                result = await client.GetFromJsonAsync<List<Federation>>(url);
+            } catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            if (result == null)
+            {
+                try
+                {
+                    result = JsonSerializer.Deserialize<List<Federation>>(Resource.federation_json);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }          
             if (result != null)
             {
                 foreach (var federation in result)
