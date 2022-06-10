@@ -87,9 +87,7 @@ namespace PonzianiSwiss
         public string Result => result_strings[(int)Pairing.Result];
         public string White => $"{Pairing.White.Name?.Trim()} ({Pairing.White.Scorecard?.Score(RoundIndex)})";
         public string Black => $"{Pairing.Black.Name?.Trim()} ({Pairing.Black.Scorecard?.Score(RoundIndex)})";
-
-        public string Background => Pairing.Result == PonzianiSwissLib.Result.Open ? "Transparent" : "LightGray";
-        
+       
         private int RoundIndex { set; get; }
 
         internal static readonly string[] result_strings = new string[14] {
