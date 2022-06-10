@@ -181,6 +181,7 @@ namespace PonzianiSwiss
             uiContext?.Send(x => Model.SyncRounds(), null);
             uiContext?.Send(x => Model.SyncParticipants(), null);
             uiContext?.Send(x => AdjustTabitems(), null);
+            uiContext?.Send(x => MainTabControl.SelectedItem = MainTabControl.Items[MainTabControl.Items.Count - 1], null);
         }
 
         private void MenuItem_Participant_Edit_Click(object sender, RoutedEventArgs e)
