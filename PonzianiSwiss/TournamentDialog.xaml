@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        xmlns:local="clr-namespace:PonzianiSwiss"
-        mc:Ignorable="d"
+        xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
+        xmlns:local="clr-namespace:PonzianiSwiss" d:DataContext="{d:DesignInstance Type=local:TournamentModel}"
+                 mc:Ignorable="d"
         Title="TournamentDialog" Height="600" Width="800" TitleCharacterCasing="Normal">
     <DockPanel>
         <Grid DockPanel.Dock="Top" Margin="5,5,5,5">
@@ -32,14 +33,16 @@
             <Label Grid.Row="1" VerticalAlignment="Center" Margin="5,5,5,5">City:</Label>
             <TextBox Grid.Row="1" VerticalAlignment="Center" Grid.Column="1" Text="{Binding Path=Tournament.City}" MinWidth="200" Margin="5,5,5,5"/>
             <Label Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" Margin="5,5,5,5">Federation:</Label>
-            <ComboBox x:Name="ComboBox_Federation" Grid.Row="1" VerticalAlignment="Center" Grid.Column="3" SelectedValue="{Binding Path=Tournament.Federation}" MinWidth="100" Margin="5,5,5,5"/>
+            <ComboBox x:Name="ComboBox_Federation" Grid.Row="1" VerticalAlignment="Center" Grid.Column="3" 
+                      SelectedValue="{Binding Path=Tournament.Federation, Mode=TwoWay, diag:PresentationTraceSources.TraceLevel=High}"
+                      MinWidth="100" Margin="5,5,5,5"/>
             <Label Grid.Row="2" Grid.Column="0" Content="Rounds:" Margin="5,5,5,5" VerticalAlignment="Center"/>
             <WrapPanel Grid.Row="2" Grid.ColumnSpan="3" Grid.Column="1">
                 <mah:NumericUpDown HorizontalAlignment="Left" VerticalAlignment="Center" Value="{Binding Path=Tournament.CountRounds}" Minimum="1" Maximum="99" Margin="5,5,5,5"/>
                 <Label Content="Date" Margin="5,5,5,5" VerticalAlignment="Center"/>
-                <DatePicker Margin="5,5,5,5" VerticalAlignment="Center" SelectedDate="{Binding Path=Tournament.StartDate}"></DatePicker>
+                <DatePicker Margin="5,5,5,5" VerticalAlignment="Center" SelectedDate="{Binding Path=StartDate}"></DatePicker>
                 <Label Content=" - " Margin="5,5,5,5" VerticalAlignment="Center"/>
-                <DatePicker Margin="5,5,5,5" VerticalAlignment="Center"  SelectedDate="{Binding Path=Tournament.EndDate}"></DatePicker>
+                <DatePicker Margin="5,5,5,5" VerticalAlignment="Center"  SelectedDate="{Binding Path=EndDate}"></DatePicker>
             </WrapPanel>
             <Label VerticalAlignment="Center" Margin="5,5,5,5" Grid.Row="3">Chief Arbiter:</Label>
             <TextBox VerticalAlignment="Center" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" Text="{Binding Path=Tournament.ChiefArbiter}" Margin="5,5,5,5"/>

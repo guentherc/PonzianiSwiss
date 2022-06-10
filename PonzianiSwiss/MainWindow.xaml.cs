@@ -50,6 +50,7 @@ namespace PonzianiSwiss
             DataContext = Model;
             FideBase = PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE);
             lvParticipants.ItemsSource = Model.Participants;
+            _ = FederationUtil.GetFederations();
         }
 
         private async void Update_Base(object sender, RoutedEventArgs e)

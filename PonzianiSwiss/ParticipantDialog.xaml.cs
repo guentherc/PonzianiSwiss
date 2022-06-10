@@ -27,12 +27,16 @@ namespace PonzianiSwiss
         public ParticipantDialog(Participant participant, Tournament? tournament)
         {
             Model = new(participant, tournament);
-            this.DataContext = Model;            
+            this.DataContext = Model;
             InitializeComponent();
-            ComboBox_Federation.ItemsSource = TournamentDialog.Federations.OrderBy(e => e.Key);
+            var items = FederationUtil.Federations.OrderBy(e => e.Value);
+            ComboBox_Federation.ItemsSource = items;
             ComboBox_Federation.DisplayMemberPath = "Value";
             ComboBox_Federation.SelectedValuePath = "Key";
-            ComboBox_Federation.SelectedValue = "FIDE";
+            //strange workaround to make combobox show federation value 
+            int indx = items.ToList().FindIndex(e => e.Key == participant.Federation);
+            ComboBox_Federation.SelectedIndex = indx;
+            //ComboBox_Federation.SelectedValue = Model.Participant.Federation != null && Model.Participant.Federation != String.Empty ? Model.Participant.Federation : "FIDE";
 
             ComboBox_Title.ItemsSource = Enum.GetValues(typeof(FideTitle));
         }
@@ -64,50 +68,69 @@ namespace PonzianiSwiss
                 }
                 else
                 {
-                    Model.Name = nplayer?.Name ?? string.Empty;
-                    Model.Title = nplayer?.Title ?? FideTitle.NONE;
+                    Model.Participant.Name = nplayer?.Name ?? string.Empty;
+                    Model.Participant.Title = nplayer?.Title ?? FideTitle.NONE;
 
-                    Model.Federation = nplayer?.Federation ?? "FIDE";
-                    Model.Year = nplayer?.YearOfBirth ?? 0;
+                    Model.Participant.Federation = nplayer?.Federation ?? "FIDE";
+                    Model.Participant.YearOfBirth = nplayer?.YearOfBirth ?? 0;
                     Model.Female = (nplayer?.Sex ?? Sex.Male) == Sex.Female;
                 }
-                Model.Club = nplayer?.Club ?? string.Empty;
-                Model.AlternativeRating = nplayer?.Rating ?? 0;
+                Model.Participant.Club = nplayer?.Club ?? string.Empty;
+                Model.Participant.AlternativeRating = nplayer?.Rating ?? 0;
+                Model.Sync();
+
             }
         }
+
     }
 
     public class ParticipantModel : ViewModel
     {
-        public Participant Participant { set; get; }
+        public Participant Participant
+        {
+            get => participant;
+            set
+            {
+                participant = value;
+                RaisePropertyChange();
+            }
+        }
         public Tournament? Tournament { set; get; }
 
         private readonly IPlayerBase FideBase;
+        private Participant participant;
 
         public ParticipantModel(Participant participant, Tournament? tournament)
         {
-            Participant = participant;
+            this.participant = participant;           
             Tournament = tournament;
             FideBase = PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE);
         }
 
+        public void Sync() => RaisePropertyChange("Participant");
+
+        [DependentProperties("Participant")]
         public ulong FideId
         {
-            get => Participant.FideId;
+            get
+            {
+                return Participant.FideId;
+            }
             set
             {
+                if (Participant.FideId == value) return;
                 Participant.FideId = value;
                 if (Participant.FideId != 0)
                 {
                     var p = FideBase.GetById(Participant.FideId.ToString());
                     if (p != null)
                     {
-                        Name = p.Name;
-                        Title = p.Title;
-                        Federation = p.Federation ?? "FIDE";
-                        Year = p.YearOfBirth;
-                        Rating = p.Rating;
-                        Club = p.Club ?? string.Empty;
+                        Participant.Name = p.Name;
+                        Participant.Title = p.Title;
+                        Participant.Federation = p.Federation ?? "FIDE";
+                        Participant.YearOfBirth = p.YearOfBirth;
+                        Participant.FideRating = p.Rating;
+                        Participant.Club = p.Club ?? string.Empty;
                         Female = p.Sex == Sex.Female;
                     }
                 }
@@ -115,25 +138,6 @@ namespace PonzianiSwiss
             }
         }
 
-        public string? Name
-        {
-            get => Participant.Name;
-            set
-            {
-                Participant.Name = value;
-                RaisePropertyChange();
-            }
-        }
-
-        public FideTitle Title
-        {
-            get => Participant.Title;
-            set
-            {
-                Participant.Title = value;
-                RaisePropertyChange();
-            }
-        }
 
         public string SelectedName
         {
@@ -144,61 +148,13 @@ namespace PonzianiSwiss
         }
 
 
-        public string Federation
-        {
-            get => Participant.Federation ?? "FIDE";
-            set
-            {
-                Participant.Federation = value;
-                RaisePropertyChange();
-            }
-        }
-
-        public int Year
-        {
-            get => Participant.YearOfBirth;
-            set
-            {
-                Participant.YearOfBirth = value;
-                RaisePropertyChange();
-            }
-        }
-
-        public int Rating
-        {
-            get => Participant.FideRating;
-            set
-            {
-                Participant.FideRating = value;
-                RaisePropertyChange();
-            }
-        }
-
-        public int AlternativeRating
-        {
-            get => Participant.AlternativeRating;
-            set
-            {
-                Participant.AlternativeRating = value;
-                RaisePropertyChange();
-            }
-        }
-
-        public string Club
-        {
-            get => Participant.Club ?? string.Empty;
-            set
-            {
-                Participant.Club = value;
-                RaisePropertyChange();
-            }
-        }
-
+        [DependentProperties("Participant")]
         public bool Female
         {
             get => Participant.Sex == Sex.Female;
             set
             {
+                if (value == (Participant.Sex == Sex.Female)) return;
                 Participant.Sex = value ? Sex.Female : Sex.Male;
                 RaisePropertyChange();
             }
@@ -208,8 +164,9 @@ namespace PonzianiSwiss
         {
             string token = suggest.Split(' ').Last();
             string fid = token[1..^1];
-            try { 
-            FideId = ulong.Parse(fid);
+            try
+            {
+                FideId = ulong.Parse(fid);
             }
             catch (Exception ex)
             {
