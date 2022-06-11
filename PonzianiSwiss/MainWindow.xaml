@@ -11,6 +11,16 @@
     <DockPanel>
         <StackPanel DockPanel.Dock="Top">
             <Menu>
+                <Menu.Resources>
+                    <Style x:Key="ModeStyle" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
+                        <Setter Property="Visibility" Value="Hidden" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=Mode}" Value="1">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Menu.Resources>
                 <MenuItem x:Name="MenuItem_Tournament" Header="Tournament">
                     <MenuItem x:Name="MenuItem_Tournament_New" Header="New" Click="MenuItem_Tournament_New_Click"/>
                     <MenuItem x:Name="MenuItem_Tournament_Open" Header="Open ..." Click="MenuItem_Tournament_Open_Click" IsEnabled="True"/>
@@ -39,6 +49,9 @@
                 </MenuItem>
                 <MenuItem Header="Player Base" x:Name="MenuItem_PlayerBase">
                     <MenuItem x:Name="MenuItem_PlayerBase_Update" Header="Update"/>
+                </MenuItem>
+                <MenuItem Header="Special" x:Name="MenuItem_Special" Style="{StaticResource ModeStyle}">
+                    <MenuItem Header="Special 1"/>
                 </MenuItem>
             </Menu>
             <ToolBar Height="32" Grid.Row="1">

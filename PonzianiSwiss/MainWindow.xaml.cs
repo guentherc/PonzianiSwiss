@@ -31,7 +31,7 @@ namespace PonzianiSwiss
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        public MainWindow()
+        public MainWindow(App.Mode mode = App.Mode.Release)
         {
             InitializeComponent();
             //Add Playerbase Update entries dynamically
@@ -47,6 +47,7 @@ namespace PonzianiSwiss
             }
             //MenuItem_PlayerBase_Update.
             Model = new();
+            Model.Mode = mode;
             DataContext = Model;
             FideBase = PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE);
             lvParticipants.ItemsSource = Model.Participants;
@@ -74,9 +75,8 @@ namespace PonzianiSwiss
                 }, null);
             uiContext?.Send(x => { mi.IsEnabled = true; }, null);
         }
-
+        
         public MainModel Model { set; get; }
-
         private IPlayerBase? FideBase = null;
         private readonly HTMLViewer htmlViewer = new();
 
@@ -367,6 +367,8 @@ namespace PonzianiSwiss
     {
         private Tournament? tournament;
         private string? fileName;
+
+        public App.Mode Mode { get; set; } = App.Mode.Release;
 
         internal ObservableCollection<TournamentParticipant> Participants { get; } = new();
 
