@@ -1,0 +1,68 @@
+﻿<mah:MetroWindow x:Class="PonzianiSwiss.TiebreakDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:local="clr-namespace:PonzianiSwiss"
+        mc:Ignorable="d"
+        Title="Edit Tiebreak Rules" Height="450" Width="800" TitleCharacterCasing="Normal">
+    <StackPanel>
+        <Grid Grid.IsSharedSizeScope="True">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="A" Width="Auto"/>
+                <ColumnDefinition SharedSizeGroup="A" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <ListView x:Name="lvAvailable" Grid.Row="0" BorderThickness="2" Margin="5,5,5,5" >
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="200">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=Text, Mode=OneWay}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="30">
+                            <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal"></GridViewColumnHeader>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding Path=IsSelected}" HorizontalAlignment="Center" Click="CheckBox_Click" Tag="{Binding Path=Key}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <ListView x:Name="lvSelected" Grid.Row="0" Grid.Column="1"  BorderThickness="2" Margin="5,5,5,5" >
+                <ListView.ContextMenu>
+                    <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                        <MenuItem Header="Move Up" Click="MenuItem_Move_Up"/>
+                        <MenuItem Header="Move Down" Click="MenuItem_Move_Down"/>
+                    </ContextMenu>
+                </ListView.ContextMenu>
+                <ListView.View>
+                    <GridView> 
+                        <GridViewColumn Width="200">
+                            <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Selected Tie Breaks</GridViewColumnHeader>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=Text, Mode=OneWay}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+        <WrapPanel Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+            <Button x:Name="TiebreakDialogOkButton" Content="Ok" Padding="10" Margin="0,0,10,0" Click="TiebreakDialogOkButton_Click" Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
+            <Button x:Name="TiebreakDialogCancelButton" Content="Cancel" Padding="10" Click="TiebreakDialogCancelButton_Click"  Style="{DynamicResource MahApps.Styles.Button.Square}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
+        </WrapPanel>
+    </StackPanel>
+
+</mah:MetroWindow>

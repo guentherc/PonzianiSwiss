@@ -5,9 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:local="clr-namespace:PonzianiSwiss" d:DataContext="{d:DesignInstance Type=local:TournamentModel}"
                  mc:Ignorable="d"
         Title="TournamentDialog" Height="600" Width="800" TitleCharacterCasing="Normal">
+    <Window.Resources>
+        <local:TiebreakConverter x:Key="TiebreakConverter" />
+    </Window.Resources>
     <DockPanel>
         <Grid DockPanel.Dock="Top" Margin="5,5,5,5">
             <Grid.ColumnDefinitions>
@@ -57,6 +61,15 @@
             <TextBox VerticalAlignment="Center" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="3" Text="{Binding Path=Tournament.TimeControl}" Margin="5,5,5,5"/>
             <Label VerticalAlignment="Center" Margin="5,5,5,5" Grid.Row="7">Rating Determination:</Label>
             <ComboBox x:Name="ComboBox_RatingDetermination" Grid.Column="1" Grid.Row="7" VerticalAlignment="Center" SelectedValue="{Binding Path=Tournament.RatingDetermination}" MinWidth="100" Margin="5,5,5,5"/>
+            <Label VerticalAlignment="Center" Margin="5,5,5,5" Grid.Row="7" Grid.Column="2">Tiebreak:</Label>
+            <WrapPanel  Grid.Column="3" Grid.Row="7" >
+                <TextBox VerticalAlignment="Center" IsReadOnly="True"
+                     Text="{Binding Path=Tournament.TieBreak, Converter={StaticResource TiebreakConverter}}" Margin="5,5,5,5"/>
+                <Button Click="Button_Edit_Tiebreak_Click" ToolTip="Edit Tiebreak" Width="30"
+                    VerticalAlignment="Center" Margin="5,5,5,5" HorizontalAlignment="Right">
+                    <iconPacks:PackIconCodicons Kind="Edit" />
+                </Button>
+            </WrapPanel>
             <GroupBox Header="Scoring Scheme" Grid.Row="8" Grid.ColumnSpan="4" mah:ControlsHelper.ContentCharacterCasing="Normal"
                       Style="{DynamicResource MahApps.Styles.GroupBox.Clean}">
                 <GroupBox.Resources>

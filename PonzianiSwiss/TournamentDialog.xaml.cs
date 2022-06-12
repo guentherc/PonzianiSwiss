@@ -50,6 +50,15 @@ namespace PonzianiSwiss
             this.Close();
         }
 
+        private void Button_Edit_Tiebreak_Click(object sender, RoutedEventArgs e)
+        {
+            TiebreakDialog dialog = new(Model.Tournament.TieBreak);
+            if (dialog.ShowDialog() == true)
+            {
+                Model.Tournament.TieBreak = dialog.Model.Tiebreaks;
+                Model.Sync();
+            }
+        }
     }
 
     public class TournamentModel : ViewModel
@@ -64,6 +73,8 @@ namespace PonzianiSwiss
                 RaisePropertyChange();
             }
         }
+
+        public void Sync() => RaisePropertyChange("Tournament");
 
         public TournamentModel(Tournament tournament)
         {
@@ -106,6 +117,20 @@ namespace PonzianiSwiss
             if (DateTime.TryParse(dateTime, CultureInfo.CurrentUICulture, DateTimeStyles.AllowWhiteSpaces, out result)) return result;
             if (DateTime.TryParse(dateTime, CultureInfo.InvariantCulture, DateTimeStyles.AllowWhiteSpaces, out result)) return result;
             return result;
+        }
+    }
+
+    public class TiebreakConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var tiebreaks = value as List<TieBreak>;
+            return tiebreaks != null ? string.Join(" -> ", tiebreaks) : string.Empty;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }
