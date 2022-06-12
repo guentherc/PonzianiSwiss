@@ -30,7 +30,7 @@ namespace PonzianiPlayerBase
             List<Player> result = new();
             using var cmd = connection?.CreateCommand();
             if (cmd == null) return result;
-            cmd.CommandText = max > 0 ? $"SELECT * FROM FidePlayer WHERE Name LIKE @ss LIMIT { max }" : "SELECT * FROM FidePlayer WHERE Name LIKE @ss";
+            cmd.CommandText = max > 0 ? $"SELECT * FROM FidePlayer WHERE Name LIKE @ss LIMIT {max}" : "SELECT * FROM FidePlayer WHERE Name LIKE @ss";
             cmd.Parameters.AddWithValue("@ss", searchstring + '%');
             cmd.Prepare();
             using var reader = cmd.ExecuteReader();
@@ -173,6 +173,36 @@ namespace PonzianiPlayerBase
             foreach (string f in Directory.GetFiles(tmpDir)) File.Delete(f);
             Directory.Delete(tmpDir);
             return true;
+        }
+
+        public async Task<List<Player>?> GetRandomPlayers(int count = 100, int minRating = 500, int maxRating = 3000, List<string>? federations = null)
+        {
+            List<Player> result = new();
+            using var cmd = connection?.CreateCommand();
+            if (cmd == null) return result;
+            cmd.CommandText = $"SELECT * FROM FidePlayer WHERE RATING >= @min AND RATING <= @max AND INACTIVE = 0 ORDER BY RANDOM() LIMIT {count}";
+            cmd.Parameters.AddWithValue("@min", minRating);
+            cmd.Parameters.AddWithValue("@max", maxRating);
+            if (federations != null)
+            {
+                cmd.CommandText += $" AND Federation IN ({string.Join(',', federations)}";
+            }
+            cmd.Prepare();
+            using var reader = await cmd.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+            {
+                Player player = new(reader.GetInt64(0).ToString());
+                player.FideId = ulong.Parse(player.Id);
+                player.Name = reader.GetString(1);
+                player.Federation = reader.GetString(2);
+                player.Title = (FideTitle)reader.GetInt32(3);
+                player.Sex = (Sex)reader.GetInt16(4);
+                player.Rating = reader.GetInt32(5);
+                player.Inactive = reader.GetInt16(6) == 1;
+                player.YearOfBirth = reader.GetInt16(7);
+                result.Add(player);
+            }
+            return result;
         }
     }
 

@@ -57,8 +57,7 @@ namespace PonzianiSwiss
         private async void Update_Base(object sender, RoutedEventArgs e)
         {
             var uiContext = SynchronizationContext.Current;
-            var mi = sender as MenuItem;
-            if (mi == null) return;
+            if (sender is not MenuItem mi) return;
             mi.IsEnabled = false;
             var b = (PlayerBaseFactory.Base)mi.Tag;
             IPlayerBase pbase = PlayerBaseFactory.Get(b);
@@ -300,6 +299,11 @@ namespace PonzianiSwiss
             htmlViewer.Title = title;
             htmlViewer.ShowDialog();
         }
+
+        private void MenuItem_Add_Participants_Click(object sender, RoutedEventArgs e)
+        {
+            Model.AddRandomParticipants();
+        }
     }
 
     public class DependentPropertiesAttribute : Attribute
@@ -372,7 +376,7 @@ namespace PonzianiSwiss
 
         internal ObservableCollection<TournamentParticipant> Participants { get; } = new();
 
-        [DependentProperties("SaveEnabled", "SaveAsEnabled")]
+        [DependentProperties("SaveEnabled", "SaveAsEnabled", "DrawEnabled")]
         public Tournament? Tournament { get => tournament; set { if (tournament != value) { tournament = value; RaisePropertyChange(); } } }
 
         [DependentProperties("SaveEnabled")]
@@ -409,6 +413,30 @@ namespace PonzianiSwiss
         {
             RaisePropertyChange("DrawEnabled");
             RaisePropertyChange("DeleteLastRoundEnabled");
+        }
+
+        internal async void AddRandomParticipants()
+        {
+            FidePlayerBase fide_base = (FidePlayerBase)PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE);
+            var player = await fide_base.GetRandomPlayers();
+            if (player != null)
+            {
+                foreach (var p in player)
+                {
+                    Participant participant = new();
+                    participant.FideId = p.FideId;
+                    participant.Name = p.Name;
+                    participant.Title = p.Title;
+                    participant.Federation = p.Federation ?? "FIDE";
+                    participant.YearOfBirth = p.YearOfBirth;
+                    participant.FideRating = p.Rating;
+                    participant.Club = p.Club ?? string.Empty;
+                    participant.Sex = p.Sex;
+                    Tournament?.Participants.Add(participant);
+                }
+                SyncParticipants();
+                SyncRounds();
+            }
         }
     }
 

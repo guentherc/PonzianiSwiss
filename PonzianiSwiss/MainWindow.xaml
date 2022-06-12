@@ -43,7 +43,7 @@
                 <MenuItem x:Name="MenuItem_Participants" Header="Participants" IsEnabled="{Binding Path=SaveEnabled}">
                     <MenuItem x:Name="MenuItem_Participants_Add" Header="New" Click="MenuItem_Participant_Add_Click" IsEnabled="{Binding Path=SaveEnabled}"/>
                 </MenuItem>
-                <MenuItem x:Name="MenuItem_Round" Header="Round" IsEnabled="{Binding Path=SaveEnabled}">
+                <MenuItem x:Name="MenuItem_Round" Header="Round" IsEnabled="{Binding Path=DrawEnabled}">
                     <MenuItem x:Name="MenuItem_Round_Draw" Header="Draw" Click="MenuItem_Round_Draw_Click" IsEnabled="{Binding Path=DrawEnabled}"/>
                     <MenuItem x:Name="MenuItem_Round_Delete" Header="Delete Last Round" Click="MenuItem_Round_Delete_Click" IsEnabled="{Binding Path=DeletelastRoundEnabled}"/>
                 </MenuItem>
@@ -51,7 +51,7 @@
                     <MenuItem x:Name="MenuItem_PlayerBase_Update" Header="Update"/>
                 </MenuItem>
                 <MenuItem Header="Special" x:Name="MenuItem_Special" Style="{StaticResource ModeStyle}">
-                    <MenuItem Header="Special 1"/>
+                    <MenuItem Header="Add Random Participants" Click="MenuItem_Add_Participants_Click"/>
                 </MenuItem>
             </Menu>
             <ToolBar Height="32" Grid.Row="1">

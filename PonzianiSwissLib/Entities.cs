@@ -241,6 +241,8 @@
     {
         public List<TieBreak>? Tiebreaks { get; set; }
 
+        public Tournament? Tournament { get; set; }
+
         public int Compare(Scorecard? x, Scorecard? y)
         {
             if (Tiebreaks == null || x == null || y == null) return 0;
@@ -254,7 +256,9 @@
 
         public int Compare(Participant? x, Participant? y)
         {
-            return Compare(x?.Scorecard, y?.Scorecard);
+            int cv = Compare(x?.Scorecard, y?.Scorecard);
+            if (cv != 0) return cv;
+            return Tournament?.Rating(y).CompareTo(Tournament?.Rating(x)) ?? 0;
         }
     }
 }

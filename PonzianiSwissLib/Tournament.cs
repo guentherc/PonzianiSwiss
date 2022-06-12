@@ -104,7 +104,7 @@ namespace PonzianiSwissLib
         /// <summary>
         /// Number of rounds to be played
         /// </summary>
-        public int CountRounds { set; get; }
+        public int CountRounds { set; get; } = 7;
 
         /// <summary>
         /// Tournament name
@@ -214,6 +214,7 @@ namespace PonzianiSwissLib
             GetScorecards(round);
             ScoreCardComparer scc = new();
             scc.Tiebreaks = TieBreak;
+            scc.Tournament = this;
             Participants.Sort(scc);
             for (int i = 0; i < Participants.Count; i++)
             {
