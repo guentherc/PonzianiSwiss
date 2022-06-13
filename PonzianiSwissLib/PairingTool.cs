@@ -63,6 +63,7 @@ namespace PonzianiSwissLib
             {
                 FileName = executable,
                 UseShellExecute = false,
+                CreateNoWindow = true,
                 RedirectStandardOutput = true
             };
 
@@ -81,6 +82,7 @@ namespace PonzianiSwissLib
             {
                 FileName = executable,
                 UseShellExecute = false,
+                CreateNoWindow = true,
                 RedirectStandardOutput = true,
                 Arguments = pairingSystem == PairingSystem.Dutch ? $"--dutch {input} -p" : $"--burstein {input} -p"
             };

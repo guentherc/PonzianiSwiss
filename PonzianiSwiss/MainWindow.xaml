@@ -51,7 +51,10 @@
                     <MenuItem x:Name="MenuItem_PlayerBase_Update" Header="Update"/>
                 </MenuItem>
                 <MenuItem Header="Test" x:Name="MenuItem_Special" Style="{StaticResource ModeStyle}">
-                    <MenuItem Header="Add Random Participants" Click="MenuItem_Add_Participants_Click"/>
+                    <MenuItem Header="Add Random Participants">
+                        <MenuItem Header="Add 100 Random Participants" Click="MenuItem_Add_Participants_Click"  IsEnabled="{Binding Path=SaveAsEnabled}" Tag="100"/>
+                        <MenuItem Header="Add 1000 Random Participants" Click="MenuItem_Add_Participants_Click"  IsEnabled="{Binding Path=SaveAsEnabled}" Tag="1000"/>
+                    </MenuItem>
                     <MenuItem Header="Simulate Results" Click="MenuItem_Simulate_Results_Click"/>
                 </MenuItem>
             </Menu>

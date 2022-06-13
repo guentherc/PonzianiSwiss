@@ -171,9 +171,10 @@ namespace PonzianiSwiss
 
         private async void MenuItem_Round_Draw_Click(object sender, RoutedEventArgs e)
         {
+            Cursor = Cursors.Wait;
             var uiContext = SynchronizationContext.Current;
             Model.Tournament?.GetScorecards();
-            if (Model.Tournament != null && await Model.Tournament.DrawAsync(Model.Tournament.Rounds.Count).ConfigureAwait(false))
+            if (Model.Tournament != null && await Model.Tournament.DrawAsync(Model.Tournament.Rounds.Count))
             {
                 Model.Tournament?.GetScorecards();
             }
@@ -181,6 +182,7 @@ namespace PonzianiSwiss
             uiContext?.Send(x => Model.SyncParticipants(), null);
             uiContext?.Send(x => AdjustTabitems(), null);
             uiContext?.Send(x => MainTabControl.SelectedItem = MainTabControl.Items[MainTabControl.Items.Count - 1], null);
+            uiContext?.Send(x => Cursor = Cursors.Arrow, null);
         }
 
         private void MenuItem_Participant_Edit_Click(object sender, RoutedEventArgs e)
@@ -299,10 +301,15 @@ namespace PonzianiSwiss
             htmlViewer.Title = title;
             htmlViewer.ShowDialog();
         }
-
+        
         private void MenuItem_Add_Participants_Click(object sender, RoutedEventArgs e)
         {
-            Model.AddRandomParticipants();
+            if (sender != null)
+            {
+                MenuItem mi = (MenuItem)sender;
+                int count = int.Parse((string)mi.Tag);
+                Model.AddRandomParticipants(count);
+            }
         }
 
         private void MenuItem_Simulate_Results_Click(object sender, RoutedEventArgs e)
@@ -435,10 +442,10 @@ namespace PonzianiSwiss
             }
         }
 
-        internal async void AddRandomParticipants()
+        internal async void AddRandomParticipants(int count = 100)
         {
             FidePlayerBase fide_base = (FidePlayerBase)PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE);
-            var player = await fide_base.GetRandomPlayers();
+            var player = await fide_base.GetRandomPlayers(count);
             if (player != null)
             {
                 foreach (var p in player)
