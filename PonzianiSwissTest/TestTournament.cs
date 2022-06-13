@@ -124,8 +124,10 @@ namespace PonzianiSwissTest
         [TestMethod]
         public void CheckDutchOtherScorescheme()
         {
-            PairingTool.GeneratorConfig config = new();
-            config.ScoringScheme = new();
+            PairingTool.GeneratorConfig config = new()
+            {
+                ScoringScheme = new()
+            };
             config.ScoringScheme.PointsForWin = 3;
             config.ScoringScheme.PointsForDraw = 1;
             for (int seed = 30; seed < 40; ++seed)
@@ -137,8 +139,10 @@ namespace PonzianiSwissTest
         [TestMethod]
         public void CheckBursteinDefaultScorescheme()
         {
-            PairingTool.GeneratorConfig config = new();
-            config.PairingSystem = PairingSystem.Burstein;
+            PairingTool.GeneratorConfig config = new()
+            {
+                PairingSystem = PairingSystem.Burstein
+            };
             for (int seed = 30; seed < 40; ++seed)
             {
                 TestDrawSimulation(seed, config);
@@ -148,9 +152,11 @@ namespace PonzianiSwissTest
         [TestMethod]
         public void CheckBursteinOtherScorescheme()
         {
-            PairingTool.GeneratorConfig config = new();
-            config.PairingSystem = PairingSystem.Burstein;
-            config.ScoringScheme = new();
+            PairingTool.GeneratorConfig config = new()
+            {
+                PairingSystem = PairingSystem.Burstein,
+                ScoringScheme = new()
+            };
             config.ScoringScheme.PointsForWin = 3;
             config.ScoringScheme.PointsForPairingAllocatedBye = 3;
             config.ScoringScheme.PointsForDraw = 1;

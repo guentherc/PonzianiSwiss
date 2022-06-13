@@ -144,8 +144,10 @@ namespace PonzianiSwissLib
             {
                 foreach (var item in entry.Value.Where(p => p.Side == Side.White))
                 {
-                    Pairing pairing = new(entry.Key, item.Opponent);
-                    pairing.Result = item.Result;
+                    Pairing pairing = new(entry.Key, item.Opponent)
+                    {
+                        Result = item.Result
+                    };
                     if (pairing.Result == Result.Forfeited)
                     {
                         //Check if double forfeit

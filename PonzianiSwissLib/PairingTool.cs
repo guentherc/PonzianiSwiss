@@ -49,7 +49,7 @@ namespace PonzianiSwissLib
 
             }
             else throw new Exception($"OS {RuntimeInformation.OSDescription} not supported");
-            HttpClient client = new HttpClient();
+            HttpClient client = new();
             using var stream = client.GetStreamAsync(url).Result;
             using var fileStream = new FileStream(file, FileMode.CreateNew);
             stream.CopyToAsync(fileStream).Wait();

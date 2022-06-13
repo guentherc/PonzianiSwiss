@@ -37,9 +37,7 @@ namespace PonzianiSwiss
 
         private void MenuItem_Set_Result(object sender, RoutedEventArgs e)
         {
-            RoundPairing? p = lvRound?.SelectedItem as RoundPairing;
-            MenuItem? mi = sender as MenuItem;
-            if (p != null && mi != null)
+            if (lvRound?.SelectedItem is RoundPairing p && sender is MenuItem mi)
             {
                 Result r = (Result)int.Parse((string)mi.Tag);
                 p.Result = r;
@@ -47,16 +45,15 @@ namespace PonzianiSwiss
             }
         }
 
-        private void lvRound_KeyUp(object sender, KeyEventArgs e)
+        private void Listview_Round_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.OriginalSource is ListViewItem)
+            if (e.OriginalSource is ListViewItem currentItem)
             {
                 if (e.Key == Key.D0 || e.Key == Key.D1 || e.Key == Key.OemPlus || e.Key == Key.D8)
                 {
-                    ListViewItem item = (ListViewItem)e.OriginalSource;
-                    if (item.DataContext is RoundPairing)
+                    ListViewItem item = currentItem;
+                    if (item.DataContext is RoundPairing p)
                     {
-                        RoundPairing p = (RoundPairing)item.DataContext;
                         if (e.Key == Key.D0 && e.IsToggled)
                             p.Result = Result.Draw;
                         else if (e.Key == Key.D0)

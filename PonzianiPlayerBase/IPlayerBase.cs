@@ -52,11 +52,11 @@ namespace PonzianiPlayerBase
             Console.WriteLine($"Fideplayer File: {filename}");
             connection = new SqliteConnection($"Data Source={filename}");
             connection.Open();
-            List<string> sqls = new List<string>(SQLCreate);
+            List<string> sqls = new(SQLCreate);
             var bases = Enum.GetValues(typeof(PlayerBaseFactory.Base));
             foreach (var b in bases)
             {
-                sqls.Add($"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"{(int)b}\", \"{b.ToString()}\", \"{DateTime.MinValue.Ticks}\")");
+                sqls.Add($"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"{(int)b}\", \"{b}\", \"{DateTime.MinValue.Ticks}\")");
             }
             foreach (string sql in sqls)
             {

@@ -61,14 +61,12 @@ namespace PonzianiSwiss
 
         private void MenuItem_Move_Up(object sender, RoutedEventArgs e)
         {
-            TiebreakExtended? t = lvSelected?.SelectedItem as TiebreakExtended;
-            Model.MoveUp(t);
+            if (lvSelected?.SelectedItem is TiebreakExtended t) Model.MoveUp(t);
         }
 
         private void MenuItem_Move_Down(object sender, RoutedEventArgs e)
         {
-            TiebreakExtended? t = lvSelected?.SelectedItem as TiebreakExtended;
-            Model.MoveDown(t);
+            if (lvSelected?.SelectedItem is TiebreakExtended t) Model.MoveDown(t);
         }
     }
 

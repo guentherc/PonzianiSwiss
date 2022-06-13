@@ -25,7 +25,7 @@ namespace PonzianiSwiss
                        mode = m;
                 }
             }
-            MainWindow wnd = new MainWindow(mode);
+            MainWindow wnd = new(mode);
             wnd.Show();
         }
 

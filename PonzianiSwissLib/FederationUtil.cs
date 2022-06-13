@@ -16,8 +16,10 @@ namespace PonzianiSwissLib
             List<Federation>? result = null;
             try
             {
-                HttpClient client = new();
-                client.Timeout = TimeSpan.FromSeconds(10);
+                HttpClient client = new()
+                {
+                    Timeout = TimeSpan.FromSeconds(10)
+                };
                 string url = "https://app.fide.com/api/v1/client/directory/federations?&q";
                 result = await client.GetFromJsonAsync<List<Federation>>(url);
             } catch (Exception ex)

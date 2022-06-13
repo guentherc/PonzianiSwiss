@@ -212,9 +212,11 @@ namespace PonzianiSwissLib
         {
             round = Math.Min(round, Rounds.Count);
             GetScorecards(round);
-            ScoreCardComparer scc = new();
-            scc.Tiebreaks = TieBreak;
-            scc.Tournament = this;
+            ScoreCardComparer scc = new()
+            {
+                Tiebreaks = TieBreak,
+                Tournament = this
+            };
             Participants.Sort(scc);
             for (int i = 0; i < Participants.Count; i++)
             {
@@ -297,12 +299,14 @@ namespace PonzianiSwissLib
             if (round == 0 && Participants.Any(p => p.ParticipantId == null))
                 AssignTournamentIds(round);
             AssignRank(round);
-            List<string> trf = new();
-            trf.Add($"012 {Name}");
-            trf.Add($"022 {City}");
-            trf.Add($"032 {Federation}");
-            trf.Add($"102 {ChiefArbiter}");
-            trf.Add($"XXR {CountRounds}");
+            List<string> trf = new()
+            {
+                $"012 {Name}",
+                $"022 {City}",
+                $"032 {Federation}",
+                $"102 {ChiefArbiter}",
+                $"XXR {CountRounds}"
+            };
             trf.AddRange(ScoringScheme.TRFStrings());
             if (Rounds.Count == 0)
             {
@@ -423,8 +427,10 @@ namespace PonzianiSwissLib
                     Participant? p = Participants.Find(p => p.ParticipantId == entry.Key);
                     if (p != null)
                     {
-                        Pairing pairing = new(p, Participant.BYE);
-                        pairing.Result = entry.Value;
+                        Pairing pairing = new(p, Participant.BYE)
+                        {
+                            Result = entry.Value
+                        };
                         Rounds[round].Pairings.Add(pairing);
                     }
                 }

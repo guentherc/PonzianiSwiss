@@ -258,7 +258,9 @@
         {
             int cv = Compare(x?.Scorecard, y?.Scorecard);
             if (cv != 0) return cv;
-            return Tournament?.Rating(y).CompareTo(Tournament?.Rating(x)) ?? 0;
+            if (y != null && x != null)
+                return Tournament?.Rating(y).CompareTo(Tournament?.Rating(x)) ?? 0;
+            else return 0;
         }
     }
 }
