@@ -16,7 +16,7 @@
                 <Style TargetType="{x:Type ListViewItem}">
                     <Setter Property="Background" Value="LightGray" />
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Pairing.Result}" Value="0">
+                        <DataTrigger Binding="{Binding Result}" Value="0">
                             <Setter Property="Background" Value="Transparent" />
                         </DataTrigger>
                     </Style.Triggers>
@@ -83,7 +83,7 @@
                         <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Result</GridViewColumnHeader>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Path=Pairing.Result, Converter={StaticResource ResultConverter}}"/>
+                                <TextBlock Text="{Binding Path=Result, Converter={StaticResource ResultConverter}}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

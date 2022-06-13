@@ -42,8 +42,7 @@ namespace PonzianiSwiss
             if (p != null && mi != null)
             {
                 Result r = (Result)int.Parse((string)mi.Tag);
-                p.Pairing.Result = r;
-                Model.SyncRound();
+                p.Result = r;
                 ResultSet?.Invoke(this, new());
             }
         }
@@ -59,15 +58,14 @@ namespace PonzianiSwiss
                     {
                         RoundPairing p = (RoundPairing)item.DataContext;
                         if (e.Key == Key.D0 && e.IsToggled)
-                            p.Pairing.Result = Result.Draw;
+                            p.Result = Result.Draw;
                         else if (e.Key == Key.D0)
-                            p.Pairing.Result = Result.Loss;
+                            p.Result = Result.Loss;
                         else if (e.Key == Key.D1)
-                            p.Pairing.Result = Result.Win;
+                            p.Result = Result.Win;
                         else if (e.Key == Key.OemPlus || e.Key == Key.D8)
-                            p.Pairing.Result = Result.Open;
+                            p.Result = Result.Open;
                         else return;
-                        Model.SyncRound();
                         ResultSet?.Invoke(this, new());
                     }
                 }
@@ -101,7 +99,7 @@ namespace PonzianiSwiss
 
     }
 
-    internal class RoundPairing
+    internal class RoundPairing: ViewModel
     {
         public RoundPairing(Pairing pairing, int roundIndex)
         {
@@ -114,6 +112,19 @@ namespace PonzianiSwiss
         public string Black => $"{Pairing.Black.Name?.Trim()} ({Pairing.Black.Scorecard?.Score(RoundIndex)})";
 
         private int RoundIndex { set; get; }
+
+        public Result Result
+        {
+            set
+            {
+                if (value != Pairing.Result)
+                {
+                    Pairing.Result = value;
+                    RaisePropertyChange();
+                }
+            }
+            get => Pairing.Result;
+        }
 
     }
 
