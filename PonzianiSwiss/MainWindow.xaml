@@ -116,6 +116,14 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="60">
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Score</GridViewColumnHeader>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Score}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="60">
                                 <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Rating</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>

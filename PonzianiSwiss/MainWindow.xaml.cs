@@ -439,6 +439,7 @@ namespace PonzianiSwiss
                 {
                     pairing.Result = PonzianiSwissLib.Utils.Simulate(Tournament.Rating(pairing.White), Tournament.Rating(pairing.Black));
                 }
+                Tournament.GetScorecards();
             }
         }
 
@@ -477,6 +478,10 @@ namespace PonzianiSwiss
         {
             this.tournament = tournament;
             this.Participant = participant;
+        }
+
+        public float Score { 
+            get => Participant.Scorecard?.Score() ?? 0; 
         }
 
 
