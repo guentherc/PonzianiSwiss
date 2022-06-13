@@ -23,6 +23,7 @@ using System.Reflection;
 using PonzianiPlayerBase;
 using System.Collections.ObjectModel;
 using System.Threading;
+using ControlzEx.Theming;
 
 namespace PonzianiSwiss
 {
@@ -34,6 +35,7 @@ namespace PonzianiSwiss
         public MainWindow(App.Mode mode = App.Mode.Release)
         {
             InitializeComponent();
+            ThemeManager.Current.ChangeTheme(Application.Current, Properties.Settings.Default.BaseTheme, Properties.Settings.Default.ThemeColor);
             //Add Playerbase Update entries dynamically
             foreach (var entry in PlayerBaseFactory.AvailableBases)
             {
@@ -45,6 +47,7 @@ namespace PonzianiSwiss
                 mi.Click += Update_Base;
                 MenuItem_PlayerBase_Update.Items.Add(mi);
             }
+            RenderThemeMenuEntries();
             //MenuItem_PlayerBase_Update.
             Model = new();
             Model.Mode = mode;
@@ -52,6 +55,56 @@ namespace PonzianiSwiss
             FideBase = PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE);
             lvParticipants.ItemsSource = Model.Participants;
             _ = FederationUtil.GetFederations();
+        }
+
+        private void RenderThemeMenuEntries()
+        {
+            MenuItem_Settings_Basetheme.Items.Clear();
+            MenuItem_Settings_Themecolor.Items.Clear();
+            string[] baseThemes = new string[] { "Light", "Dark" };
+            string[] themeColor = new string[] { "Red", "Green", "Blue", "Purple", "Orange", "Lime", "Emerald", "Teal", "Cyan", "Cobalt", "Indigo", "Violet", "Pink", "Magenta", "Crimson", "Amber", "Yellow", "Brown", "Olive", "Steel", "Mauve", "Taupe", "Sienna" };
+            foreach (var bt in baseThemes)
+            {
+                MenuItem mi = new MenuItem()
+                {
+                    Header = $"{bt}",
+                    Tag = bt,
+                    IsCheckable = true,
+                    IsChecked = bt == Properties.Settings.Default.BaseTheme,
+                    IsEnabled = bt != Properties.Settings.Default.BaseTheme
+                };
+                mi.Click += Update_BaseTheme;
+                MenuItem_Settings_Basetheme.Items.Add(mi);
+            }
+            foreach (var tc in themeColor)
+            {
+                MenuItem mi = new MenuItem()
+                {
+                    Header = $"{tc}",
+                    Tag = tc,
+                    IsCheckable = true,
+                    IsChecked = tc == Properties.Settings.Default.ThemeColor,
+                    IsEnabled = tc != Properties.Settings.Default.ThemeColor
+                };
+                mi.Click += Update_ThemeColor;
+                MenuItem_Settings_Themecolor.Items.Add(mi);
+            }
+        }
+
+        private void Update_ThemeColor(object sender, RoutedEventArgs e)
+        {
+            MenuItem? mi = sender as MenuItem;
+            Properties.Settings.Default.ThemeColor = mi?.Tag.ToString() ?? "Blue";
+            ThemeManager.Current.ChangeTheme(Application.Current, Properties.Settings.Default.BaseTheme, Properties.Settings.Default.ThemeColor);
+            RenderThemeMenuEntries();
+        }
+
+        private void Update_BaseTheme(object sender, RoutedEventArgs e)
+        {
+            MenuItem? mi = sender as MenuItem;
+            Properties.Settings.Default.BaseTheme = mi?.Tag.ToString() ?? "Light";
+            ThemeManager.Current.ChangeTheme(Application.Current, Properties.Settings.Default.BaseTheme, Properties.Settings.Default.ThemeColor);
+            RenderThemeMenuEntries();
         }
 
         private async void Update_Base(object sender, RoutedEventArgs e)
@@ -310,6 +363,7 @@ namespace PonzianiSwiss
                 int count = int.Parse((string)mi.Tag);
                 Model.AddRandomParticipants(count);
             }
+            ThemeManager.Current.ChangeTheme(this, "Dark.Red");
         }
 
         private void MenuItem_Simulate_Results_Click(object sender, RoutedEventArgs e)
@@ -369,6 +423,11 @@ namespace PonzianiSwiss
                 foreach (var p in sortedList) 
                     Model.Participants.Add(p);
             }
+        }
+
+        private void MetroWindow_Closed(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Save();
         }
     }
 

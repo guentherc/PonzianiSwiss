@@ -22,5 +22,29 @@ namespace PonzianiSwiss.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Light")]
+        public string BaseTheme {
+            get {
+                return ((string)(this["BaseTheme"]));
+            }
+            set {
+                this["BaseTheme"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Blue")]
+        public string ThemeColor {
+            get {
+                return ((string)(this["ThemeColor"]));
+            }
+            set {
+                this["ThemeColor"] = value;
+            }
+        }
     }
 }
