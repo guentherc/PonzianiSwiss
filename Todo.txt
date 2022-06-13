@@ -1,0 +1,10 @@
+Open:
+
+Forbidden Pairings
+Processing Animation while Drawing (when number of participants > 100)
+Sort Order Idicator (Adorner)
+Additional Fields (Custom Fields) for Participants
+
+Done:
+
+Sorting of Participant List (by Name, Id, Score, Rating)

@@ -98,7 +98,7 @@
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Width="120">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Name</GridViewColumnHeader>
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Name" Click="lvParticipantsColumnHeader_Click">Name</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Participant.Name}" 
@@ -108,7 +108,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="60">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Fide Id</GridViewColumnHeader>
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="FideId" Click="lvParticipantsColumnHeader_Click">Fide Id</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Participant.FideId}"/>
@@ -116,7 +116,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="60">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Score</GridViewColumnHeader>
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Score" Click="lvParticipantsColumnHeader_Click">Score</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Score}"/>
@@ -124,7 +124,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="60">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Rating</GridViewColumnHeader>
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Rating" Click="lvParticipantsColumnHeader_Click">Rating</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=TournamentRating}" TextAlignment="Right"/>
@@ -132,7 +132,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="120">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Id</GridViewColumnHeader>
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Id" Click="lvParticipantsColumnHeader_Click">Id</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Participant.ParticipantId}"/>
@@ -140,7 +140,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="60">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Elo</GridViewColumnHeader>
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Elo" Click="lvParticipantsColumnHeader_Click">Elo</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Participant.FideRating}" TextAlignment="Right"/>
@@ -148,7 +148,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="60">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">National Rating</GridViewColumnHeader>
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="NationalRating" Click="lvParticipantsColumnHeader_Click">National Rating</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Participant.AlternativeRating}" TextAlignment="Right"/>
@@ -156,7 +156,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="120">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Club</GridViewColumnHeader>
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Club" Click="lvParticipantsColumnHeader_Click">Club</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Participant.Club}"/>

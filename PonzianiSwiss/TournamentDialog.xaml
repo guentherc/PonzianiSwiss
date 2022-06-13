@@ -8,7 +8,7 @@
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:local="clr-namespace:PonzianiSwiss" d:DataContext="{d:DesignInstance Type=local:TournamentModel}"
                  mc:Ignorable="d"
-        Title="TournamentDialog" Height="600" Width="800" TitleCharacterCasing="Normal">
+        Title="TournamentDialog" Height="600" Width="900" TitleCharacterCasing="Normal">
     <Window.Resources>
         <local:TiebreakConverter x:Key="TiebreakConverter" />
     </Window.Resources>

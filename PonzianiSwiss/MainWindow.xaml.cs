@@ -320,6 +320,56 @@ namespace PonzianiSwiss
             r?.Model.SyncRound();
             Model.SyncRounds();
         }
+
+        private GridViewColumnHeader? lvParticipantsSortCol = null;
+        private bool sort_ascending = true;
+        private void lvParticipantsColumnHeader_Click(object sender, RoutedEventArgs e)
+        {
+            GridViewColumnHeader? column = (sender as GridViewColumnHeader);
+            if (column == null) return;
+            if (column == lvParticipantsSortCol) sort_ascending = !sort_ascending; else sort_ascending = true;
+            lvParticipantsSortCol = column;
+            string sortCol = column?.Tag?.ToString() ?? string.Empty;
+            List<TournamentParticipant>? sortedList = null;
+            if (sortCol == "Name")
+            {
+                sortedList = Model.Participants.OrderBy(x => x.Participant.Name ?? string.Empty).ToList();
+            }
+            else if(sortCol == "FideId")
+            {
+                sortedList = Model.Participants.OrderBy(x => x.Participant.FideId).ToList();
+            } else if (sortCol == "Score")
+            {
+                sortedList = Model.Participants.OrderBy(x => x.Score).ToList();
+            }
+            else if (sortCol == "Rating")
+            {
+                sortedList = Model.Participants.OrderBy(x => Model.Tournament?.Rating(x.Participant)).ToList();
+            }
+            else if (sortCol == "Id")
+            {
+                sortedList = Model.Participants.OrderBy(x => x.Participant.ParticipantId ?? string.Empty).ToList();
+            }
+            else if (sortCol == "Elo")
+            {
+                sortedList = Model.Participants.OrderBy(x => x.Participant.FideRating).ToList();
+            }
+            else if (sortCol == "NationalRating")
+            {
+                sortedList = Model.Participants.OrderBy(x => x.Participant.AlternativeRating).ToList();
+            }
+            else if (sortCol == "Club")
+            {
+                sortedList = Model.Participants.OrderBy(x => x.Participant.Club ?? string.Empty).ToList();
+            }
+            if (!sort_ascending) sortedList?.Reverse();
+            if (sortedList != null)
+            {
+                Model.Participants.Clear();
+                foreach (var p in sortedList) 
+                    Model.Participants.Add(p);
+            }
+        }
     }
 
     public class DependentPropertiesAttribute : Attribute
@@ -390,7 +440,7 @@ namespace PonzianiSwiss
 
         public App.Mode Mode { get; set; } = App.Mode.Release;
 
-        internal ObservableCollection<TournamentParticipant> Participants { get; } = new();
+        internal ObservableCollection<TournamentParticipant> Participants { get; set; } = new();
 
         [DependentProperties("SaveEnabled", "SaveAsEnabled", "DrawEnabled")]
         public Tournament? Tournament { get => tournament; set { if (tournament != value) { tournament = value; RaisePropertyChange(); } } }
