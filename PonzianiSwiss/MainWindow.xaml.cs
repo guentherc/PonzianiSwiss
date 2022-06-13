@@ -304,6 +304,15 @@ namespace PonzianiSwiss
         {
             Model.AddRandomParticipants();
         }
+
+        private void MenuItem_Simulate_Results_Click(object sender, RoutedEventArgs e)
+        {
+            Model.SimulateResults();
+            var tabitem = MainTabControl.Items[MainTabControl.Items.Count - 1] as TabItem;
+            Round? r = tabitem?.Content as Round;
+            r?.Model.SyncRound();
+            Model.SyncRounds();
+        }
     }
 
     public class DependentPropertiesAttribute : Attribute
@@ -413,6 +422,17 @@ namespace PonzianiSwiss
         {
             RaisePropertyChange("DrawEnabled");
             RaisePropertyChange("DeleteLastRoundEnabled");
+        }
+
+        internal void SimulateResults()
+        {
+            if (Tournament != null)
+            {
+                foreach (Pairing pairing in Tournament.Rounds[Tournament.Rounds.Count - 1].Pairings)
+                {
+                    pairing.Result = PonzianiSwissLib.Utils.Simulate(Tournament.Rating(pairing.White), Tournament.Rating(pairing.Black));
+                }
+            }
         }
 
         internal async void AddRandomParticipants()

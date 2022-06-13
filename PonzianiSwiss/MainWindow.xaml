@@ -50,8 +50,9 @@
                 <MenuItem Header="Player Base" x:Name="MenuItem_PlayerBase">
                     <MenuItem x:Name="MenuItem_PlayerBase_Update" Header="Update"/>
                 </MenuItem>
-                <MenuItem Header="Special" x:Name="MenuItem_Special" Style="{StaticResource ModeStyle}">
+                <MenuItem Header="Test" x:Name="MenuItem_Special" Style="{StaticResource ModeStyle}">
                     <MenuItem Header="Add Random Participants" Click="MenuItem_Add_Participants_Click"/>
+                    <MenuItem Header="Simulate Results" Click="MenuItem_Simulate_Results_Click"/>
                 </MenuItem>
             </Menu>
             <ToolBar Height="32" Grid.Row="1">
