@@ -18,6 +18,7 @@ The current version is an alpha version. It should work, but there might be lots
 ## Acknowledgements ##
 * Pairing Engine [BBPPairings](https://github.com/BieremaBoyzProgramming/bbpPairings) 
 * [MahApps.Metro](https://mahapps.com/)
+* [WPF AutoComplete TextBox](https://github.com/quicoli/WPF-AutoComplete-TextBox)
 * [CSV Helper](https://joshclose.github.io/CsvHelper/) 
 * [ExcelDataReader](https://github.com/ExcelDataReader/ExcelDataReader)
 * [FlaUI](https://github.com/FlaUI/FlaUI) for automated tests
