@@ -25,6 +25,7 @@ using System.Collections.ObjectModel;
 using System.Threading;
 using ControlzEx.Theming;
 using System.Collections.Specialized;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace PonzianiSwiss
 {
@@ -461,6 +462,11 @@ namespace PonzianiSwiss
             {
                 Load(fileName);
             }
+        }
+
+        private async void MenuItem_Settings_About_Click(object sender, RoutedEventArgs e)
+        {
+            _ = await this.ShowMessageAsync("PonzianiSwiss 0.2.0 - Swiss Pairing Program", "Find more information at https://github.com/guentherc/PonzianiSwiss");
         }
     }
 

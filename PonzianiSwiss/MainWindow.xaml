@@ -67,6 +67,8 @@
                 <MenuItem Header="Settings">
                     <MenuItem x:Name="MenuItem_Settings_Basetheme" Header="Base Theme"/>
                     <MenuItem x:Name="MenuItem_Settings_Themecolor" Header="Theme Color"/>
+                    <Separator/>
+                    <MenuItem x:Name="MenuItem_Settings_About" Header="About" Click="MenuItem_Settings_About_Click"/>
                 </MenuItem>
             </Menu>
             <ToolBar Height="32" Grid.Row="1">
