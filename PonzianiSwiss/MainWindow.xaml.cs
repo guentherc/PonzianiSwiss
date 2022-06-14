@@ -246,6 +246,7 @@ namespace PonzianiSwiss
 
         private async void MenuItem_Round_Draw_Click(object sender, RoutedEventArgs e)
         {
+            var controller = await this.ShowProgressAsync("Please wait...", "Draw might take some time");
             Cursor = Cursors.Wait;
             var uiContext = SynchronizationContext.Current;
             Model.Tournament?.GetScorecards();
@@ -258,6 +259,7 @@ namespace PonzianiSwiss
             uiContext?.Send(x => AdjustTabitems(), null);
             uiContext?.Send(x => MainTabControl.SelectedItem = MainTabControl.Items[MainTabControl.Items.Count - 1], null);
             uiContext?.Send(x => Cursor = Cursors.Arrow, null);
+            await controller.CloseAsync();
         }
 
         private void MenuItem_Participant_Edit_Click(object sender, RoutedEventArgs e)
@@ -385,7 +387,6 @@ namespace PonzianiSwiss
                 int count = int.Parse((string)mi.Tag);
                 Model.AddRandomParticipants(count);
             }
-            ThemeManager.Current.ChangeTheme(this, "Dark.Red");
         }
 
         private void MenuItem_Simulate_Results_Click(object sender, RoutedEventArgs e)
