@@ -24,6 +24,7 @@ using PonzianiPlayerBase;
 using System.Collections.ObjectModel;
 using System.Threading;
 using ControlzEx.Theming;
+using System.Collections.Specialized;
 
 namespace PonzianiSwiss
 {
@@ -127,7 +128,7 @@ namespace PonzianiSwiss
                 }, null);
             uiContext?.Send(x => { mi.IsEnabled = true; }, null);
         }
-        
+
         public MainModel Model { set; get; }
         private IPlayerBase? FideBase = null;
         private readonly HTMLViewer htmlViewer = new();
@@ -159,14 +160,34 @@ namespace PonzianiSwiss
             };
             if (openFileDialog.ShowDialog() ?? false)
             {
-                string json = File.ReadAllText(openFileDialog.FileName);
-                Model.Tournament = Extensions.Deserialize(json);
-                if (Model.Tournament != null)
+                Load(openFileDialog.FileName);
+            }
+        }
+
+        private void Load(string filename)
+        {
+            string json = File.ReadAllText(filename);
+            Model.Tournament = Extensions.Deserialize(json);
+            if (Model.Tournament != null)
+            {
+                while (Properties.Settings.Default.MRU.Count > 10) 
+                    Properties.Settings.Default.MRU.RemoveAt(10);
+                Model.FileName = filename;
+                Model.SyncParticipants();
+                Model.SyncRounds();
+                if (Properties.Settings.Default.MRU == null) Properties.Settings.Default.MRU = new StringCollection();
+                if (Properties.Settings.Default.MRU.Count == 0)
                 {
-                    Model.FileName = openFileDialog.FileName;
-                    Model.SyncParticipants();
-                    Model.SyncRounds();
+                    Properties.Settings.Default.MRU.Add(filename);
+                    Model.MRUModel = new();
                 }
+                else if (Properties.Settings.Default.MRU[0] != filename)
+                {
+                    Properties.Settings.Default.MRU.Remove(filename);
+                    Properties.Settings.Default.MRU.Insert(0, filename);
+                    Model.MRUModel = new();
+                }
+
             }
         }
 
@@ -354,7 +375,7 @@ namespace PonzianiSwiss
             htmlViewer.Title = title;
             htmlViewer.ShowDialog();
         }
-        
+
         private void MenuItem_Add_Participants_Click(object sender, RoutedEventArgs e)
         {
             if (sender != null)
@@ -389,10 +410,11 @@ namespace PonzianiSwiss
             {
                 sortedList = Model.Participants.OrderBy(x => x.Participant.Name ?? string.Empty).ToList();
             }
-            else if(sortCol == "FideId")
+            else if (sortCol == "FideId")
             {
                 sortedList = Model.Participants.OrderBy(x => x.Participant.FideId).ToList();
-            } else if (sortCol == "Score")
+            }
+            else if (sortCol == "Score")
             {
                 sortedList = Model.Participants.OrderBy(x => x.Score).ToList();
             }
@@ -420,7 +442,7 @@ namespace PonzianiSwiss
             if (sortedList != null)
             {
                 Model.Participants.Clear();
-                foreach (var p in sortedList) 
+                foreach (var p in sortedList)
                     Model.Participants.Add(p);
             }
         }
@@ -428,6 +450,17 @@ namespace PonzianiSwiss
         private void MetroWindow_Closed(object sender, EventArgs e)
         {
             Properties.Settings.Default.Save();
+        }
+
+        private void MenuItem_Tournament_MRU_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem mi = (MenuItem)sender;
+            if (mi == null) return;
+            string fileName = mi.Tag?.ToString() ?? string.Empty;
+            if (fileName != string.Empty)
+            {
+                Load(fileName);
+            }
         }
     }
 
@@ -496,6 +529,7 @@ namespace PonzianiSwiss
     {
         private Tournament? tournament;
         private string? fileName;
+        private MRUModel mRUModel = new();
 
         public App.Mode Mode { get; set; } = App.Mode.Release;
 
@@ -510,7 +544,8 @@ namespace PonzianiSwiss
         public bool SaveAsEnabled => Tournament != null;
 
         public bool SaveEnabled => Tournament != null && FileName != null && File.Exists(FileName);
-
+        
+        public MRUModel MRUModel { get => mRUModel; set { mRUModel = value; RaisePropertyChange(); } }
         public bool DrawEnabled
         {
             get => Tournament != null && Tournament.Participants.Count > 0
@@ -577,6 +612,167 @@ namespace PonzianiSwiss
         }
     }
 
+    public class MRUModel : ViewModel
+    {
+        private Visibility visibility = Visibility.Collapsed;
+        private Visibility visibility1 = Visibility.Collapsed;
+        private Visibility visibility2 = Visibility.Collapsed;
+        private Visibility visibility3 = Visibility.Collapsed;
+        private Visibility visibility4 = Visibility.Collapsed;
+        private string? fileName1;
+        private string? fileName2;
+        private string? fileName3;
+        private string? fileName4;
+        private string? path1;
+        private string? path2;
+        private string? path3;
+        private string? path4;
+
+        public MRUModel()
+        {
+            if (Properties.Settings.Default.MRU == null) return;
+            int indx = 0;
+            foreach (string? file in Properties.Settings.Default.MRU)
+            {
+                if (file != null && File.Exists(file))
+                {
+                    ++indx;
+                    Visibility = Visibility.Visible;
+                    switch (indx)
+                    {
+                        case 1:
+                            Path1 = file;
+                            FileName1 = System.IO.Path.GetFileNameWithoutExtension(file);
+                            Visibility1 = Visibility.Visible;
+                            break;
+                        case 2:
+                            Path2 = file;
+                            FileName2 = System.IO.Path.GetFileNameWithoutExtension(file);
+                            Visibility2 = Visibility.Visible;
+                            break;
+                        case 3:
+                            Path3 = file;
+                            FileName3 = System.IO.Path.GetFileNameWithoutExtension(file);
+                            Visibility3 = Visibility.Visible;
+                            break;
+                        case 4:
+                            Path4 = file;
+                            FileName4 = System.IO.Path.GetFileNameWithoutExtension(file);
+                            Visibility4 = Visibility.Visible;
+                            break;
+                    }
+                }
+            }
+        }
+
+        public Visibility Visibility
+        {
+            get => visibility; set
+            {
+                visibility = value;
+                RaisePropertyChange();
+            }
+        }
+        public Visibility Visibility1
+        {
+            get => visibility1; set
+            {
+                visibility1 = value;
+                RaisePropertyChange();
+            }
+        }
+        public Visibility Visibility2
+        {
+            get => visibility2; set
+            {
+                visibility2 = value;
+                RaisePropertyChange();
+            }
+        }
+        public Visibility Visibility3
+        {
+            get => visibility3; set
+            {
+                visibility3 = value;
+                RaisePropertyChange();
+            }
+        }
+        public Visibility Visibility4
+        {
+            get => visibility4; set
+            {
+                visibility4 = value;
+                RaisePropertyChange();
+            }
+        }
+        public string? FileName1
+        {
+            get => fileName1; set
+            {
+                fileName1 = value;
+                RaisePropertyChange();
+            }
+        }
+        public string? FileName2
+        {
+            get => fileName2; set
+            {
+                fileName2 = value;
+                RaisePropertyChange();
+            }
+        }
+        public string? FileName3
+        {
+            get => fileName3; set
+            {
+                fileName3 = value;
+                RaisePropertyChange();
+            }
+        }
+        public string? FileName4
+        {
+            get => fileName4; set
+            {
+                fileName4 = value;
+                RaisePropertyChange();
+            }
+        }
+
+        public string? Path1
+        {
+            get => path1; set
+            {
+                path1 = value;
+                RaisePropertyChange();
+            }
+        }
+        public string? Path2
+        {
+            get => path2; set
+            {
+                path2 = value;
+                RaisePropertyChange();
+            }
+        }
+        public string? Path3
+        {
+            get => path3; set
+            {
+                path3 = value;
+                RaisePropertyChange();
+            }
+        }
+        public string? Path4
+        {
+            get => path4; set
+            {
+                path4 = value;
+                RaisePropertyChange();
+            }
+        }
+
+    }
+
     internal class TournamentParticipant
     {
         private Tournament? tournament;
@@ -589,8 +785,9 @@ namespace PonzianiSwiss
             this.Participant = participant;
         }
 
-        public float Score { 
-            get => Participant.Scorecard?.Score() ?? 0; 
+        public float Score
+        {
+            get => Participant.Scorecard?.Score() ?? 0;
         }
 
 

@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PonzianiSwiss"
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-        mc:Ignorable="d"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" d:DataContext="{d:DesignInstance Type=local:MainModel}"
+                 mc:Ignorable="d"
         Title="{Binding Path=Tournament.Name}" Height="450" Width="800" TitleCharacterCasing="Normal" Closed="MetroWindow_Closed">
     <DockPanel>
         <StackPanel DockPanel.Dock="Top">
@@ -36,6 +36,13 @@
                         </MenuItem>
                         <MenuItem x:Name="MenuItem_Tournament_Crosstable" Header="Crosstable" Tag="2" Click="MenuItem_Export_Click"/>
                         <MenuItem x:Name="MenuItem_Tournament_Pairings" Header="Pairings" Tag="3" Click="MenuItem_Export_Click"/>
+                    </MenuItem>
+                    <Separator Visibility="{Binding Path=MRUModel.Visibility}"/>
+                    <MenuItem Header="Recent Files" Visibility="{Binding Path=MRUModel.Visibility}">
+                        <MenuItem x:Name="MenuItem_Tournament_MRU1" Header="{Binding Path=MRUModel.FileName1}" Tag="{Binding Path=MRUModel.Path1}" Visibility="{Binding Path=MRUModel.Visibility1}" Click="MenuItem_Tournament_MRU_Click"/>
+                        <MenuItem x:Name="MenuItem_Tournament_MRU2" Header="{Binding Path=MRUModel.FileName2}" Tag="{Binding Path=MRUModel.Path2}" Visibility="{Binding Path=MRUModel.Visibility2}" Click="MenuItem_Tournament_MRU_Click"/>
+                        <MenuItem x:Name="MenuItem_Tournament_MRU3" Header="{Binding Path=MRUModel.FileName3}" Tag="{Binding Path=MRUModel.Path3}" Visibility="{Binding Path=MRUModel.Visibility3}" Click="MenuItem_Tournament_MRU_Click"/>
+                        <MenuItem x:Name="MenuItem_Tournament_MRU4" Header="{Binding Path=MRUModel.FileName4}" Tag="{Binding Path=MRUModel.Path4}" Visibility="{Binding Path=MRUModel.Visibility4}" Click="MenuItem_Tournament_MRU_Click"/>
                     </MenuItem>
                     <Separator/>
                     <MenuItem x:Name="MenuItem_Tournament_Exit" Header="Exit" Click="MenuItem_Tournament_Exit_Click"/>
