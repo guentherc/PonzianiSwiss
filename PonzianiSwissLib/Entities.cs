@@ -263,4 +263,50 @@
             else return 0;
         }
     }
+
+    /// <summary>
+    /// Forbidden pairings
+    /// <para>There might be federations whose players aren't allowed to match each other, individual players and individual players vs federations</para>
+    /// </summary>
+    public class ForbiddenPairingRule
+    {
+        public ForbiddenPairingRule(Participant participant1, Participant participant2)
+        {
+            Participant1 = participant1;
+            Participant2 = participant2;
+        }
+
+        public ForbiddenPairingRule(Participant participant1, string federation1)
+        {
+            Participant1 = participant1;
+            Federation1 = federation1;
+        }
+
+        public ForbiddenPairingRule(string federation1, string federation2)
+        {
+            Federation1 = federation1;
+            Federation2 = federation2;
+        }
+
+        public Participant? Participant1 { private set; get; } = null;
+        public Participant? Participant2 { private set; get; } = null;
+
+
+        public string? Federation1 { private set; get; } = null;
+        public string? Federation2 { private set; get; } = null;
+
+        public override string ToString()
+        {
+            if (Participant1 != null && Participant2 != null)
+                return $"{Participant1.Name} - {Participant2.Name}";
+            else if (Federation1 != null && Participant1 != null)
+                return $"{Participant1.Name} - {FederationUtil.Federations[Federation1]}";
+            else if (Federation1 != null && Federation2 != null)
+                return $"{FederationUtil.Federations[Federation1]} - {FederationUtil.Federations[Federation2]}";
+            else return string.Empty;
+        }
+
+        public string Description => ToString();
+
+    }
 }

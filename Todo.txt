@@ -1,12 +1,17 @@
 Open:
 
-Forbidden Pairings
 Sort Order Indicator (Adorner)
 Additional Fields (Custom Fields) for Participants
 Configuration (User Settings)
+Pairings Checker
+
+Issues:
+
+New when already Tournament is opened
 
 Done:
 
 Sorting of Participant List (by Name, Id, Score, Rating)
 MRU (Most recently used Files)
 Processing Animation while Drawing (when number of participants > 100)
+Forbidden Pairings

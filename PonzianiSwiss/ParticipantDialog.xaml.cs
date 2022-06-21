@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -46,7 +47,21 @@ namespace PonzianiSwiss
         private void ParticipantDialogOkButton_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
+            FixParticipant();
             this.Close();
+        }
+
+        private static Regex regexFixParticipant = new(@"(GM|IM|FM|CM|WGM|WIM|WFM|WCM|WH)?\s?([^\(]+)\s\((\d+)\)", RegexOptions.Compiled);
+        private void FixParticipant()
+        {
+            if (Model.Participant.Name != null)
+            {
+                Match m = regexFixParticipant.Match(Model.Participant.Name);
+                if (m.Success && m.Groups[3].Value.Trim() == Model.Participant.FideId.ToString())
+                {
+                    Model.Participant.Name = m.Groups[2].Value.Trim();
+                }
+            }
         }
 
         private void ParticipantDialogCancelButton_Click(object sender, RoutedEventArgs e)

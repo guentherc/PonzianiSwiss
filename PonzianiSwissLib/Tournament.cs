@@ -171,6 +171,12 @@ namespace PonzianiSwissLib
         public List<TieBreak> TieBreak { set; get; } = new List<TieBreak>() { PonzianiSwissLib.TieBreak.Score, PonzianiSwissLib.TieBreak.BuchholzCut1,
                                                                               PonzianiSwissLib.TieBreak.Buchholz, PonzianiSwissLib.TieBreak.CountWin, PonzianiSwissLib.TieBreak.CountWinWithBlack };
 
+        public List<ForbiddenPairingRule>? ForbiddenPairingRules { set; get; } = null;
+
+        public bool AvoidPairingsFromSameFederation { set; get; } = false;
+
+        public bool AvoidPairingsFromSameClub { set; get; } = false;
+        
         public bool BakuAcceleration { set; get; } = false;
 
         /// <summary>
@@ -293,7 +299,7 @@ namespace PonzianiSwissLib
         /// <param name="round">Index of the round for which the report shall be created (0 means before 1. round, 1 means before 2., ...)</param>
         /// <param name="xxc">Side, which top ranked played should have in round 1 (if null use random value)</param>
         /// <returns>TRF report</returns>
-        public List<string> CreateTRF(int round, Side? xxc = null, Dictionary<string, Result>? byes = null)
+        public List<string> CreateTRF(int round, Side? xxc = null, Dictionary<string, Result>? byes = null, List<string[]>? forbidden = null)
         {
             round = Math.Min(round, Rounds.Count);
             if (round == 0 && Participants.Any(p => p.ParticipantId == null))
@@ -341,7 +347,7 @@ namespace PonzianiSwissLib
                 char s = p.Sex == Sex.Female ? 'f' : 'm';
                 string birthdate = p.Attributes.ContainsKey(Participant.AttributeKey.Birthdate) ? ((DateTime)p.Attributes[Participant.AttributeKey.Birthdate]).ToString("yyyy/MM/dd")
                                   : p.YearOfBirth > 0 ? p.YearOfBirth.ToString() : string.Empty;
-                StringBuilder pline = new(FormattableString.Invariant($"001 {p.ParticipantId,4} {s} {title_string[(int)p.Title],2} {(p.Name?.Length > 33 ? p.Name?[..33] : p.Name),-33} {p.FideRating,4} {p.Federation,3 } {(p.FideId != 0 ? p.FideId : string.Empty),11} {birthdate,-10} { p.Scorecard?.Score(round) ?? 0,4} { p.Rank,4}"));
+                StringBuilder pline = new(FormattableString.Invariant($"001 {p.ParticipantId,4} {s} {title_string[(int)p.Title],2} {(p.Name?.Length > 33 ? p.Name?[..33] : p.Name),-33} {p.FideRating,4} {p.Federation,3} {(p.FideId != 0 ? p.FideId : string.Empty),11} {birthdate,-10} {p.Scorecard?.Score(round) ?? 0,4} {p.Rank,4}"));
                 for (int r = 1; r <= round; ++r)
                 {
                     var entries = p.Scorecard?.Entries.Where(e => e.Round == r - 1);
@@ -381,6 +387,14 @@ namespace PonzianiSwissLib
                     trf.Add(pline);
                 }
             }
+            if (forbidden != null)
+            {
+                foreach (string[] f in forbidden)
+                {
+                    if (f[0] != null && f[0].Length > 0 && f[1] != null && f[1].Length > 0)
+                        trf.Add($"XXP {f[0],4} {f[1],4}");
+                }
+            }
             return trf;
         }
 
@@ -390,17 +404,74 @@ namespace PonzianiSwissLib
         /// <param name="round">0-based round index</param>
         /// <param name="SideForTopRanked">Side for top-ranked player in 1. round (if null, then random)</param>
         /// <returns>true, if successful</returns>
-        public async Task<bool> DrawAsync(int round = int.MaxValue, Side? SideForTopRanked = null, Dictionary<string, Result>? byes = null)
+        public async Task<bool> DrawAsync(int round = int.MaxValue, Side? SideForTopRanked = null, Dictionary<string, Result>? byes = null, List<string[]>? forbidden = null)
         {
             OrderByRank();
-            if (byes == null) {
+            if (round == 0 && Participants.Any(p => p.ParticipantId == null))
+                AssignTournamentIds(round);
+            if (byes == null)
+            {
                 byes = new();
-                foreach (Participant p in Participants.Where(p => p.Active != null && !p.Active[Rounds.Count])) {
+                foreach (Participant p in Participants.Where(p => p.Active != null && !p.Active[Rounds.Count]))
+                {
                     if (p.ParticipantId != null)
                         byes.Add(p.ParticipantId, Result.ZeroPointBye);
                 }
             }
-            var trf = CreateTRF(round, SideForTopRanked, byes);
+            if (forbidden == null && (ForbiddenPairingRules != null || AvoidPairingsFromSameFederation || AvoidPairingsFromSameClub))
+            {
+                forbidden = new();
+                if (ForbiddenPairingRules != null)
+                {
+                    foreach (ForbiddenPairingRule f in ForbiddenPairingRules)
+                    {
+                        if (f.Participant1 != null && f.Participant2 != null)
+                            forbidden.Add(new[] { f.Participant1.ParticipantId ?? string.Empty, f.Participant2.ParticipantId ?? string.Empty });
+                        else if (f.Participant1 != null && f.Federation1 != null)
+                        {
+                            var fp = Participants.Where(p => p.Federation == f.Federation1).ToList();
+                            foreach (Participant p in fp)
+                                forbidden.Add(new[] { p.ParticipantId ?? string.Empty, f.Participant1.ParticipantId ?? string.Empty });
+                        }
+                        else if (f.Participant1 == null && f.Federation1 != null && f.Federation2 != null)
+                        {
+                            var fp1 = Participants.Where(p => p.Federation == f.Federation1).ToList();
+                            var fp2 = Participants.Where(p => p.Federation == f.Federation1).ToList();
+                            foreach (Participant p1 in fp1)
+                            {
+                                foreach (Participant p2 in fp2)
+                                    forbidden.Add(new[] { p1.ParticipantId ?? string.Empty, p2.ParticipantId ?? string.Empty });
+                            }
+                        }
+                    }
+                }
+                if (AvoidPairingsFromSameFederation)
+                {
+                    Participants.Select(p => p.Federation).Distinct().ToList().ForEach(f =>
+                    {
+                        var fp = Participants.Where(p => p.Federation != null && p.Federation.Length > 0 && p.Federation == f).ToList();
+                        for (int i = 0; i < fp.Count; ++i)
+                        {
+                            for (int j = i + 1; j < fp.Count; ++j)
+                                forbidden.Add(new[] { fp[i].ParticipantId ?? string.Empty, fp[j].ParticipantId ?? string.Empty });
+                        }
+                    });
+                }
+
+                if (AvoidPairingsFromSameClub)
+                {
+                    Participants.Select(p => p.Club).Distinct().ToList().ForEach(f =>
+                    {
+                        var fp = Participants.Where(p => p.Club != null && p.Club.Length > 0 && p.Club == f).ToList();
+                        for (int i = 0; i < fp.Count; ++i)
+                        {
+                            for (int j = i + 1; j < fp.Count; ++j)
+                                forbidden.Add(new[] { fp[i].ParticipantId ?? string.Empty, fp[j].ParticipantId ?? string.Empty });
+                        }
+                    });
+                }
+            }
+            var trf = CreateTRF(round, SideForTopRanked, byes, forbidden);
             var file = Path.GetTempFileName();
             await File.WriteAllLinesAsync(file, trf, Encoding.UTF8);
             string pairings = await PairingTool.PairAsync(file, PairingSystem);
@@ -411,13 +482,13 @@ namespace PonzianiSwissLib
             for (int i = 1; i < lines.Length; i++)
             {
                 string[] n = lines[i].Trim().Split(' ');
-                if (n.Length != 2) 
+                if (n.Length != 2)
                     continue;
                 Participant p1 = Participants.Where(p => p.ParticipantId == n[0]).First();
                 Participant p2 = n[1] != "0" ? Participants.Where(p => p.ParticipantId == n[1]).First() : Participant.BYE;
                 Rounds[round].Pairings.Add(new(p1, p2));
             }
-            foreach (Pairing p in Rounds[round].Pairings.Where(p => p.Black == Participant.BYE)) 
+            foreach (Pairing p in Rounds[round].Pairings.Where(p => p.Black == Participant.BYE))
                 p.Result = Result.PairingAllocatedBye;
             //Byes
             if (byes != null)
@@ -444,8 +515,9 @@ namespace PonzianiSwissLib
         public int Rating(Participant p)
         {
             if (p.FideRating == 0) return p.AlternativeRating;
-            else if(p.AlternativeRating == 0) return p.FideRating;
-            else {
+            else if (p.AlternativeRating == 0) return p.FideRating;
+            else
+            {
                 return RatingDetermination switch
                 {
                     TournamentRatingDetermination.Max => Math.Max(p.FideRating, p.AlternativeRating),
@@ -456,7 +528,7 @@ namespace PonzianiSwissLib
                 };
             }
         }
-        
+
         object ICloneable.Clone()
         {
             string json = this.Serialize();

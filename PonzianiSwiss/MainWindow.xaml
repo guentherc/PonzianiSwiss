@@ -13,7 +13,7 @@
             <Menu>
                 <Menu.Resources>
                     <Style x:Key="ModeStyle" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
-                        <Setter Property="Visibility" Value="Hidden" />
+                        <Setter Property="Visibility" Value="Collapsed" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Path=Mode}" Value="1">
                                 <Setter Property="Visibility" Value="Visible" />
@@ -27,7 +27,8 @@
                     <MenuItem x:Name="MenuItem_Tournament_Save" Header="Save" Click="MenuItem_Tournament_Save_Click" IsEnabled="{Binding Path=SaveEnabled}"/>
                     <MenuItem x:Name="MenuItem_Tournament_Save_As" Header="Save As ..." Click="MenuItem_Tournament_Save_As_Click" IsEnabled="{Binding Path=SaveAsEnabled}"/>
                     <Separator/>
-                    <MenuItem x:Name="MenuItem_Tournament_Edit" Header="Edit" Click="MenuItem_Tournament_Edit_Click" IsEnabled="{Binding Path=SaveEnabled}" />
+                    <MenuItem x:Name="MenuItem_Tournament_Edit" Header="Edit" Click="MenuItem_Tournament_Edit_Click" IsEnabled="{Binding Path=SaveAsEnabled}" />
+                    <MenuItem x:Name="MenuItem_Tournament_Edit_Forbidden" Header="Edit Forbidden Pairings" Click="MenuItem_Tournament_Edit_Forbidden_Click" IsEnabled="{Binding Path=SaveAsEnabled}" />
                     <Separator/>
                     <MenuItem x:Name="MenuItem_Tournament_Export" Header="Export">
                         <MenuItem x:Name="MenuItem_Tournament_Participant_List" Header="Participant List">
@@ -50,7 +51,7 @@
                 <MenuItem x:Name="MenuItem_Participants" Header="Participants" IsEnabled="{Binding Path=SaveEnabled}">
                     <MenuItem x:Name="MenuItem_Participants_Add" Header="New" Click="MenuItem_Participant_Add_Click" IsEnabled="{Binding Path=SaveEnabled}"/>
                 </MenuItem>
-                <MenuItem x:Name="MenuItem_Round" Header="Round" IsEnabled="{Binding Path=DrawEnabled}">
+                <MenuItem x:Name="MenuItem_Round" Header="Round">
                     <MenuItem x:Name="MenuItem_Round_Draw" Header="Draw" Click="MenuItem_Round_Draw_Click" IsEnabled="{Binding Path=DrawEnabled}"/>
                     <MenuItem x:Name="MenuItem_Round_Delete" Header="Delete Last Round" Click="MenuItem_Round_Delete_Click" IsEnabled="{Binding Path=DeletelastRoundEnabled}"/>
                 </MenuItem>
@@ -117,6 +118,14 @@
                                         <TextBlock Text="{Binding Path=Participant.Name}" 
                                                    TextDecorations="{Binding Path=TextDecoration}"
                                                    FontStyle="{Binding Path=FontStyle}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="60">
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Federation" Click="lvParticipantsColumnHeader_Click">Federation</GridViewColumnHeader>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Participant.Federation}"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>

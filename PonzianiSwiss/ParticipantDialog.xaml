@@ -37,7 +37,7 @@
             <Label Grid.Row="1" VerticalAlignment="Center" Margin="5,5,5,5">Name:</Label>
             <wpf:AutoCompleteTextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="5" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding Path=Participant.Name}"
                                      Provider="{StaticResource ResourceKey=ParticipantProvider}"
-                                     SelectedItem="{Binding SelectedName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+                                     SelectedItem="{Binding SelectedName, Mode=TwoWay}"/>
             <Button Grid.Row="1" Grid.Column="6" Click="MenuItem_PlayerSearch_Open_Click" ToolTip="Search Player in National Base" Width="30"
                     VerticalAlignment="Center" Margin="5,5,5,5" HorizontalAlignment="Left">
                 <iconPacks:PackIconCodicons Kind="Search" />

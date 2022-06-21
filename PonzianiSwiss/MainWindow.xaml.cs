@@ -136,12 +136,17 @@ namespace PonzianiSwiss
 
         private void MenuItem_Tournament_New_Click(object sender, RoutedEventArgs e)
         {
+            if (Model.Tournament != null)
+            {
+                if (MessageBox.Show(this, "There might be unsaved data!", "Warning", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.Cancel) return;
+            }
             TournamentDialog td = new(new());
             td.Title = "Create new Tournament";
             if (td.ShowDialog() ?? false)
             {
                 Model.Tournament = td.Model.Tournament;
-            }
+                Model.Participants.Clear();                
+            } 
         }
 
         private void MenuItem_Tournament_Exit_Click(object sender, RoutedEventArgs e)
@@ -151,6 +156,10 @@ namespace PonzianiSwiss
 
         private void MenuItem_Tournament_Open_Click(object sender, RoutedEventArgs e)
         {
+            if (Model.Tournament != null)
+            {
+                if (MessageBox.Show(this, "There might be unsaved data!", "Warning", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.Cancel) return;
+            }
             OpenFileDialog openFileDialog = new()
             {
                 Filter = $"Tournament Files|*.tjson|All Files|*.*",
@@ -233,6 +242,7 @@ namespace PonzianiSwiss
             {
                 Model.Tournament?.Participants.Add(pd.Model.Participant);
                 Model.SyncParticipants();
+                Model.SyncRounds();
             }
         }
 
@@ -412,6 +422,10 @@ namespace PonzianiSwiss
             {
                 sortedList = Model.Participants.OrderBy(x => x.Participant.Name ?? string.Empty).ToList();
             }
+            else if (sortCol == "Federation")
+            {
+                sortedList = Model.Participants.OrderBy(x => x.Participant.Federation).ToList();
+            }
             else if (sortCol == "FideId")
             {
                 sortedList = Model.Participants.OrderBy(x => x.Participant.FideId).ToList();
@@ -468,6 +482,13 @@ namespace PonzianiSwiss
         private async void MenuItem_Settings_About_Click(object sender, RoutedEventArgs e)
         {
             _ = await this.ShowMessageAsync("PonzianiSwiss 0.2.0 - Swiss Pairing Program", "Find more information at https://github.com/guentherc/PonzianiSwiss");
+        }
+
+        private void MenuItem_Tournament_Edit_Forbidden_Click(object sender, RoutedEventArgs e)
+        {
+            if (Model.Tournament == null) return;
+            ForbiddenPairingsDialog dlg = new ForbiddenPairingsDialog(Model.Tournament);
+            dlg.ShowDialog();
         }
     }
 

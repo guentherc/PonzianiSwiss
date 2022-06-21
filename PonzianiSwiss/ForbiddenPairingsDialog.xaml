@@ -1,0 +1,139 @@
+﻿<mah:MetroWindow x:Name="ForbiddenPairingsWindow" x:Class="PonzianiSwiss.ForbiddenPairingsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PonzianiSwiss"
+        xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        mc:Ignorable="d"
+        Title="Forbidden Pairings" TitleCharacterCasing="Normal" Height="450" Width="800" d:DataContext="Model">
+    <Window.Resources>
+        <local:ForbiddenPairingRuleConverter x:Key="ForbiddenPairingRuleConverter" />
+        <local:AdjustSizeConverter x:Key="AdjustSizeConverter" />
+    </Window.Resources>
+    <DockPanel VerticalAlignment="Top">
+        <StackPanel DockPanel.Dock="Top">
+            <GroupBox Header="Standard Options" mah:ControlsHelper.ContentCharacterCasing="Normal" Margin="5"
+                      Style="{DynamicResource MahApps.Styles.GroupBox.Clean}" Width="{Binding ElementName=ForbiddenPairingsWindow, Path=ActualWidth, Converter={StaticResource AdjustSizeConverter}, ConverterParameter=-20}">
+                <WrapPanel>
+                    <CheckBox IsChecked="{Binding Path=AvoidPairingsFromSameFederation}" Content="Avoid Pairings from same Federation" Margin="5"/>
+                    <CheckBox IsChecked="{Binding Path=AvoidPairingsFromSameClub}" Content="Avoid Pairings from same Club" Margin="5"/>
+                </WrapPanel>
+            </GroupBox>
+            <GroupBox Header="Special Options" mah:ControlsHelper.ContentCharacterCasing="Normal" Margin="5"
+                      Style="{DynamicResource MahApps.Styles.GroupBox.Clean}" Width="{Binding ElementName=ForbiddenPairingsWindow, Path=ActualWidth, Converter={StaticResource AdjustSizeConverter}, ConverterParameter=-20}">
+                <StackPanel>
+                    <WrapPanel>
+                        <Label Content="Define Forbidden Pairing:" Margin="5" />
+                        <ComboBox x:Name="cbRuleType" Margin="5">
+                            <ComboBoxItem Content="Player vs Player" IsSelected="True" Tag="1"/>
+                            <ComboBoxItem Content="Player vs Federation"  Tag="2"/>
+                            <ComboBoxItem Content="Federation vs Federation"  Tag="3"/>
+                        </ComboBox>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <WrapPanel.Style>
+                            <Style>
+                                <Setter Property="ComboBox.Visibility" Value="Collapsed"/>
+                                <Setter Property="Label.Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=cbRuleType, Path=SelectedItem.Tag}" Value="1">
+                                        <Setter Property="Label.Visibility" Value="Visible"/>
+                                        <Setter Property="ComboBox.Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </WrapPanel.Style>
+                        <Label Margin="5" >Player 1</Label>
+                        <ComboBox Margin="5" ItemsSource="{Binding Path=Participants}" SelectedItem="{Binding Path=Player1}" MinWidth="200" TextSearch.TextPath="Name">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Name}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <Label Margin="5" >Player 2</Label>
+                        <ComboBox Margin="5" ItemsSource="{Binding Path=Participants}" SelectedItem="{Binding Path=Player2}" MinWidth="200" TextSearch.TextPath="Name">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Name}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <Button Click="Forbidding_Pairing_Rule_Add_Click" Tag="1" Margin="5">Add</Button>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <WrapPanel.Style>
+                            <Style>
+                                <Setter Property="ComboBox.Visibility" Value="Collapsed"/>
+                                <Setter Property="Label.Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=cbRuleType, Path=SelectedItem.Tag}" Value="2">
+                                        <Setter Property="Label.Visibility" Value="Visible"/>
+                                        <Setter Property="ComboBox.Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </WrapPanel.Style>
+                        <Label Margin="5" >Player</Label>
+                        <ComboBox Margin="5" ItemsSource="{Binding Path=Participants}" SelectedItem="{Binding Path=Player1}" MinWidth="200" TextSearch.TextPath="Name">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Name}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <Label Margin="5" >Federation</Label>
+                        <ComboBox Margin="5" ItemsSource="{Binding Path=Federations}" SelectedItem="{Binding Path=Federation1}" MinWidth="200">
+                        </ComboBox>
+                        <Button Click="Forbidding_Pairing_Rule_Add_Click" Tag="2" Margin="5">Add</Button>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <WrapPanel.Style>
+                            <Style>
+                                <Setter Property="ComboBox.Visibility" Value="Collapsed"/>
+                                <Setter Property="Label.Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=cbRuleType, Path=SelectedItem.Tag}" Value="3">
+                                        <Setter Property="Label.Visibility" Value="Visible"/>
+                                        <Setter Property="ComboBox.Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </WrapPanel.Style>
+                        <Label Margin="5" >Federation 1</Label>
+                        <ComboBox Margin="5" ItemsSource="{Binding Path=Federations}" SelectedItem="{Binding Path=Federation1}" MinWidth="200"/>
+                        <Label Margin="5" >Federation 2</Label>
+                        <ComboBox Margin="5" ItemsSource="{Binding Path=Federations}" SelectedItem="{Binding Path=Federation2}" MinWidth="200"/>
+                        <Button Click="Forbidding_Pairing_Rule_Add_Click" Tag="3" Margin="5" mah:ControlsHelper.ContentCharacterCasing="Normal">Add</Button>
+                    </WrapPanel>
+                    <Label Content="List of forbidden pairings" FontWeight="Bold"/>
+                    <ListView x:Name="lvRules" ItemsSource="{Binding Path=Rules}" Margin="5" MaxHeight="400">
+                        <!--<TextBlock Text="List of Forbidden Pairing Rules" FontWeight="Bold"/>-->
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <WrapPanel>
+                                    <TextBlock Text="{Binding Path=Description}" Margin="5" VerticalAlignment="Center"/>
+                                    <Button Click="ForbiddenPairings_Remove_Click" Tag="{Binding}" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                        <iconPacks:PackIconCodicons Kind="Remove"/>
+                                    </Button>
+                                </WrapPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+        <WrapPanel DockPanel.Dock="Bottom" Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+            <Button x:Name="TournamentDialogOkButton" Content="Ok" Padding="10" Margin="0,0,10,0" Click="ForbiddenPairingsOkButton_Click" Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
+            <Button x:Name="TournamentDialogCancelButton" Content="Cancel" Padding="10" Click="ForbiddenPairingsCancelButton_Click"  Style="{DynamicResource MahApps.Styles.Button.Square}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
+        </WrapPanel>
+    </DockPanel>
+</mah:MetroWindow>
