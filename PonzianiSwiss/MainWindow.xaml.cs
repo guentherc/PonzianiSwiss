@@ -41,7 +41,7 @@ namespace PonzianiSwiss
             //Add Playerbase Update entries dynamically
             foreach (var entry in PlayerBaseFactory.AvailableBases)
             {
-                MenuItem mi = new MenuItem()
+                MenuItem mi = new()
                 {
                     Header = $"{entry.Key} ({entry.Value})",
                     Tag = entry.Key,
@@ -51,10 +51,12 @@ namespace PonzianiSwiss
             }
             RenderThemeMenuEntries();
             //MenuItem_PlayerBase_Update.
-            Model = new();
-            Model.Mode = mode;
+            Model = new()
+            {
+                Mode = mode
+            };
             DataContext = Model;
-            FideBase = PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE);
+            PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE);
             lvParticipants.ItemsSource = Model.Participants;
             _ = FederationUtil.GetFederations();
         }
@@ -67,7 +69,7 @@ namespace PonzianiSwiss
             string[] themeColor = new string[] { "Red", "Green", "Blue", "Purple", "Orange", "Lime", "Emerald", "Teal", "Cyan", "Cobalt", "Indigo", "Violet", "Pink", "Magenta", "Crimson", "Amber", "Yellow", "Brown", "Olive", "Steel", "Mauve", "Taupe", "Sienna" };
             foreach (var bt in baseThemes)
             {
-                MenuItem mi = new MenuItem()
+                MenuItem mi = new()
                 {
                     Header = $"{bt}",
                     Tag = bt,
@@ -80,7 +82,7 @@ namespace PonzianiSwiss
             }
             foreach (var tc in themeColor)
             {
-                MenuItem mi = new MenuItem()
+                MenuItem mi = new()
                 {
                     Header = $"{tc}",
                     Tag = tc,
@@ -131,7 +133,6 @@ namespace PonzianiSwiss
         }
 
         public MainModel Model { set; get; }
-        private IPlayerBase? FideBase = null;
         private readonly HTMLViewer htmlViewer = new();
 
         private void MenuItem_Tournament_New_Click(object sender, RoutedEventArgs e)
@@ -140,8 +141,11 @@ namespace PonzianiSwiss
             {
                 if (MessageBox.Show(this, "There might be unsaved data!", "Warning", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.Cancel) return;
             }
-            TournamentDialog td = new(new());
-            td.Title = "Create new Tournament";
+            TournamentDialog td = new(new())
+            {
+                Title = "Create new Tournament",
+                Owner = this
+            };
             if (td.ShowDialog() ?? false)
             {
                 Model.Tournament = td.Model.Tournament;
@@ -212,8 +216,10 @@ namespace PonzianiSwiss
 
         private void MenuItem_Tournament_Save_As_Click(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog saveFileDialog = new();
-            saveFileDialog.Filter = $"Tournament Files|*.tjson|All Files|*.*";
+            SaveFileDialog saveFileDialog = new()
+            {
+                Filter = $"Tournament Files|*.tjson|All Files|*.*"
+            };
             if (Model.FileName != null) saveFileDialog.FileName = Model.FileName; else saveFileDialog.FileName = Model.Tournament?.Name + ".tjson";
             saveFileDialog.DefaultExt = ".tjson";
             saveFileDialog.Title = "Save Tournament File";
@@ -227,7 +233,8 @@ namespace PonzianiSwiss
 
         private void MenuItem_Tournament_Edit_Click(object sender, RoutedEventArgs e)
         {
-            TournamentDialog td = new TournamentDialog(Model.Tournament ?? new());
+            TournamentDialog td = new(Model.Tournament ?? new());
+            td.Owner = this;
             if (td.ShowDialog() ?? false)
             {
                 Model.Tournament = td.Model.Tournament;
@@ -236,8 +243,11 @@ namespace PonzianiSwiss
 
         private void MenuItem_Participant_Add_Click(object sender, RoutedEventArgs e)
         {
-            ParticipantDialog pd = new(new(), Model.Tournament);
-            pd.Title = "Add Participant";
+            ParticipantDialog pd = new(new(), Model.Tournament)
+            {
+                Title = "Add Participant",
+                Owner = this
+            };
             if (pd.ShowDialog() ?? false)
             {
                 Model.Tournament?.Participants.Add(pd.Model.Participant);
@@ -267,7 +277,7 @@ namespace PonzianiSwiss
             uiContext?.Send(x => Model.SyncRounds(), null);
             uiContext?.Send(x => Model.SyncParticipants(), null);
             uiContext?.Send(x => AdjustTabitems(), null);
-            uiContext?.Send(x => MainTabControl.SelectedItem = MainTabControl.Items[MainTabControl.Items.Count - 1], null);
+            uiContext?.Send(x => MainTabControl.SelectedItem = MainTabControl.Items[^1], null);
             uiContext?.Send(x => Cursor = Cursors.Arrow, null);
             await controller.CloseAsync();
         }
@@ -277,8 +287,11 @@ namespace PonzianiSwiss
             TournamentParticipant? p = lvParticipants?.SelectedItem as TournamentParticipant;
             if (p != null)
             {
-                ParticipantDialog pd = new(p.Participant, Model.Tournament);
-                pd.Title = $"Edit Participant {p.Participant.Name}";
+                ParticipantDialog pd = new(p.Participant, Model.Tournament)
+                {
+                    Title = $"Edit Participant {p.Participant.Name}",
+                    Owner = this
+                };
                 if (pd.ShowDialog() ?? false)
                 {
                     Model.SyncParticipants();
@@ -343,7 +356,7 @@ namespace PonzianiSwiss
         {
             while ((Model.Tournament?.Rounds.Count ?? 0) + 1 < MainTabControl.Items.Count)
             {
-                MainTabControl.Items.Remove(MainTabControl.Items[MainTabControl.Items.Count - 1]);
+                MainTabControl.Items.Remove(MainTabControl.Items[^1]);
             }
             for (int tabIndx = MainTabControl.Items.Count; tabIndx <= (Model.Tournament?.Rounds.Count ?? 0); ++tabIndx)
             {
@@ -386,6 +399,7 @@ namespace PonzianiSwiss
             }
             htmlViewer.Html = html;
             htmlViewer.Title = title;
+            htmlViewer.Owner = this;
             htmlViewer.ShowDialog();
         }
 
@@ -402,7 +416,7 @@ namespace PonzianiSwiss
         private void MenuItem_Simulate_Results_Click(object sender, RoutedEventArgs e)
         {
             Model.SimulateResults();
-            var tabitem = MainTabControl.Items[MainTabControl.Items.Count - 1] as TabItem;
+            var tabitem = MainTabControl.Items[^1] as TabItem;
             Round? r = tabitem?.Content as Round;
             r?.Model.SyncRound();
             Model.SyncRounds();
@@ -410,7 +424,7 @@ namespace PonzianiSwiss
 
         private GridViewColumnHeader? lvParticipantsSortCol = null;
         private bool sort_ascending = true;
-        private void lvParticipantsColumnHeader_Click(object sender, RoutedEventArgs e)
+        private void LvParticipantsColumnHeader_Click(object sender, RoutedEventArgs e)
         {
             GridViewColumnHeader? column = (sender as GridViewColumnHeader);
             if (column == null) return;
@@ -487,7 +501,8 @@ namespace PonzianiSwiss
         private void MenuItem_Tournament_Edit_Forbidden_Click(object sender, RoutedEventArgs e)
         {
             if (Model.Tournament == null) return;
-            ForbiddenPairingsDialog dlg = new ForbiddenPairingsDialog(Model.Tournament);
+            ForbiddenPairingsDialog dlg = new(Model.Tournament);
+            dlg.Owner = this;
             dlg.ShowDialog();
         }
     }
@@ -563,26 +578,19 @@ namespace PonzianiSwiss
 
         internal ObservableCollection<TournamentParticipant> Participants { get; set; } = new();
 
-        [DependentProperties("SaveEnabled", "SaveAsEnabled", "DrawEnabled")]
+        [DependentProperties("DrawEnabled", "DeleteLastRoundEnabled")]
         public Tournament? Tournament { get => tournament; set { if (tournament != value) { tournament = value; RaisePropertyChange(); } } }
 
-        [DependentProperties("SaveEnabled")]
         public string? FileName { get => fileName; set { if (fileName != value) { fileName = value; RaisePropertyChange(); } } }
-
-        public bool SaveAsEnabled => Tournament != null;
-
-        public bool SaveEnabled => Tournament != null && FileName != null && File.Exists(FileName);
         
         public MRUModel MRUModel { get => mRUModel; set { mRUModel = value; RaisePropertyChange(); } }
         public bool DrawEnabled
         {
             get => Tournament != null && Tournament.Participants.Count > 0
-                && (Tournament.Rounds.Count == 0 || !Tournament.Rounds[Tournament.Rounds.Count - 1].Pairings.Where(p => p.Result == Result.Open).Any());
+                && (Tournament.Rounds.Count == 0 || !Tournament.Rounds[^1].Pairings.Where(p => p.Result == Result.Open).Any());
         }
 
         public bool DeletelastRoundEnabled { get => Tournament != null && Tournament.Rounds.Count > 0; }
-
-        public Visibility ParticipantListVisibility => Tournament?.Participants.Count > 0 ? Visibility.Visible : Visibility.Hidden;
 
         internal void SyncParticipants()
         {
@@ -607,7 +615,7 @@ namespace PonzianiSwiss
         {
             if (Tournament != null)
             {
-                foreach (Pairing pairing in Tournament.Rounds[Tournament.Rounds.Count - 1].Pairings)
+                foreach (Pairing pairing in Tournament.Rounds[^1].Pairings)
                 {
                     pairing.Result = PonzianiSwissLib.Utils.Simulate(Tournament.Rating(pairing.White), Tournament.Rating(pairing.Black));
                 }
@@ -623,15 +631,17 @@ namespace PonzianiSwiss
             {
                 foreach (var p in player)
                 {
-                    Participant participant = new();
-                    participant.FideId = p.FideId;
-                    participant.Name = p.Name;
-                    participant.Title = p.Title;
-                    participant.Federation = p.Federation ?? "FIDE";
-                    participant.YearOfBirth = p.YearOfBirth;
-                    participant.FideRating = p.Rating;
-                    participant.Club = p.Club ?? string.Empty;
-                    participant.Sex = p.Sex;
+                    Participant participant = new()
+                    {
+                        FideId = p.FideId,
+                        Name = p.Name,
+                        Title = p.Title,
+                        Federation = p.Federation ?? "FIDE",
+                        YearOfBirth = p.YearOfBirth,
+                        FideRating = p.Rating,
+                        Club = p.Club ?? string.Empty,
+                        Sex = p.Sex
+                    };
                     Tournament?.Participants.Add(participant);
                 }
                 SyncParticipants();
@@ -803,7 +813,7 @@ namespace PonzianiSwiss
 
     internal class TournamentParticipant
     {
-        private Tournament? tournament;
+        private readonly Tournament? tournament;
 
         public Participant Participant { set; get; }
 

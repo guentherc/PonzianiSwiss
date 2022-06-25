@@ -10,6 +10,7 @@
         Title="PlayerSearchDialog" Height="450" Width="800">
     <Window.Resources>
         <local:NParticipantProvider x:Key="NParticipantProvider" />
+        <local:TextSetToBoolConverter x:Key="TextSetToBoolConverter"/>
     </Window.Resources>
     <StackPanel>
         <Grid>
@@ -27,7 +28,7 @@
             <ComboBox x:Name="ComboBox_Base" Grid.Column="1" VerticalAlignment="Center" SelectedValue="{Binding Path=PlayerBase}"  MinWidth="100" Margin="5,5,5,5" SelectionChanged="ComboBox_Base_SelectionChanged"/>
             <Label Grid.Row="1" VerticalAlignment="Center" Margin="5,5,5,5">Name:</Label>
             <wpf:AutoCompleteTextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="6" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding Path=Player.Name}"
-                                     Provider="{StaticResource ResourceKey=NParticipantProvider}"
+                                     Provider="{StaticResource ResourceKey=NParticipantProvider}" x:Name="TextBox_Name"
                                      SelectedItem="{Binding SelectedName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
             <GroupBox Grid.Row="2" Grid.ColumnSpan="2" Header="Data" Margin="5,5,5,5" mah:ControlsHelper.ContentCharacterCasing="Normal"
                       Style="{DynamicResource MahApps.Styles.GroupBox.Clean}">
@@ -63,8 +64,9 @@
             </GroupBox>
         </Grid>
         <WrapPanel Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-            <Button x:Name="ParticipantDialogOkButton" Content="Ok" Padding="10" Margin="0,0,10,0" Click="PlayerSearchDialogOkButton_Click" Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
-            <Button x:Name="ParticipantDialogCancelButton" Content="Cancel" Padding="10" Click="PlayerSearchDialogCancelButton_Click"  Style="{DynamicResource MahApps.Styles.Button.Square}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
+            <Button x:Name="PlayerSearchDialogOkButton" Content="Ok" Padding="10" Margin="0,0,10,0" Click="PlayerSearchDialogOkButton_Click" Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" mah:ControlsHelper.ContentCharacterCasing="Normal"  
+                    MinWidth="{Binding ElementName=PlayerSearchDialogCancelButton, Path=ActualWidth}" IsEnabled="{Binding ElementName=TextBox_Name, Path=Text, Converter={StaticResource TextSetToBoolConverter}}"/>
+            <Button x:Name="PlayerSearchDialogCancelButton" Content="Cancel" Padding="10" Click="PlayerSearchDialogCancelButton_Click"  Style="{DynamicResource MahApps.Styles.Button.Square}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
         </WrapPanel>
     </StackPanel>
 </mah:MetroWindow>

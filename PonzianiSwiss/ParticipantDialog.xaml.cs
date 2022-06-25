@@ -5,6 +5,7 @@ using PonzianiSwissLib;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -73,6 +74,7 @@ namespace PonzianiSwiss
         private void MenuItem_PlayerSearch_Open_Click(object sender, RoutedEventArgs e)
         {
             PlayerSearchDialog psd = new();
+            psd.Owner = this;
             if (psd.ShowDialog() ?? false)
             {
                 Player? nplayer = psd.Model.Player;
@@ -197,6 +199,19 @@ namespace PonzianiSwiss
         {
             return PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE).Find(filter)
                 .Select(p => $"{(p.Title != FideTitle.NONE ? p.Title : string.Empty)} {p.Name} {(p.FideId != 0 ? "(" + p.FideId + ")" : string.Empty)}".Trim());
+        }
+    }
+
+    public class TextSetToBoolConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (value == null) ? false : value?.ToString()?.Trim().Length > 0;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }

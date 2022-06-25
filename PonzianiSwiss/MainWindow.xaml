@@ -20,23 +20,55 @@
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
+                    <Style x:Key="TournamentCreatedStyle" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
+                        <Setter Property="IsEnabled" Value="True"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=Tournament}" Value="{x:Null}">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style x:Key="FilenameSetStyle" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
+                        <Setter Property="IsEnabled" Value="True"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=Tournament.FileName}" Value="{x:Null}">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style x:Key="DrawEnabledStyle" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
+                        <Setter Property="IsEnabled" Value="False"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=DrawEnabled}" Value="True">
+                                <Setter Property="IsEnabled" Value="True" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style x:Key="DeleteRoundStyle" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
+                        <Setter Property="IsEnabled" Value="False"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=DeletelastRoundEnabled}" Value="True">
+                                <Setter Property="IsEnabled" Value="True" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
                 </Menu.Resources>
                 <MenuItem x:Name="MenuItem_Tournament" Header="Tournament">
                     <MenuItem x:Name="MenuItem_Tournament_New" Header="New" Click="MenuItem_Tournament_New_Click"/>
                     <MenuItem x:Name="MenuItem_Tournament_Open" Header="Open ..." Click="MenuItem_Tournament_Open_Click" IsEnabled="True"/>
-                    <MenuItem x:Name="MenuItem_Tournament_Save" Header="Save" Click="MenuItem_Tournament_Save_Click" IsEnabled="{Binding Path=SaveEnabled}"/>
-                    <MenuItem x:Name="MenuItem_Tournament_Save_As" Header="Save As ..." Click="MenuItem_Tournament_Save_As_Click" IsEnabled="{Binding Path=SaveAsEnabled}"/>
+                    <MenuItem x:Name="MenuItem_Tournament_Save" Header="Save" Click="MenuItem_Tournament_Save_Click" Style="{StaticResource FilenameSetStyle}"/>
+                    <MenuItem x:Name="MenuItem_Tournament_Save_As" Header="Save As ..." Click="MenuItem_Tournament_Save_As_Click" Style="{StaticResource TournamentCreatedStyle}"/>
                     <Separator/>
-                    <MenuItem x:Name="MenuItem_Tournament_Edit" Header="Edit" Click="MenuItem_Tournament_Edit_Click" IsEnabled="{Binding Path=SaveAsEnabled}" />
-                    <MenuItem x:Name="MenuItem_Tournament_Edit_Forbidden" Header="Edit Forbidden Pairings" Click="MenuItem_Tournament_Edit_Forbidden_Click" IsEnabled="{Binding Path=SaveAsEnabled}" />
+                    <MenuItem x:Name="MenuItem_Tournament_Edit" Header="Edit" Click="MenuItem_Tournament_Edit_Click" Style="{StaticResource TournamentCreatedStyle}" />
+                    <MenuItem x:Name="MenuItem_Tournament_Edit_Forbidden" Header="Edit Forbidden Pairings" Click="MenuItem_Tournament_Edit_Forbidden_Click" Style="{StaticResource TournamentCreatedStyle}"/>
                     <Separator/>
-                    <MenuItem x:Name="MenuItem_Tournament_Export" Header="Export">
-                        <MenuItem x:Name="MenuItem_Tournament_Participant_List" Header="Participant List">
-                            <MenuItem x:Name="MenuItem_Tournament_Participant_List_Rank" Header="By Starting Rank" Tag="0" Click="MenuItem_Export_Click"/>
-                            <MenuItem x:Name="MenuItem_Tournament_Participant_List_Name" Header="By Name" Tag="1" Click="MenuItem_Export_Click"/>
+                    <MenuItem x:Name="MenuItem_Tournament_Export" Header="Export" Style="{StaticResource TournamentCreatedStyle}">
+                        <MenuItem x:Name="MenuItem_Tournament_Participant_List" Header="Participant List" Style="{StaticResource TournamentCreatedStyle}">
+                            <MenuItem x:Name="MenuItem_Tournament_Participant_List_Rank" Header="By Starting Rank" Tag="0" Click="MenuItem_Export_Click" Style="{StaticResource TournamentCreatedStyle}"/>
+                            <MenuItem x:Name="MenuItem_Tournament_Participant_List_Name" Header="By Name" Tag="1" Click="MenuItem_Export_Click" Style="{StaticResource TournamentCreatedStyle}"/>
                         </MenuItem>
-                        <MenuItem x:Name="MenuItem_Tournament_Crosstable" Header="Crosstable" Tag="2" Click="MenuItem_Export_Click"/>
-                        <MenuItem x:Name="MenuItem_Tournament_Pairings" Header="Pairings" Tag="3" Click="MenuItem_Export_Click"/>
+                        <MenuItem x:Name="MenuItem_Tournament_Crosstable" Header="Crosstable" Tag="2" Click="MenuItem_Export_Click" Style="{StaticResource TournamentCreatedStyle}"/>
+                        <MenuItem x:Name="MenuItem_Tournament_Pairings" Header="Pairings" Tag="3" Click="MenuItem_Export_Click" Style="{StaticResource TournamentCreatedStyle}"/>
                     </MenuItem>
                     <Separator Visibility="{Binding Path=MRUModel.Visibility}"/>
                     <MenuItem Header="Recent Files" Visibility="{Binding Path=MRUModel.Visibility}">
@@ -48,20 +80,20 @@
                     <Separator/>
                     <MenuItem x:Name="MenuItem_Tournament_Exit" Header="Exit" Click="MenuItem_Tournament_Exit_Click"/>
                 </MenuItem>
-                <MenuItem x:Name="MenuItem_Participants" Header="Participants" IsEnabled="{Binding Path=SaveEnabled}">
-                    <MenuItem x:Name="MenuItem_Participants_Add" Header="New" Click="MenuItem_Participant_Add_Click" IsEnabled="{Binding Path=SaveEnabled}"/>
+                <MenuItem x:Name="MenuItem_Participants" Header="Participants" Style="{StaticResource TournamentCreatedStyle}">
+                    <MenuItem x:Name="MenuItem_Participants_Add" Header="New" Click="MenuItem_Participant_Add_Click" Style="{StaticResource TournamentCreatedStyle}"/>
                 </MenuItem>
                 <MenuItem x:Name="MenuItem_Round" Header="Round">
-                    <MenuItem x:Name="MenuItem_Round_Draw" Header="Draw" Click="MenuItem_Round_Draw_Click" IsEnabled="{Binding Path=DrawEnabled}"/>
-                    <MenuItem x:Name="MenuItem_Round_Delete" Header="Delete Last Round" Click="MenuItem_Round_Delete_Click" IsEnabled="{Binding Path=DeletelastRoundEnabled}"/>
+                    <MenuItem x:Name="MenuItem_Round_Draw" Header="Draw" Click="MenuItem_Round_Draw_Click" Style="{StaticResource DrawEnabledStyle}"/>
+                    <MenuItem x:Name="MenuItem_Round_Delete" Header="Delete Last Round" Click="MenuItem_Round_Delete_Click" Style="{StaticResource DeleteRoundStyle}"/>
                 </MenuItem>
                 <MenuItem Header="Player Base" x:Name="MenuItem_PlayerBase">
                     <MenuItem x:Name="MenuItem_PlayerBase_Update" Header="Update"/>
                 </MenuItem>
                 <MenuItem Header="Test" x:Name="MenuItem_Special" Style="{StaticResource ModeStyle}">
                     <MenuItem Header="Add Random Participants">
-                        <MenuItem Header="Add 100 Random Participants" Click="MenuItem_Add_Participants_Click"  IsEnabled="{Binding Path=SaveAsEnabled}" Tag="100"/>
-                        <MenuItem Header="Add 1000 Random Participants" Click="MenuItem_Add_Participants_Click"  IsEnabled="{Binding Path=SaveAsEnabled}" Tag="1000"/>
+                        <MenuItem Header="Add 100 Random Participants" Click="MenuItem_Add_Participants_Click" Style="{StaticResource TournamentCreatedStyle}" Tag="100"/>
+                        <MenuItem Header="Add 1000 Random Participants" Click="MenuItem_Add_Participants_Click" Style="{StaticResource TournamentCreatedStyle}" Tag="1000"/>
                     </MenuItem>
                     <MenuItem Header="Simulate Results" Click="MenuItem_Simulate_Results_Click"/>
                 </MenuItem>
@@ -72,32 +104,50 @@
                     <MenuItem x:Name="MenuItem_Settings_About" Header="About" Click="MenuItem_Settings_About_Click"/>
                 </MenuItem>
             </Menu>
-            <ToolBar Height="32" Grid.Row="1">
-                <Button Click="MenuItem_Tournament_New_Click" ToolTip="Create New Tournament">
+            <ToolBar Height="32" Grid.Row="1" x:Name="MainView_Toolbar">
+                <ToolBar.Resources>
+                    <Style x:Key="TournamentCreatedStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                        <Setter Property="IsEnabled" Value="True"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=Tournament}" Value="{x:Null}">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style x:Key="DrawEnabledStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                        <Setter Property="IsEnabled" Value="False"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=DrawEnabled}" Value="True">
+                                <Setter Property="IsEnabled" Value="True" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ToolBar.Resources>
+                <Button x:Name="Toolbar_Tournament_New" Click="MenuItem_Tournament_New_Click" ToolTip="Create New Tournament">
                     <iconPacks:PackIconCodicons Kind="NewFile" />
                 </Button>
-                <Button Click="MenuItem_Tournament_Open_Click" ToolTip="Load Tournament">
+                <Button x:Name="Toolbar_Tournament_Open" Click="MenuItem_Tournament_Open_Click" ToolTip="Load Tournament">
                     <iconPacks:PackIconCodicons Kind="FolderOpened" />
                 </Button>
-                <Button Click="MenuItem_Tournament_Save_Click" ToolTip="Save Tournament" IsEnabled="{Binding Path=SaveEnabled}">
+                <Button x:Name="Toolbar_Tournament_Save" Click="MenuItem_Tournament_Save_Click" ToolTip="Save Tournament" Style="{StaticResource TournamentCreatedStyle}">
                     <iconPacks:PackIconCodicons Kind="Save" />
                 </Button>
-                <Button Click="MenuItem_Tournament_Edit_Click" ToolTip="Edit Tournament" IsEnabled="{Binding Path=SaveAsEnabled}">
+                <Button x:Name="Toolbar_Tournament_Edit" Click="MenuItem_Tournament_Edit_Click" ToolTip="Edit Tournament" Style="{StaticResource TournamentCreatedStyle}">
                     <iconPacks:PackIconCodicons Kind="Edit" />
                 </Button>
                 <Separator></Separator>
-                <Button Click="MenuItem_Participant_Add_Click" ToolTip="Add Player" IsEnabled="{Binding Path=SaveAsEnabled}">
+                <Button x:Name="Toolbar_Participant_Add" Click="MenuItem_Participant_Add_Click" ToolTip="Add Player" Style="{StaticResource TournamentCreatedStyle}">
                     <iconPacks:PackIconCodicons Kind="PersonAdd" />
                 </Button>
                 <Separator></Separator>
-                <Button Click="MenuItem_Round_Draw_Click" ToolTip="Draw Next Round" IsEnabled="{Binding Path=DrawEnabled}">
+                <Button x:Name="Toolbar_Round_Draw" Click="MenuItem_Round_Draw_Click" ToolTip="Draw Next Round" Style="{StaticResource DrawEnabledStyle}">
                     <iconPacks:PackIconJamIcons Kind="Dices" />
                 </Button>
             </ToolBar>
         </StackPanel>
         <TabControl x:Name="MainTabControl"  Grid.Row="2">
-            <TabItem Header="Participants" Visibility="{Binding Path=ParticipantListVisibility}">
-                <ListView Margin="10" Name="lvParticipants" Visibility="{Binding Path=ParticipantListVisibility}" mah:ControlsHelper.ContentCharacterCasing="Normal">
+            <TabItem Header="Participants" x:Name="TabItem_Participants">
+                <ListView Margin="10" x:Name="lvParticipants" mah:ControlsHelper.ContentCharacterCasing="Normal">
                     <ListView.ContextMenu>
                         <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                             <MenuItem Header="Edit" Click="MenuItem_Participant_Edit_Click"/>
@@ -112,7 +162,7 @@
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Width="120">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Name" Click="lvParticipantsColumnHeader_Click">Name</GridViewColumnHeader>
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Name" Click="LvParticipantsColumnHeader_Click">Name</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Participant.Name}" 
@@ -122,7 +172,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="60">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Federation" Click="lvParticipantsColumnHeader_Click">Federation</GridViewColumnHeader>
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Federation" Click="LvParticipantsColumnHeader_Click">Federation</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Participant.Federation}"/>
@@ -130,7 +180,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="60">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="FideId" Click="lvParticipantsColumnHeader_Click">Fide Id</GridViewColumnHeader>
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="FideId" Click="LvParticipantsColumnHeader_Click">Fide Id</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Participant.FideId}"/>
@@ -138,7 +188,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="60">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Score" Click="lvParticipantsColumnHeader_Click">Score</GridViewColumnHeader>
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Score" Click="LvParticipantsColumnHeader_Click">Score</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Score}"/>
@@ -146,7 +196,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="60">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Rating" Click="lvParticipantsColumnHeader_Click">Rating</GridViewColumnHeader>
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Rating" Click="LvParticipantsColumnHeader_Click">Rating</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=TournamentRating}" TextAlignment="Right"/>
@@ -154,7 +204,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="120">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Id" Click="lvParticipantsColumnHeader_Click">Id</GridViewColumnHeader>
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Id" Click="LvParticipantsColumnHeader_Click">Id</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Participant.ParticipantId}"/>
@@ -162,7 +212,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="60">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Elo" Click="lvParticipantsColumnHeader_Click">Elo</GridViewColumnHeader>
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Elo" Click="LvParticipantsColumnHeader_Click">Elo</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Participant.FideRating}" TextAlignment="Right"/>
@@ -170,7 +220,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="60">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="NationalRating" Click="lvParticipantsColumnHeader_Click">National Rating</GridViewColumnHeader>
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="NationalRating" Click="LvParticipantsColumnHeader_Click">National Rating</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Participant.AlternativeRating}" TextAlignment="Right"/>
@@ -178,7 +228,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="120">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Club" Click="lvParticipantsColumnHeader_Click">Club</GridViewColumnHeader>
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Club" Click="LvParticipantsColumnHeader_Click">Club</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Participant.Club}"/>
