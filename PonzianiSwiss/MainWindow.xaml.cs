@@ -149,7 +149,8 @@ namespace PonzianiSwiss
             if (td.ShowDialog() ?? false)
             {
                 Model.Tournament = td.Model.Tournament;
-                Model.Participants.Clear();                
+                Model.Participants.Clear();
+                Model.FileName = null;
             } 
         }
 

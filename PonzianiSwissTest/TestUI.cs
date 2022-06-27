@@ -1,5 +1,6 @@
 ﻿using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Conditions;
+using FlaUI.Core.Definitions;
 using FlaUI.Core.Input;
 using FlaUI.Core.Tools;
 using FlaUI.UIA3;
@@ -9,6 +10,7 @@ using PonzianiPlayerBase;
 using PonzianiSwissLib;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -94,6 +96,65 @@ namespace PonzianiSwissTest
         }
 
         [TestMethod]
+        public void DrawInitialRound()
+        {
+            var automation = new UIA3Automation();
+            var window = app?.GetMainWindow(automation);
+            if (window == null)
+            {
+                Assert.Fail();
+                return;
+            }
+            var tabview = window.FindFirstDescendant(cf.ByAutomationId("MainTabControl")).AsTab();
+            tabview.RegisterAutomationEvent(automation.EventLibrary.Invoke.InvokedEvent, TreeScope.Element, (element, evnt) =>
+            {
+                Console.WriteLine(evnt.Name);
+            });
+
+            string filename = Path.GetTempFileName();
+            Console.WriteLine(filename);
+            File.WriteAllText(filename, Properties.Resources.Tournament_100_Participants_0_Rounds_tjson);
+            LoadFromFile(window, filename);
+            app?.WaitWhileBusy();
+            //Retry.WhileFalse(() => ofd.IsOffscreen, TimeSpan.FromSeconds(5));
+            var participants = GetParticipantsFromListView(window);
+            Assert.AreEqual(100, participants.Count);
+            ClickMenuEntry(window, MenuItemKey.Round_Draw);
+            Retry.WhileNull(() => window.FindFirstByXPath("/Tab/TabItem[2]"), TimeSpan.FromSeconds(10));
+            var tabitem = window.FindFirstByXPath("/Tab/TabItem[2]").AsTabItem();
+            Assert.IsNotNull(tabitem);
+            Thread.Sleep(1000);
+            var pairings = GetPairingsFromListView(window, 0);
+            Assert.AreEqual(50, pairings.Count);
+            foreach (var pairing in pairings)
+            {
+                int wid = int.Parse(pairing["IDWhite"]);
+                int bid = int.Parse(pairing["IDBlack"]);
+                Assert.AreEqual(50, Math.Abs(wid - bid));
+            }
+            CheckAfterDraw(window);
+            //Reread participants (Id should now be available)
+            participants = GetParticipantsFromListView(window);
+            foreach (var participant in participants)
+                Assert.IsTrue(participant != null && participant.ContainsKey("ParticipantId") && int.Parse(participant["ParticipantId"]) > 0);
+
+            ClickMenuEntry(window, MenuItemKey.Tournament_Exit);
+            File.Delete(filename);
+        }
+
+        private void LoadFromFile(Window window, string filename)
+        {
+            ClickMenuEntry(window, MenuItemKey.Tournament_Open);
+            Retry.WhileNull(() => window.FindFirstByXPath("/Window"), TimeSpan.FromSeconds(5));
+            var ofd = window.FindFirstByXPath("/Window").AsWindow();
+            var finput = ofd.FindFirstByXPath("/ComboBox[1]").AsComboBox();
+            Assert.IsNotNull(finput);
+            finput.Focus();
+            finput.EditableText = filename;
+            Keyboard.Press(FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+        }
+
+        [TestMethod]
         public void CreateTournament()
         {
             var automation = new UIA3Automation();
@@ -105,7 +166,7 @@ namespace PonzianiSwissTest
             }
             //Check active state of menu items and toolbar buttons
             CheckInitialState(window);
-            
+
             //Create a new tournament
             ClickMenuEntry(window, MenuItemKey.Tournament_New);
             Retry.WhileNull(() => window.FindFirstByXPath("/Window"), TimeSpan.FromSeconds(5));
@@ -182,6 +243,11 @@ namespace PonzianiSwissTest
             Assert.AreEqual(0, double.Parse(participants[3]["Score"]));
             Assert.AreEqual(name, participants[3]["Name"]);
             Assert.AreEqual("GER", participants[3]["Federation"]);
+
+            //Check active state of menu items and toolbar buttons
+            CheckAfterParticipantsAdded(window);
+
+            ClickMenuEntry(window, MenuItemKey.Tournament_Exit);
         }
 
         private void AddPlayerFromNationalDatabase(Window window, PlayerBaseFactory.Base playerbase, string name, bool cancel = false)
@@ -249,7 +315,7 @@ namespace PonzianiSwissTest
             Assert.IsNotNull(btn);
             btn.Invoke();
         }
-        
+
         private void AddPlayerByFideID(Window window, ulong fideid, bool cancel = false)
         {
             var tbFideId = window.FindFirstDescendant(cf.ByAutomationId("TextBox_FideID")).AsTextBox();
@@ -276,8 +342,39 @@ namespace PonzianiSwissTest
             btn.Invoke();
         }
 
+        private List<Dictionary<string, string>> GetPairingsFromListView(Window window, int round_index)
+        {
+            var tabview = window.FindFirstDescendant(cf.ByAutomationId("MainTabControl")).AsTab();
+            tabview.SelectTabItem(round_index + 1);
+            
+            app?.WaitWhileBusy();
+            Retry.WhileFalse(() => tabview.SelectedTabItemIndex == round_index + 1, TimeSpan.FromSeconds(5));
+            Retry.WhileNull(() => window.FindFirstByXPath($"/Tab/TabItem[{round_index + 2}]/Custom/DataGrid"));
+            var listview_round = window.FindFirstByXPath($"/Tab/TabItem[{round_index + 2}]/Custom/DataGrid").AsDataGridView();
+            Assert.IsNotNull(listview_round);
+            Wait.UntilResponsive(listview_round);
+            Assert.IsTrue(tabview.SelectedTabItemIndex == round_index + 1);
+            List<Dictionary<string, string>> pairings = new();
+            Thread.Sleep(3000);
+            var rows = listview_round.Rows;
+            foreach (var row in rows)
+            {
+                pairings.Add(new());
+                pairings.Last().Add("IDWhite", row.Cells[0].FindFirstChild().Name);
+                pairings.Last().Add("White", row.Cells[1].FindFirstChild().Name);
+                pairings.Last().Add("IDBlack", row.Cells[2].FindFirstChild().Name);
+                pairings.Last().Add("Black", row.Cells[3].FindFirstChild().Name);
+                pairings.Last().Add("Result", row.Cells[4].FindFirstChild().Name);
+            }
+            return pairings;
+        }
+
         private List<Dictionary<string, string>> GetParticipantsFromListView(Window window)
         {
+            var tabview = window.FindFirstDescendant(cf.ByAutomationId("MainTabControl")).AsTab();
+            tabview.SelectTabItem(0);
+            app?.WaitWhileBusy();
+            Retry.WhileFalse(() => tabview.SelectedTabItemIndex == 0, TimeSpan.FromSeconds(5));
             List<Dictionary<string, string>> participants = new();
             var listView = window.FindFirstDescendant(cf.ByAutomationId("lvParticipants")).AsListBox();
             if (listView == null)
@@ -437,6 +534,62 @@ namespace PonzianiSwissTest
             Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Exit));
             Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Participants_Add));
             Assert.IsFalse(IsMenuItemEnabled(window, MenuItemKey.Round_Delete));
+            Assert.IsFalse(IsMenuItemEnabled(window, MenuItemKey.Round_Draw));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Settings_Basetheme));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Settings_Themecolor));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Settings_About));
+        }
+
+        private void CheckAfterParticipantsAdded(Window window)
+        {
+            Assert.IsTrue(IsToolbarButtonEnabled(window, ToolbarButtonKey.Tournament_New));
+            Assert.IsTrue(IsToolbarButtonEnabled(window, ToolbarButtonKey.Tournament_Open));
+            Assert.IsTrue(IsToolbarButtonEnabled(window, ToolbarButtonKey.Tournament_Save));
+            Assert.IsTrue(IsToolbarButtonEnabled(window, ToolbarButtonKey.Tournament_Edit));
+            Assert.IsTrue(IsToolbarButtonEnabled(window, ToolbarButtonKey.Participants_Add));
+            Assert.IsTrue(IsToolbarButtonEnabled(window, ToolbarButtonKey.Round_Draw));
+
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_New));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Open));
+            Assert.IsFalse(IsMenuItemEnabled(window, MenuItemKey.Tournament_Save));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Save_As));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Edit));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Edit_Forbidden));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Export_Crosstable));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Export_Pairings));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Export_Participant_Name));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Export_Participant_Rank));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Exit));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Participants_Add));
+            Assert.IsFalse(IsMenuItemEnabled(window, MenuItemKey.Round_Delete));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Round_Draw));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Settings_Basetheme));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Settings_Themecolor));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Settings_About));
+        }
+
+        private void CheckAfterDraw(Window window)
+        {
+            Assert.IsTrue(IsToolbarButtonEnabled(window, ToolbarButtonKey.Tournament_New));
+            Assert.IsTrue(IsToolbarButtonEnabled(window, ToolbarButtonKey.Tournament_Open));
+            Assert.IsTrue(IsToolbarButtonEnabled(window, ToolbarButtonKey.Tournament_Save));
+            Assert.IsTrue(IsToolbarButtonEnabled(window, ToolbarButtonKey.Tournament_Edit));
+            Assert.IsTrue(IsToolbarButtonEnabled(window, ToolbarButtonKey.Participants_Add));
+            Assert.IsFalse(IsToolbarButtonEnabled(window, ToolbarButtonKey.Round_Draw));
+
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_New));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Open));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Save));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Save_As));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Edit));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Edit_Forbidden));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Export_Crosstable));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Export_Pairings));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Export_Participant_Name));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Export_Participant_Rank));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Exit));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Participants_Add));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Round_Delete));
             Assert.IsFalse(IsMenuItemEnabled(window, MenuItemKey.Round_Draw));
             Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Settings_Basetheme));
             Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Settings_Themecolor));
