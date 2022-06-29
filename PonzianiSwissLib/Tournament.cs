@@ -171,7 +171,7 @@ namespace PonzianiSwissLib
         public List<TieBreak> TieBreak { set; get; } = new List<TieBreak>() { PonzianiSwissLib.TieBreak.Score, PonzianiSwissLib.TieBreak.BuchholzCut1,
                                                                               PonzianiSwissLib.TieBreak.Buchholz, PonzianiSwissLib.TieBreak.CountWin, PonzianiSwissLib.TieBreak.CountWinWithBlack };
 
-        public List<ForbiddenPairingRule>? ForbiddenPairingRules { set; get; } = null;
+        public List<ForbiddenPairingRule> ForbiddenPairingRules { set; get; } = new();
 
         public bool AvoidPairingsFromSameFederation { set; get; } = false;
 
@@ -197,10 +197,13 @@ namespace PonzianiSwissLib
             {
                 foreach (Pairing pairing in Rounds[r].Pairings)
                 {
-                    if (!scorecards.ContainsKey(pairing.White)) scorecards.Add(pairing.White, new(pairing.White, this));
-                    if (!scorecards.ContainsKey(pairing.Black)) scorecards.Add(pairing.Black, new(pairing.Black, this));
-                    scorecards[pairing.White].Entries.Add(new(pairing.Black, Side.White, pairing.Result, r, this));
-                    scorecards[pairing.Black].Entries.Add(new(pairing.White, Side.Black, pairing.InvertedResult, r, this));
+                    if (pairing.White != null && pairing.Black != null)
+                    {
+                        if (!scorecards.ContainsKey(pairing.White)) scorecards.Add(pairing.White, new(pairing.White, this));
+                        if (!scorecards.ContainsKey(pairing.Black)) scorecards.Add(pairing.Black, new(pairing.Black, this));
+                        scorecards[pairing.White].Entries.Add(new(pairing.Black, Side.White, pairing.Result, r, this));
+                        scorecards[pairing.Black].Entries.Add(new(pairing.White, Side.Black, pairing.InvertedResult, r, this));
+                    }
                 }
             }
             foreach (var p in scorecards.Keys)
@@ -332,11 +335,11 @@ namespace PonzianiSwissLib
                 {
                     string pid = i.ToString();
                     if (byes != null && byes.ContainsKey(pid)) continue;
-                    var p = Rounds[0].Pairings.Where(p => p.White.ParticipantId == pid || p.Black.ParticipantId == pid);
+                    var p = Rounds[0].Pairings.Where(p => p?.White?.ParticipantId == pid || p?.Black?.ParticipantId == pid);
                     if (p.Any())
                     {
                         Pairing pp = p.ToList()[0];
-                        if (pp.White.ParticipantId == pid) trf.Add($"XXC white1"); else trf.Add($"XXC black1");
+                        if (pp?.White?.ParticipantId == pid) trf.Add($"XXC white1"); else trf.Add($"XXC black1");
                         break;
                     }
                 }
@@ -418,7 +421,7 @@ namespace PonzianiSwissLib
                         byes.Add(p.ParticipantId, Result.ZeroPointBye);
                 }
             }
-            if (forbidden == null && (ForbiddenPairingRules != null || AvoidPairingsFromSameFederation || AvoidPairingsFromSameClub))
+            if (forbidden == null && (AvoidPairingsFromSameFederation || AvoidPairingsFromSameClub))
             {
                 forbidden = new();
                 if (ForbiddenPairingRules != null)
@@ -512,8 +515,9 @@ namespace PonzianiSwissLib
 
         public bool DrawNextRoundPossible => Rounds.Count == 0 || (Rounds.Count < CountRounds && !Rounds.Last().Pairings.Where(p => p.Result == Result.Open).Any());
 
-        public int Rating(Participant p)
+        public int Rating(Participant? p)
         {
+            if (p == null) return 0;
             if (p.FideRating == 0) return p.AlternativeRating;
             else if (p.AlternativeRating == 0) return p.FideRating;
             else
@@ -533,46 +537,6 @@ namespace PonzianiSwissLib
         {
             string json = this.Serialize();
             var t = Extensions.Deserialize(json) ?? new Tournament();
-            //Adjust references
-            Dictionary<string, Participant> participants = new();
-            var byes = t.Participants.Where(p => p.ParticipantId == "0000");
-            if (byes.Any())
-            {
-                t.Participants.RemoveAll(p => p.ParticipantId == "0000");
-            }
-            t.Participants.Add(Participant.BYE);
-            foreach (var p in t.Participants)
-            {
-                string? id = p.ParticipantId ?? p.FideId.ToString();
-                if (id != null) participants.Add(id, p);
-            }
-            foreach (Round r in t.Rounds)
-            {
-                foreach (Pairing pairing in r.Pairings)
-                {
-                    string? idwhite = pairing.White.ParticipantId ?? pairing.White.FideId.ToString();
-                    if (idwhite != null)
-                    {
-                        if (participants.ContainsKey(idwhite)) pairing.White = participants[idwhite];
-                        else
-                        {
-                            participants.Add(idwhite, pairing.White);
-                            t.Participants.Add(pairing.White);
-                        }
-                    }
-                    string? idblack = pairing.Black.ParticipantId ?? pairing.Black.FideId.ToString();
-                    if (idblack != null)
-                    {
-                        if (participants.ContainsKey(idblack)) pairing.Black = participants[idblack];
-                        else
-                        {
-                            participants.Add(idblack, pairing.Black);
-                            t.Participants.Add(pairing.Black);
-                        }
-                    }
-                }
-            }
-            t.Participants.Remove(Participant.BYE);
             return t;
         }
 

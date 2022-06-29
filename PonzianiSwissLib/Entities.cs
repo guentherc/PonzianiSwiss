@@ -1,17 +1,23 @@
-﻿namespace PonzianiSwissLib
+﻿using System.Text.Json.Serialization;
+
+namespace PonzianiSwissLib
 {
 
     public class Pairing
     {
+        public Pairing()
+        {
+        }
+
         public Pairing(Participant white, Participant black)
         {
             White = white ?? throw new ArgumentNullException(nameof(white));
             Black = black ?? throw new ArgumentNullException(nameof(black));
         }
 
-        public Participant White { set; get; }
+        public Participant? White { set; get; }
 
-        public Participant Black { set; get; }
+        public Participant? Black { set; get; }
 
         public Result Result { set; get; } = Result.Open;
 
@@ -38,6 +44,10 @@
 
     public class Round
     {
+        public Round()
+        {
+        }
+
         public Round(int number)
         {
             Number = number;
@@ -274,26 +284,37 @@
         {
             Participant1 = participant1;
             Participant2 = participant2;
+            Federation1 = null;
+            Federation2 = null;
         }
 
         public ForbiddenPairingRule(Participant participant1, string federation1)
         {
             Participant1 = participant1;
             Federation1 = federation1;
+            Participant2 = null;
+            Federation2 = null;
         }
 
         public ForbiddenPairingRule(string federation1, string federation2)
         {
             Federation1 = federation1;
             Federation2 = federation2;
+            Participant1 = null;
+            Participant2 = null;
         }
 
-        public Participant? Participant1 { private set; get; } = null;
-        public Participant? Participant2 { private set; get; } = null;
+        public ForbiddenPairingRule()
+        {
+
+        } 
+
+        public Participant? Participant1 { set; get; }
+        public Participant? Participant2 { set; get; }
 
 
-        public string? Federation1 { private set; get; } = null;
-        public string? Federation2 { private set; get; } = null;
+        public string? Federation1 { set; get; }
+        public string? Federation2 { set; get; }
 
         public override string ToString()
         {
@@ -306,6 +327,7 @@
             else return string.Empty;
         }
 
+        [JsonIgnore]
         public string Description => ToString();
 
     }

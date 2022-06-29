@@ -185,24 +185,29 @@ namespace PonzianiSwiss
             Model.Tournament = Extensions.Deserialize(json);
             if (Model.Tournament != null)
             {
-                while (Properties.Settings.Default.MRU.Count > 10) 
+                while (Properties.Settings.Default.MRU.Count > 10)
                     Properties.Settings.Default.MRU.RemoveAt(10);
                 Model.FileName = filename;
                 Model.SyncParticipants();
                 Model.SyncRounds();
-                if (Properties.Settings.Default.MRU == null) Properties.Settings.Default.MRU = new StringCollection();
-                if (Properties.Settings.Default.MRU.Count == 0)
-                {
-                    Properties.Settings.Default.MRU.Add(filename);
-                    Model.MRUModel = new();
-                }
-                else if (Properties.Settings.Default.MRU[0] != filename)
-                {
-                    Properties.Settings.Default.MRU.Remove(filename);
-                    Properties.Settings.Default.MRU.Insert(0, filename);
-                    Model.MRUModel = new();
-                }
+                ProcessMRU(filename);
+                AdjustTabitems();
+            }
+        }
 
+        private void ProcessMRU(string filename)
+        {
+            if (Properties.Settings.Default.MRU == null) Properties.Settings.Default.MRU = new StringCollection();
+            if (Properties.Settings.Default.MRU.Count == 0)
+            {
+                Properties.Settings.Default.MRU.Add(filename);
+                Model.MRUModel = new();
+            }
+            else if (Properties.Settings.Default.MRU[0] != filename)
+            {
+                Properties.Settings.Default.MRU.Remove(filename);
+                Properties.Settings.Default.MRU.Insert(0, filename);
+                Model.MRUModel = new();
             }
         }
 
@@ -212,6 +217,7 @@ namespace PonzianiSwiss
             {
                 if (Model.FileName == null) MenuItem_Tournament_Save_As_Click(sender, e);
                 else File.WriteAllText(Model.FileName, Model.Tournament.Serialize());
+                if (Model.FileName != null) ProcessMRU(Model.FileName);
             }
         }
 

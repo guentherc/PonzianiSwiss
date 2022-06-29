@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Globalization;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace PonzianiSwissLib
 {
@@ -209,22 +210,24 @@ namespace PonzianiSwissLib
             throw new NotImplementedException();
         }
 
+        private static JsonSerializerOptions options = new()
+        {
+#if DEBUG
+            WriteIndented = true,
+#else
+                WriteIndented = false,
+#endif
+            ReferenceHandler = ReferenceHandler.Preserve
+        };
+
         public static string Serialize(this Tournament tournament)
         {
-            JsonSerializerOptions options = new()
-            {
-#if DEBUG
-                WriteIndented = true
-#else
-                WriteIndented = false
-#endif
-            };
             return JsonSerializer.Serialize(tournament, options);
         }
 
         public static Tournament? Deserialize(string json)
         {
-            return JsonSerializer.Deserialize<Tournament>(json);
+            return JsonSerializer.Deserialize<Tournament>(json, options);
         }
 
         public static async Task<bool> TestTRFGeneration()

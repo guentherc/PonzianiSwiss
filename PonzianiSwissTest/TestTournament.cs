@@ -241,7 +241,7 @@ namespace PonzianiSwissTest
             int indx = 0;
             while (!xxc.HasValue)
             {
-                var entry = tournament.Participants[indx].Scorecard?.Entries[0];
+                var entry = tournament.Participants.Find(p => p.ParticipantId == "1")?.Scorecard?.Entries[0];
                 if (entry != null && entry.Round == 0 && entry.Opponent != Participant.BYE)
                 {
                     xxc = entry.Side;
@@ -255,7 +255,7 @@ namespace PonzianiSwissTest
                 Dictionary<string, Result> byes = new();
                 foreach (var p in tournament.Rounds[round].Pairings)
                 {
-                    if (p.White.ParticipantId != null && (p.Result == Result.ZeroPointBye || p.Result == Result.HalfPointBye || p.Result == Result.FullPointBye))
+                    if (p.White?.ParticipantId != null && (p.Result == Result.ZeroPointBye || p.Result == Result.HalfPointBye || p.Result == Result.FullPointBye))
                         byes.Add(p.White.ParticipantId, p.Result);
                 }
                 bool drawIsOk = testTournament.DrawAsync(round, xxc, byes).Result;
@@ -268,15 +268,15 @@ namespace PonzianiSwissTest
                 foreach (Pairing pExpected in tournament.Rounds[round].Pairings)
                 {
 
-                    Pairing? pActual = testTournament.Rounds[round].Pairings.Find(e => e.White.ParticipantId == pExpected.White.ParticipantId);
+                    Pairing? pActual = testTournament.Rounds[round].Pairings.Find(e => e.White?.ParticipantId == pExpected.White?.ParticipantId);
                     if (pActual != null && pActual.Black == Participant.BYE) pActual.Black = Participant.BYE;
-                    if (pActual == null || pExpected.Black.ParticipantId != pActual.Black.ParticipantId)
+                    if (pActual == null || pExpected.Black?.ParticipantId != pActual.Black?.ParticipantId)
                     {
-                        Console.WriteLine($"Issue with {pExpected.White.ParticipantId} - {pExpected.Black.ParticipantId} Round {round}");
+                        Console.WriteLine($"Issue with {pExpected.White?.ParticipantId} - {pExpected.Black?.ParticipantId} Round {round}");
                         PrintGeneratedTRF(trfFile0);
                     }
                     Assert.IsNotNull(pActual);
-                    Assert.AreEqual(pExpected.Black.ParticipantId, pActual.Black.ParticipantId);
+                    Assert.AreEqual(pExpected.Black?.ParticipantId, pActual.Black?.ParticipantId);
                     pActual.Result = pExpected.Result;
                 }
             }

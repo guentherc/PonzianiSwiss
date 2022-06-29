@@ -7,7 +7,6 @@ Pairings Checker
 
 Issues:
 
-New when already Tournament is opened
 
 Done:
 

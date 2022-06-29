@@ -105,17 +105,7 @@ namespace PonzianiSwissTest
                 Assert.Fail();
                 return;
             }
-            var tabview = window.FindFirstDescendant(cf.ByAutomationId("MainTabControl")).AsTab();
-            tabview.RegisterAutomationEvent(automation.EventLibrary.Invoke.InvokedEvent, TreeScope.Element, (element, evnt) =>
-            {
-                Console.WriteLine(evnt.Name);
-            });
-
-            string filename = Path.GetTempFileName();
-            Console.WriteLine(filename);
-            File.WriteAllText(filename, Properties.Resources.Tournament_100_Participants_0_Rounds_tjson);
-            LoadFromFile(window, filename);
-            app?.WaitWhileBusy();
+            string filename = LoadTournament(window, Properties.Resources.Tournament_100_Participants_0_Rounds_tjson);
             //Retry.WhileFalse(() => ofd.IsOffscreen, TimeSpan.FromSeconds(5));
             var participants = GetParticipantsFromListView(window);
             Assert.AreEqual(100, participants.Count);
@@ -137,9 +127,45 @@ namespace PonzianiSwissTest
             participants = GetParticipantsFromListView(window);
             foreach (var participant in participants)
                 Assert.IsTrue(participant != null && participant.ContainsKey("ParticipantId") && int.Parse(participant["ParticipantId"]) > 0);
+            //Switch back to Round Tab
+            var tabview = window.FindFirstDescendant(cf.ByAutomationId("MainTabControl")).AsTab();
+            tabview.SelectTabItem(1);
+            app?.WaitWhileBusy();
+            Retry.WhileFalse(() => tabview.SelectedTabItemIndex == 1, TimeSpan.FromSeconds(5));
+            Retry.WhileNull(() => window.FindFirstByXPath($"/Tab/TabItem[2]/Custom/DataGrid"));
+            var listview_round = window.FindFirstByXPath($"/Tab/TabItem[2]/Custom/DataGrid").AsDataGridView();
+            Assert.IsNotNull(listview_round);
+            Wait.UntilResponsive(listview_round);
+            Assert.IsTrue(tabview.SelectedTabItemIndex == 1);
 
+            for (int rowIndex = 0; rowIndex < pairings.Count; ++rowIndex)
+            {
+                listview_round.Rows[rowIndex].AsGridRow().ScrollIntoView();
+                var white = participants.Where(p => p["ParticipantId"] == pairings[rowIndex]["IDWhite"]).First();
+                var black = participants.Where(p => p["ParticipantId"] == pairings[rowIndex]["IDBlack"]).First();
+                var result = Utils.Simulate(int.Parse(white["Rating"]), int.Parse(black["Rating"]));
+                Mouse.Click(listview_round.Rows[rowIndex].Cells[0].GetClickablePoint(), MouseButton.Right);
+                Wait.UntilInputIsProcessed();
+                var ctxMenu = window.ContextMenu;
+                Assert.IsNotNull(ctxMenu);
+                string automationId = $"MenuItem_Set_Result_{(int)result}";
+                var menuItem = ctxMenu.FindFirstDescendant(cf.ByAutomationId(automationId)).AsMenuItem();
+                menuItem.Invoke();
+                app?.WaitWhileBusy();
+            }
+            CheckAfterRoundCompleted(window);
             ClickMenuEntry(window, MenuItemKey.Tournament_Exit);
             File.Delete(filename);
+        }
+
+        private string LoadTournament(Window window, string json)
+        {
+            string filename = Path.GetTempFileName();
+            Console.WriteLine(filename);
+            File.WriteAllText(filename, json);
+            LoadFromFile(window, filename);
+            app?.WaitWhileBusy();
+            return filename;
         }
 
         private void LoadFromFile(Window window, string filename)
@@ -261,6 +287,7 @@ namespace PonzianiSwissTest
             var cbBase = nwindow.FindFirstDescendant(cf.ByAutomationId("ComboBox_Base")).AsComboBox();
             Assert.IsNotNull(cbBase);
             cbBase.Focus();
+            Thread.Sleep(1000);
             Keyboard.Type(playerbase.ToString());
             Keyboard.Press(FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             nwindow.Focus();
@@ -388,6 +415,7 @@ namespace PonzianiSwissTest
                 participants.Last().Add("Federation", subItems[1].AsListBoxItem().Text);
                 participants.Last().Add("FideId", subItems[2].AsListBoxItem().Text);
                 participants.Last().Add("Score", subItems[3].AsListBoxItem().Text);
+                participants.Last().Add("Rating", subItems[4].AsListBoxItem().Text);
                 participants.Last().Add("ParticipantId", subItems[5].AsListBoxItem().Text);
             }
             return participants;
@@ -591,6 +619,34 @@ namespace PonzianiSwissTest
             Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Participants_Add));
             Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Round_Delete));
             Assert.IsFalse(IsMenuItemEnabled(window, MenuItemKey.Round_Draw));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Settings_Basetheme));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Settings_Themecolor));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Settings_About));
+        }
+
+        private void CheckAfterRoundCompleted(Window window)
+        {
+            Assert.IsTrue(IsToolbarButtonEnabled(window, ToolbarButtonKey.Tournament_New));
+            Assert.IsTrue(IsToolbarButtonEnabled(window, ToolbarButtonKey.Tournament_Open));
+            Assert.IsTrue(IsToolbarButtonEnabled(window, ToolbarButtonKey.Tournament_Save));
+            Assert.IsTrue(IsToolbarButtonEnabled(window, ToolbarButtonKey.Tournament_Edit));
+            Assert.IsTrue(IsToolbarButtonEnabled(window, ToolbarButtonKey.Participants_Add));
+            Assert.IsTrue(IsToolbarButtonEnabled(window, ToolbarButtonKey.Round_Draw));
+
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_New));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Open));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Save));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Save_As));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Edit));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Edit_Forbidden));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Export_Crosstable));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Export_Pairings));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Export_Participant_Name));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Export_Participant_Rank));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Exit));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Participants_Add));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Round_Delete));
+            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Round_Draw));
             Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Settings_Basetheme));
             Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Settings_Themecolor));
             Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Settings_About));

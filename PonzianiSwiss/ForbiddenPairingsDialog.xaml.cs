@@ -80,7 +80,7 @@ namespace PonzianiSwiss
         public ForbiddenPairingsModel(Tournament tournament)
         {
             Tournament = tournament ?? new();
-            Rules = Tournament.ForbiddenPairingRules != null ? new(Tournament.ForbiddenPairingRules) : new();
+            Rules = new(Tournament.ForbiddenPairingRules);
             AvoidPairingsFromSameClub = Tournament.AvoidPairingsFromSameClub;
             AvoidPairingsFromSameFederation = Tournament.AvoidPairingsFromSameFederation;
         }

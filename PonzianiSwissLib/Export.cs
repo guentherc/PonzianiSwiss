@@ -31,15 +31,15 @@ namespace PonzianiSwissLib
             {
                 sb.AppendLine(@"<tr>");
                 sb.AppendLine($"<td>{board}</td>");
-                sb.AppendLine($"<td>{p.White.RankId}</td>");
-                sb.AppendLine($"<td>{p.White.Name}</td>");
-                sb.AppendLine($"<td>{(p.White.Title == FideTitle.NONE ? string.Empty : p.White.Title.ToString())}</td>");
-                sb.AppendLine($"<td>({p.White.Scorecard?.Score(round):F1})</td>");
+                sb.AppendLine($"<td>{p.White?.RankId}</td>");
+                sb.AppendLine($"<td>{p.White?.Name}</td>");
+                sb.AppendLine($"<td>{(p.White?.Title == FideTitle.NONE ? string.Empty : p.White?.Title.ToString())}</td>");
+                sb.AppendLine($"<td>({p.White?.Scorecard?.Score(round):F1})</td>");
                 sb.AppendLine($"<td>-</td>");
-                sb.AppendLine($"<td>{p.Black.RankId}</td>");
-                sb.AppendLine($"<td>{p.Black.Name}</td>");
-                sb.AppendLine($"<td>{(p.Black.Title == FideTitle.NONE ? string.Empty : p.Black.Title.ToString())}</td>");
-                sb.AppendLine($"<td>({p.Black.Scorecard?.Score(round):F1})</td>");
+                sb.AppendLine($"<td>{p.Black?.RankId}</td>");
+                sb.AppendLine($"<td>{p.Black?.Name}</td>");
+                sb.AppendLine($"<td>{(p.Black?.Title == FideTitle.NONE ? string.Empty : p.Black?.Title.ToString())}</td>");
+                sb.AppendLine($"<td>({p.Black?.Scorecard?.Score(round):F1})</td>");
                 sb.AppendLine($"<td>{Tournament.result_strings[(int)p.Result]}</td>");
                 sb.AppendLine(@"</tr>");
                 ++board;

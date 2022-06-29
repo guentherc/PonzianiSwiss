@@ -24,24 +24,24 @@
             </ListView.Resources>
             <ListView.ContextMenu>
                 <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
-                    <MenuItem Header="* (Open)" Click="MenuItem_Set_Result" Tag="0"/>
-                    <MenuItem Header="1-0" Click="MenuItem_Set_Result" Tag="9"/>
-                    <MenuItem Header="1/2-1/2" Click="MenuItem_Set_Result" Tag="6"/>
-                    <MenuItem Header="0-1" Click="MenuItem_Set_Result" Tag="2"/>
+                    <MenuItem x:Name="MenuItem_Set_Result_0" Header="* (Open)" Click="MenuItem_Set_Result" Tag="0"/>
+                    <MenuItem x:Name="MenuItem_Set_Result_9" Header="1-0" Click="MenuItem_Set_Result" Tag="9"/>
+                    <MenuItem x:Name="MenuItem_Set_Result_6" Header="1/2-1/2" Click="MenuItem_Set_Result" Tag="6"/>
+                    <MenuItem x:Name="MenuItem_Set_Result_2" Header="0-1" Click="MenuItem_Set_Result" Tag="2"/>
                     <MenuItem Header="Unrated">
-                        <MenuItem Header="1-0" Click="MenuItem_Set_Result" Tag="10"/>
-                        <MenuItem Header="1/2-1/2" Click="MenuItem_Set_Result" Tag="7"/>
-                        <MenuItem Header="0-1" Click="MenuItem_Set_Result" Tag="3"/>
+                        <MenuItem x:Name="MenuItem_Set_Result_10" Header="1-0" Click="MenuItem_Set_Result" Tag="10"/>
+                        <MenuItem x:Name="MenuItem_Set_Result_7" Header="1/2-1/2" Click="MenuItem_Set_Result" Tag="7"/>
+                        <MenuItem x:Name="MenuItem_Set_Result_3" Header="0-1" Click="MenuItem_Set_Result" Tag="3"/>
                     </MenuItem>
                     <MenuItem Header="Forfeit">
-                        <MenuItem Header="+--" Click="MenuItem_Set_Result" Tag="11"/>
-                        <MenuItem Header="--+" Click="MenuItem_Set_Result" Tag="1"/>
-                        <MenuItem Header="---" Click="MenuItem_Set_Result" Tag="13"/>
+                        <MenuItem x:Name="MenuItem_Set_Result_11" Header="+--" Click="MenuItem_Set_Result" Tag="11"/>
+                        <MenuItem x:Name="MenuItem_Set_Result_1" Header="--+" Click="MenuItem_Set_Result" Tag="1"/>
+                        <MenuItem x:Name="MenuItem_Set_Result_13" Header="---" Click="MenuItem_Set_Result" Tag="13"/>
                     </MenuItem>
                     <MenuItem Header="Bye">
-                        <MenuItem Header="1" Click="MenuItem_Set_Result" Tag="12"/>
-                        <MenuItem Header="1/2" Click="MenuItem_Set_Result" Tag="8"/>
-                        <MenuItem Header="0" Click="MenuItem_Set_Result" Tag="5"/>
+                        <MenuItem x:Name="MenuItem_Set_Result_12" Header="1" Click="MenuItem_Set_Result" Tag="12"/>
+                        <MenuItem x:Name="MenuItem_Set_Result_8" Header="1/2" Click="MenuItem_Set_Result" Tag="8"/>
+                        <MenuItem x:Name="MenuItem_Set_Result_5" Header="0" Click="MenuItem_Set_Result" Tag="5"/>
                     </MenuItem>
                 </ContextMenu>
             </ListView.ContextMenu>
