@@ -86,6 +86,12 @@ namespace PonzianiSwissLib
             tournament.OrderByRank();
         }
 
+        public static int Hash(this Tournament tournament)
+        {
+            string json = tournament.Serialize();
+            return json.GetHashCode();
+        }
+
         private static readonly string[] ShortTitles = { "g", "wg", "m", "wm", "f", "wf", "c", "wc", string.Empty };
         private static void ProcessPlayerTRF(this Tournament tournament, List<string> playerList)
         {

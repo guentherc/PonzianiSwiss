@@ -61,6 +61,8 @@ namespace PonzianiSwiss
             _ = FederationUtil.GetFederations();
         }
 
+        private int TournamentHash = 0;
+
         private void RenderThemeMenuEntries()
         {
             MenuItem_Settings_Basetheme.Items.Clear();
@@ -137,7 +139,7 @@ namespace PonzianiSwiss
 
         private void MenuItem_Tournament_New_Click(object sender, RoutedEventArgs e)
         {
-            if (Model.Tournament != null)
+            if (Model.Tournament != null && TournamentHash != Model.Tournament.Hash())
             {
                 if (MessageBox.Show(this, "There might be unsaved data!", "Warning", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.Cancel) return;
             }
@@ -151,6 +153,10 @@ namespace PonzianiSwiss
                 Model.Tournament = td.Model.Tournament;
                 Model.Participants.Clear();
                 Model.FileName = null;
+                TournamentHash = Model.Tournament.Hash();
+                Model.SyncParticipants();
+                Model.SyncRounds();
+                AdjustTabitems();
             } 
         }
 
@@ -193,6 +199,7 @@ namespace PonzianiSwiss
                 Model.SyncRounds();
                 ProcessMRU(filename);
                 AdjustTabitems();
+                TournamentHash = Model.Tournament.Hash();
             }
         }
 
