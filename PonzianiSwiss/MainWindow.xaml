@@ -7,7 +7,7 @@
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" d:DataContext="{d:DesignInstance Type=local:MainModel}"
                  mc:Ignorable="d"
-        Title="{Binding Path=Tournament.Name}" Height="450" Width="800" TitleCharacterCasing="Normal" Closed="MetroWindow_Closed">
+        Title="{Binding Path=Tournament.Name}" Height="450" Width="800" TitleCharacterCasing="Normal" Closed="MetroWindow_Closed" Closing="MetroWindow_Closing">
     <Window.Resources>
         <local:TextSetToBoolConverter x:Key="TextSetToBoolConverter"/>
     </Window.Resources>
@@ -25,8 +25,8 @@
                     </Style>
                 </Menu.Resources>
                 <MenuItem x:Name="MenuItem_Tournament" Header="Tournament">
-                    <MenuItem x:Name="MenuItem_Tournament_New" Header="New" Click="MenuItem_Tournament_New_Click"/>
-                    <MenuItem x:Name="MenuItem_Tournament_Open" Header="Open ..." Click="MenuItem_Tournament_Open_Click" IsEnabled="True"/>
+                    <MenuItem x:Name="MenuItem_Tournament_New" Header="New" Click="MenuItem_Tournament_New_ClickAsync"/>
+                    <MenuItem x:Name="MenuItem_Tournament_Open" Header="Open ..." Click="MenuItem_Tournament_Open_ClickAsync" IsEnabled="True"/>
                     <MenuItem x:Name="MenuItem_Tournament_Save" Header="Save" Click="MenuItem_Tournament_Save_Click" IsEnabled="{Binding Path=FileName, Converter={StaticResource TextSetToBoolConverter}}"/>
                     <MenuItem x:Name="MenuItem_Tournament_Save_As" Header="Save As ..." Click="MenuItem_Tournament_Save_As_Click" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}"/>
                     <Separator/>
@@ -43,10 +43,10 @@
                     </MenuItem>
                     <Separator Visibility="{Binding Path=MRUModel.Visibility}"/>
                     <MenuItem Header="Recent Files" Visibility="{Binding Path=MRUModel.Visibility}">
-                        <MenuItem x:Name="MenuItem_Tournament_MRU1" Header="{Binding Path=MRUModel.FileName1}" Tag="{Binding Path=MRUModel.Path1}" Visibility="{Binding Path=MRUModel.Visibility1}" Click="MenuItem_Tournament_MRU_Click"/>
-                        <MenuItem x:Name="MenuItem_Tournament_MRU2" Header="{Binding Path=MRUModel.FileName2}" Tag="{Binding Path=MRUModel.Path2}" Visibility="{Binding Path=MRUModel.Visibility2}" Click="MenuItem_Tournament_MRU_Click"/>
-                        <MenuItem x:Name="MenuItem_Tournament_MRU3" Header="{Binding Path=MRUModel.FileName3}" Tag="{Binding Path=MRUModel.Path3}" Visibility="{Binding Path=MRUModel.Visibility3}" Click="MenuItem_Tournament_MRU_Click"/>
-                        <MenuItem x:Name="MenuItem_Tournament_MRU4" Header="{Binding Path=MRUModel.FileName4}" Tag="{Binding Path=MRUModel.Path4}" Visibility="{Binding Path=MRUModel.Visibility4}" Click="MenuItem_Tournament_MRU_Click"/>
+                        <MenuItem x:Name="MenuItem_Tournament_MRU1" Header="{Binding Path=MRUModel.FileName1}" Tag="{Binding Path=MRUModel.Path1}" Visibility="{Binding Path=MRUModel.Visibility1}" Click="MenuItem_Tournament_MRU_ClickAsync"/>
+                        <MenuItem x:Name="MenuItem_Tournament_MRU2" Header="{Binding Path=MRUModel.FileName2}" Tag="{Binding Path=MRUModel.Path2}" Visibility="{Binding Path=MRUModel.Visibility2}" Click="MenuItem_Tournament_MRU_ClickAsync"/>
+                        <MenuItem x:Name="MenuItem_Tournament_MRU3" Header="{Binding Path=MRUModel.FileName3}" Tag="{Binding Path=MRUModel.Path3}" Visibility="{Binding Path=MRUModel.Visibility3}" Click="MenuItem_Tournament_MRU_ClickAsync"/>
+                        <MenuItem x:Name="MenuItem_Tournament_MRU4" Header="{Binding Path=MRUModel.FileName4}" Tag="{Binding Path=MRUModel.Path4}" Visibility="{Binding Path=MRUModel.Visibility4}" Click="MenuItem_Tournament_MRU_ClickAsync"/>
                     </MenuItem>
                     <Separator/>
                     <MenuItem x:Name="MenuItem_Tournament_Exit" Header="Exit" Click="MenuItem_Tournament_Exit_Click"/>
@@ -76,10 +76,10 @@
                 </MenuItem>
             </Menu>
             <ToolBar Height="32" Grid.Row="1" x:Name="MainView_Toolbar">
-                <Button x:Name="Toolbar_Tournament_New" Click="MenuItem_Tournament_New_Click" ToolTip="Create New Tournament">
+                <Button x:Name="Toolbar_Tournament_New" Click="MenuItem_Tournament_New_ClickAsync" ToolTip="Create New Tournament">
                     <iconPacks:PackIconCodicons Kind="NewFile" />
                 </Button>
-                <Button x:Name="Toolbar_Tournament_Open" Click="MenuItem_Tournament_Open_Click" ToolTip="Load Tournament">
+                <Button x:Name="Toolbar_Tournament_Open" Click="MenuItem_Tournament_Open_ClickAsync" ToolTip="Load Tournament">
                     <iconPacks:PackIconCodicons Kind="FolderOpened" />
                 </Button>
                 <Button x:Name="Toolbar_Tournament_Save" Click="MenuItem_Tournament_Save_Click" ToolTip="Save Tournament" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}">

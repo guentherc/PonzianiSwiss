@@ -159,7 +159,7 @@ namespace PonzianiSwissTest
                 }
             }
 
-            ClickMenuEntry(window, MenuItemKey.Tournament_Exit);
+            Exit(window);
             File.Delete(filename);
         }
 
@@ -245,8 +245,18 @@ namespace PonzianiSwissTest
                 app?.WaitWhileBusy();
             }
             CheckAfterRoundCompleted(window);
-            ClickMenuEntry(window, MenuItemKey.Tournament_Exit);
+            Exit(window);
             File.Delete(filename);
+        }
+
+        private void Exit(Window? window)
+        {
+            ClickMenuEntry(window, MenuItemKey.Tournament_Exit);
+            app?.WaitWhileBusy();
+            Retry.WhileNull(() => window.FindFirstDescendant(cf.ByAutomationId("PART_AffirmativeButton")), TimeSpan.FromSeconds(5));
+            var exitBtn = window.FindFirstDescendant(cf.ByAutomationId("PART_AffirmativeButton")).AsButton();
+            Assert.IsNotNull(exitBtn);
+            exitBtn.Invoke();
         }
 
         private string LoadTournament(Window window, string json)
@@ -368,7 +378,7 @@ namespace PonzianiSwissTest
             //Check active state of menu items and toolbar buttons
             CheckAfterParticipantsAdded(window);
 
-            ClickMenuEntry(window, MenuItemKey.Tournament_Exit);
+            Exit(window);
         }
 
         private void AddPlayerFromNationalDatabase(Window window, PlayerBaseFactory.Base playerbase, string name, bool cancel = false)

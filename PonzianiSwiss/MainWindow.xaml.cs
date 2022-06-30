@@ -137,12 +137,20 @@ namespace PonzianiSwiss
         public MainModel Model { set; get; }
         private readonly HTMLViewer htmlViewer = new();
 
-        private void MenuItem_Tournament_New_Click(object sender, RoutedEventArgs e)
+        private async void MenuItem_Tournament_New_ClickAsync(object sender, RoutedEventArgs e)
         {
+            var uiContext = SynchronizationContext.Current;
+            MessageDialogResult messageDialogResult = MessageDialogResult.Affirmative;
             if (Model.Tournament != null && TournamentHash != Model.Tournament.Hash())
             {
-                if (MessageBox.Show(this, "There might be unsaved data!", "Warning", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.Cancel) return;
+                messageDialogResult = await this.ShowMessageAsync("Create new Tournament", "There might be unsaved data which will be lost! Do you want to proceed?", MessageDialogStyle.AffirmativeAndNegative);
+                if (messageDialogResult == MessageDialogResult.Negative) return;
             }
+            uiContext?.Send(x => OpenTournamentDialog(), null);
+        }
+
+        private void OpenTournamentDialog()
+        {
             TournamentDialog td = new(new())
             {
                 Title = "Create new Tournament",
@@ -157,7 +165,7 @@ namespace PonzianiSwiss
                 Model.SyncParticipants();
                 Model.SyncRounds();
                 AdjustTabitems();
-            } 
+            }
         }
 
         private void MenuItem_Tournament_Exit_Click(object sender, RoutedEventArgs e)
@@ -165,12 +173,20 @@ namespace PonzianiSwiss
             this.Close();
         }
 
-        private void MenuItem_Tournament_Open_Click(object sender, RoutedEventArgs e)
+        private async void MenuItem_Tournament_Open_ClickAsync(object sender, RoutedEventArgs e)
         {
-            if (Model.Tournament != null)
+            var uiContext = SynchronizationContext.Current;
+            MessageDialogResult messageDialogResult = MessageDialogResult.Affirmative;
+            if (Model.Tournament != null && TournamentHash != Model.Tournament.Hash())
             {
-                if (MessageBox.Show(this, "There might be unsaved data!", "Warning", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.Cancel) return;
+                messageDialogResult = await this.ShowMessageAsync("Load Tournament", "There might be unsaved data which will be lost! Do you want to proceed?", MessageDialogStyle.AffirmativeAndNegative);
+                if (messageDialogResult == MessageDialogResult.Negative) return;
             }
+            uiContext?.Send(x => LoadWithDialog(), null);
+        }
+
+        private void LoadWithDialog()
+        {
             OpenFileDialog openFileDialog = new()
             {
                 Filter = $"Tournament Files|*.tjson|All Files|*.*",
@@ -497,14 +513,21 @@ namespace PonzianiSwiss
             Properties.Settings.Default.Save();
         }
 
-        private void MenuItem_Tournament_MRU_Click(object sender, RoutedEventArgs e)
+        private async void MenuItem_Tournament_MRU_ClickAsync(object sender, RoutedEventArgs e)
         {
             MenuItem mi = (MenuItem)sender;
             if (mi == null) return;
             string fileName = mi.Tag?.ToString() ?? string.Empty;
             if (fileName != string.Empty)
             {
-                Load(fileName);
+                var uiContext = SynchronizationContext.Current;
+                MessageDialogResult messageDialogResult = MessageDialogResult.Affirmative;
+                if (Model.Tournament != null && TournamentHash != Model.Tournament.Hash())
+                {
+                    messageDialogResult = await this.ShowMessageAsync($"Load Tournament {System.IO.Path.GetFileNameWithoutExtension(fileName)}", "There might be unsaved data which will be lost! Do you want to proceed?", MessageDialogStyle.AffirmativeAndNegative);
+                    if (messageDialogResult == MessageDialogResult.Negative) return;
+                }
+                uiContext?.Send(x => Load(fileName), null);
             }
         }
 
@@ -519,6 +542,15 @@ namespace PonzianiSwiss
             ForbiddenPairingsDialog dlg = new(Model.Tournament);
             dlg.Owner = this;
             dlg.ShowDialog();
+        }
+
+        private void MetroWindow_Closing(object sender, CancelEventArgs e)
+        {
+            if (Model.Tournament != null && TournamentHash != Model.Tournament.Hash())
+            {
+                var messageDialogResult =  this.ShowModalMessageExternal($"Exit Application", "There might be unsaved data which will be lost! Do you want to proceed?", MessageDialogStyle.AffirmativeAndNegative);
+                e.Cancel = messageDialogResult == MessageDialogResult.Negative;
+            }
         }
     }
 
