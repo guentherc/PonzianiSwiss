@@ -1,0 +1,3593 @@
+{
+  "$id": "1",
+  "Participants": {
+    "$id": "2",
+    "$values": [
+      {
+        "$id": "3",
+        "Name": "Ivanov, Alexander",
+        "FideRating": 2463,
+        "AlternativeRating": 0,
+        "Title": 0,
+        "FideId": 2000202,
+        "Federation": "USA",
+        "ParticipantId": "1",
+        "RankId": "1",
+        "Active": null,
+        "Rank": 1,
+        "Club": "",
+        "YearOfBirth": 1956,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "4"
+        }
+      },
+      {
+        "$id": "5",
+        "Name": "Sorm, Daniel",
+        "FideRating": 2306,
+        "AlternativeRating": 0,
+        "Title": 4,
+        "FideId": 5400139,
+        "Federation": "CZE",
+        "ParticipantId": "2",
+        "RankId": "2",
+        "Active": null,
+        "Rank": 2,
+        "Club": "",
+        "YearOfBirth": 1960,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "6"
+        }
+      },
+      {
+        "$id": "7",
+        "Name": "Barrish, Daniel",
+        "FideRating": 2281,
+        "AlternativeRating": 0,
+        "Title": 4,
+        "FideId": 14304600,
+        "Federation": "RSA",
+        "ParticipantId": "3",
+        "RankId": "3",
+        "Active": null,
+        "Rank": 3,
+        "Club": "",
+        "YearOfBirth": 2000,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "8"
+        }
+      },
+      {
+        "$id": "9",
+        "Name": "Estremera Panos, Sergio",
+        "FideRating": 2260,
+        "AlternativeRating": 0,
+        "Title": 2,
+        "FideId": 2200864,
+        "Federation": "ESP",
+        "ParticipantId": "4",
+        "RankId": "24",
+        "Active": null,
+        "Rank": 24,
+        "Club": "",
+        "YearOfBirth": 1962,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "10"
+        }
+      },
+      {
+        "$id": "11",
+        "Name": "Kristensen, Bjarke Hautop",
+        "FideRating": 2219,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 1437747,
+        "Federation": "DEN",
+        "ParticipantId": "5",
+        "RankId": "4",
+        "Active": null,
+        "Rank": 4,
+        "Club": "",
+        "YearOfBirth": 2000,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "12"
+        }
+      },
+      {
+        "$id": "13",
+        "Name": "Bohn, Ulrich",
+        "FideRating": 2168,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 4656105,
+        "Federation": "GER",
+        "ParticipantId": "6",
+        "RankId": "5",
+        "Active": null,
+        "Rank": 5,
+        "Club": "",
+        "YearOfBirth": 1964,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "14"
+        }
+      },
+      {
+        "$id": "15",
+        "Name": "Jaworski, Miroslaw",
+        "FideRating": 2166,
+        "AlternativeRating": 0,
+        "Title": 2,
+        "FideId": 1101579,
+        "Federation": "POL",
+        "ParticipantId": "7",
+        "RankId": "6",
+        "Active": null,
+        "Rank": 6,
+        "Club": "",
+        "YearOfBirth": 1965,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "16"
+        }
+      },
+      {
+        "$id": "17",
+        "Name": "Salvador Mura, Sergi",
+        "FideRating": 2158,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 2268272,
+        "Federation": "ESP",
+        "ParticipantId": "8",
+        "RankId": "7",
+        "Active": null,
+        "Rank": 7,
+        "Club": "",
+        "YearOfBirth": 1987,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "18"
+        }
+      },
+      {
+        "$id": "19",
+        "Name": "Zorrilla Jimenez, Wilber Edwin",
+        "FideRating": 2007,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 6409113,
+        "Federation": "DOM",
+        "ParticipantId": "9",
+        "RankId": "8",
+        "Active": null,
+        "Rank": 8,
+        "Club": "",
+        "YearOfBirth": 1990,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "20"
+        }
+      },
+      {
+        "$id": "21",
+        "Name": "Sorensen, Per Settergren",
+        "FideRating": 1994,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 1413872,
+        "Federation": "DEN",
+        "ParticipantId": "10",
+        "RankId": "67",
+        "Active": null,
+        "Rank": 27,
+        "Club": "",
+        "YearOfBirth": 1961,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "22"
+        }
+      },
+      {
+        "$id": "23",
+        "Name": "Kehloul Gutierrez, Sadek",
+        "FideRating": 1968,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 32022425,
+        "Federation": "ESP",
+        "ParticipantId": "11",
+        "RankId": "9",
+        "Active": null,
+        "Rank": 9,
+        "Club": "",
+        "YearOfBirth": 1995,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "24"
+        }
+      },
+      {
+        "$id": "25",
+        "Name": "Filippova, Darya",
+        "FideRating": 1961,
+        "AlternativeRating": 0,
+        "Title": 5,
+        "FideId": 24173738,
+        "Federation": "RUS",
+        "ParticipantId": "12",
+        "RankId": "10",
+        "Active": null,
+        "Rank": 10,
+        "Club": "",
+        "YearOfBirth": 2002,
+        "Sex": 1,
+        "Attributes": {
+          "$id": "26"
+        }
+      },
+      {
+        "$id": "27",
+        "Name": "Dijkstra, Hidde",
+        "FideRating": 1960,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 1045652,
+        "Federation": "NED",
+        "ParticipantId": "13",
+        "RankId": "11",
+        "Active": null,
+        "Rank": 11,
+        "Club": "",
+        "YearOfBirth": 1996,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "28"
+        }
+      },
+      {
+        "$id": "29",
+        "Name": "Sellami, MHamed",
+        "FideRating": 1956,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 644498,
+        "Federation": "FRA",
+        "ParticipantId": "14",
+        "RankId": "12",
+        "Active": null,
+        "Rank": 12,
+        "Club": "",
+        "YearOfBirth": 1964,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "30"
+        }
+      },
+      {
+        "$id": "31",
+        "Name": "Logerais, Pierre",
+        "FideRating": 1928,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 641502,
+        "Federation": "FRA",
+        "ParticipantId": "15",
+        "RankId": "26",
+        "Active": null,
+        "Rank": 25,
+        "Club": "",
+        "YearOfBirth": 1993,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "32"
+        }
+      },
+      {
+        "$id": "33",
+        "Name": "Koenigsberg, Andrew",
+        "FideRating": 1925,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 2064189,
+        "Federation": "USA",
+        "ParticipantId": "16",
+        "RankId": "27",
+        "Active": null,
+        "Rank": 28,
+        "Club": "",
+        "YearOfBirth": 1979,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "34"
+        }
+      },
+      {
+        "$id": "35",
+        "Name": "Cop, Jaka",
+        "FideRating": 1916,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 14608383,
+        "Federation": "SLO",
+        "ParticipantId": "17",
+        "RankId": "13",
+        "Active": null,
+        "Rank": 13,
+        "Club": "",
+        "YearOfBirth": 1998,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "36"
+        }
+      },
+      {
+        "$id": "37",
+        "Name": "Halilovic, Zijad",
+        "FideRating": 1905,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 1668005,
+        "Federation": "AUT",
+        "ParticipantId": "18",
+        "RankId": "14",
+        "Active": null,
+        "Rank": 14,
+        "Club": "",
+        "YearOfBirth": 1957,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "38"
+        }
+      },
+      {
+        "$id": "39",
+        "Name": "Rosario Almanzar, Raydily",
+        "FideRating": 1882,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 6403573,
+        "Federation": "DOM",
+        "ParticipantId": "19",
+        "RankId": "15",
+        "Active": null,
+        "Rank": 15,
+        "Club": "",
+        "YearOfBirth": 1998,
+        "Sex": 1,
+        "Attributes": {
+          "$id": "40"
+        }
+      },
+      {
+        "$id": "41",
+        "Name": "Alvarez, Marco Antonio",
+        "FideRating": 1881,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 3304930,
+        "Federation": "BOL",
+        "ParticipantId": "20",
+        "RankId": "16",
+        "Active": null,
+        "Rank": 16,
+        "Club": "",
+        "YearOfBirth": 1999,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "42"
+        }
+      },
+      {
+        "$id": "43",
+        "Name": "Petersen, Jan Han",
+        "FideRating": 1871,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 1427121,
+        "Federation": "DEN",
+        "ParticipantId": "21",
+        "RankId": "17",
+        "Active": null,
+        "Rank": 17,
+        "Club": "",
+        "YearOfBirth": 1972,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "44"
+        }
+      },
+      {
+        "$id": "45",
+        "Name": "Livshits, Igor",
+        "FideRating": 1849,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 2817390,
+        "Federation": "ISR",
+        "ParticipantId": "22",
+        "RankId": "18",
+        "Active": null,
+        "Rank": 18,
+        "Club": "",
+        "YearOfBirth": 1984,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "46"
+        }
+      },
+      {
+        "$id": "47",
+        "Name": "Vorvul, Sergey",
+        "FideRating": 1847,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 4111486,
+        "Federation": "RUS",
+        "ParticipantId": "23",
+        "RankId": "19",
+        "Active": null,
+        "Rank": 19,
+        "Club": "",
+        "YearOfBirth": 1940,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "48"
+        }
+      },
+      {
+        "$id": "49",
+        "Name": "Schulz, Stefan",
+        "FideRating": 1840,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 12943070,
+        "Federation": "GER",
+        "ParticipantId": "24",
+        "RankId": "64",
+        "Active": null,
+        "Rank": 29,
+        "Club": "",
+        "YearOfBirth": 1987,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "50"
+        }
+      },
+      {
+        "$id": "51",
+        "Name": "Valerio, Gianluca",
+        "FideRating": 1839,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 817988,
+        "Federation": "ITA",
+        "ParticipantId": "25",
+        "RankId": "45",
+        "Active": null,
+        "Rank": 30,
+        "Club": "",
+        "YearOfBirth": 1973,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "52"
+        }
+      },
+      {
+        "$id": "53",
+        "Name": "Marhoefer, Daniel",
+        "FideRating": 1832,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 12959561,
+        "Federation": "GER",
+        "ParticipantId": "26",
+        "RankId": "20",
+        "Active": null,
+        "Rank": 20,
+        "Club": "",
+        "YearOfBirth": 1995,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "54"
+        }
+      },
+      {
+        "$id": "55",
+        "Name": "Castro Loppi, Nicolas",
+        "FideRating": 1826,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 2239663,
+        "Federation": "ESP",
+        "ParticipantId": "27",
+        "RankId": "21",
+        "Active": null,
+        "Rank": 21,
+        "Club": "",
+        "YearOfBirth": 1981,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "56"
+        }
+      },
+      {
+        "$id": "57",
+        "Name": "Toshkov, Angel",
+        "FideRating": 1825,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 2910780,
+        "Federation": "BUL",
+        "ParticipantId": "28",
+        "RankId": "28",
+        "Active": null,
+        "Rank": 31,
+        "Club": "",
+        "YearOfBirth": 1982,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "58"
+        }
+      },
+      {
+        "$id": "59",
+        "Name": "Goldschmidt, Sven",
+        "FideRating": 1825,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 230910,
+        "Federation": "BEL",
+        "ParticipantId": "29",
+        "RankId": "46",
+        "Active": null,
+        "Rank": 32,
+        "Club": "",
+        "YearOfBirth": 1984,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "60"
+        }
+      },
+      {
+        "$id": "61",
+        "Name": "Ricciardi, Gianmarco",
+        "FideRating": 1783,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 2815236,
+        "Federation": "ITA",
+        "ParticipantId": "30",
+        "RankId": "29",
+        "Active": null,
+        "Rank": 33,
+        "Club": "",
+        "YearOfBirth": 1997,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "62"
+        }
+      },
+      {
+        "$id": "63",
+        "Name": "Perunovic, Ljubivoje",
+        "FideRating": 1782,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 920967,
+        "Federation": "SRB",
+        "ParticipantId": "31",
+        "RankId": "25",
+        "Active": null,
+        "Rank": 26,
+        "Club": "",
+        "YearOfBirth": 1937,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "64"
+        }
+      },
+      {
+        "$id": "65",
+        "Name": "Deneuville, Martin",
+        "FideRating": 1731,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 551020122,
+        "Federation": "FRA",
+        "ParticipantId": "32",
+        "RankId": "30",
+        "Active": null,
+        "Rank": 34,
+        "Club": "",
+        "YearOfBirth": 1991,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "66"
+        }
+      },
+      {
+        "$id": "67",
+        "Name": "Stroosma, Harry",
+        "FideRating": 1704,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 1041134,
+        "Federation": "NED",
+        "ParticipantId": "33",
+        "RankId": "47",
+        "Active": null,
+        "Rank": 35,
+        "Club": "",
+        "YearOfBirth": 1938,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "68"
+        }
+      },
+      {
+        "$id": "69",
+        "Name": "Herrera Benitez, Felipe",
+        "FideRating": 1691,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 3532844,
+        "Federation": "CUB",
+        "ParticipantId": "34",
+        "RankId": "31",
+        "Active": null,
+        "Rank": 36,
+        "Club": "",
+        "YearOfBirth": 2010,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "70"
+        }
+      },
+      {
+        "$id": "71",
+        "Name": "Luzik, Libor",
+        "FideRating": 1690,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 346373,
+        "Federation": "CZE",
+        "ParticipantId": "35",
+        "RankId": "48",
+        "Active": null,
+        "Rank": 37,
+        "Club": "",
+        "YearOfBirth": 1973,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "72"
+        }
+      },
+      {
+        "$id": "73",
+        "Name": "Claver Paules, Jose Ignacio",
+        "FideRating": 1686,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 2234378,
+        "Federation": "ESP",
+        "ParticipantId": "36",
+        "RankId": "32",
+        "Active": null,
+        "Rank": 38,
+        "Club": "",
+        "YearOfBirth": 1992,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "74"
+        }
+      },
+      {
+        "$id": "75",
+        "Name": "Endresen, Svein Harald",
+        "FideRating": 1656,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 1507460,
+        "Federation": "NOR",
+        "ParticipantId": "37",
+        "RankId": "49",
+        "Active": null,
+        "Rank": 39,
+        "Club": "",
+        "YearOfBirth": 1961,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "76"
+        }
+      },
+      {
+        "$id": "77",
+        "Name": "Kokkota, Eleni",
+        "FideRating": 1647,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 4258860,
+        "Federation": "GRE",
+        "ParticipantId": "38",
+        "RankId": "33",
+        "Active": null,
+        "Rank": 40,
+        "Club": "",
+        "YearOfBirth": 1999,
+        "Sex": 1,
+        "Attributes": {
+          "$id": "78"
+        }
+      },
+      {
+        "$id": "79",
+        "Name": "Idoux, Rene",
+        "FideRating": 1640,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 20660227,
+        "Federation": "FRA",
+        "ParticipantId": "39",
+        "RankId": "70",
+        "Active": null,
+        "Rank": 41,
+        "Club": "",
+        "YearOfBirth": 1945,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "80"
+        }
+      },
+      {
+        "$id": "81",
+        "Name": "Luchi, Andrea",
+        "FideRating": 1628,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 864412,
+        "Federation": "ITA",
+        "ParticipantId": "40",
+        "RankId": "34",
+        "Active": null,
+        "Rank": 42,
+        "Club": "",
+        "YearOfBirth": 1959,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "82"
+        }
+      },
+      {
+        "$id": "83",
+        "Name": "Qiao, Ethan",
+        "FideRating": 1619,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 30979951,
+        "Federation": "USA",
+        "ParticipantId": "41",
+        "RankId": "50",
+        "Active": null,
+        "Rank": 43,
+        "Club": "",
+        "YearOfBirth": 2008,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "84"
+        }
+      },
+      {
+        "$id": "85",
+        "Name": "Trzaskalik, Krzysztof",
+        "FideRating": 1618,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 21072108,
+        "Federation": "POL",
+        "ParticipantId": "42",
+        "RankId": "35",
+        "Active": null,
+        "Rank": 44,
+        "Club": "",
+        "YearOfBirth": 1981,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "86"
+        }
+      },
+      {
+        "$id": "87",
+        "Name": "Obradovic, Miroslav",
+        "FideRating": 1592,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 963674,
+        "Federation": "SRB",
+        "ParticipantId": "43",
+        "RankId": "22",
+        "Active": null,
+        "Rank": 22,
+        "Club": "",
+        "YearOfBirth": 1952,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "88"
+        }
+      },
+      {
+        "$id": "89",
+        "Name": "Rajanya Datta",
+        "FideRating": 1589,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 45033641,
+        "Federation": "IND",
+        "ParticipantId": "44",
+        "RankId": "36",
+        "Active": null,
+        "Rank": 45,
+        "Club": "",
+        "YearOfBirth": 2008,
+        "Sex": 1,
+        "Attributes": {
+          "$id": "90"
+        }
+      },
+      {
+        "$id": "91",
+        "Name": "Osicka, Premysl",
+        "FideRating": 1587,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 379360,
+        "Federation": "CZE",
+        "ParticipantId": "45",
+        "RankId": "51",
+        "Active": null,
+        "Rank": 46,
+        "Club": "",
+        "YearOfBirth": 1996,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "92"
+        }
+      },
+      {
+        "$id": "93",
+        "Name": "Cuellar Puente, Cesar Javier",
+        "FideRating": 1587,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 396216153,
+        "Federation": "FID",
+        "ParticipantId": "46",
+        "RankId": "37",
+        "Active": null,
+        "Rank": 47,
+        "Club": "",
+        "YearOfBirth": 1997,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "94"
+        }
+      },
+      {
+        "$id": "95",
+        "Name": "Matinhike, Addlight",
+        "FideRating": 1576,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 11003898,
+        "Federation": "ZIM",
+        "ParticipantId": "47",
+        "RankId": "52",
+        "Active": null,
+        "Rank": 48,
+        "Club": "",
+        "YearOfBirth": 1993,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "96"
+        }
+      },
+      {
+        "$id": "97",
+        "Name": "Taleb, Mohamad",
+        "FideRating": 1575,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 256730,
+        "Federation": "BEL",
+        "ParticipantId": "48",
+        "RankId": "38",
+        "Active": null,
+        "Rank": 49,
+        "Club": "",
+        "YearOfBirth": 1975,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "98"
+        }
+      },
+      {
+        "$id": "99",
+        "Name": "Vacas Sanchez, Antonio",
+        "FideRating": 1574,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 22285270,
+        "Federation": "ESP",
+        "ParticipantId": "49",
+        "RankId": "53",
+        "Active": null,
+        "Rank": 50,
+        "Club": "",
+        "YearOfBirth": 1978,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "100"
+        }
+      },
+      {
+        "$id": "101",
+        "Name": "Cardoso, Leonardo Dal Poz",
+        "FideRating": 1566,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 22781862,
+        "Federation": "BRA",
+        "ParticipantId": "50",
+        "RankId": "23",
+        "Active": null,
+        "Rank": 23,
+        "Club": "",
+        "YearOfBirth": 2005,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "102"
+        }
+      },
+      {
+        "$id": "103",
+        "Name": "Tsvetikova, Anastasiya",
+        "FideRating": 1565,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 34188964,
+        "Federation": "RUS",
+        "ParticipantId": "51",
+        "RankId": "71",
+        "Active": null,
+        "Rank": 71,
+        "Club": "",
+        "YearOfBirth": 1999,
+        "Sex": 1,
+        "Attributes": {
+          "$id": "104"
+        }
+      },
+      {
+        "$id": "105",
+        "Name": "Garofalo, Sergio",
+        "FideRating": 1563,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 812056,
+        "Federation": "ITA",
+        "ParticipantId": "52",
+        "RankId": "39",
+        "Active": null,
+        "Rank": 51,
+        "Club": "",
+        "YearOfBirth": 1956,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "106"
+        }
+      },
+      {
+        "$id": "107",
+        "Name": "Vikhlyaev, Pavel",
+        "FideRating": 1558,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 55696295,
+        "Federation": "RUS",
+        "ParticipantId": "53",
+        "RankId": "72",
+        "Active": null,
+        "Rank": 72,
+        "Club": "",
+        "YearOfBirth": 2006,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "108"
+        }
+      },
+      {
+        "$id": "109",
+        "Name": "Moshoboro Arona",
+        "FideRating": 1555,
+        "AlternativeRating": 0,
+        "Title": 7,
+        "FideId": 11315920,
+        "Federation": "BOT",
+        "ParticipantId": "54",
+        "RankId": "62",
+        "Active": null,
+        "Rank": 52,
+        "Club": "",
+        "YearOfBirth": 2007,
+        "Sex": 1,
+        "Attributes": {
+          "$id": "110"
+        }
+      },
+      {
+        "$id": "111",
+        "Name": "Haraj, Kamil",
+        "FideRating": 1554,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 14954087,
+        "Federation": "SVK",
+        "ParticipantId": "55",
+        "RankId": "54",
+        "Active": null,
+        "Rank": 53,
+        "Club": "",
+        "YearOfBirth": 1976,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "112"
+        }
+      },
+      {
+        "$id": "113",
+        "Name": "Redondo Arguelles, Gonzalo",
+        "FideRating": 1546,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 2239485,
+        "Federation": "ESP",
+        "ParticipantId": "56",
+        "RankId": "40",
+        "Active": null,
+        "Rank": 54,
+        "Club": "",
+        "YearOfBirth": 1981,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "114"
+        }
+      },
+      {
+        "$id": "115",
+        "Name": "Krasniqi, Daut",
+        "FideRating": 1537,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 22101152,
+        "Federation": "KOS",
+        "ParticipantId": "57",
+        "RankId": "55",
+        "Active": null,
+        "Rank": 55,
+        "Club": "",
+        "YearOfBirth": 1954,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "116"
+        }
+      },
+      {
+        "$id": "117",
+        "Name": "Binesmael, Mohamed",
+        "FideRating": 1528,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 1804936,
+        "Federation": "WLS",
+        "ParticipantId": "58",
+        "RankId": "41",
+        "Active": null,
+        "Rank": 56,
+        "Club": "",
+        "YearOfBirth": 1993,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "118"
+        }
+      },
+      {
+        "$id": "119",
+        "Name": "Polo Sanchez, Adrian",
+        "FideRating": 1514,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 54500982,
+        "Federation": "ESP",
+        "ParticipantId": "59",
+        "RankId": "73",
+        "Active": null,
+        "Rank": 73,
+        "Club": "",
+        "YearOfBirth": 2008,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "120"
+        }
+      },
+      {
+        "$id": "121",
+        "Name": "Wang, Dawen",
+        "FideRating": 1493,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 1756320,
+        "Federation": "SWE",
+        "ParticipantId": "60",
+        "RankId": "56",
+        "Active": null,
+        "Rank": 57,
+        "Club": "",
+        "YearOfBirth": 2008,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "122"
+        }
+      },
+      {
+        "$id": "123",
+        "Name": "Schuler, Sebastien",
+        "FideRating": 1484,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 551067358,
+        "Federation": "FRA",
+        "ParticipantId": "61",
+        "RankId": "57",
+        "Active": null,
+        "Rank": 58,
+        "Club": "",
+        "YearOfBirth": 2002,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "124"
+        }
+      },
+      {
+        "$id": "125",
+        "Name": "Perchais, Clement",
+        "FideRating": 1483,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 651088002,
+        "Federation": "FRA",
+        "ParticipantId": "62",
+        "RankId": "82",
+        "Active": null,
+        "Rank": 82,
+        "Club": "",
+        "YearOfBirth": 1995,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "126"
+        }
+      },
+      {
+        "$id": "127",
+        "Name": "Medina Barrios, Lina Maria",
+        "FideRating": 1470,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 4441303,
+        "Federation": "COL",
+        "ParticipantId": "63",
+        "RankId": "83",
+        "Active": null,
+        "Rank": 83,
+        "Club": "",
+        "YearOfBirth": 2000,
+        "Sex": 1,
+        "Attributes": {
+          "$id": "128"
+        }
+      },
+      {
+        "$id": "129",
+        "Name": "Valenzuela Marquez, Mauricio",
+        "FideRating": 1465,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 3454410,
+        "Federation": "CHI",
+        "ParticipantId": "64",
+        "RankId": "74",
+        "Active": null,
+        "Rank": 74,
+        "Club": "",
+        "YearOfBirth": 1987,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "130"
+        }
+      },
+      {
+        "$id": "131",
+        "Name": "Elshafey, Mahmoud Ibrahim",
+        "FideRating": 1461,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 10650431,
+        "Federation": "EGY",
+        "ParticipantId": "65",
+        "RankId": "63",
+        "Active": null,
+        "Rank": 59,
+        "Club": "",
+        "YearOfBirth": 1977,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "132"
+        }
+      },
+      {
+        "$id": "133",
+        "Name": "Ivanochko, Oleh",
+        "FideRating": 1431,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 54727235,
+        "Federation": "ESP",
+        "ParticipantId": "66",
+        "RankId": "65",
+        "Active": null,
+        "Rank": 60,
+        "Club": "",
+        "YearOfBirth": 2007,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "134"
+        }
+      },
+      {
+        "$id": "135",
+        "Name": "Lasok, Marek",
+        "FideRating": 1420,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 21848572,
+        "Federation": "POL",
+        "ParticipantId": "67",
+        "RankId": "75",
+        "Active": null,
+        "Rank": 75,
+        "Club": "",
+        "YearOfBirth": 2006,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "136"
+        }
+      },
+      {
+        "$id": "137",
+        "Name": "Legoshin, Arseniy",
+        "FideRating": 1420,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 24211788,
+        "Federation": "RUS",
+        "ParticipantId": "68",
+        "RankId": "42",
+        "Active": null,
+        "Rank": 61,
+        "Club": "",
+        "YearOfBirth": 2006,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "138"
+        }
+      },
+      {
+        "$id": "139",
+        "Name": "Chmelo, Dominik",
+        "FideRating": 1417,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 14946653,
+        "Federation": "SVK",
+        "ParticipantId": "69",
+        "RankId": "58",
+        "Active": null,
+        "Rank": 62,
+        "Club": "",
+        "YearOfBirth": 1993,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "140"
+        }
+      },
+      {
+        "$id": "141",
+        "Name": "Centofante, Maria Rosa",
+        "FideRating": 1410,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 834807,
+        "Federation": "ITA",
+        "ParticipantId": "70",
+        "RankId": "43",
+        "Active": null,
+        "Rank": 63,
+        "Club": "",
+        "YearOfBirth": 1952,
+        "Sex": 1,
+        "Attributes": {
+          "$id": "142"
+        }
+      },
+      {
+        "$id": "143",
+        "Name": "Dang, Duc Hai",
+        "FideRating": 1407,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 20682875,
+        "Federation": "FRA",
+        "ParticipantId": "71",
+        "RankId": "59",
+        "Active": null,
+        "Rank": 64,
+        "Club": "",
+        "YearOfBirth": 1953,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "144"
+        }
+      },
+      {
+        "$id": "145",
+        "Name": "Merland-Simon, Leo",
+        "FideRating": 1403,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 651093952,
+        "Federation": "FRA",
+        "ParticipantId": "72",
+        "RankId": "44",
+        "Active": null,
+        "Rank": 65,
+        "Club": "",
+        "YearOfBirth": 2007,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "146"
+        }
+      },
+      {
+        "$id": "147",
+        "Name": "Kamran, Alireza",
+        "FideRating": 1394,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 22591729,
+        "Federation": "IRI",
+        "ParticipantId": "73",
+        "RankId": "60",
+        "Active": null,
+        "Rank": 66,
+        "Club": "",
+        "YearOfBirth": 1975,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "148"
+        }
+      },
+      {
+        "$id": "149",
+        "Name": "Smet, Luc",
+        "FideRating": 1367,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 239178,
+        "Federation": "BEL",
+        "ParticipantId": "74",
+        "RankId": "61",
+        "Active": null,
+        "Rank": 67,
+        "Club": "",
+        "YearOfBirth": 1965,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "150"
+        }
+      },
+      {
+        "$id": "151",
+        "Name": "Prasant, Krishnan",
+        "FideRating": 1350,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 45166145,
+        "Federation": "FRA",
+        "ParticipantId": "75",
+        "RankId": "68",
+        "Active": null,
+        "Rank": 68,
+        "Club": "",
+        "YearOfBirth": 2009,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "152"
+        }
+      },
+      {
+        "$id": "153",
+        "Name": "Braaten, Birk",
+        "FideRating": 1343,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 1568175,
+        "Federation": "NOR",
+        "ParticipantId": "76",
+        "RankId": "84",
+        "Active": null,
+        "Rank": 84,
+        "Club": "",
+        "YearOfBirth": 2013,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "154"
+        }
+      },
+      {
+        "$id": "155",
+        "Name": "Almkvist, Dag",
+        "FideRating": 1336,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 1741870,
+        "Federation": "SWE",
+        "ParticipantId": "77",
+        "RankId": "85",
+        "Active": null,
+        "Rank": 85,
+        "Club": "",
+        "YearOfBirth": 1938,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "156"
+        }
+      },
+      {
+        "$id": "157",
+        "Name": "Almeida, Francisco Jose Simoes",
+        "FideRating": 1335,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 1963392,
+        "Federation": "POR",
+        "ParticipantId": "78",
+        "RankId": "77",
+        "Active": null,
+        "Rank": 76,
+        "Club": "",
+        "YearOfBirth": 2001,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "158"
+        }
+      },
+      {
+        "$id": "159",
+        "Name": "Semeniec, Zbigniew",
+        "FideRating": 1326,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 21829560,
+        "Federation": "POL",
+        "ParticipantId": "79",
+        "RankId": "89",
+        "Active": null,
+        "Rank": 86,
+        "Club": "",
+        "YearOfBirth": 1974,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "160"
+        }
+      },
+      {
+        "$id": "161",
+        "Name": "Joshi, Sunil",
+        "FideRating": 1324,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 5048796,
+        "Federation": "IND",
+        "ParticipantId": "80",
+        "RankId": "78",
+        "Active": null,
+        "Rank": 77,
+        "Club": "",
+        "YearOfBirth": 1969,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "162"
+        }
+      },
+      {
+        "$id": "163",
+        "Name": "Molnar, Marton Adam",
+        "FideRating": 1323,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 797430,
+        "Federation": "HUN",
+        "ParticipantId": "81",
+        "RankId": "88",
+        "Active": null,
+        "Rank": 87,
+        "Club": "",
+        "YearOfBirth": 2007,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "164"
+        }
+      },
+      {
+        "$id": "165",
+        "Name": "Garino, Lubin",
+        "FideRating": 1316,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 652003671,
+        "Federation": "FRA",
+        "ParticipantId": "82",
+        "RankId": "90",
+        "Active": null,
+        "Rank": 88,
+        "Club": "",
+        "YearOfBirth": 2006,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "166"
+        }
+      },
+      {
+        "$id": "167",
+        "Name": "Susman, Danir",
+        "FideRating": 1310,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 1246739,
+        "Federation": "ROU",
+        "ParticipantId": "83",
+        "RankId": "91",
+        "Active": null,
+        "Rank": 89,
+        "Club": "",
+        "YearOfBirth": 2004,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "168"
+        }
+      },
+      {
+        "$id": "169",
+        "Name": "Dixon Quiroz, Laura Michaela",
+        "FideRating": 1302,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 16248708,
+        "Federation": "GER",
+        "ParticipantId": "84",
+        "RankId": "92",
+        "Active": null,
+        "Rank": 90,
+        "Club": "",
+        "YearOfBirth": 2006,
+        "Sex": 1,
+        "Attributes": {
+          "$id": "170"
+        }
+      },
+      {
+        "$id": "171",
+        "Name": "Leykauf, Anna",
+        "FideRating": 1290,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 16290348,
+        "Federation": "GER",
+        "ParticipantId": "85",
+        "RankId": "93",
+        "Active": null,
+        "Rank": 91,
+        "Club": "",
+        "YearOfBirth": 2007,
+        "Sex": 1,
+        "Attributes": {
+          "$id": "172"
+        }
+      },
+      {
+        "$id": "173",
+        "Name": "Lima, Yuri Ramos Santos",
+        "FideRating": 1284,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 22793976,
+        "Federation": "BRA",
+        "ParticipantId": "86",
+        "RankId": "79",
+        "Active": null,
+        "Rank": 78,
+        "Club": "",
+        "YearOfBirth": 1975,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "174"
+        }
+      },
+      {
+        "$id": "175",
+        "Name": "Kealar, Konstantinos",
+        "FideRating": 1279,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 25825925,
+        "Federation": "GRE",
+        "ParticipantId": "87",
+        "RankId": "69",
+        "Active": null,
+        "Rank": 69,
+        "Club": "",
+        "YearOfBirth": 1972,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "176"
+        }
+      },
+      {
+        "$id": "177",
+        "Name": "Elibol, Poyraz",
+        "FideRating": 1274,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 44558384,
+        "Federation": "TUR",
+        "ParticipantId": "88",
+        "RankId": "94",
+        "Active": null,
+        "Rank": 92,
+        "Club": "",
+        "YearOfBirth": 2008,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "178"
+        }
+      },
+      {
+        "$id": "179",
+        "Name": "Sahil Rashid Kumar",
+        "FideRating": 1236,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 33457581,
+        "Federation": "IND",
+        "ParticipantId": "89",
+        "RankId": "76",
+        "Active": null,
+        "Rank": 79,
+        "Club": "",
+        "YearOfBirth": 2005,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "180"
+        }
+      },
+      {
+        "$id": "181",
+        "Name": "Ramos Perez, Juan Diego",
+        "FideRating": 1235,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 54513090,
+        "Federation": "ESP",
+        "ParticipantId": "90",
+        "RankId": "66",
+        "Active": null,
+        "Rank": 70,
+        "Club": "",
+        "YearOfBirth": 1978,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "182"
+        }
+      },
+      {
+        "$id": "183",
+        "Name": "Gokce, Furkan",
+        "FideRating": 1182,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 26313855,
+        "Federation": "TUR",
+        "ParticipantId": "91",
+        "RankId": "80",
+        "Active": null,
+        "Rank": 80,
+        "Club": "",
+        "YearOfBirth": 2010,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "184"
+        }
+      },
+      {
+        "$id": "185",
+        "Name": "Vanassche, Renaat",
+        "FideRating": 1178,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 222674,
+        "Federation": "BEL",
+        "ParticipantId": "92",
+        "RankId": "81",
+        "Active": null,
+        "Rank": 81,
+        "Club": "",
+        "YearOfBirth": 1972,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "186"
+        }
+      },
+      {
+        "$id": "187",
+        "Name": "Lastra Dudagoitia, Nicolas Jeremias",
+        "FideRating": 1175,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 54585872,
+        "Federation": "ESP",
+        "ParticipantId": "93",
+        "RankId": "86",
+        "Active": null,
+        "Rank": 93,
+        "Club": "",
+        "YearOfBirth": 2008,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "188"
+        }
+      },
+      {
+        "$id": "189",
+        "Name": "Muhina, Alina",
+        "FideRating": 1163,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 16298322,
+        "Federation": "GER",
+        "ParticipantId": "94",
+        "RankId": "95",
+        "Active": null,
+        "Rank": 94,
+        "Club": "",
+        "YearOfBirth": 2008,
+        "Sex": 1,
+        "Attributes": {
+          "$id": "190"
+        }
+      },
+      {
+        "$id": "191",
+        "Name": "Ishaan A Tendolkar",
+        "FideRating": 1122,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 25786962,
+        "Federation": "IND",
+        "ParticipantId": "95",
+        "RankId": "96",
+        "Active": null,
+        "Rank": 95,
+        "Club": "",
+        "YearOfBirth": 2010,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "192"
+        }
+      },
+      {
+        "$id": "193",
+        "Name": "Chemudugunta Dwaraknadh",
+        "FideRating": 1108,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 33393494,
+        "Federation": "IND",
+        "ParticipantId": "96",
+        "RankId": "97",
+        "Active": null,
+        "Rank": 96,
+        "Club": "",
+        "YearOfBirth": 2010,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "194"
+        }
+      },
+      {
+        "$id": "195",
+        "Name": "Cidranes Gloria, Angel Andres",
+        "FideRating": 1084,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 54518300,
+        "Federation": "ESP",
+        "ParticipantId": "97",
+        "RankId": "98",
+        "Active": null,
+        "Rank": 97,
+        "Club": "",
+        "YearOfBirth": 1990,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "196"
+        }
+      },
+      {
+        "$id": "197",
+        "Name": "Zielinski, Jakub",
+        "FideRating": 1032,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 21004862,
+        "Federation": "POL",
+        "ParticipantId": "98",
+        "RankId": "99",
+        "Active": null,
+        "Rank": 98,
+        "Club": "",
+        "YearOfBirth": 2009,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "198"
+        }
+      },
+      {
+        "$id": "199",
+        "Name": "Manjunath J",
+        "FideRating": 1011,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 33437580,
+        "Federation": "IND",
+        "ParticipantId": "99",
+        "RankId": "100",
+        "Active": null,
+        "Rank": 99,
+        "Club": "",
+        "YearOfBirth": 1984,
+        "Sex": 0,
+        "Attributes": {
+          "$id": "200"
+        }
+      },
+      {
+        "$id": "201",
+        "Name": "Janani J",
+        "FideRating": 1007,
+        "AlternativeRating": 0,
+        "Title": 8,
+        "FideId": 25909118,
+        "Federation": "IND",
+        "ParticipantId": "100",
+        "RankId": "87",
+        "Active": null,
+        "Rank": 100,
+        "Club": "",
+        "YearOfBirth": 2009,
+        "Sex": 1,
+        "Attributes": {
+          "$id": "202"
+        }
+      }
+    ]
+  },
+  "Rounds": {
+    "$id": "203",
+    "$values": [
+      {
+        "$id": "204",
+        "Number": 0,
+        "Pairings": {
+          "$id": "205",
+          "$values": [
+            {
+              "$id": "206",
+              "White": {
+                "$ref": "3"
+              },
+              "Black": {
+                "$ref": "103"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "207",
+              "White": {
+                "$ref": "105"
+              },
+              "Black": {
+                "$ref": "5"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "208",
+              "White": {
+                "$ref": "7"
+              },
+              "Black": {
+                "$ref": "107"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "209",
+              "White": {
+                "$ref": "109"
+              },
+              "Black": {
+                "$ref": "9"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "210",
+              "White": {
+                "$ref": "11"
+              },
+              "Black": {
+                "$ref": "111"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "211",
+              "White": {
+                "$ref": "113"
+              },
+              "Black": {
+                "$ref": "13"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "212",
+              "White": {
+                "$ref": "15"
+              },
+              "Black": {
+                "$ref": "115"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "213",
+              "White": {
+                "$ref": "117"
+              },
+              "Black": {
+                "$ref": "17"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "214",
+              "White": {
+                "$ref": "19"
+              },
+              "Black": {
+                "$ref": "119"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "215",
+              "White": {
+                "$ref": "121"
+              },
+              "Black": {
+                "$ref": "21"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "216",
+              "White": {
+                "$ref": "23"
+              },
+              "Black": {
+                "$ref": "123"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "217",
+              "White": {
+                "$ref": "125"
+              },
+              "Black": {
+                "$ref": "25"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "218",
+              "White": {
+                "$ref": "27"
+              },
+              "Black": {
+                "$ref": "127"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "219",
+              "White": {
+                "$ref": "129"
+              },
+              "Black": {
+                "$ref": "29"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "220",
+              "White": {
+                "$ref": "31"
+              },
+              "Black": {
+                "$ref": "131"
+              },
+              "Result": 6
+            },
+            {
+              "$id": "221",
+              "White": {
+                "$ref": "133"
+              },
+              "Black": {
+                "$ref": "33"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "222",
+              "White": {
+                "$ref": "35"
+              },
+              "Black": {
+                "$ref": "135"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "223",
+              "White": {
+                "$ref": "137"
+              },
+              "Black": {
+                "$ref": "37"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "224",
+              "White": {
+                "$ref": "39"
+              },
+              "Black": {
+                "$ref": "139"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "225",
+              "White": {
+                "$ref": "141"
+              },
+              "Black": {
+                "$ref": "41"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "226",
+              "White": {
+                "$ref": "43"
+              },
+              "Black": {
+                "$ref": "143"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "227",
+              "White": {
+                "$ref": "145"
+              },
+              "Black": {
+                "$ref": "45"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "228",
+              "White": {
+                "$ref": "47"
+              },
+              "Black": {
+                "$ref": "147"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "229",
+              "White": {
+                "$ref": "149"
+              },
+              "Black": {
+                "$ref": "49"
+              },
+              "Result": 11
+            },
+            {
+              "$id": "230",
+              "White": {
+                "$ref": "51"
+              },
+              "Black": {
+                "$ref": "151"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "231",
+              "White": {
+                "$ref": "153"
+              },
+              "Black": {
+                "$ref": "53"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "232",
+              "White": {
+                "$ref": "55"
+              },
+              "Black": {
+                "$ref": "155"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "233",
+              "White": {
+                "$ref": "157"
+              },
+              "Black": {
+                "$ref": "57"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "234",
+              "White": {
+                "$ref": "59"
+              },
+              "Black": {
+                "$ref": "159"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "235",
+              "White": {
+                "$ref": "161"
+              },
+              "Black": {
+                "$ref": "61"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "236",
+              "White": {
+                "$ref": "63"
+              },
+              "Black": {
+                "$ref": "163"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "237",
+              "White": {
+                "$ref": "167"
+              },
+              "Black": {
+                "$ref": "65"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "238",
+              "White": {
+                "$ref": "67"
+              },
+              "Black": {
+                "$ref": "165"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "239",
+              "White": {
+                "$ref": "169"
+              },
+              "Black": {
+                "$ref": "69"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "240",
+              "White": {
+                "$ref": "71"
+              },
+              "Black": {
+                "$ref": "171"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "241",
+              "White": {
+                "$ref": "173"
+              },
+              "Black": {
+                "$ref": "73"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "242",
+              "White": {
+                "$ref": "75"
+              },
+              "Black": {
+                "$ref": "175"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "243",
+              "White": {
+                "$ref": "177"
+              },
+              "Black": {
+                "$ref": "77"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "244",
+              "White": {
+                "$ref": "79"
+              },
+              "Black": {
+                "$ref": "179"
+              },
+              "Result": 6
+            },
+            {
+              "$id": "245",
+              "White": {
+                "$ref": "181"
+              },
+              "Black": {
+                "$ref": "81"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "246",
+              "White": {
+                "$ref": "83"
+              },
+              "Black": {
+                "$ref": "183"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "247",
+              "White": {
+                "$ref": "185"
+              },
+              "Black": {
+                "$ref": "85"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "248",
+              "White": {
+                "$ref": "87"
+              },
+              "Black": {
+                "$ref": "187"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "249",
+              "White": {
+                "$ref": "189"
+              },
+              "Black": {
+                "$ref": "89"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "250",
+              "White": {
+                "$ref": "91"
+              },
+              "Black": {
+                "$ref": "191"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "251",
+              "White": {
+                "$ref": "193"
+              },
+              "Black": {
+                "$ref": "93"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "252",
+              "White": {
+                "$ref": "95"
+              },
+              "Black": {
+                "$ref": "195"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "253",
+              "White": {
+                "$ref": "197"
+              },
+              "Black": {
+                "$ref": "97"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "254",
+              "White": {
+                "$ref": "99"
+              },
+              "Black": {
+                "$ref": "199"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "255",
+              "White": {
+                "$ref": "201"
+              },
+              "Black": {
+                "$ref": "101"
+              },
+              "Result": 2
+            }
+          ]
+        }
+      },
+      {
+        "$id": "256",
+        "Number": 1,
+        "Pairings": {
+          "$id": "257",
+          "$values": [
+            {
+              "$id": "258",
+              "White": {
+                "$ref": "57"
+              },
+              "Black": {
+                "$ref": "3"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "259",
+              "White": {
+                "$ref": "5"
+              },
+              "Black": {
+                "$ref": "59"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "260",
+              "White": {
+                "$ref": "61"
+              },
+              "Black": {
+                "$ref": "7"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "261",
+              "White": {
+                "$ref": "9"
+              },
+              "Black": {
+                "$ref": "63"
+              },
+              "Result": 6
+            },
+            {
+              "$id": "262",
+              "White": {
+                "$ref": "65"
+              },
+              "Black": {
+                "$ref": "11"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "263",
+              "White": {
+                "$ref": "13"
+              },
+              "Black": {
+                "$ref": "67"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "264",
+              "White": {
+                "$ref": "69"
+              },
+              "Black": {
+                "$ref": "15"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "265",
+              "White": {
+                "$ref": "17"
+              },
+              "Black": {
+                "$ref": "71"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "266",
+              "White": {
+                "$ref": "73"
+              },
+              "Black": {
+                "$ref": "19"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "267",
+              "White": {
+                "$ref": "77"
+              },
+              "Black": {
+                "$ref": "23"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "268",
+              "White": {
+                "$ref": "25"
+              },
+              "Black": {
+                "$ref": "75"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "269",
+              "White": {
+                "$ref": "81"
+              },
+              "Black": {
+                "$ref": "27"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "270",
+              "White": {
+                "$ref": "29"
+              },
+              "Black": {
+                "$ref": "83"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "271",
+              "White": {
+                "$ref": "33"
+              },
+              "Black": {
+                "$ref": "87"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "272",
+              "White": {
+                "$ref": "85"
+              },
+              "Black": {
+                "$ref": "35"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "273",
+              "White": {
+                "$ref": "37"
+              },
+              "Black": {
+                "$ref": "91"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "274",
+              "White": {
+                "$ref": "89"
+              },
+              "Black": {
+                "$ref": "39"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "275",
+              "White": {
+                "$ref": "41"
+              },
+              "Black": {
+                "$ref": "95"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "276",
+              "White": {
+                "$ref": "93"
+              },
+              "Black": {
+                "$ref": "43"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "277",
+              "White": {
+                "$ref": "45"
+              },
+              "Black": {
+                "$ref": "99"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "278",
+              "White": {
+                "$ref": "97"
+              },
+              "Black": {
+                "$ref": "47"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "279",
+              "White": {
+                "$ref": "101"
+              },
+              "Black": {
+                "$ref": "51"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "280",
+              "White": {
+                "$ref": "53"
+              },
+              "Black": {
+                "$ref": "121"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "281",
+              "White": {
+                "$ref": "149"
+              },
+              "Black": {
+                "$ref": "55"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "282",
+              "White": {
+                "$ref": "179"
+              },
+              "Black": {
+                "$ref": "31"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "283",
+              "White": {
+                "$ref": "131"
+              },
+              "Black": {
+                "$ref": "79"
+              },
+              "Result": 6
+            },
+            {
+              "$id": "284",
+              "White": {
+                "$ref": "21"
+              },
+              "Black": {
+                "$ref": "153"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "285",
+              "White": {
+                "$ref": "155"
+              },
+              "Black": {
+                "$ref": "49"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "286",
+              "White": {
+                "$ref": "103"
+              },
+              "Black": {
+                "$ref": "157"
+              },
+              "Result": 6
+            },
+            {
+              "$id": "287",
+              "White": {
+                "$ref": "159"
+              },
+              "Black": {
+                "$ref": "105"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "288",
+              "White": {
+                "$ref": "107"
+              },
+              "Black": {
+                "$ref": "161"
+              },
+              "Result": 6
+            },
+            {
+              "$id": "289",
+              "White": {
+                "$ref": "163"
+              },
+              "Black": {
+                "$ref": "109"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "290",
+              "White": {
+                "$ref": "111"
+              },
+              "Black": {
+                "$ref": "167"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "291",
+              "White": {
+                "$ref": "165"
+              },
+              "Black": {
+                "$ref": "113"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "292",
+              "White": {
+                "$ref": "115"
+              },
+              "Black": {
+                "$ref": "169"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "293",
+              "White": {
+                "$ref": "171"
+              },
+              "Black": {
+                "$ref": "117"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "294",
+              "White": {
+                "$ref": "119"
+              },
+              "Black": {
+                "$ref": "173"
+              },
+              "Result": 6
+            },
+            {
+              "$id": "295",
+              "White": {
+                "$ref": "123"
+              },
+              "Black": {
+                "$ref": "177"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "296",
+              "White": {
+                "$ref": "175"
+              },
+              "Black": {
+                "$ref": "125"
+              },
+              "Result": 11
+            },
+            {
+              "$id": "297",
+              "White": {
+                "$ref": "127"
+              },
+              "Black": {
+                "$ref": "181"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "298",
+              "White": {
+                "$ref": "183"
+              },
+              "Black": {
+                "$ref": "129"
+              },
+              "Result": 6
+            },
+            {
+              "$id": "299",
+              "White": {
+                "$ref": "191"
+              },
+              "Black": {
+                "$ref": "133"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "300",
+              "White": {
+                "$ref": "135"
+              },
+              "Black": {
+                "$ref": "185"
+              },
+              "Result": 6
+            },
+            {
+              "$id": "301",
+              "White": {
+                "$ref": "187"
+              },
+              "Black": {
+                "$ref": "137"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "302",
+              "White": {
+                "$ref": "139"
+              },
+              "Black": {
+                "$ref": "189"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "303",
+              "White": {
+                "$ref": "195"
+              },
+              "Black": {
+                "$ref": "141"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "304",
+              "White": {
+                "$ref": "143"
+              },
+              "Black": {
+                "$ref": "193"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "305",
+              "White": {
+                "$ref": "199"
+              },
+              "Black": {
+                "$ref": "145"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "306",
+              "White": {
+                "$ref": "147"
+              },
+              "Black": {
+                "$ref": "197"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "307",
+              "White": {
+                "$ref": "151"
+              },
+              "Black": {
+                "$ref": "201"
+              },
+              "Result": 9
+            }
+          ]
+        }
+      },
+      {
+        "$id": "308",
+        "Number": 2,
+        "Pairings": {
+          "$id": "309",
+          "$values": [
+            {
+              "$id": "310",
+              "White": {
+                "$ref": "3"
+              },
+              "Black": {
+                "$ref": "29"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "311",
+              "White": {
+                "$ref": "35"
+              },
+              "Black": {
+                "$ref": "5"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "312",
+              "White": {
+                "$ref": "7"
+              },
+              "Black": {
+                "$ref": "37"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "313",
+              "White": {
+                "$ref": "87"
+              },
+              "Black": {
+                "$ref": "9"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "314",
+              "White": {
+                "$ref": "11"
+              },
+              "Black": {
+                "$ref": "39"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "315",
+              "White": {
+                "$ref": "43"
+              },
+              "Black": {
+                "$ref": "13"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "316",
+              "White": {
+                "$ref": "15"
+              },
+              "Black": {
+                "$ref": "41"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "317",
+              "White": {
+                "$ref": "47"
+              },
+              "Black": {
+                "$ref": "17"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "318",
+              "White": {
+                "$ref": "19"
+              },
+              "Black": {
+                "$ref": "45"
+              },
+              "Result": 6
+            },
+            {
+              "$id": "319",
+              "White": {
+                "$ref": "23"
+              },
+              "Black": {
+                "$ref": "53"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "320",
+              "White": {
+                "$ref": "55"
+              },
+              "Black": {
+                "$ref": "25"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "321",
+              "White": {
+                "$ref": "27"
+              },
+              "Black": {
+                "$ref": "101"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "322",
+              "White": {
+                "$ref": "31"
+              },
+              "Black": {
+                "$ref": "63"
+              },
+              "Result": 6
+            },
+            {
+              "$id": "323",
+              "White": {
+                "$ref": "99"
+              },
+              "Black": {
+                "$ref": "21"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "324",
+              "White": {
+                "$ref": "105"
+              },
+              "Black": {
+                "$ref": "33"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "325",
+              "White": {
+                "$ref": "49"
+              },
+              "Black": {
+                "$ref": "97"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "326",
+              "White": {
+                "$ref": "51"
+              },
+              "Black": {
+                "$ref": "111"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "327",
+              "White": {
+                "$ref": "109"
+              },
+              "Black": {
+                "$ref": "57"
+              },
+              "Result": 6
+            },
+            {
+              "$id": "328",
+              "White": {
+                "$ref": "59"
+              },
+              "Black": {
+                "$ref": "115"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "329",
+              "White": {
+                "$ref": "113"
+              },
+              "Black": {
+                "$ref": "61"
+              },
+              "Result": 6
+            },
+            {
+              "$id": "330",
+              "White": {
+                "$ref": "117"
+              },
+              "Black": {
+                "$ref": "65"
+              },
+              "Result": 6
+            },
+            {
+              "$id": "331",
+              "White": {
+                "$ref": "67"
+              },
+              "Black": {
+                "$ref": "123"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "332",
+              "White": {
+                "$ref": "121"
+              },
+              "Black": {
+                "$ref": "69"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "333",
+              "White": {
+                "$ref": "71"
+              },
+              "Black": {
+                "$ref": "131"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "334",
+              "White": {
+                "$ref": "137"
+              },
+              "Black": {
+                "$ref": "73"
+              },
+              "Result": 6
+            },
+            {
+              "$id": "335",
+              "White": {
+                "$ref": "75"
+              },
+              "Black": {
+                "$ref": "139"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "336",
+              "White": {
+                "$ref": "133"
+              },
+              "Black": {
+                "$ref": "77"
+              },
+              "Result": 6
+            },
+            {
+              "$id": "337",
+              "White": {
+                "$ref": "79"
+              },
+              "Black": {
+                "$ref": "147"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "338",
+              "White": {
+                "$ref": "145"
+              },
+              "Black": {
+                "$ref": "81"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "339",
+              "White": {
+                "$ref": "83"
+              },
+              "Black": {
+                "$ref": "143"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "340",
+              "White": {
+                "$ref": "141"
+              },
+              "Black": {
+                "$ref": "85"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "341",
+              "White": {
+                "$ref": "175"
+              },
+              "Black": {
+                "$ref": "89"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "342",
+              "White": {
+                "$ref": "91"
+              },
+              "Black": {
+                "$ref": "149"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "343",
+              "White": {
+                "$ref": "181"
+              },
+              "Black": {
+                "$ref": "93"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "344",
+              "White": {
+                "$ref": "95"
+              },
+              "Black": {
+                "$ref": "151"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "345",
+              "White": {
+                "$ref": "161"
+              },
+              "Black": {
+                "$ref": "103"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "346",
+              "White": {
+                "$ref": "157"
+              },
+              "Black": {
+                "$ref": "107"
+              },
+              "Result": 6
+            },
+            {
+              "$id": "347",
+              "White": {
+                "$ref": "185"
+              },
+              "Black": {
+                "$ref": "119"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "348",
+              "White": {
+                "$ref": "183"
+              },
+              "Black": {
+                "$ref": "125"
+              },
+              "Result": 6
+            },
+            {
+              "$id": "349",
+              "White": {
+                "$ref": "129"
+              },
+              "Black": {
+                "$ref": "179"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "350",
+              "White": {
+                "$ref": "173"
+              },
+              "Black": {
+                "$ref": "135"
+              },
+              "Result": 6
+            },
+            {
+              "$id": "351",
+              "White": {
+                "$ref": "177"
+              },
+              "Black": {
+                "$ref": "127"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "352",
+              "White": {
+                "$ref": "153"
+              },
+              "Black": {
+                "$ref": "187"
+              },
+              "Result": 6
+            },
+            {
+              "$id": "353",
+              "White": {
+                "$ref": "189"
+              },
+              "Black": {
+                "$ref": "155"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "354",
+              "White": {
+                "$ref": "191"
+              },
+              "Black": {
+                "$ref": "159"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "355",
+              "White": {
+                "$ref": "193"
+              },
+              "Black": {
+                "$ref": "163"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "356",
+              "White": {
+                "$ref": "197"
+              },
+              "Black": {
+                "$ref": "165"
+              },
+              "Result": 2
+            },
+            {
+              "$id": "357",
+              "White": {
+                "$ref": "167"
+              },
+              "Black": {
+                "$ref": "195"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "358",
+              "White": {
+                "$ref": "169"
+              },
+              "Black": {
+                "$ref": "199"
+              },
+              "Result": 9
+            },
+            {
+              "$id": "359",
+              "White": {
+                "$ref": "201"
+              },
+              "Black": {
+                "$ref": "171"
+              },
+              "Result": 2
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "CountRounds": 7,
+  "Name": "Test Tournament",
+  "City": null,
+  "Federation": "FIDE",
+  "StartDate": null,
+  "EndDate": null,
+  "Type": null,
+  "CountPlayer": 0,
+  "CountRatedPlayer": 0,
+  "ChiefArbiter": null,
+  "DeputyChiefArbiter": null,
+  "TimeControl": null,
+  "PairingSystem": 0,
+  "ScoringScheme": {
+    "$id": "360",
+    "PointsForWin": 1,
+    "PointsForDraw": 0.5,
+    "PointsForPlayedLoss": 0,
+    "PointsForZeroPointBye": 0,
+    "PointsForForfeitedLoss": 0,
+    "PointsForPairingAllocatedBye": 1,
+    "IsDefault": true
+  },
+  "TieBreak": {
+    "$id": "361",
+    "$values": [
+      0,
+      3,
+      5,
+      6,
+      7
+    ]
+  },
+  "ForbiddenPairingRules": {
+    "$id": "362",
+    "$values": [
+      {
+        "$id": "363",
+        "Participant1": {
+          "$ref": "3"
+        },
+        "Participant2": {
+          "$ref": "5"
+        },
+        "Federation1": null,
+        "Federation2": null
+      },
+      {
+        "$id": "364",
+        "Participant1": {
+          "$ref": "3"
+        },
+        "Participant2": {
+          "$ref": "7"
+        },
+        "Federation1": null,
+        "Federation2": null
+      },
+      {
+        "$id": "365",
+        "Participant1": {
+          "$ref": "3"
+        },
+        "Participant2": {
+          "$ref": "9"
+        },
+        "Federation1": null,
+        "Federation2": null
+      },
+      {
+        "$id": "366",
+        "Participant1": {
+          "$ref": "3"
+        },
+        "Participant2": {
+          "$ref": "11"
+        },
+        "Federation1": null,
+        "Federation2": null
+      },
+      {
+        "$id": "367",
+        "Participant1": {
+          "$ref": "5"
+        },
+        "Participant2": {
+          "$ref": "7"
+        },
+        "Federation1": null,
+        "Federation2": null
+      },
+      {
+        "$id": "368",
+        "Participant1": {
+          "$ref": "5"
+        },
+        "Participant2": {
+          "$ref": "9"
+        },
+        "Federation1": null,
+        "Federation2": null
+      },
+      {
+        "$id": "369",
+        "Participant1": {
+          "$ref": "5"
+        },
+        "Participant2": {
+          "$ref": "11"
+        },
+        "Federation1": null,
+        "Federation2": null
+      },
+      {
+        "$id": "370",
+        "Participant1": {
+          "$ref": "7"
+        },
+        "Participant2": {
+          "$ref": "9"
+        },
+        "Federation1": null,
+        "Federation2": null
+      },
+      {
+        "$id": "371",
+        "Participant1": {
+          "$ref": "7"
+        },
+        "Participant2": {
+          "$ref": "11"
+        },
+        "Federation1": null,
+        "Federation2": null
+      },
+      {
+        "$id": "372",
+        "Participant1": {
+          "$ref": "9"
+        },
+        "Participant2": {
+          "$ref": "11"
+        },
+        "Federation1": null,
+        "Federation2": null
+      }
+    ]
+  },
+  "AvoidPairingsFromSameFederation": true,
+  "AvoidPairingsFromSameClub": false,
+  "BakuAcceleration": false,
+  "RatingDetermination": 0,
+  "DrawNextRoundPossible": true
+}

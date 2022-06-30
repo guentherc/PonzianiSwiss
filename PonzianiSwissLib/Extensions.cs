@@ -217,8 +217,11 @@ namespace PonzianiSwissLib
 #else
                 WriteIndented = false,
 #endif
+            IgnoreReadOnlyProperties = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
             ReferenceHandler = ReferenceHandler.Preserve
         };
+
 
         public static string Serialize(this Tournament tournament)
         {
@@ -336,4 +339,5 @@ namespace PonzianiSwissLib
 
         public static double Erfc(double x) => 1 - Erf(x);
     }
+
 }

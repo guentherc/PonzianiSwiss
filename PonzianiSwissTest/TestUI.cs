@@ -95,6 +95,77 @@ namespace PonzianiSwissTest
             app?.Close();
         }
 
+        /// <summary>
+        /// Test method loads a tournament with 100 participants where there are some rules regarding forbidden pairings are set. There
+        /// are already 3 rounds completed
+        /// </summary>
+        [TestMethod]
+        public void CheckForbiddenPairings()
+        {
+            var automation = new UIA3Automation();
+            var window = app?.GetMainWindow(automation);
+            if (window == null)
+            {
+                Assert.Fail();
+                return;
+            }
+            string filename = LoadTournament(window, Properties.Resources.Tournament_100P_3R_ForbiddenPairings_json);
+            //Forbidden pairings are games between players from same federation as well as games between the first 5 players 
+            //in the initial ranking
+
+            //Check if rules have been followed in first 3 rounds
+            var participants = GetParticipantsFromListView(window);
+            Dictionary<string, Dictionary<string, string>> dictPId = new();
+            Dictionary<string, Dictionary<string, string>> dictPName = new();
+            foreach (var p in participants)
+            {
+                dictPId.Add(p["ParticipantId"], p);
+                dictPName.Add(p["Name"], p);
+            }
+            //Sort participants by Rating
+            participants.Sort((a, b) => int.Parse(b["Rating"]).CompareTo(int.Parse(a["Rating"])));
+            HashSet<string> best = new HashSet<string>();
+            for (int i = 0; i<5; ++i)
+            {
+                best.Add(participants[i]["Name"]);
+            }
+            for (int roundIndex = 0; roundIndex < 3; ++roundIndex)
+            {
+                var pairings = GetPairingsFromListView(window, roundIndex);
+                foreach (var p in pairings)
+                {
+                    var p1 = dictPName[p["White"]];
+                    var p2 = dictPName[p["Black"]];
+                    Assert.AreNotEqual(p1["Federation"], p2["Federation"]);
+                    Assert.IsFalse(best.Contains(p1["Name"]) && best.Contains(p2["Name"]));
+                }
+            }
+
+            //Draw next round
+            ClickMenuEntry(window, MenuItemKey.Round_Draw);
+            Retry.WhileNull(() => window.FindFirstByXPath("/Tab/TabItem[5]"), TimeSpan.FromSeconds(10));
+            var tabitem = window.FindFirstByXPath("/Tab/TabItem[5]").AsTabItem();
+            Assert.IsNotNull(tabitem);
+            Thread.Sleep(1000);
+            //Check if rules are fulfilled
+            {
+                var pairings = GetPairingsFromListView(window, 3);
+                foreach (var p in pairings)
+                {
+                    var p1 = dictPName[p["White"]];
+                    var p2 = dictPName[p["Black"]];
+                    Assert.AreNotEqual(p1["Federation"], p2["Federation"]);
+                    Assert.IsFalse(best.Contains(p1["Name"]) && best.Contains(p2["Name"]));
+                }
+            }
+
+            ClickMenuEntry(window, MenuItemKey.Tournament_Exit);
+            File.Delete(filename);
+        }
+
+        /// <summary>
+        /// Tests starts a Tournament where participant registration is already done. Test draws the 1st round and sets results 
+        /// </summary>
         [TestMethod]
         public void DrawInitialRound()
         {
@@ -144,13 +215,33 @@ namespace PonzianiSwissTest
                 var white = participants.Where(p => p["ParticipantId"] == pairings[rowIndex]["IDWhite"]).First();
                 var black = participants.Where(p => p["ParticipantId"] == pairings[rowIndex]["IDBlack"]).First();
                 var result = Utils.Simulate(int.Parse(white["Rating"]), int.Parse(black["Rating"]));
-                Mouse.Click(listview_round.Rows[rowIndex].Cells[0].GetClickablePoint(), MouseButton.Right);
-                Wait.UntilInputIsProcessed();
-                var ctxMenu = window.ContextMenu;
-                Assert.IsNotNull(ctxMenu);
-                string automationId = $"MenuItem_Set_Result_{(int)result}";
-                var menuItem = ctxMenu.FindFirstDescendant(cf.ByAutomationId(automationId)).AsMenuItem();
-                menuItem.Invoke();
+                if ((rowIndex & 1) == 1 && (result == Result.Loss || result == Result.Win || result == Result.Draw))
+                {
+                    Mouse.Click(listview_round.Rows[rowIndex].Cells[0].GetClickablePoint(), MouseButton.Left);
+                    Wait.UntilInputIsProcessed();
+                    switch (result)
+                    {
+                        case Result.Loss:
+                            Keyboard.Type('0');
+                            break;
+                        case Result.Win:
+                            Keyboard.Type('1');
+                            break;
+                        case Result.Draw:
+                            Keyboard.Type('=');
+                            break;
+                    }
+                }
+                else
+                {
+                    Mouse.Click(listview_round.Rows[rowIndex].Cells[0].GetClickablePoint(), MouseButton.Right);
+                    Wait.UntilInputIsProcessed();
+                    var ctxMenu = window.ContextMenu;
+                    Assert.IsNotNull(ctxMenu);
+                    string automationId = $"MenuItem_Set_Result_{(int)result}";
+                    var menuItem = ctxMenu.FindFirstDescendant(cf.ByAutomationId(automationId)).AsMenuItem();
+                    menuItem.Invoke();
+                }
                 app?.WaitWhileBusy();
             }
             CheckAfterRoundCompleted(window);
@@ -180,6 +271,10 @@ namespace PonzianiSwissTest
             Keyboard.Press(FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
         }
 
+        /// <summary>
+        /// Test creates a tournament from scratch and adds particpants via Fide base by FIDE ID and by name, as well as from german player base and a free player 
+        /// without using any database
+        /// </summary>
         [TestMethod]
         public void CreateTournament()
         {
@@ -287,19 +382,24 @@ namespace PonzianiSwissTest
             var cbBase = nwindow.FindFirstDescendant(cf.ByAutomationId("ComboBox_Base")).AsComboBox();
             Assert.IsNotNull(cbBase);
             cbBase.Focus();
-            Thread.Sleep(1000);
             Keyboard.Type(playerbase.ToString());
             Keyboard.Press(FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             nwindow.Focus();
 
-            var tbName = nwindow.FindFirstByXPath("/Edit").AsTextBox();
-            Assert.IsNotNull(tbName);
-            tbName.Focus();
-            tbName.Enter(name);
-            Wait.UntilInputIsProcessed(TimeSpan.FromSeconds(1));
-            Keyboard.Press(FlaUI.Core.WindowsAPI.VirtualKeyShort.DOWN);
-            Keyboard.Press(FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
-            Wait.UntilInputIsProcessed(TimeSpan.FromSeconds(1));
+            do
+            {
+                var tbName = nwindow.FindFirstByXPath("/Edit").AsTextBox();
+                Assert.IsNotNull(tbName);
+                tbName.Focus();
+                tbName.Enter(name);
+                Wait.UntilInputIsProcessed(TimeSpan.FromSeconds(1));
+                Keyboard.Press(FlaUI.Core.WindowsAPI.VirtualKeyShort.DOWN);
+                Keyboard.Press(FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+                Wait.UntilInputIsProcessed(TimeSpan.FromSeconds(1));
+                var tbId = nwindow.FindFirstDescendant(cf.ByAutomationId("TextBox_Id")).AsTextBox();
+                Assert.IsNotNull(tbId);
+                if (tbId.Text.Length > 0) break;
+            } while (true);
 
             var nbtn = cancel ? nwindow.FindFirstDescendant(cf.ByAutomationId("PlayerSearchDialogCancelButton")).AsButton() : nwindow.FindFirstDescendant(cf.ByAutomationId("PlayerSearchDialogOkButton")).AsButton();
             Assert.IsNotNull(nbtn);
@@ -388,9 +488,17 @@ namespace PonzianiSwissTest
             {
                 pairings.Add(new());
                 pairings.Last().Add("IDWhite", row.Cells[0].FindFirstChild().Name);
-                pairings.Last().Add("White", row.Cells[1].FindFirstChild().Name);
+                string w = row.Cells[1].FindFirstChild().Name;
+                int indx1 = w.LastIndexOf('(');
+                int indx2 = w.LastIndexOf(')');
+                pairings.Last().Add("White", w.Substring(0, indx1 -1).Trim());
+                pairings.Last().Add("ScoreWhite", w.Substring(indx1 + 1 , indx2 - 2 - indx1).Trim());
                 pairings.Last().Add("IDBlack", row.Cells[2].FindFirstChild().Name);
-                pairings.Last().Add("Black", row.Cells[3].FindFirstChild().Name);
+                w = row.Cells[3].FindFirstChild().Name;
+                indx1 = w.LastIndexOf('(');
+                indx2 = w.LastIndexOf(')');
+                pairings.Last().Add("Black", w.Substring(0, indx1 - 1).Trim());
+                pairings.Last().Add("ScoreBlack", w.Substring(indx1 + 1, indx2 - 2 - indx1).Trim());
                 pairings.Last().Add("Result", row.Cells[4].FindFirstChild().Name);
             }
             return pairings;

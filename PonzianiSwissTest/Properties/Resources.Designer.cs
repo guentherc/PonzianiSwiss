@@ -62,33 +62,64 @@ namespace PonzianiSwissTest.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to {
-        ///  &quot;Participants&quot;: [
-        ///    {
-        ///      &quot;Name&quot;: &quot;Borisov, Lubomir&quot;,
-        ///      &quot;FideRating&quot;: 1720,
-        ///      &quot;AlternativeRating&quot;: 0,
-        ///      &quot;Title&quot;: 8,
-        ///      &quot;FideId&quot;: 2907801,
-        ///      &quot;Federation&quot;: &quot;BUL&quot;,
-        ///      &quot;ParticipantId&quot;: null,
-        ///      &quot;RankId&quot;: null,
-        ///      &quot;Active&quot;: null,
-        ///      &quot;Rank&quot;: 0,
-        ///      &quot;Club&quot;: &quot;&quot;,
-        ///      &quot;YearOfBirth&quot;: 1954,
-        ///      &quot;Sex&quot;: 0,
-        ///      &quot;Attributes&quot;: {}
-        ///    },
-        ///    {
-        ///      &quot;Name&quot;: &quot;Duda, Antonin&quot;,
-        ///      &quot;FideRating&quot;: 2038,
-        ///      &quot;AlternativeRating&quot;: 0,
-        ///      &quot;Title&quot;: 8,
-        ///      &quot;Fi [rest of string was truncated]&quot;;.
+        ///  &quot;$id&quot;: &quot;1&quot;,
+        ///  &quot;Participants&quot;: {
+        ///    &quot;$id&quot;: &quot;2&quot;,
+        ///    &quot;$values&quot;: [
+        ///      {
+        ///        &quot;$id&quot;: &quot;3&quot;,
+        ///        &quot;Name&quot;: &quot;Ramos Perez, Juan Diego&quot;,
+        ///        &quot;FideRating&quot;: 1235,
+        ///        &quot;AlternativeRating&quot;: 0,
+        ///        &quot;Title&quot;: 8,
+        ///        &quot;FideId&quot;: 54513090,
+        ///        &quot;Federation&quot;: &quot;ESP&quot;,
+        ///        &quot;ParticipantId&quot;: null,
+        ///        &quot;RankId&quot;: null,
+        ///        &quot;Active&quot;: null,
+        ///        &quot;Rank&quot;: 0,
+        ///        &quot;Club&quot;: &quot;&quot;,
+        ///        &quot;YearOfBirth&quot;: 1978,
+        ///        &quot;Sex&quot;: 0,
+        ///        &quot;Attributes&quot;: {
+        ///          &quot;$id&quot;: &quot;4&quot;
+        ///    [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Tournament_100_Participants_0_Rounds_tjson {
             get {
                 return ResourceManager.GetString("Tournament_100_Participants_0_Rounds.tjson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {
+        ///  &quot;$id&quot;: &quot;1&quot;,
+        ///  &quot;Participants&quot;: {
+        ///    &quot;$id&quot;: &quot;2&quot;,
+        ///    &quot;$values&quot;: [
+        ///      {
+        ///        &quot;$id&quot;: &quot;3&quot;,
+        ///        &quot;Name&quot;: &quot;Ivanov, Alexander&quot;,
+        ///        &quot;FideRating&quot;: 2463,
+        ///        &quot;AlternativeRating&quot;: 0,
+        ///        &quot;Title&quot;: 0,
+        ///        &quot;FideId&quot;: 2000202,
+        ///        &quot;Federation&quot;: &quot;USA&quot;,
+        ///        &quot;ParticipantId&quot;: &quot;1&quot;,
+        ///        &quot;RankId&quot;: &quot;1&quot;,
+        ///        &quot;Active&quot;: null,
+        ///        &quot;Rank&quot;: 1,
+        ///        &quot;Club&quot;: &quot;&quot;,
+        ///        &quot;YearOfBirth&quot;: 1956,
+        ///        &quot;Sex&quot;: 0,
+        ///        &quot;Attributes&quot;: {
+        ///          &quot;$id&quot;: &quot;4&quot;
+        ///        }
+        ///  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Tournament_100P_3R_ForbiddenPairings_json {
+            get {
+                return ResourceManager.GetString("Tournament_100P_3R_ForbiddenPairings.json", resourceCulture);
             }
         }
     }

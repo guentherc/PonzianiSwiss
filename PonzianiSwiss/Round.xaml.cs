@@ -105,8 +105,8 @@ namespace PonzianiSwiss
         }
 
         public Pairing Pairing { set; get; }
-        public string White => $"{Pairing.White?.Name?.Trim()} ({Pairing.White?.Scorecard?.Score(RoundIndex)})";
-        public string Black => $"{Pairing.Black?.Name?.Trim()} ({Pairing.Black?.Scorecard?.Score(RoundIndex)})";
+        public string White => $"{Pairing.White?.Name?.Trim()} ({Pairing.White?.Scorecard?.Score(RoundIndex) ?? 0})";
+        public string Black => $"{Pairing.Black?.Name?.Trim()} ({Pairing.Black?.Scorecard?.Score(RoundIndex) ?? 0})";
 
         private int RoundIndex { set; get; }
 

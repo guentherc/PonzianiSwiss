@@ -185,6 +185,7 @@ namespace PonzianiSwiss
             Model.Tournament = Extensions.Deserialize(json);
             if (Model.Tournament != null)
             {
+                Model.Tournament.GetScorecards();
                 while (Properties.Settings.Default.MRU.Count > 10)
                     Properties.Settings.Default.MRU.RemoveAt(10);
                 Model.FileName = filename;
