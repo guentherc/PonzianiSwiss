@@ -251,6 +251,7 @@ namespace PonzianiSwissTest
 
         private void Exit(Window? window)
         {
+            if (window == null) return;
             ClickMenuEntry(window, MenuItemKey.Tournament_Exit);
             app?.WaitWhileBusy();
             Retry.WhileNull(() => window.FindFirstDescendant(cf.ByAutomationId("PART_AffirmativeButton")), TimeSpan.FromSeconds(5));

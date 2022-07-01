@@ -75,6 +75,7 @@ namespace PonzianiPlayerBase
         public override async Task<bool> UpdateAsync()
         {
             var httpClient = new HttpClient();
+            ProgressUpdate(1, "Preparing Download");
             var tmpDir = Path.GetTempPath();
             tmpDir = Path.Combine(tmpDir, "ratings");
             Directory.CreateDirectory(tmpDir);
@@ -83,9 +84,11 @@ namespace PonzianiPlayerBase
             {
                 if (!File.Exists(tmpFile))
                 {
+                    ProgressUpdate(2, $"Downloading Players List from FIDE");
                     using var stream = await httpClient.GetStreamAsync("http://ratings.fide.com/download/players_list.zip");
                     using var fileStream = new FileStream(tmpFile, FileMode.CreateNew);
                     await stream.CopyToAsync(fileStream);
+                    ProgressUpdate(20, $"Download completed - Data processing starts");
                 }
             }
             catch (Exception ex)
@@ -103,6 +106,7 @@ namespace PonzianiPlayerBase
 
             if (connection == null) return false;
 
+            ProgressUpdate(25, $"Starting Database Update");
             using (var transaction = connection.BeginTransaction())
             {
                 using (var del = connection.CreateCommand())
@@ -110,7 +114,7 @@ namespace PonzianiPlayerBase
                     del.CommandText = "DELETE FROM FidePlayer";
                     await del.ExecuteNonQueryAsync();
                 }
-
+                ProgressUpdate(30, $"Old Data Removed");
                 var cmd = connection.CreateCommand();
                 cmd.CommandText = "INSERT INTO FidePlayer VALUES(@Id, @Name, @Federation, @Title, @Sex, @Rating, @Inactive, @Birthyear)";
                 string[] parameters = new[] { "@Id", "@Name", "@Federation", "@Title", "@Sex", "@Rating", "@Inactive", "@Birthyear" };
@@ -151,6 +155,10 @@ namespace PonzianiPlayerBase
                             cmd.Parameters["@Inactive"].Value = flags.Contains('i') ? 1 : 0;
                             if (count == 2) await cmd.PrepareAsync();
                             await cmd.ExecuteNonQueryAsync();
+                            if (count % 100 == 0)
+                            {
+                                ProgressUpdate((int)(30 + count * 65.0/1200000), $"{count} Players Processed");
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -158,7 +166,7 @@ namespace PonzianiPlayerBase
                         }
                     }
                 }
-                Console.WriteLine($"{count} records processed!");
+                ProgressUpdate(95, $"{count} Players Processed - Commit Started");
                 cmd = connection.CreateCommand();
                 cmd.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"0\"";
                 lastUpdate = DateTime.UtcNow;
@@ -169,9 +177,11 @@ namespace PonzianiPlayerBase
                 await cmd.ExecuteNonQueryAsync();
             }
 
+            ProgressUpdate(99, $"Cleanup...");
             //Clean up
             foreach (string f in Directory.GetFiles(tmpDir)) File.Delete(f);
             Directory.Delete(tmpDir);
+            ProgressUpdate(100, $"Done!");
             return true;
         }
 

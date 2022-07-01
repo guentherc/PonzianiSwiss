@@ -115,23 +115,22 @@ namespace PonzianiSwiss
 
         private async void Update_Base(object sender, RoutedEventArgs e)
         {
-            var uiContext = SynchronizationContext.Current;
             if (sender is not MenuItem mi) return;
-            mi.IsEnabled = false;
+            var uiContext = SynchronizationContext.Current;
             var b = (PlayerBaseFactory.Base)mi.Tag;
             IPlayerBase pbase = PlayerBaseFactory.Get(b);
-            bool ok = await pbase.UpdateAsync();
-            if (ok)
-                uiContext?.Send(x =>
-                {
-                    MessageBox.Show(this, "Update successful", $"Update of Player Base {b}", MessageBoxButton.OK, MessageBoxImage.Information);
-                }, null);
-            else
-                uiContext?.Send(x =>
-                {
-                    MessageBox.Show(this, "Update failed", $"Update of Player Base {b}", MessageBoxButton.OK, MessageBoxImage.Error);
-                }, null);
-            uiContext?.Send(x => { mi.IsEnabled = true; }, null);
+            var controller = await this.ShowProgressAsync("Please wait...", $"Update of {pbase.Description} might take some time");
+            pbase.ProgressChanged += (s, e) => {
+                controller.SetProgress(Math.Min(1.0, 0.01 * e.ProgressPercentage)); 
+                controller.SetMessage(e.UserState?.ToString()); 
+            };
+            bool ok = false;
+            await Task.Run(async () =>
+            {
+                ok = await pbase.UpdateAsync();
+            });
+            await controller.CloseAsync();
+            if (ok) await this.ShowMessageAsync("Update successful", $"Update of Player Base {b}"); else await this.ShowMessageAsync("Update failed", $"Update of Player Base {b}");
         }
 
         public MainModel Model { set; get; }

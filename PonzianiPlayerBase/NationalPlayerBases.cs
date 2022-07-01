@@ -103,6 +103,7 @@ namespace PonzianiPlayerBase
         public override async Task<bool> UpdateAsync()
         {
             if (connection == null) return false;
+            ProgressUpdate(1, $"Downloading Data from https://schaakbond.nl");
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
             var httpClient = new HttpClient();
             var tmpDir = Path.GetTempPath();
@@ -115,6 +116,7 @@ namespace PonzianiPlayerBase
                 using var fileStream = new FileStream(tmpFile, FileMode.CreateNew);
                 await stream.CopyToAsync(fileStream);
             }
+            ProgressUpdate(20, $"Download completed - Starting Data Processing");
             if (!Directory.GetFiles(tmpDir).Where(f => Path.GetExtension(f) == ".csv").Any())
             {
                 ZipFile.ExtractToDirectory(tmpFile, tmpDir);
@@ -122,6 +124,7 @@ namespace PonzianiPlayerBase
             string file = Directory.GetFiles(tmpDir).Where(f => Path.GetExtension(f) == ".csv").First();
             if (file == null || file.Trim().Length == 0) return false;
 
+            ProgressUpdate(30, $"Starting Database Update");
             using (var transaction = connection.BeginTransaction())
             {
                 using (var del = connection.CreateCommand())
@@ -169,26 +172,30 @@ namespace PonzianiPlayerBase
                             cmd.Parameters["@FideId"].Value = 0;
                             if (count == 1) await cmd.PrepareAsync();
                             await cmd.ExecuteNonQueryAsync();
+                            if ((count % 100) == 0) ProgressUpdate((int)(30 + 65.0 * count / 20000), $"{count} Players written to database");
                         }
                         catch (Exception ex)
                         {
                             Console.WriteLine(ex.ToString());
                         }
                     }
+                    ProgressUpdate((int)(30 + 65.0 * count / 20000), $"{count} Players updated - Starting Commit");
                 }
                 var command = connection.CreateCommand();
                 command.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"{(int)PlayerBaseFactory.Base.NED}\"";
                 lastUpdate = DateTime.UtcNow;
                 await command.ExecuteNonQueryAsync();
                 transaction.Commit();
+                ProgressUpdate(98, $"Data committed - Clean up");
                 command = connection.CreateCommand();
                 command.CommandText = $"VACUUM";
-                await command.ExecuteNonQueryAsync();
+                await command.ExecuteNonQueryAsync();                
             }
 
             //Clean up
             foreach (string f in Directory.GetFiles(tmpDir)) File.Delete(f);
             Directory.Delete(tmpDir);
+            ProgressUpdate(100, $"Done");
             return true;
         }
 
@@ -202,6 +209,7 @@ namespace PonzianiPlayerBase
         public override async Task<bool> UpdateAsync()
         {
             if (connection == null) return false;
+            ProgressUpdate(1, $"Downloading Data from http://hrvatski-sahovski-savez.hr");
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
             var httpClient = new HttpClient();
             var tmpDir = Path.GetTempPath();
@@ -214,13 +222,14 @@ namespace PonzianiPlayerBase
                 using var fileStream = new FileStream(tmpFile, FileMode.CreateNew);
                 await stream.CopyToAsync(fileStream);
             }
+            ProgressUpdate(20, $"Download completed - Starting Data Processing");
             if (!Directory.GetFiles(tmpDir).Where(f => Path.GetExtension(f) == ".xls").Any())
             {
                 ZipFile.ExtractToDirectory(tmpFile, tmpDir);
             }
             string file = Directory.GetFiles(tmpDir).Where(f => Path.GetExtension(f) == ".xls").First();
             if (file == null || file.Trim().Length == 0) return false;
-
+            ProgressUpdate(30, $"Starting Database Update");
             using (var transaction = connection.BeginTransaction())
             {
                 using (var del = connection.CreateCommand())
@@ -264,6 +273,7 @@ namespace PonzianiPlayerBase
                                 cmd.Parameters["@FideId"].Value = reader.GetValue(0) != null ? (ulong)reader.GetDouble(0) : 0;
                                 if (count == 1) await cmd.PrepareAsync();
                                 await cmd.ExecuteNonQueryAsync();
+                                if ((count % 100) == 0) ProgressUpdate((int)(30 + 65.0 * count / 20000), $"{count} Players written to database");
                             }
                             catch (Exception)
                             {
@@ -271,12 +281,14 @@ namespace PonzianiPlayerBase
                             }
                         }
                     } while (reader.NextResult());
+                    ProgressUpdate((int)(30 + 65.0 * count / 20000), $"{count} Players updated - Starting Commit");
                 }
                 var command = connection.CreateCommand();
                 command.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"{(int)PlayerBaseFactory.Base.CRO}\"";
                 lastUpdate = DateTime.UtcNow;
                 await command.ExecuteNonQueryAsync();
                 transaction.Commit();
+                ProgressUpdate(98, $"Data committed - Clean up");
                 command = connection.CreateCommand();
                 command.CommandText = $"VACUUM";
                 await command.ExecuteNonQueryAsync();
@@ -285,6 +297,7 @@ namespace PonzianiPlayerBase
             //Clean up
             foreach (string f in Directory.GetFiles(tmpDir)) File.Delete(f);
             Directory.Delete(tmpDir);
+            ProgressUpdate(100, $"Done");
             return true;
         }
 
@@ -299,6 +312,7 @@ namespace PonzianiPlayerBase
         public override async Task<bool> UpdateAsync()
         {
             if (connection == null) return false;
+            ProgressUpdate(1, $"Downloading Data from http://hrvatski-sahovski-savez.hr");
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
             var httpClient = new HttpClient();
             var tmpDir = Path.GetTempPath();
@@ -307,20 +321,23 @@ namespace PonzianiPlayerBase
             var tmpFile = Path.Combine(tmpDir, "ita.csv");
             if (!File.Exists(tmpFile))
             {
+                ProgressUpdate(2, $"Downloading Players List from http://www.torneionline.com");
                 using var stream = await httpClient.GetStreamAsync("http://www.torneionline.com/dwn/allin.csv");
                 using var fileStream = new FileStream(tmpFile, FileMode.CreateNew);
                 await stream.CopyToAsync(fileStream);
             }
+            ProgressUpdate(20, $"Download completed - Starting Data Processing");
             string file = Directory.GetFiles(tmpDir).Where(f => Path.GetExtension(f) == ".csv").First();
             if (file == null || file.Trim().Length == 0) return false;
 
+            ProgressUpdate(30, $"Starting Database Update");
             using (var transaction = connection.BeginTransaction())
             {
                 using (var del = connection.CreateCommand())
                 {
-                    del.CommandText = "DELETE FROM Player WHERE Federation = \"CZE\"";
+                    del.CommandText = "DELETE FROM Player WHERE Federation = \"ITA\"";
                     await del.ExecuteNonQueryAsync();
-                    del.CommandText = "DELETE FROM Club WHERE Federation = \"CZE\"";
+                    del.CommandText = "DELETE FROM Club WHERE Federation = \"ITA\"";
                     await del.ExecuteNonQueryAsync();
                 }
                 using (var cmd = connection.CreateCommand())
@@ -365,18 +382,21 @@ namespace PonzianiPlayerBase
                                 cmd.Parameters["@FideId"].Value = 0;
                             if (count == 1) await cmd.PrepareAsync();
                             await cmd.ExecuteNonQueryAsync();
+                            if ((count % 100) == 0) ProgressUpdate((int)(30 + 65.0 * count / 100000), $"{count} Players written to database");
                         }
                         catch (Exception ex)
                         {
                             Console.WriteLine(ex.ToString());
                         }
                     }
+                    ProgressUpdate((int)(30 + 65.0 * count / 100000), $"{count} Players updated - Starting Commit");
                 }
                 var command = connection.CreateCommand();
                 command.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"{(int)PlayerBaseFactory.Base.ITA}\"";
                 lastUpdate = DateTime.UtcNow;
                 await command.ExecuteNonQueryAsync();
                 transaction.Commit();
+                ProgressUpdate(98, $"Data committed - Clean up");
                 command = connection.CreateCommand();
                 command.CommandText = $"VACUUM";
                 await command.ExecuteNonQueryAsync();
@@ -385,6 +405,7 @@ namespace PonzianiPlayerBase
             //Clean up
             foreach (string f in Directory.GetFiles(tmpDir)) File.Delete(f);
             Directory.Delete(tmpDir);
+            ProgressUpdate(100, $"Done");
             return true;
         }
 
@@ -400,6 +421,7 @@ namespace PonzianiPlayerBase
         {
             if (connection == null) return false;
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+            ProgressUpdate(1, $"Downloading Data from http://elo.miramal.com");
             var httpClient = new HttpClient();
             var tmpDir = Path.GetTempPath();
             tmpDir = Path.Combine(tmpDir, "cze");
@@ -411,9 +433,11 @@ namespace PonzianiPlayerBase
                 using var fileStream = new FileStream(tmpFile, FileMode.CreateNew);
                 await stream.CopyToAsync(fileStream);
             }
+            ProgressUpdate(20, $"Download completed - Starting Data Processing");
             string file = Directory.GetFiles(tmpDir).Where(f => Path.GetExtension(f) == ".xls").First();
             if (file == null || file.Trim().Length == 0) return false;
 
+            ProgressUpdate(30, $"Starting Database Update");
             using (var transaction = connection.BeginTransaction())
             {
                 using (var del = connection.CreateCommand())
@@ -457,6 +481,7 @@ namespace PonzianiPlayerBase
                                 cmd.Parameters["@FideId"].Value = reader.GetValue(8) != null ? (ulong)reader.GetDouble(8) : 0;
                                 if (count == 1) await cmd.PrepareAsync();
                                 await cmd.ExecuteNonQueryAsync();
+                                if ((count % 100) == 0) ProgressUpdate((int)(30 + 65.0 * count / 20000), $"{count} Players written to database");
                             }
                             catch (Exception)
                             {
@@ -464,12 +489,14 @@ namespace PonzianiPlayerBase
                             }
                         }
                     } while (reader.NextResult());
+                    ProgressUpdate((int)(30 + 65.0 * count / 20000), $"{count} Players updated - Starting Commit");
                 }
                 var command = connection.CreateCommand();
                 command.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"{(int)PlayerBaseFactory.Base.CZE}\"";
                 lastUpdate = DateTime.UtcNow;
                 await command.ExecuteNonQueryAsync();
                 transaction.Commit();
+                ProgressUpdate(98, $"Data committed - Clean up");
                 command = connection.CreateCommand();
                 command.CommandText = $"VACUUM";
                 await command.ExecuteNonQueryAsync();
@@ -478,6 +505,7 @@ namespace PonzianiPlayerBase
             //Clean up
             foreach (string f in Directory.GetFiles(tmpDir)) File.Delete(f);
             Directory.Delete(tmpDir);
+            ProgressUpdate(100, $"Done");
             return true;
         }
 
@@ -492,6 +520,7 @@ namespace PonzianiPlayerBase
         public override async Task<bool> UpdateAsync()
         {
             if (connection == null) return false;
+            ProgressUpdate(1, $"Downloading Data from http://chess-results.com");
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
             var httpClient = new HttpClient();
             string page = await httpClient.GetStringAsync("http://chess-results.com/OesbEloSuche.aspx");
@@ -509,6 +538,7 @@ namespace PonzianiPlayerBase
                 using var fileStream = new FileStream(tmpFile, FileMode.CreateNew);
                 await stream.CopyToAsync(fileStream);
             }
+            ProgressUpdate(20, $"Download completed - Starting Data Processing");
             if (!Directory.GetFiles(tmpDir).Where(f => Path.GetExtension(f) == ".xls").Any())
             {
                 ZipFile.ExtractToDirectory(tmpFile, tmpDir);
@@ -516,6 +546,7 @@ namespace PonzianiPlayerBase
             string file = Directory.GetFiles(tmpDir).Where(f => Path.GetExtension(f) == ".xls").First();
             if (file == null || file.Trim().Length == 0) return false;
 
+            ProgressUpdate(30, $"Starting Database Update");
             using (var transaction = connection.BeginTransaction())
             {
                 using (var del = connection.CreateCommand())
@@ -560,6 +591,7 @@ namespace PonzianiPlayerBase
                                 cmd.Parameters["@FideId"].Value = (ulong)reader.GetDouble(16);
                                 if (count == 1) await cmd.PrepareAsync();
                                 await cmd.ExecuteNonQueryAsync();
+                                if ((count % 100) == 0) ProgressUpdate((int)(30 + 65.0 * count / 20000), $"{count} Players written to database");
                             }
                             catch (Exception)
                             {
@@ -567,11 +599,13 @@ namespace PonzianiPlayerBase
                             }
                         }
                     } while (reader.NextResult());
+                    ProgressUpdate((int)(30 + 65.0 * count / 20000), $"{count} Players updated - Starting Commit");
                 }
                 var command = connection.CreateCommand();
                 command.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"{(int)PlayerBaseFactory.Base.AUT}\"";
                 lastUpdate = DateTime.UtcNow;
                 await command.ExecuteNonQueryAsync();
+                ProgressUpdate(98, $"Data committed - Clean up");
                 transaction.Commit();
                 command = connection.CreateCommand();
                 command.CommandText = $"VACUUM";
@@ -581,6 +615,7 @@ namespace PonzianiPlayerBase
             //Clean up
             foreach (string f in Directory.GetFiles(tmpDir)) File.Delete(f);
             Directory.Delete(tmpDir);
+            ProgressUpdate(100, $"Done");
             return true;
         }
 
@@ -598,6 +633,7 @@ namespace PonzianiPlayerBase
             if (connection == null) return false;
             try
             {
+                ProgressUpdate(1, $"Downloading Data from https://auschess.org.au");
                 var httpClient = new HttpClient();
                 string page = await httpClient.GetStringAsync("https://auschess.org.au/rating-lists/");
                 var links = LinkFinder.Find(page);
@@ -605,9 +641,11 @@ namespace PonzianiPlayerBase
                 var rl = links.Find(l => l.ToIndex < indx && l.ToIndex + 20 > indx);
                 if (rl.Href == null || rl.Href.Trim().Length == 0) return false;
                 string rating_data = await httpClient.GetStringAsync($"https://auschess.org.au{rl.Href}");
+                ProgressUpdate(20, $"Download completed - Starting Data Processing");
                 if (rating_data == null || rating_data.Length == 0) return false;
                 string[] rating_data_lines = rating_data.Split(new String[] { "\r\n", "\n", "\r" }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
 
+                ProgressUpdate(30, $"Starting Database Update");
                 using var transaction = connection.BeginTransaction();
                 using (var del = connection.CreateCommand())
                 {
@@ -656,22 +694,25 @@ namespace PonzianiPlayerBase
                             cmd.Parameters["@FideId"].Value = 0;
                             if (count == 1) await cmd.PrepareAsync();
                             await cmd.ExecuteNonQueryAsync();
+                            if ((count % 100) == 0) ProgressUpdate((int)(30 + 65.0 * count / 50000), $"{count} Players written to database");
                         }
                         catch (Exception ex)
                         {
                             Console.WriteLine(ex.ToString());
                         }
                     }
+                    ProgressUpdate((int)(30 + 65.0 * count / 50000), $"{count} Players updated - Starting Commit");
                 }
                 var command = connection.CreateCommand();
                 command.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"{(int)PlayerBaseFactory.Base.AUS}\"";
                 lastUpdate = DateTime.UtcNow;
                 await command.ExecuteNonQueryAsync();
                 transaction.Commit();
+                ProgressUpdate(98, $"Data committed - Clean up");
                 command = connection.CreateCommand();
                 command.CommandText = $"VACUUM";
                 await command.ExecuteNonQueryAsync();
-
+                ProgressUpdate(100, $"Done");
             }
             catch (Exception ex)
             {
@@ -691,6 +732,7 @@ namespace PonzianiPlayerBase
 
         public override async Task<bool> UpdateAsync()
         {
+            ProgressUpdate(1, $"Downloading Data from http://adapter.swisschess.ch");
             var httpClient = new HttpClient();
             var tmpDir = Path.GetTempPath();
             tmpDir = Path.Combine(tmpDir, "sui");
@@ -710,7 +752,7 @@ namespace PonzianiPlayerBase
                 Console.WriteLine(ex.ToString());
                 return false;
             }
-
+            ProgressUpdate(20, $"Download completed - Starting Database Update");
             if (connection == null || !File.Exists(tmpFile)) return false;
 
             using (var transaction = connection.BeginTransaction())
@@ -765,18 +807,21 @@ namespace PonzianiPlayerBase
                                 cmd.Parameters["@FideId"].Value = 0;
                             if (count == 1) await cmd.PrepareAsync();
                             await cmd.ExecuteNonQueryAsync();
+                            if ((count % 100) == 0) ProgressUpdate((int)(30 + 65.0 * count / 6000), $"{count} Players written to database");
                         }
                         catch (Exception ex)
                         {
                             Console.WriteLine(ex.ToString());
                         }
                     }
+                    ProgressUpdate((int)(30 + 65.0 * count / 6000), $"{count} Players updated - Starting Commit");
                 }
                 var command = connection.CreateCommand();
                 command.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"{(int)PlayerBaseFactory.Base.SUI}\"";
                 lastUpdate = DateTime.UtcNow;
                 await command.ExecuteNonQueryAsync();
                 transaction.Commit();
+                ProgressUpdate(98, $"Data committed - Clean up");
                 command = connection.CreateCommand();
                 command.CommandText = $"VACUUM";
                 await command.ExecuteNonQueryAsync();
@@ -785,6 +830,7 @@ namespace PonzianiPlayerBase
             //Clean up
             foreach (string f in Directory.GetFiles(tmpDir)) File.Delete(f);
             Directory.Delete(tmpDir);
+            ProgressUpdate(100, $"Done");
             return true;
         }
     }
@@ -798,6 +844,7 @@ namespace PonzianiPlayerBase
 
         public override async Task<bool> UpdateAsync()
         {
+            ProgressUpdate(1, $"Downloading Data from https://www.ecfrating.org.uk");
             var httpClient = new HttpClient();
             var tmpDir = Path.GetTempPath();
             tmpDir = Path.Combine(tmpDir, "ecf");
@@ -818,6 +865,7 @@ namespace PonzianiPlayerBase
                 Console.WriteLine(ex.ToString());
                 return false;
             }
+            ProgressUpdate(20, $"Download completed - Starting Database Update");
 
             if (connection == null || !File.Exists(tmpFile)) return false;
 
@@ -870,18 +918,21 @@ namespace PonzianiPlayerBase
                                 cmd.Parameters["@FideId"].Value = 0;
                             if (count == 1) await cmd.PrepareAsync();
                             await cmd.ExecuteNonQueryAsync();
+                            if ((count % 100) == 0) ProgressUpdate((int)(30 + 65.0 * count / 25000), $"{count} Players written to database");
                         }
                         catch (Exception ex)
                         {
                             Console.WriteLine(ex.ToString());
                         }
                     }
+                    ProgressUpdate((int)(30 + 65.0 * count / 25000), $"{count} Players updated - Starting Commit");
                 }
                 var command = connection.CreateCommand();
                 command.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"{(int)PlayerBaseFactory.Base.ENG}\"";
                 lastUpdate = DateTime.UtcNow;
                 await command.ExecuteNonQueryAsync();
                 transaction.Commit();
+                ProgressUpdate(98, $"Data committed - Clean up");
                 command = connection.CreateCommand();
                 command.CommandText = $"VACUUM";
                 await command.ExecuteNonQueryAsync();
@@ -890,6 +941,7 @@ namespace PonzianiPlayerBase
             //Clean up
             foreach (string f in Directory.GetFiles(tmpDir)) File.Delete(f);
             Directory.Delete(tmpDir);
+            ProgressUpdate(100, $"Done");
             return true;
         }
     }
@@ -902,6 +954,7 @@ namespace PonzianiPlayerBase
 
         public async override Task<bool> UpdateAsync()
         {
+            ProgressUpdate(1, $"Downloading Data from https://dwz.svw.info");
             var httpClient = new HttpClient();
             var tmpDir = Path.GetTempPath();
             tmpDir = Path.Combine(tmpDir, "dwz");
@@ -916,6 +969,7 @@ namespace PonzianiPlayerBase
                     using var fileStream = new FileStream(tmpFile, FileMode.CreateNew);
                     await stream.CopyToAsync(fileStream);
                 }
+                ProgressUpdate(20, $"Download completed - Starting Data Processing");
             }
             catch (Exception ex)
             {
@@ -932,6 +986,7 @@ namespace PonzianiPlayerBase
 
             if (connection == null || !File.Exists(clubfile) || !File.Exists(playerfile)) return false;
 
+            ProgressUpdate(30, $"Starting Database Update");
             using (var transaction = connection.BeginTransaction())
             {
                 using (var del = connection.CreateCommand())
@@ -1014,18 +1069,22 @@ namespace PonzianiPlayerBase
                                 cmd.Parameters["@FideId"].Value = 0;
                             if (count == 1) await cmd.PrepareAsync();
                             await cmd.ExecuteNonQueryAsync();
+                            if ((count % 100) == 0) ProgressUpdate((int)(30 + 65.0 * count / 100000), $"{count} Players written to database");
                         }
                         catch (Exception ex)
                         {
                             Console.WriteLine(ex.ToString());
                         }
                     }
+                    ProgressUpdate((int)(30 + 65.0 * count / 100000), $"{count} Players updated - Starting Commit");
                 }
+                
                 var command = connection.CreateCommand();
                 command.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"{(int)PlayerBaseFactory.Base.GER}\"";
                 lastUpdate = DateTime.UtcNow;
                 await command.ExecuteNonQueryAsync();
                 transaction.Commit();
+                ProgressUpdate(98, $"Data committed - Clean up");
                 command = connection.CreateCommand();
                 command.CommandText = $"VACUUM";
                 await command.ExecuteNonQueryAsync();
@@ -1034,6 +1093,7 @@ namespace PonzianiPlayerBase
             //Clean up
             foreach (string f in Directory.GetFiles(tmpDir)) File.Delete(f);
             Directory.Delete(tmpDir);
+            ProgressUpdate(100, $"Done");
             return true;
         }
     }

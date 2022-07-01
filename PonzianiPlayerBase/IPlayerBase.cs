@@ -1,11 +1,15 @@
 ﻿using Microsoft.Data.Sqlite;
 using PonzianiSwissLib;
 using System;
+using System.ComponentModel;
 
 namespace PonzianiPlayerBase
 {
     public interface IPlayerBase
     {
+        // Declare the event.
+        event ProgressChangedEventHandler ProgressChanged;
+
         DateTime LastUpdate { get; }
         Task<bool> UpdateAsync();
 
@@ -81,6 +85,13 @@ namespace PonzianiPlayerBase
             @"CREATE TABLE IF NOT EXISTS ""Player"" ( ""Federation"" TEXT NOT NULL, ""Id"" TEXT NOT NULL, ""Club"" TEXT, ""Name"" TEXT NOT NULL, ""Sex"" INTEGER, ""Rating"" INTEGER, ""Inactive"" INTEGER, ""Birthyear"" INTEGER, ""FideId"" INTEGER, PRIMARY KEY(""Federation"",""Id""))",
             @"CREATE INDEX IF NOT EXISTS ""IndxName"" ON ""Player"" (""Name"" ASC )"
         };
+
+        public event ProgressChangedEventHandler? ProgressChanged;
+
+        protected void ProgressUpdate(int progress, string message)
+        {
+            ProgressChanged?.Invoke(this, new(progress, message));
+        }
     }
 
     public class PlayerBaseFactory
