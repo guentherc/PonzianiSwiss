@@ -550,6 +550,13 @@ namespace PonzianiSwiss
                 e.Cancel = messageDialogResult == MessageDialogResult.Negative;
             }
         }
+
+        private void MenuItem_Settings_Reset_Click(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.Reset();
+            Properties.Settings.Default.Save();
+            ThemeManager.Current.ChangeTheme(Application.Current, Properties.Settings.Default.BaseTheme, Properties.Settings.Default.ThemeColor);
+        }
     }
 
     [AttributeUsage(AttributeTargets.Property)]
@@ -907,6 +914,26 @@ namespace PonzianiSwiss
                 bool paused = !((bool)(Participant.Active?.GetValue(tournament.Rounds.Count) ?? true));
                 return paused ? FontStyles.Italic : FontStyles.Normal;
             }
+        }
+    }
+
+    public class SettingBindingExtension : Binding
+    {
+        public SettingBindingExtension()
+        {
+            Initialize();
+        }
+
+        public SettingBindingExtension(string path)
+            : base(path)
+        {
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            this.Source = Properties.Settings.Default;
+            this.Mode = BindingMode.TwoWay;
         }
     }
 }

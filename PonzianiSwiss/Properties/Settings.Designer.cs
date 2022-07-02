@@ -57,5 +57,197 @@ namespace PonzianiSwiss.Properties {
                 this["MRU"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("450")]
+        public int MainWindowHeight {
+            get {
+                return ((int)(this["MainWindowHeight"]));
+            }
+            set {
+                this["MainWindowHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("800")]
+        public int MainWindowWidth {
+            get {
+                return ((int)(this["MainWindowWidth"]));
+            }
+            set {
+                this["MainWindowWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("120")]
+        public int ColParticipantNameWidth {
+            get {
+                return ((int)(this["ColParticipantNameWidth"]));
+            }
+            set {
+                this["ColParticipantNameWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        public int ColParticipantFederationWidth {
+            get {
+                return ((int)(this["ColParticipantFederationWidth"]));
+            }
+            set {
+                this["ColParticipantFederationWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        public int ColParticipantFideIdWidth {
+            get {
+                return ((int)(this["ColParticipantFideIdWidth"]));
+            }
+            set {
+                this["ColParticipantFideIdWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        public int ColParticipantScoreWidth {
+            get {
+                return ((int)(this["ColParticipantScoreWidth"]));
+            }
+            set {
+                this["ColParticipantScoreWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        public int ColParticipantRatingWidth {
+            get {
+                return ((int)(this["ColParticipantRatingWidth"]));
+            }
+            set {
+                this["ColParticipantRatingWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("120")]
+        public int ColParticipantIdWidth {
+            get {
+                return ((int)(this["ColParticipantIdWidth"]));
+            }
+            set {
+                this["ColParticipantIdWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        public int ColParticipantEloWidth {
+            get {
+                return ((int)(this["ColParticipantEloWidth"]));
+            }
+            set {
+                this["ColParticipantEloWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        public int ColParticipantNationalRatingWidth {
+            get {
+                return ((int)(this["ColParticipantNationalRatingWidth"]));
+            }
+            set {
+                this["ColParticipantNationalRatingWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("120")]
+        public int ColParticipantClubWidth {
+            get {
+                return ((int)(this["ColParticipantClubWidth"]));
+            }
+            set {
+                this["ColParticipantClubWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("40")]
+        public int ColPairingWhiteIdWidth {
+            get {
+                return ((int)(this["ColPairingWhiteIdWidth"]));
+            }
+            set {
+                this["ColPairingWhiteIdWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("120")]
+        public int ColPairingWhiteNameWidth {
+            get {
+                return ((int)(this["ColPairingWhiteNameWidth"]));
+            }
+            set {
+                this["ColPairingWhiteNameWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("40")]
+        public int ColPairingBlackIdWidth {
+            get {
+                return ((int)(this["ColPairingBlackIdWidth"]));
+            }
+            set {
+                this["ColPairingBlackIdWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("120")]
+        public string ColPairingBlackNameWidth {
+            get {
+                return ((string)(this["ColPairingBlackNameWidth"]));
+            }
+            set {
+                this["ColPairingBlackNameWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("80")]
+        public string ColPairingResultWidth {
+            get {
+                return ((string)(this["ColPairingResultWidth"]));
+            }
+            set {
+                this["ColPairingResultWidth"] = value;
+            }
+        }
     }
 }

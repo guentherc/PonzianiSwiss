@@ -47,7 +47,7 @@
             </ListView.ContextMenu>
             <ListView.View>
                 <GridView>
-                        <GridViewColumn Width="40">
+                    <GridViewColumn Width="{local:SettingBinding ColPairingWhiteIdWidth}">
                             <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Id</GridViewColumnHeader>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -55,7 +55,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                    <GridViewColumn Width="120">
+                    <GridViewColumn Width="{local:SettingBinding ColPairingWhiteNameWidth}">
                         <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">White</GridViewColumnHeader>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -63,7 +63,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Width="40">
+                    <GridViewColumn Width="{local:SettingBinding ColPairingBlackIdWidth}">
                         <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Id</GridViewColumnHeader>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -71,7 +71,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Width="120">
+                    <GridViewColumn Width="{local:SettingBinding ColPairingBlackNameWidth}">
                         <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Black</GridViewColumnHeader>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -79,7 +79,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Width="80">
+                    <GridViewColumn Width="{local:SettingBinding ColPairingResultWidth}">
                         <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Result</GridViewColumnHeader>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>

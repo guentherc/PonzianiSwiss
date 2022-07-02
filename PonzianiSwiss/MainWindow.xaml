@@ -5,9 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PonzianiSwiss"
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" d:DataContext="{d:DesignInstance Type=local:MainModel}"
-                 mc:Ignorable="d"
-        Title="{Binding Path=Tournament.Name}" Height="450" Width="800" TitleCharacterCasing="Normal" Closed="MetroWindow_Closed" Closing="MetroWindow_Closing">
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" 
+        d:DataContext="{d:DesignInstance Type=local:MainModel}"
+        mc:Ignorable="d"
+        Title="{Binding Path=Tournament.Name}" 
+        Height="{local:SettingBinding MainWindowHeight}" 
+        Width="{local:SettingBinding MainWindowWidth}" 
+        TitleCharacterCasing="Normal" Closed="MetroWindow_Closed" Closing="MetroWindow_Closing">
     <Window.Resources>
         <local:TextSetToBoolConverter x:Key="TextSetToBoolConverter"/>
     </Window.Resources>
@@ -72,6 +76,8 @@
                     <MenuItem x:Name="MenuItem_Settings_Basetheme" Header="Base Theme"/>
                     <MenuItem x:Name="MenuItem_Settings_Themecolor" Header="Theme Color"/>
                     <Separator/>
+                    <MenuItem x:Name="MenuItem_Settings_Reset" Header="Reset Settings" Click="MenuItem_Settings_Reset_Click"/>
+                    <Separator/>
                     <MenuItem x:Name="MenuItem_Settings_About" Header="About" Click="MenuItem_Settings_About_Click"/>
                 </MenuItem>
             </Menu>
@@ -114,7 +120,7 @@
                     </ListView.ContextMenu>
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Width="120">
+                            <GridViewColumn Width="{local:SettingBinding ColParticipantNameWidth}">
                                 <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Name" Click="LvParticipantsColumnHeader_Click">Name</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
@@ -124,7 +130,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="60">
+                            <GridViewColumn Width="{local:SettingBinding ColParticipantFederationWidth}">
                                 <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Federation" Click="LvParticipantsColumnHeader_Click">Federation</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
@@ -132,7 +138,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="60">
+                            <GridViewColumn Width="{local:SettingBinding ColParticipantFideIdWidth}">
                                 <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="FideId" Click="LvParticipantsColumnHeader_Click">Fide Id</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
@@ -140,7 +146,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="60">
+                            <GridViewColumn Width="{local:SettingBinding ColParticipantScoreWidth}">
                                 <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Score" Click="LvParticipantsColumnHeader_Click">Score</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
@@ -148,7 +154,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="60">
+                            <GridViewColumn Width="{local:SettingBinding ColParticipantRatingWidth}">
                                 <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Rating" Click="LvParticipantsColumnHeader_Click">Rating</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
@@ -156,7 +162,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="120">
+                            <GridViewColumn Width="{local:SettingBinding ColParticipantIdWidth}">
                                 <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Id" Click="LvParticipantsColumnHeader_Click">Id</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
@@ -164,7 +170,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="60">
+                            <GridViewColumn Width="{local:SettingBinding ColParticipantEloWidth}">
                                 <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Elo" Click="LvParticipantsColumnHeader_Click">Elo</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
@@ -172,7 +178,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="60">
+                            <GridViewColumn Width="{local:SettingBinding ColParticipantNationalRatingWidth}">
                                 <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="NationalRating" Click="LvParticipantsColumnHeader_Click">National Rating</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
@@ -180,7 +186,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="120">
+                            <GridViewColumn Width="{local:SettingBinding ColParticipantClubWidth}">
                                 <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Club" Click="LvParticipantsColumnHeader_Click">Club</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
