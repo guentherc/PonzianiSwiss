@@ -112,7 +112,7 @@ namespace PonzianiSwiss
             }
         }
 
-        private DateTime ParseDateTime(string dateTime)
+        private static DateTime ParseDateTime(string dateTime)
         {
             DateTime result = DateTime.UtcNow;
             if (DateTime.TryParse(dateTime, CultureInfo.CurrentUICulture, DateTimeStyles.AllowWhiteSpaces, out result)) return result;

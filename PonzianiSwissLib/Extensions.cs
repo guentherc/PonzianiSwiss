@@ -216,7 +216,7 @@ namespace PonzianiSwissLib
             throw new NotImplementedException();
         }
 
-        private static JsonSerializerOptions options = new()
+        private static readonly JsonSerializerOptions options = new()
         {
 #if DEBUG
             WriteIndented = true,

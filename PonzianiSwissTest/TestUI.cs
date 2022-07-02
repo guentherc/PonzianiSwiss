@@ -28,7 +28,7 @@ namespace PonzianiSwissTest
 #endif
 
         private FlaUI.Core.Application? app;
-        private ConditionFactory cf = new ConditionFactory(new UIA3PropertyLibrary());
+        private readonly ConditionFactory cf = new(new UIA3PropertyLibrary());
 
         internal enum MenuItemKey
         {
@@ -124,7 +124,7 @@ namespace PonzianiSwissTest
             }
             //Sort participants by Rating
             participants.Sort((a, b) => int.Parse(b["Rating"]).CompareTo(int.Parse(a["Rating"])));
-            HashSet<string> best = new HashSet<string>();
+            HashSet<string> best = new();
             for (int i = 0; i<5; ++i)
             {
                 best.Add(participants[i]["Name"]);

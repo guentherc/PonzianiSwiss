@@ -52,7 +52,7 @@ namespace PonzianiSwiss
             this.Close();
         }
 
-        private static Regex regexFixParticipant = new(@"(GM|IM|FM|CM|WGM|WIM|WFM|WCM|WH)?\s?([^\(]+)\s\((\d+)\)", RegexOptions.Compiled);
+        private static readonly Regex regexFixParticipant = new(@"(GM|IM|FM|CM|WGM|WIM|WFM|WCM|WH)?\s?([^\(]+)\s\((\d+)\)", RegexOptions.Compiled);
         private void FixParticipant()
         {
             if (Model.Participant.Name != null)
@@ -206,7 +206,7 @@ namespace PonzianiSwiss
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (value == null) ? false : value?.ToString()?.Trim().Length > 0;
+            return value != null && value?.ToString()?.Trim().Length > 0;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

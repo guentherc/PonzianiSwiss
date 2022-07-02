@@ -269,7 +269,7 @@ namespace PonzianiPlayerBase
                                 cmd.Parameters["@Federation"].Value = "CRO";
                                 cmd.Parameters["@Club"].Value = reader.GetString(3) ?? string.Empty;
                                 cmd.Parameters["@Rating"].Value = (int)reader.GetDouble(8);
-                                cmd.Parameters["@Birthyear"].Value = int.Parse(reader.GetString(10).Substring(6).Trim());
+                                cmd.Parameters["@Birthyear"].Value = int.Parse(reader.GetString(10)[6..].Trim());
                                 cmd.Parameters["@FideId"].Value = reader.GetValue(0) != null ? (ulong)reader.GetDouble(0) : 0;
                                 if (count == 1) await cmd.PrepareAsync();
                                 await cmd.ExecuteNonQueryAsync();
@@ -477,7 +477,7 @@ namespace PonzianiPlayerBase
                                 cmd.Parameters["@Federation"].Value = "CZE";
                                 cmd.Parameters["@Club"].Value = reader.GetString(2) ?? string.Empty;
                                 cmd.Parameters["@Rating"].Value = (int)reader.GetDouble(5);
-                                cmd.Parameters["@Birthyear"].Value = int.Parse(reader.GetString(3).Substring(6).Trim());
+                                cmd.Parameters["@Birthyear"].Value = int.Parse(reader.GetString(3)[6..].Trim());
                                 cmd.Parameters["@FideId"].Value = reader.GetValue(8) != null ? (ulong)reader.GetDouble(8) : 0;
                                 if (count == 1) await cmd.PrepareAsync();
                                 await cmd.ExecuteNonQueryAsync();

@@ -16,7 +16,7 @@ namespace PonzianiSwiss
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             Mode mode = Mode.Release;
-            int indx = 0;
+            int indx;
             for (indx = 0; indx < e.Args.Length - 1; ++indx)
             {
                 if (e.Args[indx] == "-mode")

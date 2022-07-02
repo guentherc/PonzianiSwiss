@@ -263,8 +263,10 @@ namespace PonzianiSwiss
 
         private void MenuItem_Tournament_Edit_Click(object sender, RoutedEventArgs e)
         {
-            TournamentDialog td = new(Model.Tournament ?? new());
-            td.Owner = this;
+            TournamentDialog td = new(Model.Tournament ?? new())
+            {
+                Owner = this
+            };
             if (td.ShowDialog() ?? false)
             {
                 Model.Tournament = td.Model.Tournament;
@@ -314,8 +316,7 @@ namespace PonzianiSwiss
 
         private void MenuItem_Participant_Edit_Click(object sender, RoutedEventArgs e)
         {
-            TournamentParticipant? p = lvParticipants?.SelectedItem as TournamentParticipant;
-            if (p != null)
+            if (lvParticipants?.SelectedItem is TournamentParticipant p)
             {
                 ParticipantDialog pd = new(p.Participant, Model.Tournament)
                 {
@@ -331,8 +332,7 @@ namespace PonzianiSwiss
 
         private void MenuItem_Participant_Abandon_Click(object sender, RoutedEventArgs e)
         {
-            TournamentParticipant? p = lvParticipants?.SelectedItem as TournamentParticipant;
-            if (p != null && Model.Tournament != null)
+            if (lvParticipants?.SelectedItem is TournamentParticipant p && Model.Tournament != null)
             {
                 if (p.Participant.Active == null)
                 {
@@ -346,8 +346,7 @@ namespace PonzianiSwiss
 
         private void MenuItem_Participant_Pause_Click(object sender, RoutedEventArgs e)
         {
-            TournamentParticipant? p = lvParticipants?.SelectedItem as TournamentParticipant;
-            if (p != null && Model.Tournament != null)
+            if (lvParticipants?.SelectedItem is TournamentParticipant p && Model.Tournament != null)
             {
                 if (p.Participant.Active == null)
                 {
@@ -361,8 +360,7 @@ namespace PonzianiSwiss
 
         private void MenuItem_Participant_UndoPause_Click(object sender, RoutedEventArgs e)
         {
-            TournamentParticipant? p = lvParticipants?.SelectedItem as TournamentParticipant;
-            if (p != null && Model.Tournament != null)
+            if (lvParticipants?.SelectedItem is TournamentParticipant p && Model.Tournament != null)
             {
                 if (p.Participant.Active != null)
                 {
@@ -374,8 +372,7 @@ namespace PonzianiSwiss
 
         private void MenuItem_Participant_Delete_Click(object sender, RoutedEventArgs e)
         {
-            TournamentParticipant? p = lvParticipants?.SelectedItem as TournamentParticipant;
-            if (p != null && Model.Tournament != null)
+            if (lvParticipants?.SelectedItem is TournamentParticipant p && Model.Tournament != null)
             {
                 Model.Tournament.Participants.Remove(p.Participant);
                 Model.SyncParticipants();
@@ -532,14 +529,16 @@ namespace PonzianiSwiss
 
         private async void MenuItem_Settings_About_Click(object sender, RoutedEventArgs e)
         {
-            _ = await this.ShowMessageAsync("PonzianiSwiss 0.2.0 - Swiss Pairing Program", "Find more information at https://github.com/guentherc/PonzianiSwiss");
+            _ = await this.ShowMessageAsync("PonzianiSwiss 0.3.0 - Swiss Pairing Program", "Find more information at https://github.com/guentherc/PonzianiSwiss");
         }
 
         private void MenuItem_Tournament_Edit_Forbidden_Click(object sender, RoutedEventArgs e)
         {
             if (Model.Tournament == null) return;
-            ForbiddenPairingsDialog dlg = new(Model.Tournament);
-            dlg.Owner = this;
+            ForbiddenPairingsDialog dlg = new(Model.Tournament)
+            {
+                Owner = this
+            };
             dlg.ShowDialog();
         }
 
@@ -553,6 +552,7 @@ namespace PonzianiSwiss
         }
     }
 
+    [AttributeUsage(AttributeTargets.Property)]
     public class DependentPropertiesAttribute : Attribute
     {
         private readonly string[] properties;
@@ -653,7 +653,7 @@ namespace PonzianiSwiss
 
         internal void SyncRounds()
         {
-            RaisePropertyChange("DrawEnabled");
+            RaisePropertyChange(nameof(DrawEnabled));
             RaisePropertyChange("DeleteLastRoundEnabled");
         }
 

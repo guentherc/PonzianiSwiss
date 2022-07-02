@@ -103,7 +103,7 @@ namespace PonzianiSwiss
 
         public List<Participant> Participants => Tournament.Participants.OrderBy(p => p.Name).ToList();
 
-        public void SyncRules() => RaisePropertyChange("Rules");
+        public void SyncRules() => RaisePropertyChange(nameof(Rules));
     }
 
     public class ForbiddenPairingRuleConverter : IValueConverter
