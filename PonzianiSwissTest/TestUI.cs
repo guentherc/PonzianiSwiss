@@ -81,11 +81,10 @@ namespace PonzianiSwissTest
             { ToolbarButtonKey.Round_Draw, "Toolbar_Round_Draw" }
         };
 
-        [TestInitialize]
-        public void Setup()
+        public void Setup(string? filename = null)
         {
             Utils.Seed(20);
-            app = FlaUI.Core.Application.Launch(exe);
+            app = FlaUI.Core.Application.Launch(exe, filename);
             app.WaitWhileBusy();
         }
 
@@ -102,6 +101,8 @@ namespace PonzianiSwissTest
         [TestMethod]
         public void CheckForbiddenPairings()
         {
+            string filename = PrepareFile(Properties.Resources.Tournament_100P_3R_ForbiddenPairings_json);
+            Setup(filename);
             var automation = new UIA3Automation();
             var window = app?.GetMainWindow(automation);
             if (window == null)
@@ -109,7 +110,6 @@ namespace PonzianiSwissTest
                 Assert.Fail();
                 return;
             }
-            string filename = LoadTournament(window, Properties.Resources.Tournament_100P_3R_ForbiddenPairings_json);
             //Forbidden pairings are games between players from same federation as well as games between the first 5 players 
             //in the initial ranking
 
@@ -169,6 +169,8 @@ namespace PonzianiSwissTest
         [TestMethod]
         public void DrawInitialRound()
         {
+            string filename = PrepareFile(Properties.Resources.Tournament_100_Participants_0_Rounds_tjson);
+            Setup(filename);
             var automation = new UIA3Automation();
             var window = app?.GetMainWindow(automation);
             if (window == null)
@@ -176,7 +178,6 @@ namespace PonzianiSwissTest
                 Assert.Fail();
                 return;
             }
-            string filename = LoadTournament(window, Properties.Resources.Tournament_100_Participants_0_Rounds_tjson);
             //Retry.WhileFalse(() => ofd.IsOffscreen, TimeSpan.FromSeconds(5));
             var participants = GetParticipantsFromListView(window);
             Assert.AreEqual(100, participants.Count);
@@ -262,11 +263,17 @@ namespace PonzianiSwissTest
 
         private string LoadTournament(Window window, string json)
         {
+            string filename = PrepareFile(json);
+            LoadFromFile(window, filename);
+            app?.WaitWhileBusy();
+            return filename;
+        }
+
+        private static string PrepareFile(string json)
+        {
             string filename = Path.GetTempFileName();
             Console.WriteLine(filename);
             File.WriteAllText(filename, json);
-            LoadFromFile(window, filename);
-            app?.WaitWhileBusy();
             return filename;
         }
 
@@ -279,6 +286,7 @@ namespace PonzianiSwissTest
             Assert.IsNotNull(finput);
             finput.Focus();
             finput.EditableText = filename;
+            app?.WaitWhileBusy();
             Keyboard.Press(FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
         }
 
@@ -289,6 +297,7 @@ namespace PonzianiSwissTest
         [TestMethod]
         public void CreateTournament()
         {
+            Setup();
             var automation = new UIA3Automation();
             var window = app?.GetMainWindow(automation);
             if (window == null)

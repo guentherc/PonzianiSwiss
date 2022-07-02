@@ -34,7 +34,7 @@ namespace PonzianiSwiss
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        public MainWindow(App.Mode mode = App.Mode.Release)
+        public MainWindow(string? filename = null, App.Mode mode = App.Mode.Release)
         {
             InitializeComponent();
             ThemeManager.Current.ChangeTheme(Application.Current, Properties.Settings.Default.BaseTheme, Properties.Settings.Default.ThemeColor);
@@ -59,6 +59,7 @@ namespace PonzianiSwiss
             PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE);
             lvParticipants.ItemsSource = Model.Participants;
             _ = FederationUtil.GetFederations();
+            if (filename != null) Load(filename);
         }
 
         private int TournamentHash = 0;
@@ -207,7 +208,7 @@ namespace PonzianiSwiss
             if (Model.Tournament != null)
             {
                 Model.Tournament.GetScorecards();
-                while (Properties.Settings.Default.MRU.Count > 10)
+                while (Properties.Settings.Default.MRU != null && Properties.Settings.Default.MRU.Count > 10)
                     Properties.Settings.Default.MRU.RemoveAt(10);
                 Model.FileName = filename;
                 Model.SyncParticipants();

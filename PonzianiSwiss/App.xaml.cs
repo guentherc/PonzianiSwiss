@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -17,6 +18,9 @@ namespace PonzianiSwiss
         {
             Mode mode = Mode.Release;
             int indx;
+            string? filename = null;
+            if (e.Args.Length > 0 && File.Exists(e.Args[0]))
+                filename = e.Args[0];
             for (indx = 0; indx < e.Args.Length - 1; ++indx)
             {
                 if (e.Args[indx] == "-mode")
@@ -25,7 +29,7 @@ namespace PonzianiSwiss
                        mode = m;
                 }
             }
-            MainWindow wnd = new(mode);
+            MainWindow wnd = new(filename, mode);
             wnd.Show();
         }
 
