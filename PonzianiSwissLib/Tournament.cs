@@ -176,7 +176,7 @@ namespace PonzianiSwissLib
         public bool AvoidPairingsFromSameFederation { set; get; } = false;
 
         public bool AvoidPairingsFromSameClub { set; get; } = false;
-        
+
         public bool BakuAcceleration { set; get; } = false;
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using PonzianiSwissLib;
+﻿using Microsoft.Extensions.Logging;
+using PonzianiSwissLib;
 using System.IO.Compression;
 
 namespace PonzianiPlayerBase
@@ -10,9 +11,10 @@ namespace PonzianiPlayerBase
 
         public override PlayerBaseFactory.Base Key => PlayerBaseFactory.Base.FIDE;
 
-        public override bool Initialize()
+        public override bool Initialize(ILogger? logger)
         {
-            if (!base.Initialize()) return false;
+            this.logger = logger;
+            if (!base.Initialize(logger)) return false;
             if (connection == null) return false;
             var command = connection.CreateCommand();
             command.CommandText = "SELECT LastUpdate FROM AdminData WHERE Id = 0";
@@ -33,6 +35,7 @@ namespace PonzianiPlayerBase
             cmd.CommandText = max > 0 ? $"SELECT * FROM FidePlayer WHERE Name LIKE @ss LIMIT {max}" : "SELECT * FROM FidePlayer WHERE Name LIKE @ss";
             cmd.Parameters.AddWithValue("@ss", searchstring + '%');
             cmd.Prepare();
+            logger?.LogDebug("{sql} {param}", cmd.CommandText, cmd.Parameters[0].Value);
             using var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -47,6 +50,7 @@ namespace PonzianiPlayerBase
                 player.YearOfBirth = reader.GetInt16(7);
                 result.Add(player);
             }
+            logger?.LogDebug("{count} Records read", result.Count);
             return result;
         }
 
@@ -55,6 +59,7 @@ namespace PonzianiPlayerBase
             using var cmd = connection?.CreateCommand();
             if (cmd == null) return null;
             cmd.CommandText = $"SELECT * FROM FidePlayer WHERE Id = \"{id}\"";
+            logger?.LogDebug(cmd.CommandText);
             using var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -67,8 +72,10 @@ namespace PonzianiPlayerBase
                 player.Rating = reader.GetInt32(5);
                 player.Inactive = reader.GetInt16(6) == 1;
                 player.YearOfBirth = reader.GetInt16(7);
+                logger?.LogDebug("Found {name}", player.Name);
                 return player;
             }
+            logger?.LogDebug("No player found!");
             return null;
         }
 
@@ -157,7 +164,7 @@ namespace PonzianiPlayerBase
                             await cmd.ExecuteNonQueryAsync();
                             if (count % 100 == 0)
                             {
-                                ProgressUpdate((int)(30 + count * 65.0/1200000), $"{count} Players Processed");
+                                ProgressUpdate((int)(30 + count * 65.0 / 1200000), $"{count} Players Processed");
                             }
                         }
                         catch (Exception ex)

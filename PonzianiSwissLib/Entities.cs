@@ -307,7 +307,7 @@ namespace PonzianiSwissLib
         public ForbiddenPairingRule()
         {
 
-        } 
+        }
 
         public Participant? Participant1 { set; get; }
         public Participant? Participant2 { set; get; }

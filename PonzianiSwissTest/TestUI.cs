@@ -1,10 +1,8 @@
 ﻿using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Conditions;
-using FlaUI.Core.Definitions;
 using FlaUI.Core.Input;
 using FlaUI.Core.Tools;
 using FlaUI.UIA3;
-using FlaUI.UIA3.Patterns;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PonzianiPlayerBase;
 using PonzianiSwissLib;
@@ -12,9 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace PonzianiSwissTest
 {
@@ -84,7 +80,15 @@ namespace PonzianiSwissTest
         public void Setup(string? filename = null)
         {
             Utils.Seed(20);
-            app = FlaUI.Core.Application.Launch(exe, filename);
+            string? directory = Path.GetDirectoryName(exe);
+            if (directory != null)
+            {
+                Directory.SetCurrentDirectory(directory);
+                var exef = Path.GetFileName(exe);
+                app = FlaUI.Core.Application.Launch(exef, filename);
+            }
+            else
+                app = FlaUI.Core.Application.Launch(exe, filename);
             app.WaitWhileBusy();
         }
 
@@ -125,7 +129,7 @@ namespace PonzianiSwissTest
             //Sort participants by Rating
             participants.Sort((a, b) => int.Parse(b["Rating"]).CompareTo(int.Parse(a["Rating"])));
             HashSet<string> best = new();
-            for (int i = 0; i<5; ++i)
+            for (int i = 0; i < 5; ++i)
             {
                 best.Add(participants[i]["Name"]);
             }
@@ -261,33 +265,12 @@ namespace PonzianiSwissTest
             exitBtn.Invoke();
         }
 
-        private string LoadTournament(Window window, string json)
-        {
-            string filename = PrepareFile(json);
-            LoadFromFile(window, filename);
-            app?.WaitWhileBusy();
-            return filename;
-        }
-
         private static string PrepareFile(string json)
         {
             string filename = Path.GetTempFileName();
             Console.WriteLine(filename);
             File.WriteAllText(filename, json);
             return filename;
-        }
-
-        private void LoadFromFile(Window window, string filename)
-        {
-            ClickMenuEntry(window, MenuItemKey.Tournament_Open);
-            Retry.WhileNull(() => window.FindFirstByXPath("/Window"), TimeSpan.FromSeconds(5));
-            var ofd = window.FindFirstByXPath("/Window").AsWindow();
-            var finput = ofd.FindFirstByXPath("/ComboBox[1]").AsComboBox();
-            Assert.IsNotNull(finput);
-            finput.Focus();
-            finput.EditableText = filename;
-            app?.WaitWhileBusy();
-            Keyboard.Press(FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
         }
 
         /// <summary>
@@ -493,7 +476,7 @@ namespace PonzianiSwissTest
         {
             var tabview = window.FindFirstDescendant(cf.ByAutomationId("MainTabControl")).AsTab();
             tabview.SelectTabItem(round_index + 1);
-            
+
             app?.WaitWhileBusy();
             Retry.WhileFalse(() => tabview.SelectedTabItemIndex == round_index + 1, TimeSpan.FromSeconds(5));
             Retry.WhileNull(() => window.FindFirstByXPath($"/Tab/TabItem[{round_index + 2}]/Custom/DataGrid"));
@@ -511,13 +494,13 @@ namespace PonzianiSwissTest
                 string w = row.Cells[1].FindFirstChild().Name;
                 int indx1 = w.LastIndexOf('(');
                 int indx2 = w.LastIndexOf(')');
-                pairings.Last().Add("White", w.Substring(0, indx1 -1).Trim());
-                pairings.Last().Add("ScoreWhite", w.Substring(indx1 + 1 , indx2 - 2 - indx1).Trim());
+                pairings.Last().Add("White", w[..(indx1 - 1)].Trim());
+                pairings.Last().Add("ScoreWhite", w.Substring(indx1 + 1, indx2 - 2 - indx1).Trim());
                 pairings.Last().Add("IDBlack", row.Cells[2].FindFirstChild().Name);
                 w = row.Cells[3].FindFirstChild().Name;
                 indx1 = w.LastIndexOf('(');
                 indx2 = w.LastIndexOf(')');
-                pairings.Last().Add("Black", w.Substring(0, indx1 - 1).Trim());
+                pairings.Last().Add("Black", w[..(indx1 - 1)].Trim());
                 pairings.Last().Add("ScoreBlack", w.Substring(indx1 + 1, indx2 - 2 - indx1).Trim());
                 pairings.Last().Add("Result", row.Cells[4].FindFirstChild().Name);
             }
@@ -623,7 +606,7 @@ namespace PonzianiSwissTest
             btn.Invoke();
         }
 
-        private void SetFederationComboBox(Window window, string federation, ComboBox cbFederation)
+        private static void SetFederationComboBox(Window window, string federation, ComboBox cbFederation)
         {
             if (federation != "Fide" && FederationUtil.Federations.ContainsKey(federation))
             {
@@ -780,13 +763,13 @@ namespace PonzianiSwissTest
             Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Settings_About));
         }
 
-        private void ClickToolbarButton(Window window, ToolbarButtonKey toolbarButtonKey)
+        private static void ClickToolbarButton(Window window, ToolbarButtonKey toolbarButtonKey)
         {
             Button button = FindToolbarButton(window, toolbarButtonKey);
             button.Click();
         }
 
-        private Button FindToolbarButton(Window window, ToolbarButtonKey toolbarButtonKey)
+        private static Button FindToolbarButton(Window window, ToolbarButtonKey toolbarButtonKey)
         {
             var button = window.FindAllByXPath("/ToolBar/Button").ToList().Find(b => b.AutomationId == ToolbarButtonIds[toolbarButtonKey]).AsButton();
             Assert.IsNotNull(button);
@@ -795,12 +778,12 @@ namespace PonzianiSwissTest
 
         private void ClickMenuEntry(Window window, MenuItemKey menuItemKey)
         {
-            MenuItem menuItem = FindMenuItem(window, MenuPaths[menuItemKey], false);
+            MenuItem menuItem = FindMenuItem(window, MenuPaths[menuItemKey]);
             menuItem.Invoke();
             app?.WaitWhileBusy();
         }
 
-        private MenuItem FindMenuItem(Window window, List<string> path, bool parentIfNotAccessible = true)
+        private MenuItem FindMenuItem(Window window, List<string> path)
         {
             var menu = window.FindFirstDescendant(cf.Menu()).AsMenu();
             AutomationElement? element = menu;
@@ -828,7 +811,7 @@ namespace PonzianiSwissTest
             return menuItem.IsEnabled;
         }
 
-        private bool IsToolbarButtonEnabled(Window window, ToolbarButtonKey toolbarButtonKey)
+        private static bool IsToolbarButtonEnabled(Window window, ToolbarButtonKey toolbarButtonKey)
         {
             var button = FindToolbarButton(window, toolbarButtonKey);
             return button.IsEnabled;

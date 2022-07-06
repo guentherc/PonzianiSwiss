@@ -4,7 +4,7 @@ namespace PonzianiSwissLib
 {
     public class Participant
     {
-        public enum AttributeKey { Birthdate, Address, Email  };
+        public enum AttributeKey { Birthdate, Address, Email };
 
         public Participant()
         {

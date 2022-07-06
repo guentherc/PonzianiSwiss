@@ -1,21 +1,13 @@
 ﻿using AutoCompleteTextBox.Editors;
 using MahApps.Metro.Controls;
+using Microsoft.Extensions.Logging;
 using PonzianiPlayerBase;
 using PonzianiSwissLib;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace PonzianiSwiss
 {
@@ -24,13 +16,16 @@ namespace PonzianiSwiss
     /// </summary>
     public partial class PlayerSearchDialog : MetroWindow
     {
-        public PlayerSearchDialog()
+        public PlayerSearchDialog(ILogger? logger)
         {
+            Logger = logger;
             InitializeComponent();
-            Model = new PlayerSearchModel();
+            Model = new PlayerSearchModel(Logger);
             DataContext = Model;
             ComboBox_Base.ItemsSource = Enum.GetValues(typeof(PlayerBaseFactory.Base));
         }
+
+        private ILogger? Logger;
 
         public PlayerSearchModel Model { get; set; }
 
@@ -52,6 +47,7 @@ namespace PonzianiSwiss
         private void ComboBox_Base_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             PlayerBase = (PlayerBaseFactory.Base)ComboBox_Base.SelectedItem;
+            PlayerBaseFactory.Get(PlayerBase, Logger);
         }
     }
 
@@ -59,11 +55,16 @@ namespace PonzianiSwiss
     {
         private Player? player;
 
+        public PlayerSearchModel(ILogger? logger)
+        {
+            Logger = logger;
+        }
+
         [DependentProperties("IsFemale")]
         public Player? Player
         {
-            get => player; 
-            
+            get => player;
+
             set
             {
                 player = value;
@@ -89,7 +90,7 @@ namespace PonzianiSwiss
             {
                 string[] ids = id.Split('_');
                 if (ids.Length == 2)
-                    Player = PlayerBaseFactory.Get(PlayerSearchDialog.PlayerBase).GetById(ids[1]);
+                    Player = PlayerBaseFactory.Get(PlayerSearchDialog.PlayerBase, Logger).GetById(ids[1]);
             }
             catch (Exception ex)
             {
@@ -102,7 +103,7 @@ namespace PonzianiSwiss
     {
         public IEnumerable GetSuggestions(string filter)
         {
-            return PlayerBaseFactory.Get(PlayerSearchDialog.PlayerBase).Find(filter)
+            return PlayerBaseFactory.Get(PlayerSearchDialog.PlayerBase, null).Find(filter)
                 .Select(p => $"{(p.Title != FideTitle.NONE ? p.Title : string.Empty)} {p.Name} {"(" + p.Id + ")"}".Trim());
         }
     }

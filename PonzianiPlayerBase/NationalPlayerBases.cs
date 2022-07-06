@@ -1,6 +1,7 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
 using ExcelDataReader;
+using Microsoft.Extensions.Logging;
 using PonzianiSwissLib;
 using System.Globalization;
 using System.IO.Compression;
@@ -20,6 +21,7 @@ namespace PonzianiPlayerBase
             cmd.Parameters.AddWithValue("@fed", federation);
             cmd.Parameters.AddWithValue("@ss", searchstring + '%');
             cmd.Prepare();
+            logger?.LogDebug("{sql} {p1} {p2}", cmd.CommandText, cmd.Parameters[0].Value, cmd.Parameters[1].Value);
             using (var reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
@@ -37,17 +39,20 @@ namespace PonzianiPlayerBase
                     };
                     result.Add(player);
                 }
+                logger?.LogDebug("{count} Records read", result.Count);
             }
-            if (result.Count == 1)
+            if (result.Count == 1 && result[0].Club?.Length > 0)
             {
                 using var ccmd = connection?.CreateCommand();
                 if (ccmd != null)
                 {
                     ccmd.CommandText = $"SELECT Name FROM Club WHERE Federation = \"{federation}\" and Id = \"{result[0].Club}\"";
                     using var creader = ccmd.ExecuteReader();
+                    logger?.LogDebug("{}", ccmd.CommandText);
                     while (creader.Read())
                     {
                         result[0].Club = creader.GetString(0);
+                        logger?.LogDebug("Found {name}", result[0].Club);
                     }
                 }
             }
@@ -60,6 +65,7 @@ namespace PonzianiPlayerBase
             using var cmd = connection?.CreateCommand();
             if (cmd == null) return null;
             cmd.CommandText = $"SELECT * FROM Player WHERE Federation = \"{federation}\" AND Id = \"{id}\"";
+            logger?.LogDebug("{}", cmd.CommandText);
             using var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -74,16 +80,19 @@ namespace PonzianiPlayerBase
                     FideId = (ulong)reader.GetInt64(8),
                     Title = FideTitle.NONE
                 };
+                logger?.LogDebug("Found {name}", player.Name);
                 if (player.Club != null && player.Club != string.Empty)
                 {
                     using var ccmd = connection?.CreateCommand();
                     if (ccmd != null)
                     {
                         ccmd.CommandText = $"SELECT Name FROM Club WHERE Federation = \"{federation}\" and Id = \"{player.Club ?? String.Empty}\"";
+                        logger?.LogDebug("{}", cmd.CommandText);
                         using var creader = ccmd.ExecuteReader();
                         while (creader.Read())
                         {
                             player.Club = creader.GetString(0);
+                            logger?.LogDebug("Found {name}", player.Club);
                         }
                     }
                 }
@@ -189,7 +198,7 @@ namespace PonzianiPlayerBase
                 ProgressUpdate(98, $"Data committed - Clean up");
                 command = connection.CreateCommand();
                 command.CommandText = $"VACUUM";
-                await command.ExecuteNonQueryAsync();                
+                await command.ExecuteNonQueryAsync();
             }
 
             //Clean up
@@ -1078,7 +1087,7 @@ namespace PonzianiPlayerBase
                     }
                     ProgressUpdate((int)(30 + 65.0 * count / 100000), $"{count} Players updated - Starting Commit");
                 }
-                
+
                 var command = connection.CreateCommand();
                 command.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"{(int)PlayerBaseFactory.Base.GER}\"";
                 lastUpdate = DateTime.UtcNow;

@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:wpf="http://wpfcontrols.com/"
-        xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
         xmlns:local="clr-namespace:PonzianiSwiss" 
                  xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                  mc:Ignorable="d"
@@ -47,7 +46,7 @@
             <ComboBox x:Name="ComboBox_Title" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" SelectedValue="{Binding Path=Participant.Title}" MinWidth="100" Margin="5,5,5,5"/>
             <Label Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Margin="5,5,5,5">Federation:</Label>
             <ComboBox x:Name="ComboBox_Federation" Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" 
-                      SelectedValue="{Binding Path=Participant.Federation, Mode=TwoWay, diag:PresentationTraceSources.TraceLevel=High}"  
+                      SelectedValue="{Binding Path=Participant.Federation, Mode=TwoWay}"  
                       MinWidth="200" Margin="5,5,5,5"/>
             <Label Grid.Row="2" Grid.Column="4" VerticalAlignment="Center" Margin="5,5,5,5">Year of Birth:</Label>
             <TextBox x:Name="TextBox_YearOfBirth" Grid.Row="2" Grid.Column="5" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding Path=Participant.YearOfBirth}"/>

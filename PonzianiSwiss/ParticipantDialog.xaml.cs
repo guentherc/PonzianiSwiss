@@ -1,23 +1,15 @@
 ﻿using AutoCompleteTextBox.Editors;
 using MahApps.Metro.Controls;
+using Microsoft.Extensions.Logging;
 using PonzianiPlayerBase;
 using PonzianiSwissLib;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace PonzianiSwiss
 {
@@ -26,9 +18,10 @@ namespace PonzianiSwiss
     /// </summary>
     public partial class ParticipantDialog : MetroWindow
     {
-        public ParticipantDialog(Participant participant, Tournament? tournament)
+        public ParticipantDialog(Participant participant, Tournament? tournament, ILogger? logger)
         {
-            Model = new(participant, tournament);
+            Logger = logger;
+            Model = new(participant, tournament, Logger);
             this.DataContext = Model;
             InitializeComponent();
             var items = FederationUtil.Federations.OrderBy(e => e.Value);
@@ -41,7 +34,10 @@ namespace PonzianiSwiss
             //ComboBox_Federation.SelectedValue = Model.Participant.Federation != null && Model.Participant.Federation != String.Empty ? Model.Participant.Federation : "FIDE";
 
             ComboBox_Title.ItemsSource = Enum.GetValues(typeof(FideTitle));
+            Logger = logger;
         }
+
+        private readonly ILogger? Logger;
 
         public ParticipantModel Model { set; get; }
 
@@ -73,8 +69,10 @@ namespace PonzianiSwiss
 
         private void MenuItem_PlayerSearch_Open_Click(object sender, RoutedEventArgs e)
         {
-            PlayerSearchDialog psd = new();
-            psd.Owner = this;
+            PlayerSearchDialog psd = new(Logger)
+            {
+                Owner = this
+            };
             if (psd.ShowDialog() ?? false)
             {
                 Player? nplayer = psd.Model.Player;
@@ -117,14 +115,15 @@ namespace PonzianiSwiss
         private readonly IPlayerBase FideBase;
         private Participant participant;
 
-        public ParticipantModel(Participant participant, Tournament? tournament)
+        public ParticipantModel(Participant participant, Tournament? tournament, ILogger? logger)
         {
-            this.participant = participant;           
+            Logger = logger;
+            this.participant = participant;
             Tournament = tournament;
-            FideBase = PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE);
+            FideBase = PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE, logger);
         }
 
-        public void Sync() => RaisePropertyChange("Participant");
+        public void Sync() => RaisePropertyChange(nameof(Participant));
 
         [DependentProperties("Participant")]
         public ulong FideId
@@ -195,9 +194,11 @@ namespace PonzianiSwiss
 
     public class ParticipantProvider : ISuggestionProvider
     {
+
+
         public IEnumerable GetSuggestions(string filter)
         {
-            return PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE).Find(filter)
+            return PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE, null).Find(filter)
                 .Select(p => $"{(p.Title != FideTitle.NONE ? p.Title : string.Empty)} {p.Name} {(p.FideId != 0 ? "(" + p.FideId + ")" : string.Empty)}".Trim());
         }
     }

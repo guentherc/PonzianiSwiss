@@ -4,16 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace PonzianiSwiss
 {
@@ -53,7 +45,7 @@ namespace PonzianiSwiss
                 var clickedTieBreak = (TieBreak)((CheckBox)(e.OriginalSource)).Tag;
                 if (Model.IsSelected(clickedTieBreak))
                     Model.Unselect(clickedTieBreak);
-                else 
+                else
                     Model.Select(clickedTieBreak);
             }
 

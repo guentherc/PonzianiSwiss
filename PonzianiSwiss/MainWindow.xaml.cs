@@ -1,31 +1,26 @@
-﻿using MahApps.Metro.Controls;
+﻿using ControlzEx.Theming;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using Microsoft.Extensions.Logging;
+using Microsoft.Win32;
+using PonzianiPlayerBase;
 using PonzianiSwissLib;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
-using System.Text;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using Microsoft.Win32;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.IO;
 using Extensions = PonzianiSwissLib.Extensions;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Reflection;
-using PonzianiPlayerBase;
-using System.Collections.ObjectModel;
-using System.Threading;
-using ControlzEx.Theming;
-using System.Collections.Specialized;
-using MahApps.Metro.Controls.Dialogs;
 
 namespace PonzianiSwiss
 {
@@ -34,8 +29,12 @@ namespace PonzianiSwiss
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        public MainWindow(string? filename = null, App.Mode mode = App.Mode.Release)
+        public MainWindow(ILogger? logger = null, AppSettings? settings = null)
         {
+            App.Mode mode = settings?.Mode ?? App.Mode.Release;
+            string? filename = settings?.Filename;
+            Logger = logger;
+            Logger?.LogDebug("Creating MainWindow (Mode: {mode}, File: {file})", mode, settings?.Filename);
             InitializeComponent();
             ThemeManager.Current.ChangeTheme(Application.Current, Properties.Settings.Default.BaseTheme, Properties.Settings.Default.ThemeColor);
             //Add Playerbase Update entries dynamically
@@ -51,18 +50,16 @@ namespace PonzianiSwiss
             }
             RenderThemeMenuEntries();
             //MenuItem_PlayerBase_Update.
-            Model = new()
-            {
-                Mode = mode
-            };
+            Model = new(mode, Logger);
             DataContext = Model;
-            PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE);
+            PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE, logger);
             lvParticipants.ItemsSource = Model.Participants;
             _ = FederationUtil.GetFederations();
             if (filename != null) Load(filename);
         }
 
         private int TournamentHash = 0;
+        private readonly ILogger? Logger;
 
         private void RenderThemeMenuEntries()
         {
@@ -102,6 +99,7 @@ namespace PonzianiSwiss
         {
             MenuItem? mi = sender as MenuItem;
             Properties.Settings.Default.ThemeColor = mi?.Tag.ToString() ?? "Blue";
+            LogUserEvent(null, Properties.Settings.Default.ThemeColor);
             ThemeManager.Current.ChangeTheme(Application.Current, Properties.Settings.Default.BaseTheme, Properties.Settings.Default.ThemeColor);
             RenderThemeMenuEntries();
         }
@@ -110,8 +108,21 @@ namespace PonzianiSwiss
         {
             MenuItem? mi = sender as MenuItem;
             Properties.Settings.Default.BaseTheme = mi?.Tag.ToString() ?? "Light";
+            LogUserEvent(null, Properties.Settings.Default.BaseTheme);
             ThemeManager.Current.ChangeTheme(Application.Current, Properties.Settings.Default.BaseTheme, Properties.Settings.Default.ThemeColor);
             RenderThemeMenuEntries();
+        }
+
+        private void LogUserEvent(string? methodName = null, string? parameter = null)
+        {
+            if (Logger?.IsEnabled(LogLevel.Debug) ?? false)
+            {
+                if (parameter != null)
+                    Logger?.LogDebug("{menuitem} ({parameter}) clicked", methodName ?? (new System.Diagnostics.StackTrace()).GetFrame(1)?.GetMethod()?.Name, parameter);
+                else
+                    Logger?.LogDebug("{menuitem} clicked", methodName ?? (new System.Diagnostics.StackTrace()).GetFrame(1)?.GetMethod()?.Name);
+            }
+
         }
 
         private async void Update_Base(object sender, RoutedEventArgs e)
@@ -119,12 +130,15 @@ namespace PonzianiSwiss
             if (sender is not MenuItem mi) return;
             var uiContext = SynchronizationContext.Current;
             var b = (PlayerBaseFactory.Base)mi.Tag;
-            IPlayerBase pbase = PlayerBaseFactory.Get(b);
+            LogUserEvent("Update_Base", b.ToString());
+            IPlayerBase pbase = PlayerBaseFactory.Get(b, Logger);
             var controller = await this.ShowProgressAsync("Please wait...", $"Update of {pbase.Description} might take some time");
-            pbase.ProgressChanged += (s, e) => {
-                controller.SetProgress(Math.Min(1.0, 0.01 * e.ProgressPercentage)); 
-                controller.SetMessage(e.UserState?.ToString()); 
+            ProgressChangedEventHandler updateProgressBar = (s, e) =>
+            {
+                controller.SetProgress(Math.Min(1.0, 0.01 * e.ProgressPercentage));
+                controller.SetMessage(e.UserState?.ToString());
             };
+            pbase.ProgressChanged += updateProgressBar;
             bool ok = false;
             await Task.Run(async () =>
             {
@@ -132,6 +146,7 @@ namespace PonzianiSwiss
             });
             await controller.CloseAsync();
             if (ok) await this.ShowMessageAsync("Update successful", $"Update of Player Base {b}"); else await this.ShowMessageAsync("Update failed", $"Update of Player Base {b}");
+            pbase.ProgressChanged -= updateProgressBar;
         }
 
         public MainModel Model { set; get; }
@@ -139,6 +154,7 @@ namespace PonzianiSwiss
 
         private async void MenuItem_Tournament_New_ClickAsync(object sender, RoutedEventArgs e)
         {
+            LogUserEvent("MenuItem_Tournament_New_ClickAsync");
             var uiContext = SynchronizationContext.Current;
             MessageDialogResult messageDialogResult = MessageDialogResult.Affirmative;
             if (Model.Tournament != null && TournamentHash != Model.Tournament.Hash())
@@ -170,11 +186,13 @@ namespace PonzianiSwiss
 
         private void MenuItem_Tournament_Exit_Click(object sender, RoutedEventArgs e)
         {
+            LogUserEvent();
             this.Close();
         }
 
         private async void MenuItem_Tournament_Open_ClickAsync(object sender, RoutedEventArgs e)
         {
+            LogUserEvent("MenuItem_Tournament_Open_ClickAsync");
             var uiContext = SynchronizationContext.Current;
             MessageDialogResult messageDialogResult = MessageDialogResult.Affirmative;
             if (Model.Tournament != null && TournamentHash != Model.Tournament.Hash())
@@ -203,6 +221,7 @@ namespace PonzianiSwiss
 
         private void Load(string filename)
         {
+            Logger?.LogInformation("Loading {filename}", filename);
             string json = File.ReadAllText(filename);
             Model.Tournament = Extensions.Deserialize(json);
             if (Model.Tournament != null)
@@ -217,11 +236,14 @@ namespace PonzianiSwiss
                 AdjustTabitems();
                 TournamentHash = Model.Tournament.Hash();
             }
+            else
+                Logger?.LogError($"Tournament {filename} wasn't loaded!");
         }
 
         private void ProcessMRU(string filename)
         {
             if (Properties.Settings.Default.MRU == null) Properties.Settings.Default.MRU = new StringCollection();
+            Logger?.LogDebug("MRU List: {list}  ...", string.Join('|', new List<string>(Properties.Settings.Default.MRU.Cast<string>().ToList())));
             if (Properties.Settings.Default.MRU.Count == 0)
             {
                 Properties.Settings.Default.MRU.Add(filename);
@@ -233,20 +255,27 @@ namespace PonzianiSwiss
                 Properties.Settings.Default.MRU.Insert(0, filename);
                 Model.MRUModel = new();
             }
+            Logger?.LogDebug("MRU List changed to {list}", string.Join('|', Properties.Settings.Default.MRU.Cast<string>().ToList()));
         }
 
         private void MenuItem_Tournament_Save_Click(object sender, RoutedEventArgs e)
         {
+            LogUserEvent();
             if (Model.Tournament != null)
             {
                 if (Model.FileName == null) MenuItem_Tournament_Save_As_Click(sender, e);
-                else File.WriteAllText(Model.FileName, Model.Tournament.Serialize());
+                else
+                {
+                    File.WriteAllText(Model.FileName, Model.Tournament.Serialize());
+                    Logger?.LogInformation($"Tournament {Model.Tournament.Name} saved to {Model.FileName}");
+                }
                 if (Model.FileName != null) ProcessMRU(Model.FileName);
             }
         }
 
         private void MenuItem_Tournament_Save_As_Click(object sender, RoutedEventArgs e)
         {
+            LogUserEvent();
             SaveFileDialog saveFileDialog = new()
             {
                 Filter = $"Tournament Files|*.tjson|All Files|*.*"
@@ -264,6 +293,7 @@ namespace PonzianiSwiss
 
         private void MenuItem_Tournament_Edit_Click(object sender, RoutedEventArgs e)
         {
+            LogUserEvent();
             TournamentDialog td = new(Model.Tournament ?? new())
             {
                 Owner = this
@@ -276,7 +306,8 @@ namespace PonzianiSwiss
 
         private void MenuItem_Participant_Add_Click(object sender, RoutedEventArgs e)
         {
-            ParticipantDialog pd = new(new(), Model.Tournament)
+            LogUserEvent();
+            ParticipantDialog pd = new(new(), Model.Tournament, Logger)
             {
                 Title = "Add Participant",
                 Owner = this
@@ -291,6 +322,7 @@ namespace PonzianiSwiss
 
         private void MenuItem_Round_Delete_Click(object sender, RoutedEventArgs e)
         {
+            LogUserEvent();
             Model.Tournament?.Rounds.Remove(Model.Tournament.Rounds.Last());
             Model.Tournament?.OrderByRank();
             AdjustTabitems();
@@ -299,6 +331,7 @@ namespace PonzianiSwiss
 
         private async void MenuItem_Round_Draw_Click(object sender, RoutedEventArgs e)
         {
+            LogUserEvent("MenuItem_Round_Draw_Click");
             var controller = await this.ShowProgressAsync("Please wait...", "Draw might take some time");
             Cursor = Cursors.Wait;
             var uiContext = SynchronizationContext.Current;
@@ -317,11 +350,13 @@ namespace PonzianiSwiss
 
         private void MenuItem_Participant_Edit_Click(object sender, RoutedEventArgs e)
         {
+
             if (lvParticipants?.SelectedItem is TournamentParticipant p)
             {
-                ParticipantDialog pd = new(p.Participant, Model.Tournament)
+                LogUserEvent(null, p.Participant.Name);
+                ParticipantDialog pd = new(p.Participant, Model.Tournament, Logger)
                 {
-                    Title = $"Edit Participant {p.Participant.Name}",
+                    Title = $"Edit Participant ({p.Participant.Name})",
                     Owner = this
                 };
                 if (pd.ShowDialog() ?? false)
@@ -335,6 +370,7 @@ namespace PonzianiSwiss
         {
             if (lvParticipants?.SelectedItem is TournamentParticipant p && Model.Tournament != null)
             {
+                LogUserEvent(null, p.Participant.Name);
                 if (p.Participant.Active == null)
                 {
                     p.Participant.Active = new bool[Model.Tournament.CountRounds];
@@ -349,6 +385,7 @@ namespace PonzianiSwiss
         {
             if (lvParticipants?.SelectedItem is TournamentParticipant p && Model.Tournament != null)
             {
+                LogUserEvent(null, p.Participant.Name);
                 if (p.Participant.Active == null)
                 {
                     p.Participant.Active = new bool[Model.Tournament.CountRounds];
@@ -363,6 +400,7 @@ namespace PonzianiSwiss
         {
             if (lvParticipants?.SelectedItem is TournamentParticipant p && Model.Tournament != null)
             {
+                LogUserEvent(null, p.Participant.Name);
                 if (p.Participant.Active != null)
                 {
                     Array.Fill(p.Participant.Active, true);
@@ -375,6 +413,7 @@ namespace PonzianiSwiss
         {
             if (lvParticipants?.SelectedItem is TournamentParticipant p && Model.Tournament != null)
             {
+                LogUserEvent(null, p.Participant.Name);
                 Model.Tournament.Participants.Remove(p.Participant);
                 Model.SyncParticipants();
             }
@@ -404,6 +443,7 @@ namespace PonzianiSwiss
         private void MenuItem_Export_Click(object sender, RoutedEventArgs e)
         {
             int tag = int.Parse((string)((MenuItem)sender).Tag);
+            LogUserEvent(null, tag.ToString());
             string html = string.Empty;
             string title = string.Empty;
             switch (tag)
@@ -437,12 +477,14 @@ namespace PonzianiSwiss
             {
                 MenuItem mi = (MenuItem)sender;
                 int count = int.Parse((string)mi.Tag);
+                LogUserEvent(null, count.ToString());
                 Model.AddRandomParticipants(count);
             }
         }
 
         private void MenuItem_Simulate_Results_Click(object sender, RoutedEventArgs e)
         {
+            LogUserEvent();
             Model.SimulateResults();
             var tabitem = MainTabControl.Items[^1] as TabItem;
             Round? r = tabitem?.Content as Round;
@@ -456,6 +498,7 @@ namespace PonzianiSwiss
         {
             GridViewColumnHeader? column = (sender as GridViewColumnHeader);
             if (column == null) return;
+            LogUserEvent(null, column.Name);
             if (column == lvParticipantsSortCol) sort_ascending = !sort_ascending; else sort_ascending = true;
             lvParticipantsSortCol = column;
             string sortCol = column?.Tag?.ToString() ?? string.Empty;
@@ -507,6 +550,7 @@ namespace PonzianiSwiss
 
         private void MetroWindow_Closed(object sender, EventArgs e)
         {
+            LogUserEvent();
             Properties.Settings.Default.Save();
         }
 
@@ -515,6 +559,7 @@ namespace PonzianiSwiss
             MenuItem mi = (MenuItem)sender;
             if (mi == null) return;
             string fileName = mi.Tag?.ToString() ?? string.Empty;
+            LogUserEvent("MenuItem_Tournament_MRU_ClickAsync", fileName);
             if (fileName != string.Empty)
             {
                 var uiContext = SynchronizationContext.Current;
@@ -530,12 +575,14 @@ namespace PonzianiSwiss
 
         private async void MenuItem_Settings_About_Click(object sender, RoutedEventArgs e)
         {
+            LogUserEvent("MenuItem_Settings_About_Click");
             _ = await this.ShowMessageAsync("PonzianiSwiss 0.3.0 - Swiss Pairing Program", "Find more information at https://github.com/guentherc/PonzianiSwiss");
         }
 
         private void MenuItem_Tournament_Edit_Forbidden_Click(object sender, RoutedEventArgs e)
         {
             if (Model.Tournament == null) return;
+            LogUserEvent();
             ForbiddenPairingsDialog dlg = new(Model.Tournament)
             {
                 Owner = this
@@ -545,15 +592,17 @@ namespace PonzianiSwiss
 
         private void MetroWindow_Closing(object sender, CancelEventArgs e)
         {
+            LogUserEvent();
             if (Model.Tournament != null && TournamentHash != Model.Tournament.Hash())
             {
-                var messageDialogResult =  this.ShowModalMessageExternal($"Exit Application", "There might be unsaved data which will be lost! Do you want to proceed?", MessageDialogStyle.AffirmativeAndNegative);
+                var messageDialogResult = this.ShowModalMessageExternal($"Exit Application", "There might be unsaved data which will be lost! Do you want to proceed?", MessageDialogStyle.AffirmativeAndNegative);
                 e.Cancel = messageDialogResult == MessageDialogResult.Negative;
             }
         }
 
         private void MenuItem_Settings_Reset_Click(object sender, RoutedEventArgs e)
         {
+            LogUserEvent();
             Properties.Settings.Default.Reset();
             Properties.Settings.Default.Save();
             ThemeManager.Current.ChangeTheme(Application.Current, Properties.Settings.Default.BaseTheme, Properties.Settings.Default.ThemeColor);
@@ -583,6 +632,8 @@ namespace PonzianiSwiss
     {
 
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected ILogger? Logger { get; set; }
 
         protected void RaisePropertyChange([CallerMemberName] string propertyName = "", List<string>? calledProperties = null)
         {
@@ -628,7 +679,13 @@ namespace PonzianiSwiss
         private string? fileName;
         private MRUModel mRUModel = new();
 
-        public App.Mode Mode { get; set; } = App.Mode.Release;
+        public MainModel(App.Mode mode, ILogger? logger)
+        {
+            Mode = mode;
+            Logger = logger;
+        }
+
+        public App.Mode Mode { get; private set; } = App.Mode.Release;
 
         internal ObservableCollection<TournamentParticipant> Participants { get; set; } = new();
 
@@ -636,7 +693,7 @@ namespace PonzianiSwiss
         public Tournament? Tournament { get => tournament; set { if (tournament != value) { tournament = value; RaisePropertyChange(); } } }
 
         public string? FileName { get => fileName; set { if (fileName != value) { fileName = value; RaisePropertyChange(); } } }
-        
+
         public MRUModel MRUModel { get => mRUModel; set { mRUModel = value; RaisePropertyChange(); } }
         public bool DrawEnabled
         {
@@ -679,7 +736,7 @@ namespace PonzianiSwiss
 
         internal async void AddRandomParticipants(int count = 100)
         {
-            FidePlayerBase fide_base = (FidePlayerBase)PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE);
+            FidePlayerBase fide_base = (FidePlayerBase)PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE, Logger);
             var player = await fide_base.GetRandomPlayers(count);
             if (player != null)
             {

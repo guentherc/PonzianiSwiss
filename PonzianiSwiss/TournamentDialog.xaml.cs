@@ -4,16 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace PonzianiSwiss
 {
@@ -52,8 +44,10 @@ namespace PonzianiSwiss
 
         private void Button_Edit_Tiebreak_Click(object sender, RoutedEventArgs e)
         {
-            TiebreakDialog dialog = new(Model.Tournament.TieBreak);
-            dialog.Owner = this;
+            TiebreakDialog dialog = new(Model.Tournament.TieBreak)
+            {
+                Owner = this
+            };
             if (dialog.ShowDialog() == true)
             {
                 Model.Tournament.TieBreak = dialog.Model.Tiebreaks;
@@ -66,7 +60,7 @@ namespace PonzianiSwiss
     {
         private Tournament tournament;
 
-        public Tournament  Tournament
+        public Tournament Tournament
         {
             get => tournament; set
             {
@@ -75,7 +69,7 @@ namespace PonzianiSwiss
             }
         }
 
-        public void Sync() => RaisePropertyChange("Tournament");
+        public void Sync() => RaisePropertyChange(nameof(Tournament));
 
         public TournamentModel(Tournament tournament)
         {
@@ -114,8 +108,7 @@ namespace PonzianiSwiss
 
         private static DateTime ParseDateTime(string dateTime)
         {
-            DateTime result = DateTime.UtcNow;
-            if (DateTime.TryParse(dateTime, CultureInfo.CurrentUICulture, DateTimeStyles.AllowWhiteSpaces, out result)) return result;
+            if (DateTime.TryParse(dateTime, CultureInfo.CurrentUICulture, DateTimeStyles.AllowWhiteSpaces, out DateTime result)) return result;
             if (DateTime.TryParse(dateTime, CultureInfo.InvariantCulture, DateTimeStyles.AllowWhiteSpaces, out result)) return result;
             return result;
         }
@@ -125,8 +118,7 @@ namespace PonzianiSwiss
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var tiebreaks = value as List<TieBreak>;
-            return tiebreaks != null ? string.Join(" -> ", tiebreaks) : string.Empty;
+            return value is List<TieBreak> tiebreaks ? string.Join(" -> ", tiebreaks) : string.Empty;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

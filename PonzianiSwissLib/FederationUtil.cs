@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Json;
-using System.Text;
+﻿using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace PonzianiSwissLib
 {
@@ -22,7 +17,8 @@ namespace PonzianiSwissLib
                 };
                 string url = "https://app.fide.com/api/v1/client/directory/federations?&q";
                 result = await client.GetFromJsonAsync<List<Federation>>(url);
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
@@ -36,7 +32,7 @@ namespace PonzianiSwissLib
                 {
                     Console.WriteLine(ex.Message);
                 }
-            }          
+            }
             if (result != null)
             {
                 foreach (var federation in result)
@@ -52,7 +48,7 @@ namespace PonzianiSwissLib
 
         public static Dictionary<string, string> Federations { private set; get; } = new() { { "FIDE", "Fide" } };
     }
-    
+
     public class Federation
     {
         [JsonPropertyName("category")]
@@ -65,7 +61,7 @@ namespace PonzianiSwissLib
         public string? Id { set; get; }
 
         [JsonPropertyName("fed_long_name")]
-        public string? Name { set; get; }      
-        
+        public string? Name { set; get; }
+
     }
 }

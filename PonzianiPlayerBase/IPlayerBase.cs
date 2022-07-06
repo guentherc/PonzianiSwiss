@@ -1,6 +1,6 @@
 ﻿using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Logging;
 using PonzianiSwissLib;
-using System;
 using System.ComponentModel;
 
 namespace PonzianiPlayerBase
@@ -13,7 +13,7 @@ namespace PonzianiPlayerBase
         DateTime LastUpdate { get; }
         Task<bool> UpdateAsync();
 
-        bool Initialize();
+        bool Initialize(ILogger? logger);
 
         List<Player> Find(string searchstring, int max = 0);
 
@@ -30,6 +30,8 @@ namespace PonzianiPlayerBase
         protected string? filename;
         protected SqliteConnection? connection;
         protected DateTime lastUpdate = DateTime.MinValue;
+
+        protected ILogger? logger;
         public DateTime LastUpdate => lastUpdate;
 
         public abstract string Description { get; }
@@ -46,8 +48,9 @@ namespace PonzianiPlayerBase
 
         public abstract Player? GetById(string id);
 
-        public virtual bool Initialize()
+        public virtual bool Initialize(ILogger? logger = null)
         {
+            this.logger = logger;
             if (filename == null)
             {
                 string directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PonzianiPlayerBase");
@@ -90,6 +93,7 @@ namespace PonzianiPlayerBase
 
         protected void ProgressUpdate(int progress, string message)
         {
+            logger?.LogDebug("Progress Update {count}% {message}", progress, message);
             ProgressChanged?.Invoke(this, new(progress, message));
         }
     }
@@ -100,60 +104,60 @@ namespace PonzianiPlayerBase
 
         private static readonly Dictionary<Base, IPlayerBase> bases = new();
 
-        public static IPlayerBase Get(Base b)
+        public static IPlayerBase Get(Base b, ILogger? logger)
         {
             if (!bases.ContainsKey(b))
             {
                 if (b == Base.FIDE)
                 {
                     bases.Add(b, new FidePlayerBase());
-                    bases[b].Initialize();
+                    bases[b].Initialize(logger);
 
                 }
                 else if (b == Base.GER)
                 {
                     bases.Add(b, new GermanPlayerBase());
-                    bases[b].Initialize();
+                    bases[b].Initialize(logger);
                 }
                 else if (b == Base.ENG)
                 {
                     bases.Add(b, new EnglishPlayerBase());
-                    bases[b].Initialize();
+                    bases[b].Initialize(logger);
                 }
                 else if (b == Base.SUI)
                 {
                     bases.Add(b, new SuissePlayerBase());
-                    bases[b].Initialize();
+                    bases[b].Initialize(logger);
                 }
                 else if (b == Base.AUS)
                 {
                     bases.Add(b, new AustraliaPlayerBase());
-                    bases[b].Initialize();
+                    bases[b].Initialize(logger);
                 }
                 else if (b == Base.AUT)
                 {
                     bases.Add(b, new AustriaPlayerBase());
-                    bases[b].Initialize();
+                    bases[b].Initialize(logger);
                 }
                 else if (b == Base.CZE)
                 {
                     bases.Add(b, new CzechPlayerBase());
-                    bases[b].Initialize();
+                    bases[b].Initialize(logger);
                 }
                 else if (b == Base.ITA)
                 {
                     bases.Add(b, new ItalianPlayerBase());
-                    bases[b].Initialize();
+                    bases[b].Initialize(logger);
                 }
                 else if (b == Base.CRO)
                 {
                     bases.Add(b, new CroatiaPlayerBase());
-                    bases[b].Initialize();
+                    bases[b].Initialize(logger);
                 }
                 else if (b == Base.NED)
                 {
                     bases.Add(b, new NetherlandsPlayerBase());
-                    bases[b].Initialize();
+                    bases[b].Initialize(logger);
                 }
             }
             return bases[b];

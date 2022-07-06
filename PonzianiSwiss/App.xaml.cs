@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Serilog;
+using System;
 using System.Data;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace PonzianiSwiss
@@ -14,25 +13,53 @@ namespace PonzianiSwiss
     /// </summary>
     public partial class App : Application
     {
+
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            Mode mode = Mode.Release;
+#if DEBUG
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.debug.json", optional: false, reloadOnChange: true);
+#else
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+#endif
+            IConfiguration Configuration = builder.Build();
+            var serilogLogger = new LoggerConfiguration().ReadFrom.Configuration(Configuration).CreateLogger();
+            var loggerFactory = (ILoggerFactory)new LoggerFactory();
+            loggerFactory.AddSerilog(serilogLogger);
+            var logger = loggerFactory.CreateLogger("PonzianiSwiss");
+            logger.LogInformation($"PonzianiSwiss started with {string.Join(' ', e.Args)}");
+            var section = Configuration.GetSection(nameof(AppSettings));
+            AppSettings appSettings = new AppSettings();
+            appSettings.Mode = (Mode)section.GetValue(typeof(Mode), nameof(Mode), Mode.Release);
+            //Adjust settings from start parameters
             int indx;
-            string? filename = null;
             if (e.Args.Length > 0 && File.Exists(e.Args[0]))
-                filename = e.Args[0];
+                appSettings.Filename = e.Args[0];
             for (indx = 0; indx < e.Args.Length - 1; ++indx)
             {
                 if (e.Args[indx] == "-mode")
                 {
                     if (Enum.TryParse<Mode>(e.Args[indx + 1], out Mode m))
-                       mode = m;
+                        appSettings.Mode = m;
                 }
             }
-            MainWindow wnd = new(filename, mode);
+
+            MainWindow wnd = new(logger, appSettings);
             wnd.Show();
         }
 
         public enum Mode { Release, Test }
     }
+
+    public class AppSettings
+    {
+        public App.Mode Mode { get; set; }
+
+        public string? Filename { get; set; }
+    }
+
+
 }

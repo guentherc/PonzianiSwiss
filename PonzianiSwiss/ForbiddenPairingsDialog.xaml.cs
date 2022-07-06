@@ -5,16 +5,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace PonzianiSwiss
 {
@@ -98,7 +91,7 @@ namespace PonzianiSwiss
 
         public string? Federation1 { set; get; }
         public string? Federation2 { set; get; }
-        
+
         public List<string?> Federations => Tournament.Participants.Select(p => p.Federation).Distinct().OrderBy(f => f).ToList();
 
         public List<Participant> Participants => Tournament.Participants.OrderBy(p => p.Name).ToList();

@@ -13,7 +13,7 @@ namespace PonzianiSwissLib
             else if (RuntimeInformation.OSArchitecture == Architecture.X64) executable += "64";
             else throw new Exception($"OS Architecture {RuntimeInformation.OSArchitecture} not supported! Only x86 and x64 architecture supported!");
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) executable += ".exe";
-            else if (!RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) throw new Exception($"OS {RuntimeInformation.OSDescription} not supported");           
+            else if (!RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) throw new Exception($"OS {RuntimeInformation.OSDescription} not supported");
             if (!File.Exists(Path.Combine("bbpPairings", executable)))
             {
                 executable = LoadFromOneDrive();

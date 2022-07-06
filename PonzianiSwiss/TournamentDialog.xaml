@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:local="clr-namespace:PonzianiSwiss" d:DataContext="{d:DesignInstance Type=local:TournamentModel}"
                  mc:Ignorable="d"
@@ -39,7 +38,7 @@
             <TextBox x:Name="TextBox_Tournament_City" Grid.Row="1" VerticalAlignment="Center" Grid.Column="1" Text="{Binding Path=Tournament.City}" MinWidth="200" Margin="5,5,5,5"/>
             <Label Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" Margin="5,5,5,5">Federation:</Label>
             <ComboBox x:Name="ComboBox_Federation" Grid.Row="1" VerticalAlignment="Center" Grid.Column="3" 
-                      SelectedValue="{Binding Path=Tournament.Federation, Mode=TwoWay, diag:PresentationTraceSources.TraceLevel=High}"
+                      SelectedValue="{Binding Path=Tournament.Federation, Mode=TwoWay}"
                       MinWidth="100" Margin="5,5,5,5"/>
             <Label Grid.Row="2" Grid.Column="0" Content="Rounds:" Margin="5,5,5,5" VerticalAlignment="Center"/>
             <WrapPanel Grid.Row="2" Grid.ColumnSpan="3" Grid.Column="1">
