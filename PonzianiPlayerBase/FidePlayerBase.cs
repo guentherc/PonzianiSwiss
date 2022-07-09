@@ -59,7 +59,7 @@ namespace PonzianiPlayerBase
             using var cmd = connection?.CreateCommand();
             if (cmd == null) return null;
             cmd.CommandText = $"SELECT * FROM FidePlayer WHERE Id = \"{id}\"";
-            logger?.LogDebug(cmd.CommandText);
+            logger?.LogDebug("{}", cmd.CommandText);
             using var reader = cmd.ExecuteReader();
             while (reader.Read())
             {

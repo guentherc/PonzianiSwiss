@@ -25,7 +25,7 @@ namespace PonzianiSwiss
             ComboBox_Base.ItemsSource = Enum.GetValues(typeof(PlayerBaseFactory.Base));
         }
 
-        private ILogger? Logger;
+        private readonly ILogger? Logger;
 
         public PlayerSearchModel Model { get; set; }
 

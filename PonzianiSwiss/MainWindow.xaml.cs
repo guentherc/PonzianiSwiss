@@ -133,11 +133,11 @@ namespace PonzianiSwiss
             LogUserEvent("Update_Base", b.ToString());
             IPlayerBase pbase = PlayerBaseFactory.Get(b, Logger);
             var controller = await this.ShowProgressAsync("Please wait...", $"Update of {pbase.Description} might take some time");
-            ProgressChangedEventHandler updateProgressBar = (s, e) =>
+            void updateProgressBar(object? s, ProgressChangedEventArgs e)
             {
                 controller.SetProgress(Math.Min(1.0, 0.01 * e.ProgressPercentage));
                 controller.SetMessage(e.UserState?.ToString());
-            };
+            }
             pbase.ProgressChanged += updateProgressBar;
             bool ok = false;
             await Task.Run(async () =>
@@ -187,7 +187,7 @@ namespace PonzianiSwiss
         private void MenuItem_Tournament_Exit_Click(object sender, RoutedEventArgs e)
         {
             LogUserEvent();
-            this.Close();
+            Close();
         }
 
         private async void MenuItem_Tournament_Open_ClickAsync(object sender, RoutedEventArgs e)
@@ -237,7 +237,7 @@ namespace PonzianiSwiss
                 TournamentHash = Model.Tournament.Hash();
             }
             else
-                Logger?.LogError($"Tournament {filename} wasn't loaded!");
+                Logger?.LogError("Tournament {filename} wasn't loaded!", filename);
         }
 
         private void ProcessMRU(string filename)
@@ -267,7 +267,7 @@ namespace PonzianiSwiss
                 else
                 {
                     File.WriteAllText(Model.FileName, Model.Tournament.Serialize());
-                    Logger?.LogInformation($"Tournament {Model.Tournament.Name} saved to {Model.FileName}");
+                    Logger?.LogInformation("Tournament {name} saved to {filename}", Model.Tournament.Name, Model.FileName);
                 }
                 if (Model.FileName != null) ProcessMRU(Model.FileName);
             }
@@ -595,9 +595,11 @@ namespace PonzianiSwiss
             LogUserEvent();
             if (Model.Tournament != null && TournamentHash != Model.Tournament.Hash())
             {
+                e.Cancel = true;
                 var messageDialogResult = this.ShowModalMessageExternal($"Exit Application", "There might be unsaved data which will be lost! Do you want to proceed?", MessageDialogStyle.AffirmativeAndNegative);
                 e.Cancel = messageDialogResult == MessageDialogResult.Negative;
             }
+            if (!e.Cancel) Application.Current.Shutdown();
         }
 
         private void MenuItem_Settings_Reset_Click(object sender, RoutedEventArgs e)

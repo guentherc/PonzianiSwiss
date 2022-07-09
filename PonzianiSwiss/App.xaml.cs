@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using PonzianiSwissLib;
 using Serilog;
 using System;
 using System.Data;
@@ -30,10 +31,12 @@ namespace PonzianiSwiss
             var loggerFactory = (ILoggerFactory)new LoggerFactory();
             loggerFactory.AddSerilog(serilogLogger);
             var logger = loggerFactory.CreateLogger("PonzianiSwiss");
-            logger.LogInformation($"PonzianiSwiss started with {string.Join(' ', e.Args)}");
+            logger.LogInformation("PonzianiSwiss started with {}", string.Join(' ', e.Args));
             var section = Configuration.GetSection(nameof(AppSettings));
-            AppSettings appSettings = new AppSettings();
-            appSettings.Mode = (Mode)section.GetValue(typeof(Mode), nameof(Mode), Mode.Release);
+            AppSettings appSettings = new()
+            {
+                Mode = (Mode)section.GetValue(typeof(Mode), nameof(Mode), Mode.Release)
+            };
             //Adjust settings from start parameters
             int indx;
             if (e.Args.Length > 0 && File.Exists(e.Args[0]))
@@ -46,7 +49,8 @@ namespace PonzianiSwiss
                         appSettings.Mode = m;
                 }
             }
-
+            Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            PairingTool.Initialize(logger);
             MainWindow wnd = new(logger, appSettings);
             wnd.Show();
         }
