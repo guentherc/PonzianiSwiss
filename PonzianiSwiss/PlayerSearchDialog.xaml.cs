@@ -1,5 +1,6 @@
 ﻿using AutoCompleteTextBox.Editors;
 using MahApps.Metro.Controls;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -16,10 +17,10 @@ namespace PonzianiSwiss
     /// </summary>
     public partial class PlayerSearchDialog : MetroWindow
     {
-        public PlayerSearchDialog(ILogger? logger)
+        public PlayerSearchDialog()
         {
             InitializeComponent();
-            DataContext = new PlayerSearchDialogViewModel(logger);
+            DataContext = App.Current.Services?.GetService<PlayerSearchDialogViewModel>();
             ComboBox_Base.ItemsSource = Enum.GetValues(typeof(PlayerBaseFactory.Base));
         }
 
@@ -33,7 +34,7 @@ namespace PonzianiSwiss
 
         internal static PlayerBaseFactory.Base playerBase = PlayerBaseFactory.Base.FIDE;
 
-        public PlayerSearchDialogViewModel(ILogger? logger)
+        public PlayerSearchDialogViewModel(ILogger logger)
         {
             Logger = logger;
         }

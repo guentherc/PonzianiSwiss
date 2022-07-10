@@ -1,5 +1,6 @@
 ﻿using AutoCompleteTextBox.Editors;
 using MahApps.Metro.Controls;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PonzianiPlayerBase;
 using PonzianiSwissLib;
@@ -18,9 +19,9 @@ namespace PonzianiSwiss
     /// </summary>
     public partial class ParticipantDialog : MetroWindow
     {
-        public ParticipantDialog(Participant participant, Tournament? tournament, ILogger? logger)
+        public ParticipantDialog(Participant participant, Tournament? tournament)
         {
-            Logger = logger;
+            Logger = App.Current.Services?.GetService<ILogger>();
             Model = new(participant, tournament, Logger);
             this.DataContext = Model;
             InitializeComponent();
@@ -34,7 +35,6 @@ namespace PonzianiSwiss
             //ComboBox_Federation.SelectedValue = Model.Participant.Federation != null && Model.Participant.Federation != String.Empty ? Model.Participant.Federation : "FIDE";
 
             ComboBox_Title.ItemsSource = Enum.GetValues(typeof(FideTitle));
-            Logger = logger;
         }
 
         private readonly ILogger? Logger;
@@ -69,7 +69,7 @@ namespace PonzianiSwiss
 
         private void MenuItem_PlayerSearch_Open_Click(object sender, RoutedEventArgs e)
         {
-            PlayerSearchDialog psd = new(Logger)
+            PlayerSearchDialog psd = new()
             {
                 Owner = this
             };

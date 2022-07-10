@@ -1,6 +1,7 @@
 ﻿using ControlzEx.Theming;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using PonzianiPlayerBase;
@@ -29,11 +30,12 @@ namespace PonzianiSwiss
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        public MainWindow(ILogger? logger = null, AppSettings? settings = null)
+        public MainWindow()
         {
+            var settings = App.Current.Services?.GetService<AppSettings>();
             App.Mode mode = settings?.Mode ?? App.Mode.Release;
             string? filename = settings?.Filename;
-            Logger = logger;
+            Logger = App.Current.Services?.GetService<ILogger>();
             Logger?.LogDebug("Creating MainWindow (Mode: {mode}, File: {file})", mode, settings?.Filename);
             InitializeComponent();
             ThemeManager.Current.ChangeTheme(Application.Current, Properties.Settings.Default.BaseTheme, Properties.Settings.Default.ThemeColor);
@@ -52,7 +54,7 @@ namespace PonzianiSwiss
             //MenuItem_PlayerBase_Update.
             Model = new(mode, Logger);
             DataContext = Model;
-            PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE, logger);
+            PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE, Logger);
             lvParticipants.ItemsSource = Model.Participants;
             _ = FederationUtil.GetFederations();
             if (filename != null) Load(filename);
@@ -307,7 +309,7 @@ namespace PonzianiSwiss
         private void MenuItem_Participant_Add_Click(object sender, RoutedEventArgs e)
         {
             LogUserEvent();
-            ParticipantDialog pd = new(new(), Model.Tournament, Logger)
+            ParticipantDialog pd = new(new(), Model.Tournament)
             {
                 Title = "Add Participant",
                 Owner = this
@@ -354,7 +356,7 @@ namespace PonzianiSwiss
             if (lvParticipants?.SelectedItem is TournamentParticipant p)
             {
                 LogUserEvent(null, p.Participant.Name);
-                ParticipantDialog pd = new(p.Participant, Model.Tournament, Logger)
+                ParticipantDialog pd = new(p.Participant, Model.Tournament)
                 {
                     Title = $"Edit Participant ({p.Participant.Name})",
                     Owner = this

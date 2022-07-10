@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PonzianiSwissLib;
 using Serilog;
@@ -15,8 +16,19 @@ namespace PonzianiSwiss
     public partial class App : Application
     {
 
+        /// <summary>
+        /// Gets the current <see cref="App"/> instance in use
+        /// </summary>
+        public new static App Current => (App)Application.Current;
+
+        /// <summary>
+        /// Gets the <see cref="IServiceProvider"/> instance to resolve application services.
+        /// </summary>
+        public IServiceProvider? Services { get; private set; }
+
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            var services = new ServiceCollection();
 #if DEBUG
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -49,9 +61,13 @@ namespace PonzianiSwiss
                         appSettings.Mode = m;
                 }
             }
+            services.AddSingleton<Microsoft.Extensions.Logging.ILogger>(logger);
+            services.AddSingleton<AppSettings>(appSettings);
+            services.AddTransient<PlayerSearchDialogViewModel>();
+            Services = services.BuildServiceProvider();
             Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             PairingTool.Initialize(logger);
-            MainWindow wnd = new(logger, appSettings);
+            MainWindow wnd = new();
             wnd.Show();
         }
 
