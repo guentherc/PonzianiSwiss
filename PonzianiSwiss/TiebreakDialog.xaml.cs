@@ -1,11 +1,21 @@
 ﻿using MahApps.Metro.Controls;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using PonzianiSwissLib;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
 namespace PonzianiSwiss
 {
@@ -17,83 +27,58 @@ namespace PonzianiSwiss
         public TiebreakDialog(List<TieBreak> tieBreaks)
         {
             InitializeComponent();
-            Model = new TiebreakModel(tieBreaks);
-            DataContext = Model;
-            lvAvailable.ItemsSource = Model.Available;
-            lvSelected.ItemsSource = Model.Selected;
-        }
 
-        public TiebreakModel Model { get; set; }
-
-        private void TiebreakDialogOkButton_Click(object sender, RoutedEventArgs e)
-        {
-            Model.Update();
-            this.DialogResult = true;
-            this.Close();
-        }
-
-        private void TiebreakDialogCancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.DialogResult = false;
-            this.Close();
-        }
-
-        private void CheckBox_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is CheckBox)
+            DataContext = new TiebreakDialogViewModel()
             {
-                var clickedTieBreak = (TieBreak)((CheckBox)(e.OriginalSource)).Tag;
-                if (Model.IsSelected(clickedTieBreak))
-                    Model.Unselect(clickedTieBreak);
-                else
-                    Model.Select(clickedTieBreak);
-            }
+                Tiebreaks = new ObservableCollection<TieBreak>(tieBreaks)
+            };
+            ((TiebreakDialogViewModel)DataContext).Initialize();
+            lvAvailable.ItemsSource = ((TiebreakDialogViewModel)DataContext).Available;
+            lvSelected.ItemsSource = ((TiebreakDialogViewModel)DataContext).Selected;
 
         }
 
-        private void MenuItem_Move_Up(object sender, RoutedEventArgs e)
-        {
-            if (lvSelected?.SelectedItem is TiebreakExtended t) Model.MoveUp(t);
-        }
+        public List<TieBreak> Tiebreaks => ((TiebreakDialogViewModel)DataContext)?.Tiebreaks?.ToList() ?? new();
 
-        private void MenuItem_Move_Down(object sender, RoutedEventArgs e)
-        {
-            if (lvSelected?.SelectedItem is TiebreakExtended t) Model.MoveDown(t);
-        }
     }
 
-    public class TiebreakModel : ViewModel
+    public partial class TiebreakDialogViewModel : ObservableObject
     {
-        public TiebreakModel(List<TieBreak> tieBreak)
+        [ObservableProperty]
+        private ObservableCollection<TieBreak>? tiebreaks;
+
+        [ObservableProperty]
+        private ObservableCollection<TiebreakExtended> available = new();
+
+        [ObservableProperty]
+        private ObservableCollection<TiebreakExtended> selected = new();
+
+        internal void Initialize()
         {
-            this.Tiebreaks = tieBreak;
             var tiebreaks = Enum.GetValues<TieBreak>();
             foreach (var tiebreak in tiebreaks)
             {
-                bool selected = Tiebreaks.Contains(tiebreak);
+                bool selected = Tiebreaks?.Contains(tiebreak) ?? false;
                 TiebreakExtended tb = new(tiebreak, selected);
-                Available.Add(tb);
+                available.Add(tb);
                 if (selected) Selected.Add(tb);
             }
         }
-        public List<TieBreak> Tiebreaks { get; set; }
 
-        public ObservableCollection<TiebreakExtended> Available { get; set; } = new();
-
-        public ObservableCollection<TiebreakExtended> Selected { get; set; } = new();
-
-        internal bool IsSelected(TieBreak tb)
+        private bool IsSelected(TieBreak tb)
         {
             return Selected.Any(t => t.Key == tb);
         }
 
-        internal void Update()
+        [ICommand]
+        void Update()
         {
-            Tiebreaks.Clear();
-            foreach (var tiebreak in Selected) Tiebreaks.Add(tiebreak.Key);
+            Tiebreaks?.Clear();
+            foreach (var tiebreak in Selected) Tiebreaks?.Add(tiebreak.Key);
         }
 
-        internal void Select(TieBreak tb)
+        [ICommand]
+        void Select(TieBreak tb)
         {
             if (!IsSelected(tb))
             {
@@ -103,7 +88,8 @@ namespace PonzianiSwiss
             }
         }
 
-        internal void Unselect(TieBreak tb)
+        [ICommand]
+        void Unselect(TieBreak tb)
         {
             if (IsSelected(tb))
             {
@@ -113,7 +99,8 @@ namespace PonzianiSwiss
             }
         }
 
-        internal void MoveUp(TiebreakExtended tb)
+        [ICommand]
+        void MoveUp(TiebreakExtended tb)
         {
             int index = Selected.IndexOf(tb);
             if (index > 0)
@@ -123,7 +110,8 @@ namespace PonzianiSwiss
             }
         }
 
-        internal void MoveDown(TiebreakExtended tb)
+        [ICommand]
+        void MoveDown(TiebreakExtended tb)
         {
             int index = Selected.IndexOf(tb);
             if (index < Selected.Count - 1)
@@ -131,6 +119,33 @@ namespace PonzianiSwiss
                 Selected.RemoveAt(index);
                 Selected.Insert(index + 1, tb);
             }
+        }
+
+        [ICommand]
+        void Ok(object parameter)
+        {
+            Update();
+            MetroWindow wnd = (MetroWindow)parameter;
+            wnd.DialogResult = true;
+            wnd.Close();
+        }
+
+        [ICommand]
+        void Cancel(object parameter)
+        {
+            MetroWindow wnd = (MetroWindow)parameter;
+            wnd.DialogResult = false;
+            wnd.Close();
+        }
+
+        [ICommand]
+        void Toggle(object parameter)
+        {
+            TieBreak clickedTiebreak = (TieBreak)parameter;
+            if (IsSelected(clickedTiebreak))
+                Unselect(clickedTiebreak);
+            else
+                Select(clickedTiebreak);
         }
     }
 

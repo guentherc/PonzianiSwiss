@@ -7,7 +7,7 @@
         xmlns:wpf="http://wpfcontrols.com/"
         xmlns:local="clr-namespace:PonzianiSwiss"
         mc:Ignorable="d"
-        Title="PlayerSearchDialog" Height="450" Width="800">
+        Title="Search Player in National Database" Height="450" Width="800" mah:TitleCharacterCasing="Normal">
     <Window.Resources>
         <local:NParticipantProvider x:Key="NParticipantProvider" />
         <local:TextSetToBoolConverter x:Key="TextSetToBoolConverter"/>

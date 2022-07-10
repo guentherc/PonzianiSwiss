@@ -44,13 +44,13 @@ namespace PonzianiSwiss
 
         private void Button_Edit_Tiebreak_Click(object sender, RoutedEventArgs e)
         {
-            TiebreakDialog dialog = new(Model.Tournament.TieBreak)
+            TiebreakDialog dialog = new TiebreakDialog(Model.Tournament.TieBreak)
             {
                 Owner = this
             };
             if (dialog.ShowDialog() == true)
             {
-                Model.Tournament.TieBreak = dialog.Model.Tiebreaks;
+                Model.Tournament.TieBreak = dialog.Tiebreaks;
                 Model.Sync();
             }
         }
