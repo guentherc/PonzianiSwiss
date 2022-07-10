@@ -44,7 +44,7 @@ namespace PonzianiSwiss
 
         private void Button_Edit_Tiebreak_Click(object sender, RoutedEventArgs e)
         {
-            TiebreakDialog dialog = new TiebreakDialog(Model.Tournament.TieBreak)
+            TiebreakDialog dialog = new(Model.Tournament.TieBreak)
             {
                 Owner = this
             };

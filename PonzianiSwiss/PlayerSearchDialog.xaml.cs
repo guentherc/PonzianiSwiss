@@ -1,13 +1,13 @@
 ﻿using AutoCompleteTextBox.Editors;
 using MahApps.Metro.Controls;
 using Microsoft.Extensions.Logging;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using PonzianiPlayerBase;
 using PonzianiSwissLib;
 using System;
 using System.Collections;
 using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace PonzianiSwiss
 {
@@ -18,59 +18,31 @@ namespace PonzianiSwiss
     {
         public PlayerSearchDialog(ILogger? logger)
         {
-            Logger = logger;
             InitializeComponent();
-            Model = new PlayerSearchModel(Logger);
-            DataContext = Model;
+            DataContext = new PlayerSearchDialogViewModel(logger);
             ComboBox_Base.ItemsSource = Enum.GetValues(typeof(PlayerBaseFactory.Base));
         }
 
-        private readonly ILogger? Logger;
+        public Player? Player => ((PlayerSearchDialogViewModel)DataContext).Player;
 
-        public PlayerSearchModel Model { get; set; }
-
-
-        internal static PlayerBaseFactory.Base PlayerBase = PlayerBaseFactory.Base.FIDE;
-
-        private void PlayerSearchDialogOkButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.DialogResult = true;
-            this.Close();
-        }
-
-        private void PlayerSearchDialogCancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.DialogResult = false;
-            this.Close();
-        }
-
-        private void ComboBox_Base_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            PlayerBase = (PlayerBaseFactory.Base)ComboBox_Base.SelectedItem;
-            PlayerBaseFactory.Get(PlayerBase, Logger);
-        }
     }
 
-    public class PlayerSearchModel : ViewModel
+    public partial class PlayerSearchDialogViewModel : ObservableObject
     {
-        private Player? player;
+        private readonly ILogger? Logger;
 
-        public PlayerSearchModel(ILogger? logger)
+        internal static PlayerBaseFactory.Base playerBase = PlayerBaseFactory.Base.FIDE;
+
+        public PlayerSearchDialogViewModel(ILogger? logger)
         {
             Logger = logger;
         }
 
-        [DependentProperties("IsFemale")]
-        public Player? Player
-        {
-            get => player;
+        [ObservableProperty]
+        [AlsoNotifyChangeFor(nameof(IsFemale))]
+        private Player? player;
 
-            set
-            {
-                player = value;
-                RaisePropertyChange();
-            }
-        }
+        public bool IsFemale => Player?.Sex == Sex.Female;
 
         public string SelectedName
         {
@@ -80,7 +52,7 @@ namespace PonzianiSwiss
             }
         }
 
-        public bool IsFemale => Player?.Sex == Sex.Female;
+        public static PlayerBaseFactory.Base PlayerBase { get => playerBase; set => playerBase = value; }
 
         private void UpdateFromSuggest(string value)
         {
@@ -90,12 +62,35 @@ namespace PonzianiSwiss
             {
                 string[] ids = id.Split('_');
                 if (ids.Length == 2)
-                    Player = PlayerBaseFactory.Get(PlayerSearchDialog.PlayerBase, Logger).GetById(ids[1]);
+                    Player = PlayerBaseFactory.Get(PlayerBase, Logger).GetById(ids[1]);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
+        }
+
+        [ICommand]
+        void Ok(object parameter)
+        {
+            MetroWindow wnd = (MetroWindow)parameter;
+            wnd.DialogResult = true;
+            wnd.Close();
+        }
+
+        [ICommand]
+        void Cancel(object parameter)
+        {
+            MetroWindow wnd = (MetroWindow)parameter;
+            wnd.DialogResult = false;
+            wnd.Close();
+        }
+
+        [ICommand]
+        void SelectionChanged(object parameter)
+        {
+            PlayerBase = (PlayerBaseFactory.Base)parameter;
+            _ = PlayerBaseFactory.Get(PlayerBase, Logger);
         }
     }
 
@@ -103,7 +98,7 @@ namespace PonzianiSwiss
     {
         public IEnumerable GetSuggestions(string filter)
         {
-            return PlayerBaseFactory.Get(PlayerSearchDialog.PlayerBase, null).Find(filter)
+            return PlayerBaseFactory.Get(PlayerSearchDialogViewModel.playerBase, null).Find(filter)
                 .Select(p => $"{(p.Title != FideTitle.NONE ? p.Title : string.Empty)} {p.Name} {"(" + p.Id + ")"}".Trim());
         }
     }

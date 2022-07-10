@@ -75,7 +75,7 @@ namespace PonzianiSwiss
             };
             if (psd.ShowDialog() ?? false)
             {
-                Player? nplayer = psd.Model.Player;
+                Player? nplayer = psd.Player;
                 if (nplayer != null && nplayer.FideId != 0)
                 {
                     Model.FideId = nplayer.FideId;
