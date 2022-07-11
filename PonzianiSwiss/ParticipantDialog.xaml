@@ -6,8 +6,10 @@
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:wpf="http://wpfcontrols.com/"
         xmlns:local="clr-namespace:PonzianiSwiss" 
-                 xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-                 mc:Ignorable="d"
+        xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        mc:Ignorable="d"
+        md:DialogServiceViews.IsRegistered="True"
         Title="ParticipantDialog" Height="270" Width="800" TitleCharacterCasing="Normal">
     <Window.Resources>
         <local:ParticipantProvider x:Key="ParticipantProvider" />
@@ -38,7 +40,7 @@
             <wpf:AutoCompleteTextBox x:Name="TextBox_Participant_Name" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="5" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding Path=Participant.Name}"
                                      Provider="{StaticResource ResourceKey=ParticipantProvider}"
                                      SelectedItem="{Binding SelectedName, Mode=TwoWay}"/>
-            <Button x:Name="Button_NationalBase" Grid.Row="1" Grid.Column="6" Click="MenuItem_PlayerSearch_Open_Click" ToolTip="Search Player in National Base" Width="30"
+            <Button x:Name="Button_NationalBase" Grid.Row="1" Grid.Column="6" Command="{Binding PlayerSearchDialogCommand}" ToolTip="Search Player in National Base" Width="30"
                     VerticalAlignment="Center" Margin="5,5,5,5" HorizontalAlignment="Left">
                 <iconPacks:PackIconCodicons Kind="Search" />
             </Button>

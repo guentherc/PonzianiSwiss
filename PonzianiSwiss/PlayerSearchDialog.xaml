@@ -9,7 +9,8 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         x:Name="window"
-        Title="Search Player in National Database" Height="450" Width="800" mah:TitleCharacterCasing="Normal">
+        Title="Search Player in National Database" Height="450" Width="800" mah:TitleCharacterCasing="Normal"
+        d:DataContext="{d:DesignInstance {x:Type local:PlayerSearchDialogViewModel}}">
     <Window.Resources>
         <local:NParticipantProvider x:Key="NParticipantProvider" />
         <local:TextSetToBoolConverter x:Key="TextSetToBoolConverter"/>

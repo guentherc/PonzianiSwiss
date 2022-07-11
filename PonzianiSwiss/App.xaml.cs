@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MvvmDialogs;
 using PonzianiSwissLib;
 using Serilog;
 using System;
@@ -64,6 +65,7 @@ namespace PonzianiSwiss
             services.AddSingleton<Microsoft.Extensions.Logging.ILogger>(logger);
             services.AddSingleton<AppSettings>(appSettings);
             services.AddTransient<PlayerSearchDialogViewModel>();
+            services.AddSingleton<IDialogService, DialogService>();
             Services = services.BuildServiceProvider();
             Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             PairingTool.Initialize(logger);

@@ -1,9 +1,9 @@
 ﻿using AutoCompleteTextBox.Editors;
 using MahApps.Metro.Controls;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using MvvmDialogs;
 using PonzianiPlayerBase;
 using PonzianiSwissLib;
 using System;
@@ -20,7 +20,6 @@ namespace PonzianiSwiss
         public PlayerSearchDialog()
         {
             InitializeComponent();
-            DataContext = App.Current.Services?.GetService<PlayerSearchDialogViewModel>();
             ComboBox_Base.ItemsSource = Enum.GetValues(typeof(PlayerBaseFactory.Base));
         }
 
@@ -28,7 +27,7 @@ namespace PonzianiSwiss
 
     }
 
-    public partial class PlayerSearchDialogViewModel : ObservableObject
+    public partial class PlayerSearchDialogViewModel : ObservableObject, IModalDialogViewModel
     {
         private readonly ILogger? Logger;
 
@@ -55,6 +54,9 @@ namespace PonzianiSwiss
 
         public static PlayerBaseFactory.Base PlayerBase { get => playerBase; set => playerBase = value; }
 
+        [ObservableProperty]
+        private bool? dialogResult;
+
         private void UpdateFromSuggest(string value)
         {
             string token = value.Split(' ').Last();
@@ -72,19 +74,15 @@ namespace PonzianiSwiss
         }
 
         [ICommand]
-        void Ok(object parameter)
+        void Ok()
         {
-            MetroWindow wnd = (MetroWindow)parameter;
-            wnd.DialogResult = true;
-            wnd.Close();
+            DialogResult = true;
         }
 
         [ICommand]
-        void Cancel(object parameter)
+        void Cancel()
         {
-            MetroWindow wnd = (MetroWindow)parameter;
-            wnd.DialogResult = false;
-            wnd.Close();
+            DialogResult = false;
         }
 
         [ICommand]

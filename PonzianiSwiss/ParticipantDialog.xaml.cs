@@ -2,6 +2,8 @@
 using MahApps.Metro.Controls;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Toolkit.Mvvm.Input;
+using MvvmDialogs;
 using PonzianiPlayerBase;
 using PonzianiSwissLib;
 using System;
@@ -11,6 +13,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace PonzianiSwiss
 {
@@ -115,12 +118,54 @@ namespace PonzianiSwiss
         private readonly IPlayerBase FideBase;
         private Participant participant;
 
+        private readonly IDialogService? dialogService;
+
         public ParticipantModel(Participant participant, Tournament? tournament, ILogger? logger)
         {
+            dialogService = App.Current.Services?.GetService<IDialogService>();
             Logger = logger;
             this.participant = participant;
             Tournament = tournament;
             FideBase = PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE, logger);
+            PlayerSearchDialogCommand = new RelayCommand(PlayerSearchDialog);
+        }
+
+        public ICommand PlayerSearchDialogCommand { get; }
+
+        private void PlayerSearchDialog()
+        {
+            ShowDialog(viewModel => dialogService?.ShowDialog(this, viewModel));
+        }
+
+        private void ShowDialog(Func<PlayerSearchDialogViewModel, bool?> showDialog)
+        {
+            var dialogViewModel = App.Current.Services?.GetService<PlayerSearchDialogViewModel>();
+
+            if (dialogViewModel != null)
+            {
+                bool? success = showDialog(dialogViewModel);
+                if (success == true)
+                {
+                    Player? nplayer = dialogViewModel.Player;
+                    if (nplayer != null && nplayer.FideId != 0)
+                    {
+                        FideId = nplayer.FideId;
+
+                    }
+                    else
+                    {
+                        Participant.Name = nplayer?.Name ?? string.Empty;
+                        Participant.Title = nplayer?.Title ?? FideTitle.NONE;
+
+                        Participant.Federation = nplayer?.Federation ?? "FIDE";
+                        Participant.YearOfBirth = nplayer?.YearOfBirth ?? 0;
+                        Female = (nplayer?.Sex ?? Sex.Male) == Sex.Female;
+                    }
+                    Participant.Club = nplayer?.Club ?? string.Empty;
+                    Participant.AlternativeRating = nplayer?.Rating ?? 0;
+                    Sync();
+                }
+            }
         }
 
         public void Sync() => RaisePropertyChange(nameof(Participant));
