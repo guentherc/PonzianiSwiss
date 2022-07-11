@@ -10,7 +10,8 @@
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
         md:DialogServiceViews.IsRegistered="True"
-        Title="ParticipantDialog" Height="270" Width="800" TitleCharacterCasing="Normal">
+        Title="ParticipantDialog" Height="270" Width="800" TitleCharacterCasing="Normal"
+        d:DataContext="{d:DesignInstance {x:Type local:ParticipantDialogViewModel}}">
     <Window.Resources>
         <local:ParticipantProvider x:Key="ParticipantProvider" />
         <local:TextSetToBoolConverter x:Key="TextSetToBoolConverter"/>
@@ -60,10 +61,10 @@
             <TextBox x:Name="TextBox_Club" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="6" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding Path=Participant.Club}"/>
         </Grid>
         <WrapPanel Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-            <Button x:Name="ParticipantDialogOkButton" Content="Ok" Padding="10" Margin="0,0,10,0" Click="ParticipantDialogOkButton_Click" Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" 
+            <Button x:Name="ParticipantDialogOkButton" Content="Ok" Padding="10" Margin="0,0,10,0" Command="{Binding OkCommand}" Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" 
                     mah:ControlsHelper.ContentCharacterCasing="Normal" MinWidth="{Binding ElementName=ParticipantDialogCancelButton, Path=ActualWidth}"
                     IsEnabled="{Binding ElementName=TextBox_Participant_Name, Path=Text, Converter={StaticResource TextSetToBoolConverter}}"/>
-            <Button x:Name="ParticipantDialogCancelButton" Content="Cancel" Padding="10" Click="ParticipantDialogCancelButton_Click"  Style="{DynamicResource MahApps.Styles.Button.Square}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
+            <Button x:Name="ParticipantDialogCancelButton" Content="Cancel" Padding="10" Command="{Binding CancelCommand}"  Style="{DynamicResource MahApps.Styles.Button.Square}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
         </WrapPanel>
     </StackPanel>
 </mah:MetroWindow>

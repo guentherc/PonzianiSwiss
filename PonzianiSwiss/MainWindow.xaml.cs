@@ -3,7 +3,9 @@ using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Win32;
+using MvvmDialogs;
 using PonzianiPlayerBase;
 using PonzianiSwissLib;
 using System;
@@ -306,22 +308,6 @@ namespace PonzianiSwiss
             }
         }
 
-        private void MenuItem_Participant_Add_Click(object sender, RoutedEventArgs e)
-        {
-            LogUserEvent();
-            ParticipantDialog pd = new(new(), Model.Tournament)
-            {
-                Title = "Add Participant",
-                Owner = this
-            };
-            if (pd.ShowDialog() ?? false)
-            {
-                Model.Tournament?.Participants.Add(pd.Model.Participant);
-                Model.SyncParticipants();
-                Model.SyncRounds();
-            }
-        }
-
         private void MenuItem_Round_Delete_Click(object sender, RoutedEventArgs e)
         {
             LogUserEvent();
@@ -348,24 +334,6 @@ namespace PonzianiSwiss
             uiContext?.Send(x => MainTabControl.SelectedItem = MainTabControl.Items[^1], null);
             uiContext?.Send(x => Cursor = Cursors.Arrow, null);
             await controller.CloseAsync();
-        }
-
-        private void MenuItem_Participant_Edit_Click(object sender, RoutedEventArgs e)
-        {
-
-            if (lvParticipants?.SelectedItem is TournamentParticipant p)
-            {
-                LogUserEvent(null, p.Participant.Name);
-                ParticipantDialog pd = new(p.Participant, Model.Tournament)
-                {
-                    Title = $"Edit Participant ({p.Participant.Name})",
-                    Owner = this
-                };
-                if (pd.ShowDialog() ?? false)
-                {
-                    Model.SyncParticipants();
-                }
-            }
         }
 
         private void MenuItem_Participant_Abandon_Click(object sender, RoutedEventArgs e)
@@ -682,11 +650,19 @@ namespace PonzianiSwiss
         private Tournament? tournament;
         private string? fileName;
         private MRUModel mRUModel = new();
+        private readonly IDialogService? DialogService;
+        public ICommand ParticipantDialogCommand { get; set; }
+
 
         public MainModel(App.Mode mode, ILogger? logger)
         {
+            DialogService = App.Current.Services?.GetService<IDialogService>();
             Mode = mode;
             Logger = logger;
+            ParticipantDialogCommand = new RelayCommand<TournamentParticipant?>((p) => ParticipantDialog(p),
+                (p) =>
+                    Tournament != null
+                    );
         }
 
         public App.Mode Mode { get; private set; } = App.Mode.Release;
@@ -694,7 +670,7 @@ namespace PonzianiSwiss
         internal ObservableCollection<TournamentParticipant> Participants { get; set; } = new();
 
         [DependentProperties("DrawEnabled", "DeleteLastRoundEnabled")]
-        public Tournament? Tournament { get => tournament; set { if (tournament != value) { tournament = value; RaisePropertyChange(); } } }
+        public Tournament? Tournament { get => tournament; set { if (tournament != value) { tournament = value; ((RelayCommand<TournamentParticipant>)ParticipantDialogCommand).NotifyCanExecuteChanged(); RaisePropertyChange(); } } }
 
         public string? FileName { get => fileName; set { if (fileName != value) { fileName = value; RaisePropertyChange(); } } }
 
@@ -706,6 +682,33 @@ namespace PonzianiSwiss
         }
 
         public bool DeletelastRoundEnabled { get => Tournament != null && Tournament.Rounds.Count > 0; }
+
+        void ParticipantDialog(TournamentParticipant? tournamentParticipant)
+        {
+            ShowParticipantDialog(viewModel => DialogService?.ShowDialog(this, viewModel), tournamentParticipant);
+        }
+
+        private void ShowParticipantDialog(Func<ParticipantDialogViewModel, bool?> showDialog, TournamentParticipant? tournamentParticipant)
+        {
+            var dialogViewModel = App.Current.Services?.GetService<ParticipantDialogViewModel>();
+
+            if (dialogViewModel != null)
+            {
+                bool add = tournamentParticipant == null;
+                dialogViewModel.Participant = tournamentParticipant?.Participant ?? new();
+                dialogViewModel.Tournament = Tournament;
+                bool? success = showDialog(dialogViewModel);
+                if (success == true)
+                {
+                    if (dialogViewModel.Participant != null)
+                    {
+                        if (add) Tournament?.Participants.Add(dialogViewModel.Participant);
+                        SyncParticipants();
+                        SyncRounds();
+                    }
+                }
+            }
+        }
 
         internal void SyncParticipants()
         {

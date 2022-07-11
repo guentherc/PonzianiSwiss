@@ -2,6 +2,7 @@
 using MahApps.Metro.Controls;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using MvvmDialogs;
 using PonzianiPlayerBase;
@@ -11,7 +12,6 @@ using System.Collections;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -22,119 +22,110 @@ namespace PonzianiSwiss
     /// </summary>
     public partial class ParticipantDialog : MetroWindow
     {
-        public ParticipantDialog(Participant participant, Tournament? tournament)
+        public ParticipantDialog()
         {
-            Logger = App.Current.Services?.GetService<ILogger>();
-            Model = new(participant, tournament, Logger);
-            this.DataContext = Model;
             InitializeComponent();
             var items = FederationUtil.Federations.OrderBy(e => e.Value);
             ComboBox_Federation.ItemsSource = items;
             ComboBox_Federation.DisplayMemberPath = "Value";
             ComboBox_Federation.SelectedValuePath = "Key";
             //strange workaround to make combobox show federation value 
-            int indx = items.ToList().FindIndex(e => e.Key == participant.Federation);
-            ComboBox_Federation.SelectedIndex = indx;
+            /*int indx = items.ToList().FindIndex(e => e.Key == ((ParticipantDialogViewModel)DataContext).Participant?.Federation);
+            ComboBox_Federation.SelectedIndex = indx;*/
             //ComboBox_Federation.SelectedValue = Model.Participant.Federation != null && Model.Participant.Federation != String.Empty ? Model.Participant.Federation : "FIDE";
-
             ComboBox_Title.ItemsSource = Enum.GetValues(typeof(FideTitle));
         }
-
-        private readonly ILogger? Logger;
-
-        public ParticipantModel Model { set; get; }
-
-        private void ParticipantDialogOkButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.DialogResult = true;
-            FixParticipant();
-            this.Close();
-        }
-
-        private static readonly Regex regexFixParticipant = new(@"(GM|IM|FM|CM|WGM|WIM|WFM|WCM|WH)?\s?([^\(]+)\s\((\d+)\)", RegexOptions.Compiled);
-        private void FixParticipant()
-        {
-            if (Model.Participant.Name != null)
-            {
-                Match m = regexFixParticipant.Match(Model.Participant.Name);
-                if (m.Success && m.Groups[3].Value.Trim() == Model.Participant.FideId.ToString())
-                {
-                    Model.Participant.Name = m.Groups[2].Value.Trim();
-                }
-            }
-        }
-
-        private void ParticipantDialogCancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.DialogResult = false;
-            this.Close();
-        }
-
-        private void MenuItem_PlayerSearch_Open_Click(object sender, RoutedEventArgs e)
-        {
-            PlayerSearchDialog psd = new()
-            {
-                Owner = this
-            };
-            if (psd.ShowDialog() ?? false)
-            {
-                Player? nplayer = psd.Player;
-                if (nplayer != null && nplayer.FideId != 0)
-                {
-                    Model.FideId = nplayer.FideId;
-
-                }
-                else
-                {
-                    Model.Participant.Name = nplayer?.Name ?? string.Empty;
-                    Model.Participant.Title = nplayer?.Title ?? FideTitle.NONE;
-
-                    Model.Participant.Federation = nplayer?.Federation ?? "FIDE";
-                    Model.Participant.YearOfBirth = nplayer?.YearOfBirth ?? 0;
-                    Model.Female = (nplayer?.Sex ?? Sex.Male) == Sex.Female;
-                }
-                Model.Participant.Club = nplayer?.Club ?? string.Empty;
-                Model.Participant.AlternativeRating = nplayer?.Rating ?? 0;
-                Model.Sync();
-
-            }
-        }
-
     }
 
-    public class ParticipantModel : ViewModel
+    public partial class ParticipantDialogViewModel : ObservableObject, IModalDialogViewModel
     {
-        public Participant Participant
+
+        public ParticipantDialogViewModel(ILogger? logger, IDialogService dialogService)
         {
-            get => participant;
-            set
-            {
-                participant = value;
-                RaisePropertyChange();
-            }
-        }
-        public Tournament? Tournament { set; get; }
-
-        private readonly IPlayerBase FideBase;
-        private Participant participant;
-
-        private readonly IDialogService? dialogService;
-
-        public ParticipantModel(Participant participant, Tournament? tournament, ILogger? logger)
-        {
-            dialogService = App.Current.Services?.GetService<IDialogService>();
             Logger = logger;
-            this.participant = participant;
-            Tournament = tournament;
+            DialogService = dialogService;
             FideBase = PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE, logger);
             PlayerSearchDialogCommand = new RelayCommand(PlayerSearchDialog);
         }
 
+        [ObservableProperty]
+        private bool? dialogResult;
+
+        [ObservableProperty]
+        private Participant? participant;
+
+        [ObservableProperty]
+        private Tournament? tournament;
+
         public ICommand PlayerSearchDialogCommand { get; }
+
+        [ICommand]
+        void Ok()
+        {
+            FixParticipant();
+            DialogResult = true;
+        }
+
+        [ICommand]
+        void Cancel()
+        {
+            DialogResult = false;
+        }
+
+        public ulong FideId
+        {
+            get
+            {
+                return Participant?.FideId ?? 0;
+            }
+            set
+            {
+                if (Participant != null)
+                {
+                    if (Participant.FideId == value) return;
+                    Participant.FideId = value;
+                    if (Participant.FideId != 0)
+                    {
+                        var p = FideBase.GetById(Participant.FideId.ToString());
+                        if (p != null)
+                        {
+                            Participant.Name = p.Name;
+                            Participant.Title = p.Title;
+                            Participant.Federation = p.Federation ?? "FIDE";
+                            Participant.YearOfBirth = p.YearOfBirth;
+                            Participant.FideRating = p.Rating;
+                            Participant.Club = p.Club ?? string.Empty;
+                            Female = p.Sex == Sex.Female;
+                        }
+                    }
+                    OnPropertyChanged(nameof(FideId));
+                    OnPropertyChanged(nameof(Participant));
+                }
+            }
+        }
+
+        public bool Female
+        {
+            get => Participant?.Sex == Sex.Female;
+            set
+            {
+                if (value == (Participant?.Sex == Sex.Female)) return;
+                if (Participant != null)
+                {
+                    Participant.Sex = value ? Sex.Female : Sex.Male;
+                    OnPropertyChanged(nameof(Female));
+                    OnPropertyChanged(nameof(Participant));
+                }
+            }
+        }
+
+        private readonly IDialogService? DialogService;
+        private readonly ILogger? Logger;
+        private readonly IPlayerBase FideBase;
 
         private void PlayerSearchDialog()
         {
-            ShowDialog(viewModel => dialogService?.ShowDialog(this, viewModel));
+            ShowDialog(viewModel => DialogService?.ShowDialog(this, viewModel));
         }
 
         private void ShowDialog(Func<PlayerSearchDialogViewModel, bool?> showDialog)
@@ -154,70 +145,44 @@ namespace PonzianiSwiss
                     }
                     else
                     {
-                        Participant.Name = nplayer?.Name ?? string.Empty;
-                        Participant.Title = nplayer?.Title ?? FideTitle.NONE;
+                        if (Participant != null)
+                        {
+                            Participant.Name = nplayer?.Name ?? string.Empty;
+                            Participant.Title = nplayer?.Title ?? FideTitle.NONE;
 
-                        Participant.Federation = nplayer?.Federation ?? "FIDE";
-                        Participant.YearOfBirth = nplayer?.YearOfBirth ?? 0;
-                        Female = (nplayer?.Sex ?? Sex.Male) == Sex.Female;
+                            Participant.Federation = nplayer?.Federation ?? "FIDE";
+                            Participant.YearOfBirth = nplayer?.YearOfBirth ?? 0;
+                            Female = (nplayer?.Sex ?? Sex.Male) == Sex.Female;
+                        }
                     }
-                    Participant.Club = nplayer?.Club ?? string.Empty;
-                    Participant.AlternativeRating = nplayer?.Rating ?? 0;
-                    Sync();
-                }
-            }
-        }
-
-        public void Sync() => RaisePropertyChange(nameof(Participant));
-
-        [DependentProperties("Participant")]
-        public ulong FideId
-        {
-            get
-            {
-                return Participant.FideId;
-            }
-            set
-            {
-                if (Participant.FideId == value) return;
-                Participant.FideId = value;
-                if (Participant.FideId != 0)
-                {
-                    var p = FideBase.GetById(Participant.FideId.ToString());
-                    if (p != null)
+                    if (Participant != null)
                     {
-                        Participant.Name = p.Name;
-                        Participant.Title = p.Title;
-                        Participant.Federation = p.Federation ?? "FIDE";
-                        Participant.YearOfBirth = p.YearOfBirth;
-                        Participant.FideRating = p.Rating;
-                        Participant.Club = p.Club ?? string.Empty;
-                        Female = p.Sex == Sex.Female;
+                        Participant.Club = nplayer?.Club ?? string.Empty;
+                        Participant.AlternativeRating = nplayer?.Rating ?? 0;
                     }
+                    OnPropertyChanged(nameof(Participant));
                 }
-                RaisePropertyChange();
             }
         }
 
+        private static readonly Regex regexFixParticipant = new(@"(GM|IM|FM|CM|WGM|WIM|WFM|WCM|WH)?\s?([^\(]+)\s\((\d+)\)", RegexOptions.Compiled);
+        private void FixParticipant()
+        {
+            if (Participant?.Name != null)
+            {
+                Match m = regexFixParticipant.Match(Participant.Name);
+                if (m.Success && m.Groups[3].Value.Trim() == Participant.FideId.ToString())
+                {
+                    Participant.Name = m.Groups[2].Value.Trim();
+                }
+            }
+        }
 
         public string SelectedName
         {
             set
             {
                 if (value != null) UpdateFromSuggest(value);
-            }
-        }
-
-
-        [DependentProperties("Participant")]
-        public bool Female
-        {
-            get => Participant.Sex == Sex.Female;
-            set
-            {
-                if (value == (Participant.Sex == Sex.Female)) return;
-                Participant.Sex = value ? Sex.Female : Sex.Male;
-                RaisePropertyChange();
             }
         }
 
@@ -231,16 +196,13 @@ namespace PonzianiSwiss
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Logger?.LogError("{exc}", ex.Message);
             }
         }
-
     }
 
     public class ParticipantProvider : ISuggestionProvider
     {
-
-
         public IEnumerable GetSuggestions(string filter)
         {
             return PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE, null).Find(filter)

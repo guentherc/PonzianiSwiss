@@ -23,8 +23,6 @@ namespace PonzianiSwiss
             ComboBox_Base.ItemsSource = Enum.GetValues(typeof(PlayerBaseFactory.Base));
         }
 
-        public Player? Player => ((PlayerSearchDialogViewModel)DataContext).Player;
-
     }
 
     public partial class PlayerSearchDialogViewModel : ObservableObject, IModalDialogViewModel

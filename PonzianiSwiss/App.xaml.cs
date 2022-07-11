@@ -65,6 +65,7 @@ namespace PonzianiSwiss
             services.AddSingleton<Microsoft.Extensions.Logging.ILogger>(logger);
             services.AddSingleton<AppSettings>(appSettings);
             services.AddTransient<PlayerSearchDialogViewModel>();
+            services.AddTransient<ParticipantDialogViewModel>();
             services.AddSingleton<IDialogService, DialogService>();
             Services = services.BuildServiceProvider();
             Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
