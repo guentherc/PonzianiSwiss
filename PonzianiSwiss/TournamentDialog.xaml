@@ -5,8 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-        xmlns:local="clr-namespace:PonzianiSwiss" d:DataContext="{d:DesignInstance Type=local:TournamentModel}"
-                 mc:Ignorable="d"
+        xmlns:local="clr-namespace:PonzianiSwiss" 
+        xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+        d:DataContext="{d:DesignInstance Type=local:TournamentModel}"
+        md:DialogServiceViews.IsRegistered="True"
+        mc:Ignorable="d"
         Title="TournamentDialog" Height="600" Width="900" TitleCharacterCasing="Normal">
     <Window.Resources>
         <local:TiebreakConverter x:Key="TiebreakConverter" />

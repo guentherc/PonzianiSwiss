@@ -18,7 +18,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <ListView x:Name="lvAvailable" Grid.Row="0" BorderThickness="2" Margin="5,5,5,5" >
+            <ListView x:Name="lvAvailable" Grid.Row="0" BorderThickness="2" Margin="5,5,5,5" ItemsSource="{Binding Available}" >
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="200">
@@ -41,7 +41,7 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <ListView x:Name="lvSelected" Grid.Row="0" Grid.Column="1"  BorderThickness="2" Margin="5,5,5,5" >
+            <ListView x:Name="lvSelected" Grid.Row="0" Grid.Column="1"  BorderThickness="2" Margin="5,5,5,5" ItemsSource="{Binding Selected}" >
                 <ListView.ContextMenu>
                     <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                         <MenuItem Header="Move Up" Command="{Binding Path=MoveUpCommand}" 

@@ -1,6 +1,7 @@
 ﻿using MahApps.Metro.Controls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using MvvmDialogs;
 using PonzianiSwissLib;
 using System;
 using System.Collections.Generic;
@@ -15,28 +16,16 @@ namespace PonzianiSwiss
     /// </summary>
     public partial class TiebreakDialog : MetroWindow
     {
-        public TiebreakDialog(List<TieBreak> tieBreaks)
+        public TiebreakDialog()
         {
             InitializeComponent();
 
-            DataContext = new TiebreakDialogViewModel()
-            {
-                Tiebreaks = new ObservableCollection<TieBreak>(tieBreaks)
-            };
-            ((TiebreakDialogViewModel)DataContext).Initialize();
-            lvAvailable.ItemsSource = ((TiebreakDialogViewModel)DataContext).Available;
-            lvSelected.ItemsSource = ((TiebreakDialogViewModel)DataContext).Selected;
-
         }
-
-        public List<TieBreak> Tiebreaks => ((TiebreakDialogViewModel)DataContext)?.Tiebreaks?.ToList() ?? new();
-
     }
 
-    public partial class TiebreakDialogViewModel : ObservableObject
+    public partial class TiebreakDialogViewModel : ObservableObject, IModalDialogViewModel
     {
-        [ObservableProperty]
-        private ObservableCollection<TieBreak>? tiebreaks;
+        private List<TieBreak>? tiebreaks;
 
         [ObservableProperty]
         private ObservableCollection<TiebreakExtended> available = new();
@@ -44,7 +33,21 @@ namespace PonzianiSwiss
         [ObservableProperty]
         private ObservableCollection<TiebreakExtended> selected = new();
 
-        internal void Initialize()
+        public List<TieBreak>? Tiebreaks
+        {
+            get => tiebreaks;
+
+            set
+            {
+                tiebreaks = value;
+                Initialize();
+            }
+        }
+
+        [ObservableProperty]
+        public bool? dialogResult;
+
+        private void Initialize()
         {
             var tiebreaks = Enum.GetValues<TieBreak>();
             foreach (var tiebreak in tiebreaks)
@@ -113,20 +116,16 @@ namespace PonzianiSwiss
         }
 
         [ICommand]
-        void Ok(object parameter)
+        void Ok()
         {
             Update();
-            MetroWindow wnd = (MetroWindow)parameter;
-            wnd.DialogResult = true;
-            wnd.Close();
+            DialogResult = true;
         }
 
         [ICommand]
-        void Cancel(object parameter)
+        void Cancel()
         {
-            MetroWindow wnd = (MetroWindow)parameter;
-            wnd.DialogResult = false;
-            wnd.Close();
+            DialogResult = false;
         }
 
         [ICommand]

@@ -1,4 +1,6 @@
 ﻿using MahApps.Metro.Controls;
+using Microsoft.Extensions.DependencyInjection;
+using MvvmDialogs;
 using PonzianiSwissLib;
 using System;
 using System.Collections.Generic;
@@ -44,15 +46,7 @@ namespace PonzianiSwiss
 
         private void Button_Edit_Tiebreak_Click(object sender, RoutedEventArgs e)
         {
-            TiebreakDialog dialog = new(Model.Tournament.TieBreak)
-            {
-                Owner = this
-            };
-            if (dialog.ShowDialog() == true)
-            {
-                Model.Tournament.TieBreak = dialog.Tiebreaks;
-                Model.Sync();
-            }
+            Model.TiebreakDialog();
         }
     }
 
@@ -103,6 +97,19 @@ namespace PonzianiSwiss
             {
                 if (tournament != null) tournament.EndDate = value.ToString(CultureInfo.InvariantCulture);
                 RaisePropertyChange();
+            }
+        }
+
+        public void TiebreakDialog()
+        {
+            var dialogService = App.Current.Services?.GetService<IDialogService>();
+            var dialogViewModel = new TiebreakDialogViewModel();
+            dialogViewModel.Tiebreaks = Tournament.TieBreak;
+            bool? success = dialogService?.ShowDialog(this, dialogViewModel);
+            if (success == true)
+            {
+                Tournament.TieBreak = dialogViewModel.Tiebreaks;
+                Sync();
             }
         }
 
