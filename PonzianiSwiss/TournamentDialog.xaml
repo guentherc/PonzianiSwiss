@@ -7,7 +7,7 @@
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:local="clr-namespace:PonzianiSwiss" 
         xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
-        d:DataContext="{d:DesignInstance Type=local:TournamentModel}"
+        d:DataContext="{d:DesignInstance Type=local:TournamentDialogViewModel}"
         md:DialogServiceViews.IsRegistered="True"
         mc:Ignorable="d"
         Title="TournamentDialog" Height="600" Width="900" TitleCharacterCasing="Normal">
@@ -68,7 +68,7 @@
             <WrapPanel  Grid.Column="3" Grid.Row="7" >
                 <TextBox VerticalAlignment="Center" IsReadOnly="True"
                      Text="{Binding Path=Tournament.TieBreak, Converter={StaticResource TiebreakConverter}}" Margin="5,5,5,5"/>
-                <Button Click="Button_Edit_Tiebreak_Click" ToolTip="Edit Tiebreak" Width="30"
+                <Button Command="{Binding TiebreakDialogCommand}" ToolTip="Edit Tiebreak" Width="30"
                     VerticalAlignment="Center" Margin="5,5,5,5" HorizontalAlignment="Right">
                     <iconPacks:PackIconCodicons Kind="Edit" />
                 </Button>
@@ -107,9 +107,9 @@
             </GroupBox>
         </Grid>
         <WrapPanel DockPanel.Dock="Bottom" Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-            <Button x:Name="TournamentDialogOkButton" Content="Ok" Padding="10" Margin="0,0,10,0" Click="TournamentDialogOkButton_Click" Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"  mah:ControlsHelper.ContentCharacterCasing="Normal"
+            <Button x:Name="TournamentDialogOkButton" Content="Ok" Padding="10" Margin="0,0,10,0" Command="{Binding OkCommand}"  Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"  mah:ControlsHelper.ContentCharacterCasing="Normal"
                     IsEnabled="{Binding ElementName=TextBox_Tournament_Name, Path=Text, Converter={StaticResource TextSetToBoolConverter}}"/>
-            <Button x:Name="TournamentDialogCancelButton" Content="Cancel" Padding="10" Click="TournamentDialogCancelButton_Click"  Style="{DynamicResource MahApps.Styles.Button.Square}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
+            <Button x:Name="TournamentDialogCancelButton" Content="Cancel" Padding="10" Command="{Binding CancelCommand}"  Style="{DynamicResource MahApps.Styles.Button.Square}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
         </WrapPanel>
 
     </DockPanel>

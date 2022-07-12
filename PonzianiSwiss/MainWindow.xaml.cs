@@ -156,38 +156,6 @@ namespace PonzianiSwiss
         public MainModel Model { set; get; }
         private readonly HTMLViewer htmlViewer = new();
 
-        private async void MenuItem_Tournament_New_ClickAsync(object sender, RoutedEventArgs e)
-        {
-            LogUserEvent("MenuItem_Tournament_New_ClickAsync");
-            var uiContext = SynchronizationContext.Current;
-            MessageDialogResult messageDialogResult = MessageDialogResult.Affirmative;
-            if (Model.Tournament != null && TournamentHash != Model.Tournament.Hash())
-            {
-                messageDialogResult = await this.ShowMessageAsync("Create new Tournament", "There might be unsaved data which will be lost! Do you want to proceed?", MessageDialogStyle.AffirmativeAndNegative);
-                if (messageDialogResult == MessageDialogResult.Negative) return;
-            }
-            uiContext?.Send(x => OpenTournamentDialog(), null);
-        }
-
-        private void OpenTournamentDialog()
-        {
-            TournamentDialog td = new(new())
-            {
-                Title = "Create new Tournament",
-                Owner = this
-            };
-            if (td.ShowDialog() ?? false)
-            {
-                Model.Tournament = td.Model.Tournament;
-                Model.Participants.Clear();
-                Model.FileName = null;
-                TournamentHash = Model.Tournament.Hash();
-                Model.SyncParticipants();
-                Model.SyncRounds();
-                AdjustTabitems();
-            }
-        }
-
         private void MenuItem_Tournament_Exit_Click(object sender, RoutedEventArgs e)
         {
             LogUserEvent();
@@ -292,19 +260,6 @@ namespace PonzianiSwiss
             {
                 Model.FileName = saveFileDialog.FileName;
                 MenuItem_Tournament_Save_Click(sender, e);
-            }
-        }
-
-        private void MenuItem_Tournament_Edit_Click(object sender, RoutedEventArgs e)
-        {
-            LogUserEvent();
-            TournamentDialog td = new(Model.Tournament ?? new())
-            {
-                Owner = this
-            };
-            if (td.ShowDialog() ?? false)
-            {
-                Model.Tournament = td.Model.Tournament;
             }
         }
 
@@ -652,6 +607,8 @@ namespace PonzianiSwiss
         private MRUModel mRUModel = new();
         private readonly IDialogService? DialogService;
         public ICommand ParticipantDialogCommand { get; set; }
+        public ICommand TournamentEditDialogCommand { get; set; }
+        public ICommand TournamentAddDialogCommand { get; set; }
 
 
         public MainModel(App.Mode mode, ILogger? logger)
@@ -659,10 +616,9 @@ namespace PonzianiSwiss
             DialogService = App.Current.Services?.GetService<IDialogService>();
             Mode = mode;
             Logger = logger;
-            ParticipantDialogCommand = new RelayCommand<TournamentParticipant?>((p) => ParticipantDialog(p),
-                (p) =>
-                    Tournament != null
-                    );
+            ParticipantDialogCommand = new RelayCommand<TournamentParticipant?>((p) => ParticipantDialog(p), (p) => Tournament != null);
+            TournamentEditDialogCommand = new RelayCommand(TournamentEditDialog);
+            TournamentAddDialogCommand = new RelayCommand(TournamentAddDialog);
         }
 
         public App.Mode Mode { get; private set; } = App.Mode.Release;
@@ -688,6 +644,16 @@ namespace PonzianiSwiss
             ShowParticipantDialog(viewModel => DialogService?.ShowDialog(this, viewModel), tournamentParticipant);
         }
 
+        void TournamentEditDialog()
+        {
+            ShowTournamentDialog(viewModel => DialogService?.ShowDialog(this, viewModel), Tournament);
+        }
+
+        void TournamentAddDialog()
+        {
+            ShowTournamentDialog(viewModel => DialogService?.ShowDialog(this, viewModel), null);
+        }
+
         private void ShowParticipantDialog(Func<ParticipantDialogViewModel, bool?> showDialog, TournamentParticipant? tournamentParticipant)
         {
             var dialogViewModel = App.Current.Services?.GetService<ParticipantDialogViewModel>();
@@ -703,6 +669,26 @@ namespace PonzianiSwiss
                     if (dialogViewModel.Participant != null)
                     {
                         if (add) Tournament?.Participants.Add(dialogViewModel.Participant);
+                        SyncParticipants();
+                        SyncRounds();
+                    }
+                }
+            }
+        }
+
+
+        private void ShowTournamentDialog(Func<TournamentDialogViewModel, bool?> showDialog, Tournament? tournament)
+        {
+            var dialogViewModel = App.Current.Services?.GetService<TournamentDialogViewModel>();
+            if (dialogViewModel != null)
+            {
+                dialogViewModel.Tournament = tournament ?? new();
+                bool? success = showDialog(dialogViewModel);
+                if (success == true)
+                {
+                    if (dialogViewModel.Tournament != null)
+                    {
+                        Tournament = dialogViewModel.Tournament;
                         SyncParticipants();
                         SyncRounds();
                     }

@@ -1,13 +1,15 @@
 ﻿using MahApps.Metro.Controls;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using MvvmDialogs;
 using PonzianiSwissLib;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Windows;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace PonzianiSwiss
 {
@@ -16,61 +18,68 @@ namespace PonzianiSwiss
     /// </summary>
     public partial class TournamentDialog : MetroWindow
     {
-        public TournamentDialog(Tournament tournament)
+        public TournamentDialog()
         {
-            Model = new(tournament);
             InitializeComponent();
-            this.DataContext = Model;
             ComboBox_Federation.ItemsSource = FederationUtil.Federations.OrderBy(e => e.Value);
             ComboBox_Federation.DisplayMemberPath = "Value";
             ComboBox_Federation.SelectedValuePath = "Key";
-            ComboBox_Federation.SelectedValue = Model.Tournament.Federation != null && Model.Tournament.Federation != String.Empty ? Model.Tournament.Federation : "FIDE";
-            this.Title = (tournament.Name == null || tournament.Name == String.Empty) ? this.Title = "Create new Tournament" : this.Title = $"Edit {Model.Tournament.Name}";
             ComboBox_PairingSystem.ItemsSource = Enum.GetValues(typeof(PairingSystem));
             ComboBox_RatingDetermination.ItemsSource = Enum.GetValues(typeof(TournamentRatingDetermination));
         }
-
-        public TournamentModel Model { set; get; }
-
-        private void TournamentDialogOkButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.DialogResult = true;
-            this.Close();
-        }
-
-        private void TournamentDialogCancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.DialogResult = false;
-            this.Close();
-        }
-
-        private void Button_Edit_Tiebreak_Click(object sender, RoutedEventArgs e)
-        {
-            Model.TiebreakDialog();
-        }
     }
 
-    public class TournamentModel : ViewModel
+    public partial class TournamentDialogViewModel : ObservableObject, IModalDialogViewModel
     {
-        private Tournament tournament;
-
-        public Tournament Tournament
+        public TournamentDialogViewModel(IDialogService dialogService)
         {
-            get => tournament; set
+            this.dialogService = dialogService;
+            TiebreakDialogCommand = new RelayCommand(TiebreakDialog);
+        }
+
+        [ObservableProperty]
+        private bool? dialogResult;
+
+        [ObservableProperty]
+        private Tournament? tournament;
+
+        public ICommand TiebreakDialogCommand { get; }
+
+        [ICommand]
+        void Ok()
+        {
+            DialogResult = true;
+        }
+
+        [ICommand]
+        void Cancel()
+        {
+            DialogResult = false;
+        }
+
+        private readonly IDialogService dialogService;
+
+        private void TiebreakDialog()
+        {
+            ShowDialog(viewModel => dialogService?.ShowDialog(this, viewModel));
+        }
+
+        private void ShowDialog(Func<TiebreakDialogViewModel, bool?> showDialog)
+        {
+            var dialogViewModel = App.Current.Services?.GetService<TiebreakDialogViewModel>();
+
+            if (dialogViewModel != null)
             {
-                tournament = value;
-                RaisePropertyChange();
+                dialogViewModel.Tiebreaks = Tournament?.TieBreak;
+                bool? success = showDialog(dialogViewModel);
+                if (success == true)
+                {
+                    if (Tournament != null) Tournament.TieBreak = dialogViewModel?.Tiebreaks ?? new();
+                    OnPropertyChanged(nameof(Tournament));
+                }
             }
         }
 
-        public void Sync() => RaisePropertyChange(nameof(Tournament));
-
-        public TournamentModel(Tournament tournament)
-        {
-            this.tournament = tournament;
-        }
-
-        [DependentProperties("Tournament")]
         public DateTime StartDate
         {
             get
@@ -81,7 +90,8 @@ namespace PonzianiSwiss
             set
             {
                 if (tournament != null) tournament.StartDate = value.ToString(CultureInfo.InvariantCulture);
-                RaisePropertyChange();
+                OnPropertyChanged(nameof(StartDate));
+                OnPropertyChanged(nameof(Tournament));
             }
         }
 
@@ -96,20 +106,7 @@ namespace PonzianiSwiss
             set
             {
                 if (tournament != null) tournament.EndDate = value.ToString(CultureInfo.InvariantCulture);
-                RaisePropertyChange();
-            }
-        }
-
-        public void TiebreakDialog()
-        {
-            var dialogService = App.Current.Services?.GetService<IDialogService>();
-            var dialogViewModel = new TiebreakDialogViewModel();
-            dialogViewModel.Tiebreaks = Tournament.TieBreak;
-            bool? success = dialogService?.ShowDialog(this, dialogViewModel);
-            if (success == true)
-            {
-                Tournament.TieBreak = dialogViewModel.Tiebreaks;
-                Sync();
+                OnPropertyChanged(nameof(Tournament));
             }
         }
 
