@@ -3,6 +3,7 @@ using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Win32;
 using MvvmDialogs;
@@ -41,21 +42,10 @@ namespace PonzianiSwiss
             Logger?.LogDebug("Creating MainWindow (Mode: {mode}, File: {file})", mode, settings?.Filename);
             InitializeComponent();
             ThemeManager.Current.ChangeTheme(Application.Current, Properties.Settings.Default.BaseTheme, Properties.Settings.Default.ThemeColor);
-            //Add Playerbase Update entries dynamically
-            foreach (var entry in PlayerBaseFactory.AvailableBases)
-            {
-                MenuItem mi = new()
-                {
-                    Header = $"{entry.Key} ({entry.Value})",
-                    Tag = entry.Key,
-                };
-                mi.Click += Update_Base;
-                MenuItem_PlayerBase_Update.Items.Add(mi);
-            }
-            RenderThemeMenuEntries();
-            //MenuItem_PlayerBase_Update.
             Model = new(mode, Logger);
             DataContext = Model;
+            //Add Playerbase Update entries dynamically
+            RenderThemeMenuEntries();
             PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE, Logger);
             lvParticipants.ItemsSource = Model.Participants;
             _ = FederationUtil.GetFederations();
@@ -127,30 +117,6 @@ namespace PonzianiSwiss
                     Logger?.LogDebug("{menuitem} clicked", methodName ?? (new System.Diagnostics.StackTrace()).GetFrame(1)?.GetMethod()?.Name);
             }
 
-        }
-
-        private async void Update_Base(object sender, RoutedEventArgs e)
-        {
-            if (sender is not MenuItem mi) return;
-            var uiContext = SynchronizationContext.Current;
-            var b = (PlayerBaseFactory.Base)mi.Tag;
-            LogUserEvent("Update_Base", b.ToString());
-            IPlayerBase pbase = PlayerBaseFactory.Get(b, Logger);
-            var controller = await this.ShowProgressAsync("Please wait...", $"Update of {pbase.Description} might take some time");
-            void updateProgressBar(object? s, ProgressChangedEventArgs e)
-            {
-                controller.SetProgress(Math.Min(1.0, 0.01 * e.ProgressPercentage));
-                controller.SetMessage(e.UserState?.ToString());
-            }
-            pbase.ProgressChanged += updateProgressBar;
-            bool ok = false;
-            await Task.Run(async () =>
-            {
-                ok = await pbase.UpdateAsync();
-            });
-            await controller.CloseAsync();
-            if (ok) await this.ShowMessageAsync("Update successful", $"Update of Player Base {b}"); else await this.ShowMessageAsync("Update failed", $"Update of Player Base {b}");
-            pbase.ProgressChanged -= updateProgressBar;
         }
 
         public MainModel Model { set; get; }
@@ -600,11 +566,19 @@ namespace PonzianiSwiss
         }
     }
 
-    public class MainModel : ViewModel
+    public partial class MainModel : ObservableObject
     {
         private Tournament? tournament;
+        //private int TournamentHash = 0;
+
+        [ObservableProperty]
         private string? fileName;
+
+        [ObservableProperty]
         private MRUModel mRUModel = new();
+
+        private readonly ILogger? Logger;
+
         private readonly IDialogService? DialogService;
         public ICommand ParticipantDialogCommand { get; set; }
         public ICommand TournamentEditDialogCommand { get; set; }
@@ -617,27 +591,42 @@ namespace PonzianiSwiss
             Mode = mode;
             Logger = logger;
             ParticipantDialogCommand = new RelayCommand<TournamentParticipant?>((p) => ParticipantDialog(p), (p) => Tournament != null);
-            TournamentEditDialogCommand = new RelayCommand(TournamentEditDialog);
+            TournamentEditDialogCommand = new RelayCommand(TournamentEditDialog, () => Tournament != null);
             TournamentAddDialogCommand = new RelayCommand(TournamentAddDialog);
+            foreach (var entry in PlayerBaseFactory.AvailableBases)
+                MenuEntries.Add(new(entry));
         }
 
         public App.Mode Mode { get; private set; } = App.Mode.Release;
 
         internal ObservableCollection<TournamentParticipant> Participants { get; set; } = new();
+        public ObservableCollection<MenuEntry> MenuEntries { get; set; } = new();
 
         [DependentProperties("DrawEnabled", "DeleteLastRoundEnabled")]
-        public Tournament? Tournament { get => tournament; set { if (tournament != value) { tournament = value; ((RelayCommand<TournamentParticipant>)ParticipantDialogCommand).NotifyCanExecuteChanged(); RaisePropertyChange(); } } }
+        public Tournament? Tournament
+        {
+            get => tournament;
+            set
+            {
+                if (tournament != value)
+                {
+                    tournament = value;
+                    ((RelayCommand<TournamentParticipant>)ParticipantDialogCommand).NotifyCanExecuteChanged();
+                    ((RelayCommand)TournamentEditDialogCommand).NotifyCanExecuteChanged();
+                    OnPropertyChanged(nameof(Tournament));
+                    OnPropertyChanged(nameof(DrawEnabled));
+                    OnPropertyChanged(nameof(DeleteLastRoundEnabled));
+                }
+            }
+        }
 
-        public string? FileName { get => fileName; set { if (fileName != value) { fileName = value; RaisePropertyChange(); } } }
-
-        public MRUModel MRUModel { get => mRUModel; set { mRUModel = value; RaisePropertyChange(); } }
         public bool DrawEnabled
         {
             get => Tournament != null && Tournament.Participants.Count > 0
                 && (Tournament.Rounds.Count == 0 || !Tournament.Rounds[^1].Pairings.Where(p => p.Result == Result.Open).Any());
         }
 
-        public bool DeletelastRoundEnabled { get => Tournament != null && Tournament.Rounds.Count > 0; }
+        public bool DeleteLastRoundEnabled { get => Tournament != null && Tournament.Rounds.Count > 0; }
 
         void ParticipantDialog(TournamentParticipant? tournamentParticipant)
         {
@@ -696,6 +685,29 @@ namespace PonzianiSwiss
             }
         }
 
+        [ICommand]
+        async void Update_Base(PlayerBaseFactory.Base b)
+        {
+            IPlayerBase pbase = PlayerBaseFactory.Get(b, Logger);
+
+            var controller = await DialogCoordinator.Instance.ShowProgressAsync(this, "Please wait...", $"Update of {pbase.Description} might take some time");
+            void updateProgressBar(object? s, ProgressChangedEventArgs e)
+            {
+                controller.SetProgress(Math.Min(1.0, 0.01 * e.ProgressPercentage));
+                controller.SetMessage(e.UserState?.ToString());
+            }
+            pbase.ProgressChanged += updateProgressBar;
+            bool ok = false;
+            await Task.Run(async () =>
+            {
+                ok = await pbase.UpdateAsync();
+            });
+            await controller.CloseAsync();
+            if (ok) await DialogCoordinator.Instance.ShowMessageAsync(this, "Update successful", $"Update of Player Base {b}"); else await DialogCoordinator.Instance.ShowMessageAsync(this, "Update failed", $"Update of Player Base {b}");
+            pbase.ProgressChanged -= updateProgressBar;
+        }
+
+
         internal void SyncParticipants()
         {
             Participants.Clear();
@@ -706,13 +718,12 @@ namespace PonzianiSwiss
                     Participants.Add(new(tournament, p));
                 }
             }
-            RaisePropertyChange("ParticipantListVisibility");
         }
 
         internal void SyncRounds()
         {
-            RaisePropertyChange(nameof(DrawEnabled));
-            RaisePropertyChange("DeleteLastRoundEnabled");
+            OnPropertyChanged(nameof(DrawEnabled));
+            OnPropertyChanged(nameof(DeleteLastRoundEnabled));
         }
 
         internal void SimulateResults()
@@ -966,6 +977,18 @@ namespace PonzianiSwiss
                 return paused ? FontStyles.Italic : FontStyles.Normal;
             }
         }
+    }
+
+    public class MenuEntry
+    {
+        public MenuEntry(KeyValuePair<PlayerBaseFactory.Base, string> entry)
+        {
+            Header = $"{entry.Key} ({entry.Value})";
+            Key = entry.Key;
+        }
+
+        public string Header { get; set; }
+        public PlayerBaseFactory.Base Key { get; set; }
     }
 
     public class SettingBindingExtension : Binding

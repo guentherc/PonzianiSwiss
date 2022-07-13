@@ -7,6 +7,8 @@
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" 
         xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+        xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+        Dialog:DialogParticipation.Register="{Binding}"
         d:DataContext="{d:DesignInstance Type=local:MainModel}"
         md:DialogServiceViews.IsRegistered="True"
         mc:Ignorable="d"
@@ -29,14 +31,20 @@
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
+                    <Style x:Key="UpdateStyle" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
+                        <Setter Property="Header" Value="{Binding Header}"></Setter>
+                        <Setter Property="Tag" Value="{Binding Key}"></Setter>
+                        <Setter Property="Command" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type mah:MetroWindow}}, Path=DataContext.Update_BaseCommand}"></Setter>
+                        <Setter Property="CommandParameter" Value="{Binding Key}"></Setter>
+                    </Style>
                 </Menu.Resources>
                 <MenuItem x:Name="MenuItem_Tournament" Header="Tournament">
                     <MenuItem x:Name="MenuItem_Tournament_New" Header="New" Command="{Binding TournamentAddDialogCommand}"/>
-                    <MenuItem x:Name="MenuItem_Tournament_Open" Header="Open ..." Command="{Binding TournamentAddDialogCommand}" IsEnabled="True"/>
+                    <MenuItem x:Name="MenuItem_Tournament_Open" Header="Open ..." Click="MenuItem_Tournament_Open_ClickAsync" IsEnabled="True"/>
                     <MenuItem x:Name="MenuItem_Tournament_Save" Header="Save" Click="MenuItem_Tournament_Save_Click" IsEnabled="{Binding Path=FileName, Converter={StaticResource TextSetToBoolConverter}}"/>
                     <MenuItem x:Name="MenuItem_Tournament_Save_As" Header="Save As ..." Click="MenuItem_Tournament_Save_As_Click" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}"/>
                     <Separator/>
-                    <MenuItem x:Name="MenuItem_Tournament_Edit" Header="Edit" Command="{Binding TournamentEditDialogCommand}" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}" />
+                    <MenuItem x:Name="MenuItem_Tournament_Edit" Header="Edit" Command="{Binding TournamentEditDialogCommand}"/>
                     <MenuItem x:Name="MenuItem_Tournament_Edit_Forbidden" Header="Edit Forbidden Pairings" Click="MenuItem_Tournament_Edit_Forbidden_Click" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}"/>
                     <Separator/>
                     <MenuItem x:Name="MenuItem_Tournament_Export" Header="Export" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}">
@@ -62,12 +70,13 @@
                 </MenuItem>
                 <MenuItem x:Name="MenuItem_Round" Header="Round">
                     <MenuItem x:Name="MenuItem_Round_Draw" Header="Draw" Click="MenuItem_Round_Draw_Click" IsEnabled="{Binding Path=DrawEnabled}"/>
-                    <MenuItem x:Name="MenuItem_Round_Delete" Header="Delete Last Round" Click="MenuItem_Round_Delete_Click" IsEnabled="{Binding Path=DeletelastRoundEnabled}"/>
+                    <MenuItem x:Name="MenuItem_Round_Delete" Header="Delete Last Round" Click="MenuItem_Round_Delete_Click" IsEnabled="{Binding Path=DeleteLastRoundEnabled}"/>
                 </MenuItem>
                 <MenuItem Header="Player Base" x:Name="MenuItem_PlayerBase">
-                    <MenuItem x:Name="MenuItem_PlayerBase_Update" Header="Update"/>
-                </MenuItem>
-                <MenuItem Header="Test" x:Name="MenuItem_Special" Style="{StaticResource ModeStyle}">
+                    <MenuItem x:Name="MenuItem_PlayerBase_Update" Header="Update" 
+                              ItemsSource="{Binding MenuEntries}" ItemContainerStyle="{StaticResource UpdateStyle}"/>
+                    </MenuItem>
+                    <MenuItem Header="Test" x:Name="MenuItem_Special" Style="{StaticResource ModeStyle}">
                     <MenuItem Header="Add Random Participants">
                         <MenuItem Header="Add 100 Random Participants" Click="MenuItem_Add_Participants_Click" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}" Tag="100"/>
                         <MenuItem Header="Add 1000 Random Participants" Click="MenuItem_Add_Participants_Click" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}" Tag="1000"/>
@@ -93,7 +102,7 @@
                 <Button x:Name="Toolbar_Tournament_Save" Click="MenuItem_Tournament_Save_Click" ToolTip="Save Tournament" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}">
                     <iconPacks:PackIconCodicons Kind="Save" />
                 </Button>
-                <Button x:Name="Toolbar_Tournament_Edit" Command="{Binding TournamentEditDialogCommand}" ToolTip="Edit Tournament" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}">
+                <Button x:Name="Toolbar_Tournament_Edit" Command="{Binding TournamentEditDialogCommand}" ToolTip="Edit Tournament">
                     <iconPacks:PackIconCodicons Kind="Edit" />
                 </Button>
                 <Separator></Separator>

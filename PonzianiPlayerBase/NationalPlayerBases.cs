@@ -365,6 +365,7 @@ namespace PonzianiPlayerBase
                     CsvConfiguration config = new(CultureInfo.InvariantCulture)
                     {
                         Delimiter = ";"
+                        
                     };
                     using var csv = new CsvReader(reader, config);
                     csv.Read();
@@ -373,8 +374,7 @@ namespace PonzianiPlayerBase
                     {
                         try
                         {
-                            int id = csv.GetField<int>(6);
-                            if (id == 0) continue;
+                            if (!csv.TryGetField<int>(6, out int id) || id == 0) continue;
                             ++count;
                             cmd.Parameters["@Id"].Value = $"{id}";
                             cmd.Parameters["@Inactive"].Value = csv.GetField<string>(18) == "N" ? "1" : "0";
@@ -1070,7 +1070,7 @@ namespace PonzianiPlayerBase
                             cmd.Parameters["@Federation"].Value = "GER";
                             cmd.Parameters["@Club"].Value = $"{csv.GetField<string>(0)}";
                             cmd.Parameters["@Rating"].Value = $"{csv.GetField<int>(8)}";
-                            cmd.Parameters["@Birthyear"].Value = $"{csv.GetField<int>(6)}";
+                            if (csv.GetField<string>(6).Trim().Length > 0) cmd.Parameters["@Birthyear"].Value = $"{csv.GetField<int>(6)}";
                             string fideid = csv.GetField<string>(12);
                             if (fideid != null && ulong.TryParse(fideid, out ulong f))
                                 cmd.Parameters["@FideId"].Value = f;
