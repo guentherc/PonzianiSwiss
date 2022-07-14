@@ -1,5 +1,7 @@
 ﻿using MahApps.Metro.Controls;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Win32;
+using MvvmDialogs;
 using System.IO;
 using System.Windows;
 
@@ -10,8 +12,6 @@ namespace PonzianiSwiss
     /// </summary>
     public partial class HTMLViewer : MetroWindow
     {
-
-        public string? Html { set; get; } = string.Empty;
 
         public HTMLViewer()
         {
@@ -32,18 +32,30 @@ namespace PonzianiSwiss
                 {
                     await HTMLView.CoreWebView2.PrintToPdfAsync(dialog.FileName);
                 }
-                else File.WriteAllText(dialog.FileName, Html);
+                else File.WriteAllText(dialog.FileName, ((HTMLViewerViewModel)DataContext).Html);
             }
         }
 
         private async void HTMLViewer_Load(object sender, RoutedEventArgs e)
         {
-            if (Html != null)
+            if (((HTMLViewerViewModel)DataContext).Html != null)
             {
                 await HTMLView.EnsureCoreWebView2Async();
-                HTMLView.NavigateToString(Html);
+                HTMLView.NavigateToString(((HTMLViewerViewModel)DataContext).Html);
             }
         }
+    }
+
+    public partial class HTMLViewerViewModel : ObservableObject, IModalDialogViewModel
+    {
+        [ObservableProperty]
+        private bool? dialogResult;
+
+        [ObservableProperty]
+        private string? html;
+
+        [ObservableProperty]
+        private string? title;
     }
 
 }

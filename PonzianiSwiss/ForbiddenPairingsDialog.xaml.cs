@@ -26,8 +26,6 @@ namespace PonzianiSwiss
 
     public partial class ForbiddenPairingsDialogViewModel : ObservableObject, IModalDialogViewModel
     {
-        private readonly IDialogService dialogService;
-
         [ObservableProperty]
         private bool? dialogResult;
 
@@ -72,9 +70,8 @@ namespace PonzianiSwiss
         public ICommand RemoveRuleCommand { set; get; }
 
 
-        public ForbiddenPairingsDialogViewModel(IDialogService dialogService)
+        public ForbiddenPairingsDialogViewModel()
         {
-            this.dialogService = dialogService;
             AddRuleCommand = new RelayCommand<string?>((t) => AddRule(t), (t) => true);
             RemoveRuleCommand = new RelayCommand<ForbiddenPairingRule?>((r) => RemoveRule(r), (r) => true);
         }

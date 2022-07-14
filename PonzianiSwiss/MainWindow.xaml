@@ -47,13 +47,13 @@
                     <MenuItem x:Name="MenuItem_Tournament_Edit" Header="Edit" Command="{Binding TournamentEditDialogCommand}"/>
                     <MenuItem x:Name="MenuItem_Tournament_Edit_Forbidden" Header="Edit Forbidden Pairings" Command="{Binding ForbiddenPairingsRuleDialogCommand}"/>
                     <Separator/>
-                    <MenuItem x:Name="MenuItem_Tournament_Export" Header="Export" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}">
-                        <MenuItem x:Name="MenuItem_Tournament_Participant_List" Header="Participant List" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}">
-                            <MenuItem x:Name="MenuItem_Tournament_Participant_List_Rank" Header="By Starting Rank" Tag="0" Click="MenuItem_Export_Click" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}"/>
-                            <MenuItem x:Name="MenuItem_Tournament_Participant_List_Name" Header="By Name" Tag="1" Click="MenuItem_Export_Click" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}"/>
+                    <MenuItem x:Name="MenuItem_Tournament_Export" Header="Export">
+                        <MenuItem x:Name="MenuItem_Tournament_Participant_List" Header="Participant List">
+                            <MenuItem x:Name="MenuItem_Tournament_Participant_List_Rank" Header="By Starting Rank" Tag="0" Command="{Binding HtmlViewerCommand}" CommandParameter="0"/>
+                            <MenuItem x:Name="MenuItem_Tournament_Participant_List_Name" Header="By Name" Tag="1" Command="{Binding HtmlViewerCommand}" CommandParameter="1"/>
                         </MenuItem>
-                        <MenuItem x:Name="MenuItem_Tournament_Crosstable" Header="Crosstable" Tag="2" Click="MenuItem_Export_Click" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}"/>
-                        <MenuItem x:Name="MenuItem_Tournament_Pairings" Header="Pairings" Tag="3" Click="MenuItem_Export_Click" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}"/>
+                        <MenuItem x:Name="MenuItem_Tournament_Crosstable" Header="Crosstable" Tag="2" Command="{Binding HtmlViewerCommand}" CommandParameter="2"/>
+                        <MenuItem x:Name="MenuItem_Tournament_Pairings" Header="Pairings" Tag="3" Command="{Binding HtmlViewerCommand}" CommandParameter="3"/>
                     </MenuItem>
                     <Separator Visibility="{Binding Path=MRUModel.Visibility}"/>
                     <MenuItem Header="Recent Files" Visibility="{Binding Path=MRUModel.Visibility}">
@@ -106,7 +106,7 @@
                     <iconPacks:PackIconCodicons Kind="Edit" />
                 </Button>
                 <Separator></Separator>
-                <Button x:Name="Toolbar_Participant_Add" Command="{Binding ParticipantDialogCommand}" ToolTip="Add Player" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}">
+                <Button x:Name="Toolbar_Participant_Add" Command="{Binding ParticipantDialogCommand}" ToolTip="Add Player">
                     <iconPacks:PackIconCodicons Kind="PersonAdd" />
                 </Button>
                 <Separator></Separator>

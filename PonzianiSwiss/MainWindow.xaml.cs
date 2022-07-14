@@ -121,7 +121,6 @@ namespace PonzianiSwiss
         }
 
         public MainModel Model { set; get; }
-        private readonly HTMLViewer htmlViewer = new();
 
         private void MenuItem_Tournament_Exit_Click(object sender, RoutedEventArgs e)
         {
@@ -279,37 +278,6 @@ namespace PonzianiSwiss
                     });
                 }
             }
-        }
-
-        private void MenuItem_Export_Click(object sender, RoutedEventArgs e)
-        {
-            int tag = int.Parse((string)((MenuItem)sender).Tag);
-            LogUserEvent(null, tag.ToString());
-            string html = string.Empty;
-            string title = string.Empty;
-            switch (tag)
-            {
-                case 0:
-                    title = "Participant List by Starting Rank";
-                    html = Model.Tournament?.ParticipantListHTML("Rating", true) ?? string.Empty;
-                    break;
-                case 1:
-                    title = "Participant List by Name";
-                    html = Model.Tournament?.ParticipantListHTML("Name", false) ?? string.Empty;
-                    break;
-                case 2:
-                    title = "Crosstable";
-                    html = Model.Tournament?.CrosstableHTML() ?? string.Empty;
-                    break;
-                case 3:
-                    title = $"Pairings Round {Model.Tournament?.Rounds.Count ?? 0}";
-                    html = Model.Tournament?.RoundHTML() ?? string.Empty;
-                    break;
-            }
-            htmlViewer.Html = html;
-            htmlViewer.Title = title;
-            htmlViewer.Owner = this;
-            htmlViewer.ShowDialog();
         }
 
         private void MenuItem_Add_Participants_Click(object sender, RoutedEventArgs e)
@@ -526,6 +494,8 @@ namespace PonzianiSwiss
         public RelayCommand TournamentSaveOrSaveAsCommand { get; set; }
         public RelayCommand ForbiddenPairingsRuleDialogCommand { get; set; }
 
+        public RelayCommand<string> HtmlViewerCommand { get; set; }
+
 
         public MainModel(App.Mode mode, ILogger? logger)
         {
@@ -541,6 +511,8 @@ namespace PonzianiSwiss
             TournamentSaveCommand = new RelayCommand(TournamentSave, () => FileName != null);
             TournamentSaveOrSaveAsCommand = new RelayCommand(TournamentSave, () => Tournament != null);
             ForbiddenPairingsRuleDialogCommand = new RelayCommand(ForbiddenPairingsRuleDialog, () => Tournament != null);
+            HtmlViewerCommand = new RelayCommand<string>((t) => HtmlViewer(int.Parse(t ?? "0")), 
+                (t) => Tournament != null && Tournament.Participants != null && Tournament.Participants.Count > 0);
         }
 
         public App.Mode Mode { get; private set; } = App.Mode.Release;
@@ -565,6 +537,7 @@ namespace PonzianiSwiss
                     TournamentSaveAsCommand.NotifyCanExecuteChanged();
                     TournamentSaveOrSaveAsCommand.NotifyCanExecuteChanged();
                     ForbiddenPairingsRuleDialogCommand.NotifyCanExecuteChanged();
+                    HtmlViewerCommand.NotifyCanExecuteChanged();
                 }
             }
         }
@@ -607,6 +580,11 @@ namespace PonzianiSwiss
             ShowTournamentDialog(viewModel => DialogService?.ShowDialog(this, viewModel), null);
         }
 
+        void HtmlViewer(int tag)
+        {
+            ShowHtmlViewer(viewModel => DialogService?.ShowDialog(this, viewModel), tag);
+        }
+
         private void ShowForbiddenPairingsRuleDialog(Func<ForbiddenPairingsDialogViewModel, bool?> showDialog)
         {
             if (Tournament == null) return;
@@ -637,6 +615,7 @@ namespace PonzianiSwiss
                         SyncParticipants();
                         SyncRounds();
                     }
+                    HtmlViewerCommand.NotifyCanExecuteChanged();
                 }
             }
         }
@@ -657,6 +636,43 @@ namespace PonzianiSwiss
                         SyncParticipants();
                         SyncRounds();
                     }
+                }
+            }
+        }
+
+
+        private void ShowHtmlViewer(Func<HTMLViewerViewModel, bool?> showDialog, int tag)
+        {
+            string html = string.Empty;
+            string title = string.Empty;
+            switch (tag)
+            {
+                case 0:
+                    title = "Participant List by Starting Rank";
+                    html = Tournament?.ParticipantListHTML("Rating", true) ?? string.Empty;
+                    break;
+                case 1:
+                    title = "Participant List by Name";
+                    html = Tournament?.ParticipantListHTML("Name", false) ?? string.Empty;
+                    break;
+                case 2:
+                    title = "Crosstable";
+                    html = Tournament?.CrosstableHTML() ?? string.Empty;
+                    break;
+                case 3:
+                    title = $"Pairings Round {Tournament?.Rounds.Count ?? 0}";
+                    html = Tournament?.RoundHTML() ?? string.Empty;
+                    break;
+            }
+            var dialogViewModel = App.Current.Services?.GetService<HTMLViewerViewModel>();
+            if (dialogViewModel != null)
+            {
+                dialogViewModel.Html = html;
+                dialogViewModel.Title = title;
+                bool? success = showDialog(dialogViewModel);
+                if (success == true)
+                {
+
                 }
             }
         }

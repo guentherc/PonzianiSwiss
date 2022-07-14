@@ -666,10 +666,10 @@ namespace PonzianiSwissTest
             Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Save_As));
             Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Edit));
             Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Edit_Forbidden));
-            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Export_Crosstable));
-            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Export_Pairings));
-            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Export_Participant_Name));
-            Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Export_Participant_Rank));
+            Assert.IsFalse(IsMenuItemEnabled(window, MenuItemKey.Tournament_Export_Crosstable));
+            Assert.IsFalse(IsMenuItemEnabled(window, MenuItemKey.Tournament_Export_Pairings));
+            Assert.IsFalse(IsMenuItemEnabled(window, MenuItemKey.Tournament_Export_Participant_Name));
+            Assert.IsFalse(IsMenuItemEnabled(window, MenuItemKey.Tournament_Export_Participant_Rank));
             Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Tournament_Exit));
             Assert.IsTrue(IsMenuItemEnabled(window, MenuItemKey.Participants_Add));
             Assert.IsFalse(IsMenuItemEnabled(window, MenuItemKey.Round_Delete));
