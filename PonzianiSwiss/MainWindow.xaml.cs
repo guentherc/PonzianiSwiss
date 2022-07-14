@@ -7,6 +7,7 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Win32;
 using MvvmDialogs;
+using MvvmDialogs.FrameworkDialogs.SaveFile;
 using PonzianiPlayerBase;
 using PonzianiSwissLib;
 using System;
@@ -170,63 +171,12 @@ namespace PonzianiSwiss
                 Model.FileName = filename;
                 Model.SyncParticipants();
                 Model.SyncRounds();
-                ProcessMRU(filename);
+                Model.ProcessMRU(filename);
                 AdjustTabitems();
                 TournamentHash = Model.Tournament.Hash();
             }
             else
                 Logger?.LogError("Tournament {filename} wasn't loaded!", filename);
-        }
-
-        private void ProcessMRU(string filename)
-        {
-            if (Properties.Settings.Default.MRU == null) Properties.Settings.Default.MRU = new StringCollection();
-            Logger?.LogDebug("MRU List: {list}  ...", string.Join('|', new List<string>(Properties.Settings.Default.MRU.Cast<string>().ToList())));
-            if (Properties.Settings.Default.MRU.Count == 0)
-            {
-                Properties.Settings.Default.MRU.Add(filename);
-                Model.MRUModel = new();
-            }
-            else if (Properties.Settings.Default.MRU[0] != filename)
-            {
-                Properties.Settings.Default.MRU.Remove(filename);
-                Properties.Settings.Default.MRU.Insert(0, filename);
-                Model.MRUModel = new();
-            }
-            Logger?.LogDebug("MRU List changed to {list}", string.Join('|', Properties.Settings.Default.MRU.Cast<string>().ToList()));
-        }
-
-        private void MenuItem_Tournament_Save_Click(object sender, RoutedEventArgs e)
-        {
-            LogUserEvent();
-            if (Model.Tournament != null)
-            {
-                if (Model.FileName == null) MenuItem_Tournament_Save_As_Click(sender, e);
-                else
-                {
-                    File.WriteAllText(Model.FileName, Model.Tournament.Serialize());
-                    Logger?.LogInformation("Tournament {name} saved to {filename}", Model.Tournament.Name, Model.FileName);
-                }
-                if (Model.FileName != null) ProcessMRU(Model.FileName);
-            }
-        }
-
-        private void MenuItem_Tournament_Save_As_Click(object sender, RoutedEventArgs e)
-        {
-            LogUserEvent();
-            SaveFileDialog saveFileDialog = new()
-            {
-                Filter = $"Tournament Files|*.tjson|All Files|*.*"
-            };
-            if (Model.FileName != null) saveFileDialog.FileName = Model.FileName; else saveFileDialog.FileName = Model.Tournament?.Name + ".tjson";
-            saveFileDialog.DefaultExt = ".tjson";
-            saveFileDialog.Title = "Save Tournament File";
-            saveFileDialog.AddExtension = true;
-            if (saveFileDialog.ShowDialog() ?? false)
-            {
-                Model.FileName = saveFileDialog.FileName;
-                MenuItem_Tournament_Save_Click(sender, e);
-            }
         }
 
         private void MenuItem_Round_Delete_Click(object sender, RoutedEventArgs e)
@@ -571,7 +521,6 @@ namespace PonzianiSwiss
         private Tournament? tournament;
         //private int TournamentHash = 0;
 
-        [ObservableProperty]
         private string? fileName;
 
         [ObservableProperty]
@@ -583,6 +532,9 @@ namespace PonzianiSwiss
         public ICommand ParticipantDialogCommand { get; set; }
         public ICommand TournamentEditDialogCommand { get; set; }
         public ICommand TournamentAddDialogCommand { get; set; }
+        public RelayCommand TournamentSaveAsCommand { get; set; }
+        public RelayCommand TournamentSaveCommand { get; set; }
+        public RelayCommand TournamentSaveOrSaveAsCommand { get; set; }
 
 
         public MainModel(App.Mode mode, ILogger? logger)
@@ -595,6 +547,9 @@ namespace PonzianiSwiss
             TournamentAddDialogCommand = new RelayCommand(TournamentAddDialog);
             foreach (var entry in PlayerBaseFactory.AvailableBases)
                 MenuEntries.Add(new(entry));
+            TournamentSaveAsCommand = new RelayCommand(TournamentSaveAs, () => Tournament != null);
+            TournamentSaveCommand = new RelayCommand(TournamentSave, () => FileName != null);
+            TournamentSaveOrSaveAsCommand = new RelayCommand(TournamentSave, () => Tournament != null);
         }
 
         public App.Mode Mode { get; private set; } = App.Mode.Release;
@@ -616,6 +571,8 @@ namespace PonzianiSwiss
                     OnPropertyChanged(nameof(Tournament));
                     OnPropertyChanged(nameof(DrawEnabled));
                     OnPropertyChanged(nameof(DeleteLastRoundEnabled));
+                    TournamentSaveAsCommand.NotifyCanExecuteChanged();
+                    TournamentSaveOrSaveAsCommand.NotifyCanExecuteChanged();
                 }
             }
         }
@@ -627,6 +584,16 @@ namespace PonzianiSwiss
         }
 
         public bool DeleteLastRoundEnabled { get => Tournament != null && Tournament.Rounds.Count > 0; }
+        public string? FileName
+        {
+            get => fileName;
+            set
+            {
+                fileName = value;
+                OnPropertyChanged(nameof(FileName));
+                TournamentSaveCommand.NotifyCanExecuteChanged();
+            }
+        }
 
         void ParticipantDialog(TournamentParticipant? tournamentParticipant)
         {
@@ -685,6 +652,41 @@ namespace PonzianiSwiss
             }
         }
 
+
+        void TournamentSaveAs()
+        {
+            var settings = new SaveFileDialogSettings
+            {
+                Title = "Save Tournament File",
+                DefaultExt = ".tjson",
+                Filter = $"Tournament Files|*.tjson|All Files|*.*",
+                FileName = FileName ?? Tournament?.Name + ".tjson",
+                AddExtension = true
+            };
+
+            var dialogService = App.Current.Services?.GetService<IDialogService>();
+            bool? success = dialogService?.ShowSaveFileDialog(this, settings);
+            if (success == true)
+            {
+                FileName = settings.FileName;
+                TournamentSave();
+            }
+        }
+
+        void TournamentSave()
+        {
+            if (Tournament != null)
+            {
+                if (FileName == null) TournamentSaveAs();
+                else
+                {
+                    File.WriteAllText(FileName, Tournament.Serialize());
+                    Logger?.LogInformation("Tournament {name} saved to {filename}", Tournament.Name, FileName);
+                }
+                if (FileName != null) ProcessMRU(FileName);
+            }
+        }
+
         [ICommand]
         async void Update_Base(PlayerBaseFactory.Base b)
         {
@@ -707,7 +709,23 @@ namespace PonzianiSwiss
             pbase.ProgressChanged -= updateProgressBar;
         }
 
-
+        internal void ProcessMRU(string filename)
+        {
+            if (Properties.Settings.Default.MRU == null) Properties.Settings.Default.MRU = new StringCollection();
+            Logger?.LogDebug("MRU List: {list}  ...", string.Join('|', new List<string>(Properties.Settings.Default.MRU.Cast<string>().ToList())));
+            if (Properties.Settings.Default.MRU.Count == 0)
+            {
+                Properties.Settings.Default.MRU.Add(filename);
+                MRUModel = new();
+            }
+            else if (Properties.Settings.Default.MRU[0] != filename)
+            {
+                Properties.Settings.Default.MRU.Remove(filename);
+                Properties.Settings.Default.MRU.Insert(0, filename);
+                MRUModel = new();
+            }
+            Logger?.LogDebug("MRU List changed to {list}", string.Join('|', Properties.Settings.Default.MRU.Cast<string>().ToList()));
+        }
         internal void SyncParticipants()
         {
             Participants.Clear();

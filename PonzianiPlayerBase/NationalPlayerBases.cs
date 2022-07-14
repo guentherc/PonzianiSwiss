@@ -365,7 +365,7 @@ namespace PonzianiPlayerBase
                     CsvConfiguration config = new(CultureInfo.InvariantCulture)
                     {
                         Delimiter = ";"
-                        
+
                     };
                     using var csv = new CsvReader(reader, config);
                     csv.Read();

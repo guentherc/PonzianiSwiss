@@ -41,8 +41,8 @@
                 <MenuItem x:Name="MenuItem_Tournament" Header="Tournament">
                     <MenuItem x:Name="MenuItem_Tournament_New" Header="New" Command="{Binding TournamentAddDialogCommand}"/>
                     <MenuItem x:Name="MenuItem_Tournament_Open" Header="Open ..." Click="MenuItem_Tournament_Open_ClickAsync" IsEnabled="True"/>
-                    <MenuItem x:Name="MenuItem_Tournament_Save" Header="Save" Click="MenuItem_Tournament_Save_Click" IsEnabled="{Binding Path=FileName, Converter={StaticResource TextSetToBoolConverter}}"/>
-                    <MenuItem x:Name="MenuItem_Tournament_Save_As" Header="Save As ..." Click="MenuItem_Tournament_Save_As_Click" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}"/>
+                    <MenuItem x:Name="MenuItem_Tournament_Save" Header="Save" Command="{Binding TournamentSaveCommand}"/>
+                    <MenuItem x:Name="MenuItem_Tournament_Save_As" Header="Save As ..." Command="{Binding TournamentSaveAsCommand}"/>
                     <Separator/>
                     <MenuItem x:Name="MenuItem_Tournament_Edit" Header="Edit" Command="{Binding TournamentEditDialogCommand}"/>
                     <MenuItem x:Name="MenuItem_Tournament_Edit_Forbidden" Header="Edit Forbidden Pairings" Click="MenuItem_Tournament_Edit_Forbidden_Click" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}"/>
@@ -99,7 +99,7 @@
                 <Button x:Name="Toolbar_Tournament_Open" Click="MenuItem_Tournament_Open_ClickAsync" ToolTip="Load Tournament">
                     <iconPacks:PackIconCodicons Kind="FolderOpened" />
                 </Button>
-                <Button x:Name="Toolbar_Tournament_Save" Click="MenuItem_Tournament_Save_Click" ToolTip="Save Tournament" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}">
+                <Button x:Name="Toolbar_Tournament_Save" Command="{Binding TournamentSaveOrSaveAsCommand}" ToolTip="Save Tournament">
                     <iconPacks:PackIconCodicons Kind="Save" />
                 </Button>
                 <Button x:Name="Toolbar_Tournament_Edit" Command="{Binding TournamentEditDialogCommand}" ToolTip="Edit Tournament">
