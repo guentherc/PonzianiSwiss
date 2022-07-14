@@ -420,17 +420,6 @@ namespace PonzianiSwiss
             _ = await this.ShowMessageAsync("PonzianiSwiss 0.3.0 - Swiss Pairing Program", "Find more information at https://github.com/guentherc/PonzianiSwiss");
         }
 
-        private void MenuItem_Tournament_Edit_Forbidden_Click(object sender, RoutedEventArgs e)
-        {
-            if (Model.Tournament == null) return;
-            LogUserEvent();
-            ForbiddenPairingsDialog dlg = new(Model.Tournament)
-            {
-                Owner = this
-            };
-            dlg.ShowDialog();
-        }
-
         private void MetroWindow_Closing(object sender, CancelEventArgs e)
         {
             LogUserEvent();
@@ -535,6 +524,7 @@ namespace PonzianiSwiss
         public RelayCommand TournamentSaveAsCommand { get; set; }
         public RelayCommand TournamentSaveCommand { get; set; }
         public RelayCommand TournamentSaveOrSaveAsCommand { get; set; }
+        public RelayCommand ForbiddenPairingsRuleDialogCommand { get; set; }
 
 
         public MainModel(App.Mode mode, ILogger? logger)
@@ -550,6 +540,7 @@ namespace PonzianiSwiss
             TournamentSaveAsCommand = new RelayCommand(TournamentSaveAs, () => Tournament != null);
             TournamentSaveCommand = new RelayCommand(TournamentSave, () => FileName != null);
             TournamentSaveOrSaveAsCommand = new RelayCommand(TournamentSave, () => Tournament != null);
+            ForbiddenPairingsRuleDialogCommand = new RelayCommand(ForbiddenPairingsRuleDialog, () => Tournament != null);
         }
 
         public App.Mode Mode { get; private set; } = App.Mode.Release;
@@ -573,6 +564,7 @@ namespace PonzianiSwiss
                     OnPropertyChanged(nameof(DeleteLastRoundEnabled));
                     TournamentSaveAsCommand.NotifyCanExecuteChanged();
                     TournamentSaveOrSaveAsCommand.NotifyCanExecuteChanged();
+                    ForbiddenPairingsRuleDialogCommand.NotifyCanExecuteChanged();
                 }
             }
         }
@@ -595,6 +587,11 @@ namespace PonzianiSwiss
             }
         }
 
+        void ForbiddenPairingsRuleDialog()
+        {
+            ShowForbiddenPairingsRuleDialog(ViewModel => DialogService?.ShowDialog(this, ViewModel));
+        }
+
         void ParticipantDialog(TournamentParticipant? tournamentParticipant)
         {
             ShowParticipantDialog(viewModel => DialogService?.ShowDialog(this, viewModel), tournamentParticipant);
@@ -608,6 +605,18 @@ namespace PonzianiSwiss
         void TournamentAddDialog()
         {
             ShowTournamentDialog(viewModel => DialogService?.ShowDialog(this, viewModel), null);
+        }
+
+        private void ShowForbiddenPairingsRuleDialog(Func<ForbiddenPairingsDialogViewModel, bool?> showDialog)
+        {
+            if (Tournament == null) return;
+            var dialogViewModel = App.Current.Services?.GetService<ForbiddenPairingsDialogViewModel>();
+
+            if (dialogViewModel != null)
+            {
+                dialogViewModel.Tournament = Tournament;
+                bool? success = showDialog(dialogViewModel);
+            }
         }
 
         private void ShowParticipantDialog(Func<ParticipantDialogViewModel, bool?> showDialog, TournamentParticipant? tournamentParticipant)

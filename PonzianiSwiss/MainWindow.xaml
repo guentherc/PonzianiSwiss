@@ -45,7 +45,7 @@
                     <MenuItem x:Name="MenuItem_Tournament_Save_As" Header="Save As ..." Command="{Binding TournamentSaveAsCommand}"/>
                     <Separator/>
                     <MenuItem x:Name="MenuItem_Tournament_Edit" Header="Edit" Command="{Binding TournamentEditDialogCommand}"/>
-                    <MenuItem x:Name="MenuItem_Tournament_Edit_Forbidden" Header="Edit Forbidden Pairings" Click="MenuItem_Tournament_Edit_Forbidden_Click" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}"/>
+                    <MenuItem x:Name="MenuItem_Tournament_Edit_Forbidden" Header="Edit Forbidden Pairings" Command="{Binding ForbiddenPairingsRuleDialogCommand}"/>
                     <Separator/>
                     <MenuItem x:Name="MenuItem_Tournament_Export" Header="Export" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}">
                         <MenuItem x:Name="MenuItem_Tournament_Participant_List" Header="Participant List" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}">

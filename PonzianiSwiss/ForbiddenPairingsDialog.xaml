@@ -7,7 +7,8 @@
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
-        Title="Forbidden Pairings" TitleCharacterCasing="Normal" Height="450" Width="800" d:DataContext="Model">
+        d:DataContext="{d:DesignInstance Type=local:ForbiddenPairingsDialogViewModel}"
+        Title="Forbidden Pairings" TitleCharacterCasing="Normal" Height="450" Width="800">
     <Window.Resources>
         <local:ForbiddenPairingRuleConverter x:Key="ForbiddenPairingRuleConverter" />
         <local:AdjustSizeConverter x:Key="AdjustSizeConverter" />
@@ -65,7 +66,7 @@
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
-                        <Button Click="Forbidding_Pairing_Rule_Add_Click" Tag="1" Margin="5">Add</Button>
+                        <Button Command="{Binding AddRuleCommand}" CommandParameter="1" Tag="1" Margin="5">Add</Button>
                     </WrapPanel>
                     <WrapPanel>
                         <WrapPanel.Style>
@@ -93,7 +94,7 @@
                         <Label Margin="5" >Federation</Label>
                         <ComboBox Margin="5" ItemsSource="{Binding Path=Federations}" SelectedItem="{Binding Path=Federation1}" MinWidth="200">
                         </ComboBox>
-                        <Button Click="Forbidding_Pairing_Rule_Add_Click" Tag="2" Margin="5">Add</Button>
+                        <Button Command="{Binding AddRuleCommand}" CommandParameter="2"  Tag="2" Margin="5">Add</Button>
                     </WrapPanel>
                     <WrapPanel>
                         <WrapPanel.Style>
@@ -112,7 +113,7 @@
                         <ComboBox Margin="5" ItemsSource="{Binding Path=Federations}" SelectedItem="{Binding Path=Federation1}" MinWidth="200"/>
                         <Label Margin="5" >Federation 2</Label>
                         <ComboBox Margin="5" ItemsSource="{Binding Path=Federations}" SelectedItem="{Binding Path=Federation2}" MinWidth="200"/>
-                        <Button Click="Forbidding_Pairing_Rule_Add_Click" Tag="3" Margin="5" mah:ControlsHelper.ContentCharacterCasing="Normal">Add</Button>
+                        <Button Command="{Binding AddRuleCommand}" CommandParameter="3" Tag="3" Margin="5" mah:ControlsHelper.ContentCharacterCasing="Normal">Add</Button>
                     </WrapPanel>
                     <Label Content="List of forbidden pairings" FontWeight="Bold"/>
                     <ListView x:Name="lvRules" ItemsSource="{Binding Path=Rules}" Margin="5" MaxHeight="400">
@@ -121,7 +122,7 @@
                             <DataTemplate>
                                 <WrapPanel>
                                     <TextBlock Text="{Binding Path=Description}" Margin="5" VerticalAlignment="Center"/>
-                                    <Button Click="ForbiddenPairings_Remove_Click" Tag="{Binding}" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                    <Button Command="{Binding ElementName=lvRules, Path=DataContext.RemoveRuleCommand}" CommandParameter="{Binding Path=.}" Tag="{Binding}" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Right">
                                         <iconPacks:PackIconCodicons Kind="Remove"/>
                                     </Button>
                                 </WrapPanel>
@@ -132,8 +133,8 @@
             </GroupBox>
         </StackPanel>
         <WrapPanel DockPanel.Dock="Bottom" Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-            <Button x:Name="TournamentDialogOkButton" Content="Ok" Padding="10" Margin="0,0,10,0" Click="ForbiddenPairingsOkButton_Click" Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
-            <Button x:Name="TournamentDialogCancelButton" Content="Cancel" Padding="10" Click="ForbiddenPairingsCancelButton_Click"  Style="{DynamicResource MahApps.Styles.Button.Square}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
+            <Button x:Name="TournamentDialogOkButton" Content="Ok" Padding="10" Margin="0,0,10,0" Command="{Binding OkCommand}" Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
+            <Button x:Name="TournamentDialogCancelButton" Content="Cancel" Padding="10" Command="{Binding CancelCommand}"  Style="{DynamicResource MahApps.Styles.Button.Square}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
         </WrapPanel>
     </DockPanel>
 </mah:MetroWindow>

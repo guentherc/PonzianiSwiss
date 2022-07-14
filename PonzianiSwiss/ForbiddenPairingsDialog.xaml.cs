@@ -1,13 +1,15 @@
 ﻿using MahApps.Metro.Controls;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
+using MvvmDialogs;
 using PonzianiSwissLib;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace PonzianiSwiss
 {
@@ -16,87 +18,108 @@ namespace PonzianiSwiss
     /// </summary>
     public partial class ForbiddenPairingsDialog : MetroWindow
     {
-        public ForbiddenPairingsDialog(Tournament tournament)
+        public ForbiddenPairingsDialog()
         {
             InitializeComponent();
-            Model = new(tournament);
-            DataContext = Model;
-        }
-
-        public ForbiddenPairingsModel Model { private set; get; }
-
-        private void ForbiddenPairingsCancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.DialogResult = false;
-            this.Close();
-        }
-
-        private void ForbiddenPairingsOkButton_Click(object sender, RoutedEventArgs e)
-        {
-            Model.Tournament.AvoidPairingsFromSameClub = Model.AvoidPairingsFromSameClub;
-            Model.Tournament.AvoidPairingsFromSameFederation = Model.AvoidPairingsFromSameFederation;
-            Model.Tournament.ForbiddenPairingRules = Model.Rules.ToList();
-            this.DialogResult = false;
-            this.Close();
-        }
-
-        private void Forbidding_Pairing_Rule_Add_Click(object sender, RoutedEventArgs e)
-        {
-            Button btn = (Button)sender;
-            string tag = btn.Tag?.ToString() ?? "0";
-            if (tag == "1" && Model.Player1 != null && Model.Player2 != null)
-            {
-                Model.Rules.Add(new(Model.Player1, Model.Player2));
-                Model.SyncRules();
-            }
-            else if (tag == "2" && Model.Player1 != null && Model.Federation1 != null)
-            {
-                Model.Rules.Add(new(Model.Player1, Model.Federation1));
-                Model.SyncRules();
-            }
-            else if (tag == "3" && Model.Federation1 != null && Model.Federation2 != null)
-            {
-                Model.Rules.Add(new(Model.Federation1, Model.Federation2));
-                Model.SyncRules();
-            }
-        }
-
-        private void ForbiddenPairings_Remove_Click(object sender, RoutedEventArgs e)
-        {
-            Model.Rules.Remove((ForbiddenPairingRule)((Button)sender).Tag);
-            Model.SyncRules();
         }
     }
 
-    public class ForbiddenPairingsModel : ViewModel
+    public partial class ForbiddenPairingsDialogViewModel : ObservableObject, IModalDialogViewModel
     {
-        public ForbiddenPairingsModel(Tournament tournament)
+        private readonly IDialogService dialogService;
+
+        [ObservableProperty]
+        private bool? dialogResult;
+
+        [ObservableProperty]
+        private bool avoidPairingsFromSameFederation = false;
+        [ObservableProperty]
+        private bool avoidPairingsFromSameClub = false;
+
+        public Tournament? Tournament
         {
-            Tournament = tournament ?? new();
-            Rules = new(Tournament.ForbiddenPairingRules);
-            AvoidPairingsFromSameClub = Tournament.AvoidPairingsFromSameClub;
-            AvoidPairingsFromSameFederation = Tournament.AvoidPairingsFromSameFederation;
+            get => tournament;
+            set
+            {
+                tournament = value;
+                if (tournament != null)
+                {
+                    Rules = new ObservableCollection<ForbiddenPairingRule>(tournament.ForbiddenPairingRules);
+                    AvoidPairingsFromSameClub = tournament.AvoidPairingsFromSameClub;
+                    AvoidPairingsFromSameFederation = tournament.AvoidPairingsFromSameFederation;
+                }
+            }
         }
 
-        public bool AvoidPairingsFromSameFederation { set; get; } = false;
+        public ObservableCollection<ForbiddenPairingRule>? Rules { set; get; }
 
-        public bool AvoidPairingsFromSameClub { set; get; } = false;
+        [ObservableProperty]
+        private Participant? player1;
+        [ObservableProperty]
+        private Participant? player2;
 
-        public Tournament Tournament { private set; get; }
+        [ObservableProperty]
+        private string? federation1;
+        [ObservableProperty]
+        private string? federation2;
+        private Tournament? tournament;
 
-        public ObservableCollection<ForbiddenPairingRule> Rules { set; get; }
+        public List<string?> Federations => Tournament?.Participants.Select(p => p.Federation).Distinct().OrderBy(f => f).ToList() ?? new();
 
-        public Participant? Player1 { set; get; }
-        public Participant? Player2 { set; get; }
+        public List<Participant> Participants => Tournament?.Participants.OrderBy(p => p.Name).ToList() ?? new();
 
-        public string? Federation1 { set; get; }
-        public string? Federation2 { set; get; }
+        public ICommand AddRuleCommand { set; get; }
+        public ICommand RemoveRuleCommand { set; get; }
 
-        public List<string?> Federations => Tournament.Participants.Select(p => p.Federation).Distinct().OrderBy(f => f).ToList();
 
-        public List<Participant> Participants => Tournament.Participants.OrderBy(p => p.Name).ToList();
+        public ForbiddenPairingsDialogViewModel(IDialogService dialogService)
+        {
+            this.dialogService = dialogService;
+            AddRuleCommand = new RelayCommand<string?>((t) => AddRule(t), (t) => true);
+            RemoveRuleCommand = new RelayCommand<ForbiddenPairingRule?>((r) => RemoveRule(r), (r) => true);
+        }
 
-        public void SyncRules() => RaisePropertyChange(nameof(Rules));
+        [ICommand]
+        void Ok()
+        {
+            if (Tournament != null)
+            {
+                Tournament.AvoidPairingsFromSameClub = AvoidPairingsFromSameClub;
+                Tournament.AvoidPairingsFromSameFederation = AvoidPairingsFromSameFederation;
+                Tournament.ForbiddenPairingRules = Rules?.ToList() ?? new();
+            }
+            DialogResult = true;
+        }
+
+        [ICommand]
+        void Cancel()
+        {
+            DialogResult = false;
+        }
+
+        private void AddRule(string? tag)
+        {
+            if (Rules != null)
+            {
+                if (tag == "1" && Player1 != null && Player2 != null)
+                {
+                    Rules.Add(new(Player1, Player2));
+                }
+                else if (tag == "2" && Player1 != null && Federation1 != null)
+                {
+                    Rules.Add(new(Player1, Federation1));
+                }
+                else if (tag == "3" && Federation1 != null && Federation2 != null)
+                {
+                    Rules.Add(new(Federation1, Federation2));
+                }
+            }
+        }
+
+        private void RemoveRule(ForbiddenPairingRule? rule)
+        {
+            if (rule != null) Rules?.Remove(rule);
+        }
     }
 
     public class ForbiddenPairingRuleConverter : IValueConverter
