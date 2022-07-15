@@ -17,8 +17,6 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -269,8 +267,9 @@ namespace PonzianiSwiss
             {
                 if (Model.Tournament != null)
                 {
-                    var content = new Round(Model.Tournament, tabIndx - 1) { DataContext = Model };
-                    ((Round)content).ResultSet += (s, e) => Model.SyncRounds();
+                    int roundIndex = tabIndx - 1;
+                    var content = new Round(Model.Tournament, roundIndex) { };
+                    ((Round)content).ResultSet += (s, e) => Model.SetResult(roundIndex, e.Pairing, e.Result);
                     MainTabControl.Items.Add(new TabItem()
                     {
                         Header = $"Round {tabIndx}",
@@ -409,70 +408,6 @@ namespace PonzianiSwiss
         }
     }
 
-    [AttributeUsage(AttributeTargets.Property)]
-    public class DependentPropertiesAttribute : Attribute
-    {
-        private readonly string[] properties;
-
-        public DependentPropertiesAttribute(params string[] dp)
-        {
-            properties = dp;
-        }
-
-        public string[] Properties
-        {
-            get
-            {
-                return properties;
-            }
-        }
-    }
-
-    public class ViewModel : INotifyPropertyChanged
-    {
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected ILogger? Logger { get; set; }
-
-        protected void RaisePropertyChange([CallerMemberName] string propertyName = "", List<string>? calledProperties = null)
-        {
-            OnPropertyChanged(propertyName);
-
-            if (calledProperties == null)
-            {
-                calledProperties = new List<string>();
-            }
-
-            calledProperties.Add(propertyName);
-
-            PropertyInfo? pInfo = GetType().GetProperty(propertyName);
-
-            if (pInfo != null)
-            {
-                foreach (DependentPropertiesAttribute ca in
-                  pInfo.GetCustomAttributes(false).OfType<DependentPropertiesAttribute>())
-                {
-                    if (ca.Properties != null)
-                    {
-                        foreach (string prop in ca.Properties)
-                        {
-                            if (prop != propertyName && !calledProperties.Contains(prop))
-                            {
-                                RaisePropertyChange(prop, calledProperties);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        private void OnPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
-
     public partial class MainModel : ObservableObject
     {
         private Tournament? tournament;
@@ -511,7 +446,7 @@ namespace PonzianiSwiss
             TournamentSaveCommand = new RelayCommand(TournamentSave, () => FileName != null);
             TournamentSaveOrSaveAsCommand = new RelayCommand(TournamentSave, () => Tournament != null);
             ForbiddenPairingsRuleDialogCommand = new RelayCommand(ForbiddenPairingsRuleDialog, () => Tournament != null);
-            HtmlViewerCommand = new RelayCommand<string>((t) => HtmlViewer(int.Parse(t ?? "0")), 
+            HtmlViewerCommand = new RelayCommand<string>((t) => HtmlViewer(int.Parse(t ?? "0")),
                 (t) => Tournament != null && Tournament.Participants != null && Tournament.Participants.Count > 0);
         }
 
@@ -520,7 +455,6 @@ namespace PonzianiSwiss
         internal ObservableCollection<TournamentParticipant> Participants { get; set; } = new();
         public ObservableCollection<MenuEntry> MenuEntries { get; set; } = new();
 
-        [DependentProperties("DrawEnabled", "DeleteLastRoundEnabled")]
         public Tournament? Tournament
         {
             get => tournament;
@@ -593,7 +527,7 @@ namespace PonzianiSwiss
             if (dialogViewModel != null)
             {
                 dialogViewModel.Tournament = Tournament;
-                bool? success = showDialog(dialogViewModel);
+                showDialog(dialogViewModel);
             }
         }
 
@@ -767,6 +701,7 @@ namespace PonzianiSwiss
         {
             OnPropertyChanged(nameof(DrawEnabled));
             OnPropertyChanged(nameof(DeleteLastRoundEnabled));
+
         }
 
         internal void SimulateResults()
@@ -806,22 +741,49 @@ namespace PonzianiSwiss
                 SyncRounds();
             }
         }
+
+        internal void SetResult(int roundIndex, Pairing pairing, Result result)
+        {
+            PonzianiSwissLib.Round? round = Tournament?.Rounds[roundIndex];
+            if (round != null)
+            {
+                Pairing? p = round.Pairings.Find((pa) => pa.White == pairing.White && pa.Black == pairing.Black);
+                if (p != null)
+                {
+                    p.Result = result;
+                    SyncRounds();
+                }
+            }
+        }
     }
 
-    public class MRUModel : ViewModel
+    public partial class MRUModel : ObservableObject
     {
+        [ObservableProperty]
         private Visibility visibility = Visibility.Collapsed;
+        [ObservableProperty]
         private Visibility visibility1 = Visibility.Collapsed;
+        [ObservableProperty]
         private Visibility visibility2 = Visibility.Collapsed;
+        [ObservableProperty]
         private Visibility visibility3 = Visibility.Collapsed;
+        [ObservableProperty]
         private Visibility visibility4 = Visibility.Collapsed;
+        [ObservableProperty]
         private string? fileName1;
+        [ObservableProperty]
         private string? fileName2;
+        [ObservableProperty]
         private string? fileName3;
+        [ObservableProperty]
         private string? fileName4;
+        [ObservableProperty]
         private string? path1;
+        [ObservableProperty]
         private string? path2;
+        [ObservableProperty]
         private string? path3;
+        [ObservableProperty]
         private string? path4;
 
         public MRUModel()
@@ -858,112 +820,6 @@ namespace PonzianiSwiss
                             break;
                     }
                 }
-            }
-        }
-
-        public Visibility Visibility
-        {
-            get => visibility; set
-            {
-                visibility = value;
-                RaisePropertyChange();
-            }
-        }
-        public Visibility Visibility1
-        {
-            get => visibility1; set
-            {
-                visibility1 = value;
-                RaisePropertyChange();
-            }
-        }
-        public Visibility Visibility2
-        {
-            get => visibility2; set
-            {
-                visibility2 = value;
-                RaisePropertyChange();
-            }
-        }
-        public Visibility Visibility3
-        {
-            get => visibility3; set
-            {
-                visibility3 = value;
-                RaisePropertyChange();
-            }
-        }
-        public Visibility Visibility4
-        {
-            get => visibility4; set
-            {
-                visibility4 = value;
-                RaisePropertyChange();
-            }
-        }
-        public string? FileName1
-        {
-            get => fileName1; set
-            {
-                fileName1 = value;
-                RaisePropertyChange();
-            }
-        }
-        public string? FileName2
-        {
-            get => fileName2; set
-            {
-                fileName2 = value;
-                RaisePropertyChange();
-            }
-        }
-        public string? FileName3
-        {
-            get => fileName3; set
-            {
-                fileName3 = value;
-                RaisePropertyChange();
-            }
-        }
-        public string? FileName4
-        {
-            get => fileName4; set
-            {
-                fileName4 = value;
-                RaisePropertyChange();
-            }
-        }
-
-        public string? Path1
-        {
-            get => path1; set
-            {
-                path1 = value;
-                RaisePropertyChange();
-            }
-        }
-        public string? Path2
-        {
-            get => path2; set
-            {
-                path2 = value;
-                RaisePropertyChange();
-            }
-        }
-        public string? Path3
-        {
-            get => path3; set
-            {
-                path3 = value;
-                RaisePropertyChange();
-            }
-        }
-        public string? Path4
-        {
-            get => path4; set
-            {
-                path4 = value;
-                RaisePropertyChange();
             }
         }
 

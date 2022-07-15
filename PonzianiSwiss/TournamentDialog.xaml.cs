@@ -95,7 +95,6 @@ namespace PonzianiSwiss
             }
         }
 
-        [DependentProperties("tournament")]
         public DateTime EndDate
         {
             get

@@ -78,6 +78,7 @@
                     </MenuItem>
                     <MenuItem Header="Test" x:Name="MenuItem_Special" Style="{StaticResource ModeStyle}">
                     <MenuItem Header="Add Random Participants">
+                        <MenuItem Header="Add 10 Random Participants" Click="MenuItem_Add_Participants_Click" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}" Tag="10"/>
                         <MenuItem Header="Add 100 Random Participants" Click="MenuItem_Add_Participants_Click" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}" Tag="100"/>
                         <MenuItem Header="Add 1000 Random Participants" Click="MenuItem_Add_Participants_Click" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}" Tag="1000"/>
                     </MenuItem>

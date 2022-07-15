@@ -1,4 +1,5 @@
-﻿using PonzianiSwissLib;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using PonzianiSwissLib;
 using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -22,7 +23,7 @@ namespace PonzianiSwiss
             lvRound.ItemsSource = Model.Pairings;
         }
 
-        public event EventHandler? ResultSet;
+        public event EventHandler<ResultSetEventArgs>? ResultSet;
 
         public RoundModel Model { set; get; }
 
@@ -32,7 +33,8 @@ namespace PonzianiSwiss
             {
                 Result r = (Result)int.Parse((string)mi.Tag);
                 p.Result = r;
-                ResultSet?.Invoke(this, new());
+                if (p.Pairing != null)
+                    ResultSet?.Invoke(this, new(p.Pairing, r));
             }
         }
 
@@ -54,40 +56,60 @@ namespace PonzianiSwiss
                         else if (e.Key == Key.OemPlus || e.Key == Key.D8)
                             p.Result = Result.Open;
                         else return;
-                        ResultSet?.Invoke(this, new());
+                        if (p.Pairing != null)
+                            ResultSet?.Invoke(this, new(p.Pairing, p.Result));
                     }
                 }
             }
         }
     }
 
-    public class RoundModel : ViewModel
+    public partial class RoundModel : ObservableObject
     {
-
-        public RoundModel(Tournament tournament, int roundIndex)
+        public RoundModel(Tournament? tournament, int roundIndex)
         {
-            Tournament = tournament ?? throw new ArgumentNullException(nameof(tournament));
-            RoundIndex = roundIndex;
-            foreach (Pairing pairing in Tournament.Rounds[roundIndex].Pairings)
-                Pairings.Add(new RoundPairing(pairing, RoundIndex));
+            if (tournament != null)
+            {
+                Tournament = tournament;
+                RoundIndex = roundIndex;
+                foreach (Pairing pairing in Tournament?.Rounds[roundIndex].Pairings ?? new())
+                    Pairings.Add(new RoundPairing(pairing, RoundIndex));
+            }
         }
 
         internal ObservableCollection<RoundPairing> Pairings { get; } = new();
 
-        public Tournament Tournament { get; set; }
+        [ObservableProperty]
+        private Tournament? tournament;
 
-        public int RoundIndex { get; set; }
+        [ObservableProperty]
+        private int roundIndex;
 
         internal void SyncRound()
         {
-            Pairings.Clear();
-            foreach (Pairing pairing in Tournament.Rounds[RoundIndex].Pairings)
-                Pairings.Add(new RoundPairing(pairing, RoundIndex));
+            if (Tournament != null)
+            {
+                Pairings.Clear();
+                foreach (Pairing pairing in Tournament.Rounds[RoundIndex].Pairings)
+                    Pairings.Add(new RoundPairing(pairing, RoundIndex));
+            }
         }
 
     }
 
-    internal class RoundPairing : ViewModel
+    public class ResultSetEventArgs : EventArgs
+    {
+        public ResultSetEventArgs(Pairing pairing, Result result)
+        {
+            Pairing = pairing ?? throw new ArgumentNullException(nameof(pairing));
+            Result = result;
+        }
+
+        public Pairing Pairing { get; private set; }
+        public Result Result { get; private set; }
+    }
+
+    internal partial class RoundPairing : ObservableObject
     {
         public RoundPairing(Pairing pairing, int roundIndex)
         {
@@ -95,25 +117,15 @@ namespace PonzianiSwiss
             RoundIndex = roundIndex;
         }
 
-        public Pairing Pairing { set; get; }
-        public string White => $"{Pairing.White?.Name?.Trim()} ({Pairing.White?.Scorecard?.Score(RoundIndex) ?? 0})";
-        public string Black => $"{Pairing.Black?.Name?.Trim()} ({Pairing.Black?.Scorecard?.Score(RoundIndex) ?? 0})";
+        [ObservableProperty]
+        private Pairing? pairing;
+        public string White => $"{Pairing?.White?.Name?.Trim()} ({Pairing?.White?.Scorecard?.Score(RoundIndex) ?? 0})";
+        public string Black => $"{Pairing?.Black?.Name?.Trim()} ({Pairing?.Black?.Scorecard?.Score(RoundIndex) ?? 0})";
 
         private int RoundIndex { set; get; }
 
-        public Result Result
-        {
-            set
-            {
-                if (value != Pairing.Result)
-                {
-                    Pairing.Result = value;
-                    RaisePropertyChange();
-                }
-            }
-            get => Pairing.Result;
-        }
-
+        [ObservableProperty]
+        private Result result;
     }
 
     public class ResultConverter : IValueConverter
