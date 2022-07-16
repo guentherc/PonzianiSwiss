@@ -49,9 +49,14 @@ namespace PonzianiSwiss
             lvParticipants.ItemsSource = Model.Participants;
             _ = FederationUtil.GetFederations();
             if (filename != null) Load(filename);
+            Model.PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName != null && !args.PropertyName.Equals(nameof(Model.RoundCount)))
+                    AdjustTabitems();
+            };
         }
 
-        private int TournamentHash = 0;
+        private int TournamentHash { get => ((MainModel)DataContext).TournamentHash; set => ((MainModel)DataContext).TournamentHash = value; }
         private readonly ILogger? Logger;
 
         private void RenderThemeMenuEntries()
@@ -359,64 +364,27 @@ namespace PonzianiSwiss
         private void MetroWindow_Closed(object sender, EventArgs e)
         {
             LogUserEvent();
-            Properties.Settings.Default.Save();
-        }
-
-        private async void MenuItem_Tournament_MRU_ClickAsync(object sender, RoutedEventArgs e)
-        {
-            MenuItem mi = (MenuItem)sender;
-            if (mi == null) return;
-            string fileName = mi.Tag?.ToString() ?? string.Empty;
-            LogUserEvent("MenuItem_Tournament_MRU_ClickAsync", fileName);
-            if (fileName != string.Empty)
-            {
-                var uiContext = SynchronizationContext.Current;
-                MessageDialogResult messageDialogResult = MessageDialogResult.Affirmative;
-                if (Model.Tournament != null && TournamentHash != Model.Tournament.Hash())
-                {
-                    messageDialogResult = await this.ShowMessageAsync($"Load Tournament {System.IO.Path.GetFileNameWithoutExtension(fileName)}", "There might be unsaved data which will be lost! Do you want to proceed?", MessageDialogStyle.AffirmativeAndNegative);
-                    if (messageDialogResult == MessageDialogResult.Negative) return;
-                }
-                uiContext?.Send(x => Load(fileName), null);
-            }
-        }
-
-        private async void MenuItem_Settings_About_Click(object sender, RoutedEventArgs e)
-        {
-            LogUserEvent("MenuItem_Settings_About_Click");
-            _ = await this.ShowMessageAsync("PonzianiSwiss 0.3.0 - Swiss Pairing Program", "Find more information at https://github.com/guentherc/PonzianiSwiss");
+            MainModel.OnApplicationClose();
         }
 
         private void MetroWindow_Closing(object sender, CancelEventArgs e)
         {
             LogUserEvent();
-            if (Model.Tournament != null && TournamentHash != Model.Tournament.Hash())
-            {
+            if (((MainModel)DataContext).CanClose())
+                Application.Current.Shutdown();
+            else
                 e.Cancel = true;
-                var messageDialogResult = this.ShowModalMessageExternal($"Exit Application", "There might be unsaved data which will be lost! Do you want to proceed?", MessageDialogStyle.AffirmativeAndNegative);
-                e.Cancel = messageDialogResult == MessageDialogResult.Negative;
-            }
-            if (!e.Cancel) Application.Current.Shutdown();
         }
 
-        private void MenuItem_Settings_Reset_Click(object sender, RoutedEventArgs e)
-        {
-            LogUserEvent();
-            Properties.Settings.Default.Reset();
-            Properties.Settings.Default.Save();
-            ThemeManager.Current.ChangeTheme(Application.Current, Properties.Settings.Default.BaseTheme, Properties.Settings.Default.ThemeColor);
-        }
     }
 
     public partial class MainModel : ObservableObject
     {
         private Tournament? tournament;
-        //private int TournamentHash = 0;
+        public int TournamentHash = 0;
 
         private string? fileName;
-
-        [ObservableProperty]
-        private MRUModel mRUModel = new();
+        public int RoundCount { get => Tournament?.CountRounds ?? 0; }
 
         private readonly ILogger? Logger;
 
@@ -431,7 +399,6 @@ namespace PonzianiSwiss
 
         public RelayCommand<string> HtmlViewerCommand { get; set; }
 
-
         public MainModel(App.Mode mode, ILogger? logger)
         {
             DialogService = App.Current.Services?.GetService<IDialogService>();
@@ -441,19 +408,22 @@ namespace PonzianiSwiss
             TournamentEditDialogCommand = new RelayCommand(TournamentEditDialog, () => Tournament != null);
             TournamentAddDialogCommand = new RelayCommand(TournamentAddDialog);
             foreach (var entry in PlayerBaseFactory.AvailableBases)
-                MenuEntries.Add(new(entry));
+                UpdateMenuEntries.Add(new(entry));
             TournamentSaveAsCommand = new RelayCommand(TournamentSaveAs, () => Tournament != null);
             TournamentSaveCommand = new RelayCommand(TournamentSave, () => FileName != null);
             TournamentSaveOrSaveAsCommand = new RelayCommand(TournamentSave, () => Tournament != null);
             ForbiddenPairingsRuleDialogCommand = new RelayCommand(ForbiddenPairingsRuleDialog, () => Tournament != null);
             HtmlViewerCommand = new RelayCommand<string>((t) => HtmlViewer(int.Parse(t ?? "0")),
                 (t) => Tournament != null && Tournament.Participants != null && Tournament.Participants.Count > 0);
+            UpdateMRUMenu();
         }
 
         public App.Mode Mode { get; private set; } = App.Mode.Release;
 
         internal ObservableCollection<TournamentParticipant> Participants { get; set; } = new();
-        public ObservableCollection<MenuEntry> MenuEntries { get; set; } = new();
+        public ObservableCollection<MenuEntry<PlayerBaseFactory.Base>> UpdateMenuEntries { get; set; } = new();
+        public ObservableCollection<MenuEntry<string>> MRUMenuEntries { get; set; } = new();
+
 
         public Tournament? Tournament
         {
@@ -646,6 +616,30 @@ namespace PonzianiSwiss
             }
         }
 
+        public bool CanClose()
+        {
+            if (Tournament != null && TournamentHash != Tournament.Hash())
+            {
+
+                var messageDialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(this, $"Exit Application", "There might be unsaved data which will be lost! Do you want to proceed?", MessageDialogStyle.AffirmativeAndNegative);
+                return messageDialogResult != MessageDialogResult.Negative;
+            }
+            return true;
+        }
+
+        public static void OnApplicationClose()
+        {
+            Properties.Settings.Default.Save();
+        }
+
+        [ICommand]
+        void SettingsReset()
+        {
+            Properties.Settings.Default.Reset();
+            Properties.Settings.Default.Save();
+            ThemeManager.Current.ChangeTheme(Application.Current, Properties.Settings.Default.BaseTheme, Properties.Settings.Default.ThemeColor);
+        }
+
         [ICommand]
         async void Update_Base(PlayerBaseFactory.Base b)
         {
@@ -668,6 +662,47 @@ namespace PonzianiSwiss
             pbase.ProgressChanged -= updateProgressBar;
         }
 
+        [ICommand]
+        async void LoadTournament(string? filename)
+        {
+            if (filename != null && fileName != string.Empty)
+            {
+                if (Tournament != null && TournamentHash != Tournament.Hash())
+                {
+                    MessageDialogResult messageDialogResult = await DialogCoordinator.Instance.ShowMessageAsync(this, $"Load Tournament {System.IO.Path.GetFileNameWithoutExtension(fileName)}", "There might be unsaved data which will be lost! Do you want to proceed?", MessageDialogStyle.AffirmativeAndNegative);
+                    if (messageDialogResult == MessageDialogResult.Negative) return;
+                }
+                Load(filename);
+                OnPropertyChanged(nameof(RoundCount));
+            }
+        }
+
+        [ICommand]
+        async void About()
+        {
+            _ = await DialogCoordinator.Instance.ShowMessageAsync(this, "PonzianiSwiss 0.3.0 - Swiss Pairing Program", "Find more information at https://github.com/guentherc/PonzianiSwiss");
+        }
+
+        private void Load(string filename)
+        {
+            Logger?.LogInformation("Loading {filename}", filename);
+            string json = File.ReadAllText(filename);
+            Tournament = Extensions.Deserialize(json);
+            if (Tournament != null)
+            {
+                Tournament.GetScorecards();
+                while (Properties.Settings.Default.MRU != null && Properties.Settings.Default.MRU.Count > 10)
+                    Properties.Settings.Default.MRU.RemoveAt(10);
+                FileName = filename;
+                SyncParticipants();
+                SyncRounds();
+                ProcessMRU(filename);
+                TournamentHash = Tournament.Hash();
+            }
+            else
+                Logger?.LogError("Tournament {filename} wasn't loaded!", filename);
+        }
+
         internal void ProcessMRU(string filename)
         {
             if (Properties.Settings.Default.MRU == null) Properties.Settings.Default.MRU = new StringCollection();
@@ -675,16 +710,30 @@ namespace PonzianiSwiss
             if (Properties.Settings.Default.MRU.Count == 0)
             {
                 Properties.Settings.Default.MRU.Add(filename);
-                MRUModel = new();
+                UpdateMRUMenu();
             }
             else if (Properties.Settings.Default.MRU[0] != filename)
             {
                 Properties.Settings.Default.MRU.Remove(filename);
                 Properties.Settings.Default.MRU.Insert(0, filename);
-                MRUModel = new();
+                UpdateMRUMenu();
             }
             Logger?.LogDebug("MRU List changed to {list}", string.Join('|', Properties.Settings.Default.MRU.Cast<string>().ToList()));
         }
+
+        private void UpdateMRUMenu()
+        {
+            MRUMenuEntries.Clear();
+            for (int i = 0; i < Math.Min(Properties.Settings.Default.MRU.Count, 4); ++i)
+            {
+                string? file = Properties.Settings.Default.MRU[i];
+                if (file != null)
+                {
+                    MRUMenuEntries.Add(new(file, System.IO.Path.GetFileNameWithoutExtension(file)));
+                }
+            }
+        }
+
         internal void SyncParticipants()
         {
             Participants.Clear();
@@ -757,74 +806,6 @@ namespace PonzianiSwiss
         }
     }
 
-    public partial class MRUModel : ObservableObject
-    {
-        [ObservableProperty]
-        private Visibility visibility = Visibility.Collapsed;
-        [ObservableProperty]
-        private Visibility visibility1 = Visibility.Collapsed;
-        [ObservableProperty]
-        private Visibility visibility2 = Visibility.Collapsed;
-        [ObservableProperty]
-        private Visibility visibility3 = Visibility.Collapsed;
-        [ObservableProperty]
-        private Visibility visibility4 = Visibility.Collapsed;
-        [ObservableProperty]
-        private string? fileName1;
-        [ObservableProperty]
-        private string? fileName2;
-        [ObservableProperty]
-        private string? fileName3;
-        [ObservableProperty]
-        private string? fileName4;
-        [ObservableProperty]
-        private string? path1;
-        [ObservableProperty]
-        private string? path2;
-        [ObservableProperty]
-        private string? path3;
-        [ObservableProperty]
-        private string? path4;
-
-        public MRUModel()
-        {
-            if (Properties.Settings.Default.MRU == null) return;
-            int indx = 0;
-            foreach (string? file in Properties.Settings.Default.MRU)
-            {
-                if (file != null && File.Exists(file))
-                {
-                    ++indx;
-                    Visibility = Visibility.Visible;
-                    switch (indx)
-                    {
-                        case 1:
-                            Path1 = file;
-                            FileName1 = System.IO.Path.GetFileNameWithoutExtension(file);
-                            Visibility1 = Visibility.Visible;
-                            break;
-                        case 2:
-                            Path2 = file;
-                            FileName2 = System.IO.Path.GetFileNameWithoutExtension(file);
-                            Visibility2 = Visibility.Visible;
-                            break;
-                        case 3:
-                            Path3 = file;
-                            FileName3 = System.IO.Path.GetFileNameWithoutExtension(file);
-                            Visibility3 = Visibility.Visible;
-                            break;
-                        case 4:
-                            Path4 = file;
-                            FileName4 = System.IO.Path.GetFileNameWithoutExtension(file);
-                            Visibility4 = Visibility.Visible;
-                            break;
-                    }
-                }
-            }
-        }
-
-    }
-
     internal class TournamentParticipant
     {
         private readonly Tournament? tournament;
@@ -878,16 +859,22 @@ namespace PonzianiSwiss
         }
     }
 
-    public class MenuEntry
+    public class MenuEntry<T>
     {
-        public MenuEntry(KeyValuePair<PlayerBaseFactory.Base, string> entry)
+        public MenuEntry(KeyValuePair<T, string> entry)
         {
             Header = $"{entry.Key} ({entry.Value})";
             Key = entry.Key;
         }
 
+        public MenuEntry(T key, string header)
+        {
+            Header = header;
+            Key = key;
+        }
+
         public string Header { get; set; }
-        public PlayerBaseFactory.Base Key { get; set; }
+        public T Key { get; set; }
     }
 
     public class SettingBindingExtension : Binding

@@ -459,14 +459,20 @@ namespace PonzianiSwissTest
 
         private void AddFidePlayerByName(Window window, string name, bool cancel = false)
         {
-            var tbName = window.FindFirstByXPath("/Edit[2]").AsTextBox();
-            Assert.IsNotNull(tbName);
-            tbName.Focus();
-            Keyboard.Type(name);
-            Wait.UntilInputIsProcessed(TimeSpan.FromSeconds(1));
-            Keyboard.Press(FlaUI.Core.WindowsAPI.VirtualKeyShort.DOWN);
-            Keyboard.Press(FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
-            Wait.UntilInputIsProcessed(TimeSpan.FromSeconds(1));
+            while (true)
+            {
+                var tbName = window.FindFirstByXPath("/Edit[2]").AsTextBox();
+                Assert.IsNotNull(tbName);
+                tbName.Focus();
+                Keyboard.Type(name);
+                Wait.UntilInputIsProcessed(TimeSpan.FromSeconds(1));
+                Keyboard.Press(FlaUI.Core.WindowsAPI.VirtualKeyShort.DOWN);
+                Keyboard.Press(FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+                Wait.UntilInputIsProcessed(TimeSpan.FromSeconds(1));
+                var tbFideId = window.FindFirstDescendant(cf.ByAutomationId("TextBox_FideID")).AsTextBox();
+                Assert.IsNotNull(tbFideId);
+                if (tbFideId.Text != null && tbFideId.Text.Length > 0) break;
+            }
             var btn = cancel ? window.FindFirstDescendant(cf.ByAutomationId("ParticipantDialogCancelButton")).AsButton() : window.FindFirstDescendant(cf.ByAutomationId("ParticipantDialogOkButton")).AsButton();
             Assert.IsNotNull(btn);
             btn.Invoke();

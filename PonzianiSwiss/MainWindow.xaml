@@ -37,6 +37,12 @@
                         <Setter Property="Command" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type mah:MetroWindow}}, Path=DataContext.Update_BaseCommand}"></Setter>
                         <Setter Property="CommandParameter" Value="{Binding Key}"></Setter>
                     </Style>
+                    <Style x:Key="MRUStyle" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
+                        <Setter Property="Header" Value="{Binding Header}"></Setter>
+                        <Setter Property="Tag" Value="{Binding Key}"></Setter>
+                        <Setter Property="Command" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type mah:MetroWindow}}, Path=DataContext.LoadTournamentCommand}"></Setter>
+                        <Setter Property="CommandParameter" Value="{Binding Key}"></Setter>
+                    </Style>
                 </Menu.Resources>
                 <MenuItem x:Name="MenuItem_Tournament" Header="Tournament">
                     <MenuItem x:Name="MenuItem_Tournament_New" Header="New" Command="{Binding TournamentAddDialogCommand}"/>
@@ -56,12 +62,8 @@
                         <MenuItem x:Name="MenuItem_Tournament_Pairings" Header="Pairings" Tag="3" Command="{Binding HtmlViewerCommand}" CommandParameter="3"/>
                     </MenuItem>
                     <Separator Visibility="{Binding Path=MRUModel.Visibility}"/>
-                    <MenuItem Header="Recent Files" Visibility="{Binding Path=MRUModel.Visibility}">
-                        <MenuItem x:Name="MenuItem_Tournament_MRU1" Header="{Binding Path=MRUModel.FileName1}" Tag="{Binding Path=MRUModel.Path1}" Visibility="{Binding Path=MRUModel.Visibility1}" Click="MenuItem_Tournament_MRU_ClickAsync"/>
-                        <MenuItem x:Name="MenuItem_Tournament_MRU2" Header="{Binding Path=MRUModel.FileName2}" Tag="{Binding Path=MRUModel.Path2}" Visibility="{Binding Path=MRUModel.Visibility2}" Click="MenuItem_Tournament_MRU_ClickAsync"/>
-                        <MenuItem x:Name="MenuItem_Tournament_MRU3" Header="{Binding Path=MRUModel.FileName3}" Tag="{Binding Path=MRUModel.Path3}" Visibility="{Binding Path=MRUModel.Visibility3}" Click="MenuItem_Tournament_MRU_ClickAsync"/>
-                        <MenuItem x:Name="MenuItem_Tournament_MRU4" Header="{Binding Path=MRUModel.FileName4}" Tag="{Binding Path=MRUModel.Path4}" Visibility="{Binding Path=MRUModel.Visibility4}" Click="MenuItem_Tournament_MRU_ClickAsync"/>
-                    </MenuItem>
+                    <MenuItem Header="Recent Files" 
+                              ItemsSource="{Binding MRUMenuEntries}" ItemContainerStyle="{StaticResource MRUStyle}"/>
                     <Separator/>
                     <MenuItem x:Name="MenuItem_Tournament_Exit" Header="Exit" Click="MenuItem_Tournament_Exit_Click"/>
                 </MenuItem>
@@ -74,9 +76,9 @@
                 </MenuItem>
                 <MenuItem Header="Player Base" x:Name="MenuItem_PlayerBase">
                     <MenuItem x:Name="MenuItem_PlayerBase_Update" Header="Update" 
-                              ItemsSource="{Binding MenuEntries}" ItemContainerStyle="{StaticResource UpdateStyle}"/>
-                    </MenuItem>
-                    <MenuItem Header="Test" x:Name="MenuItem_Special" Style="{StaticResource ModeStyle}">
+                              ItemsSource="{Binding UpdateMenuEntries}" ItemContainerStyle="{StaticResource UpdateStyle}"/>
+                </MenuItem>
+                <MenuItem Header="Test" x:Name="MenuItem_Special" Style="{StaticResource ModeStyle}">
                     <MenuItem Header="Add Random Participants">
                         <MenuItem Header="Add 10 Random Participants" Click="MenuItem_Add_Participants_Click" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}" Tag="10"/>
                         <MenuItem Header="Add 100 Random Participants" Click="MenuItem_Add_Participants_Click" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}" Tag="100"/>
@@ -88,9 +90,9 @@
                     <MenuItem x:Name="MenuItem_Settings_Basetheme" Header="Base Theme"/>
                     <MenuItem x:Name="MenuItem_Settings_Themecolor" Header="Theme Color"/>
                     <Separator/>
-                    <MenuItem x:Name="MenuItem_Settings_Reset" Header="Reset Settings" Click="MenuItem_Settings_Reset_Click"/>
+                    <MenuItem x:Name="MenuItem_Settings_Reset" Header="Reset Settings" Command="{Binding SettingsResetCommand}"/>
                     <Separator/>
-                    <MenuItem x:Name="MenuItem_Settings_About" Header="About" Click="MenuItem_Settings_About_Click"/>
+                    <MenuItem x:Name="MenuItem_Settings_About" Header="About" Command="{Binding AboutCommand}"/>
                 </MenuItem>
             </Menu>
             <ToolBar Height="32" Grid.Row="1" x:Name="MainView_Toolbar">
