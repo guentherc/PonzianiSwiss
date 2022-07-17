@@ -46,7 +46,7 @@
                 </Menu.Resources>
                 <MenuItem x:Name="MenuItem_Tournament" Header="Tournament">
                     <MenuItem x:Name="MenuItem_Tournament_New" Header="New" Command="{Binding TournamentAddDialogCommand}"/>
-                    <MenuItem x:Name="MenuItem_Tournament_Open" Header="Open ..." Click="MenuItem_Tournament_Open_ClickAsync" IsEnabled="True"/>
+                    <MenuItem x:Name="MenuItem_Tournament_Open" Header="Open ..." Command="{Binding OpenCommand}"/>
                     <MenuItem x:Name="MenuItem_Tournament_Save" Header="Save" Command="{Binding TournamentSaveCommand}"/>
                     <MenuItem x:Name="MenuItem_Tournament_Save_As" Header="Save As ..." Command="{Binding TournamentSaveAsCommand}"/>
                     <Separator/>
@@ -72,7 +72,7 @@
                 </MenuItem>
                 <MenuItem x:Name="MenuItem_Round" Header="Round">
                     <MenuItem x:Name="MenuItem_Round_Draw" Header="Draw" Command="{Binding DrawCommand}"/>
-                    <MenuItem x:Name="MenuItem_Round_Delete" Header="Delete Last Round" Click="MenuItem_Round_Delete_Click" IsEnabled="{Binding Path=DeleteLastRoundEnabled}"/>
+                    <MenuItem x:Name="MenuItem_Round_Delete" Header="Delete Last Round"  Command="{Binding DeleteLastRoundCommand}"/>
                 </MenuItem>
                 <MenuItem Header="Player Base" x:Name="MenuItem_PlayerBase">
                     <MenuItem x:Name="MenuItem_PlayerBase_Update" Header="Update" 
@@ -84,7 +84,7 @@
                         <MenuItem Header="Add 100 Random Participants" Command="{Binding AddRandomParticipantsCommand}" CommandParameter="100" Tag="100"/>
                         <MenuItem Header="Add 1000 Random Participants" Command="{Binding AddRandomParticipantsCommand}" CommandParameter="1000"  Tag="1000"/>
                     </MenuItem>
-                    <MenuItem Header="Simulate Results" Click="MenuItem_Simulate_Results_Click"/>
+                    <MenuItem Header="Simulate Results" Command="{Binding SimulateResultsCommand}"/>
                 </MenuItem>
                 <MenuItem Header="Settings">
                     <MenuItem x:Name="MenuItem_Settings_Basetheme" Header="Base Theme"/>
@@ -99,7 +99,7 @@
                 <Button x:Name="Toolbar_Tournament_New" Command="{Binding TournamentAddDialogCommand}" ToolTip="Create New Tournament">
                     <iconPacks:PackIconCodicons Kind="NewFile" />
                 </Button>
-                <Button x:Name="Toolbar_Tournament_Open" Click="MenuItem_Tournament_Open_ClickAsync" ToolTip="Load Tournament">
+                <Button x:Name="Toolbar_Tournament_Open" Command="{Binding OpenCommand}" ToolTip="Load Tournament">
                     <iconPacks:PackIconCodicons Kind="FolderOpened" />
                 </Button>
                 <Button x:Name="Toolbar_Tournament_Save" Command="{Binding TournamentSaveOrSaveAsCommand}" ToolTip="Save Tournament">
@@ -129,7 +129,7 @@
                             <MenuItem Header="Pause Next Round" Command="{Binding PauseCommand}" CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Mode=OneWay}"/>
                             <MenuItem Header="Undo Abandon/Pause" Command="{Binding UndoPauseCommand}" CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Mode=OneWay}"/>
                             <Separator></Separator>
-                            <MenuItem Header="Delete" Click="MenuItem_Participant_Delete_Click"/>
+                            <MenuItem Header="Delete" Command="{Binding ParticipantDeleteCommand}" CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Mode=OneWay}"/>
                         </ContextMenu>
                     </ListView.ContextMenu>
                     <ListView.View>

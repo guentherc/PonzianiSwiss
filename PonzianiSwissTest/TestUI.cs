@@ -464,6 +464,7 @@ namespace PonzianiSwissTest
                 var tbName = window.FindFirstByXPath("/Edit[2]").AsTextBox();
                 Assert.IsNotNull(tbName);
                 tbName.Focus();
+                tbName.Text = String.Empty;
                 Keyboard.Type(name);
                 Wait.UntilInputIsProcessed(TimeSpan.FromSeconds(1));
                 Keyboard.Press(FlaUI.Core.WindowsAPI.VirtualKeyShort.DOWN);

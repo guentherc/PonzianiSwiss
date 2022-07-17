@@ -2,7 +2,7 @@
   "profiles": {
     "PonzianiSwiss": {
       "commandName": "Project",
-      "commandLineArgs": "-mode Test"
+      "commandLineArgs": "\"D:\\chrgu\\OneDrive\\Dokumente\\Test Tournament With Forbidden Pairings.tjson\" -mode Test"
     }
   }
 }

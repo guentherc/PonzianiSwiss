@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Win32;
 using MvvmDialogs;
 using MvvmDialogs.FrameworkDialogs.SaveFile;
 using PonzianiPlayerBase;
@@ -17,7 +16,6 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -34,30 +32,35 @@ namespace PonzianiSwiss
     {
         public MainWindow()
         {
-            var settings = App.Current.Services?.GetService<AppSettings>();
-            App.Mode mode = settings?.Mode ?? App.Mode.Release;
-            string? filename = settings?.Filename;
             Logger = App.Current.Services?.GetService<ILogger>();
-            Logger?.LogDebug("Creating MainWindow (Mode: {mode}, File: {file})", mode, settings?.Filename);
+            Logger?.LogDebug("Creating MainWindow");
             InitializeComponent();
             ThemeManager.Current.ChangeTheme(Application.Current, Properties.Settings.Default.BaseTheme, Properties.Settings.Default.ThemeColor);
-            Model = new(mode, Logger);
+            Model = new(Logger);
             DataContext = Model;
             //Add Playerbase Update entries dynamically
             RenderThemeMenuEntries();
             PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE, Logger);
             lvParticipants.ItemsSource = Model.Participants;
             _ = FederationUtil.GetFederations();
-            if (filename != null) Load(filename);
             Model.PropertyChanged += (sender, args) =>
             {
-                if (args.PropertyName != null && !args.PropertyName.Equals(nameof(Model.RoundCount)))
+                if (args.PropertyName != null && args.PropertyName.Equals(nameof(Model.RoundCount)))
                     AdjustTabitems();
+                else if (args.PropertyName != null && args.PropertyName.Equals(nameof(Model.CurrentRound)))
+                    SyncRound();
             };
+            AdjustTabitems();
         }
 
-        private int TournamentHash { get => ((MainModel)DataContext).TournamentHash; set => ((MainModel)DataContext).TournamentHash = value; }
         private readonly ILogger? Logger;
+
+        private void SyncRound()
+        {
+            var tabitem = MainTabControl.Items[^1] as TabItem;
+            Round? r = tabitem?.Content as Round;
+            r?.Model.SyncRound();
+        }
 
         private void RenderThemeMenuEntries()
         {
@@ -131,75 +134,6 @@ namespace PonzianiSwiss
             Close();
         }
 
-        private async void MenuItem_Tournament_Open_ClickAsync(object sender, RoutedEventArgs e)
-        {
-            LogUserEvent("MenuItem_Tournament_Open_ClickAsync");
-            var uiContext = SynchronizationContext.Current;
-            MessageDialogResult messageDialogResult = MessageDialogResult.Affirmative;
-            if (Model.Tournament != null && TournamentHash != Model.Tournament.Hash())
-            {
-                messageDialogResult = await this.ShowMessageAsync("Load Tournament", "There might be unsaved data which will be lost! Do you want to proceed?", MessageDialogStyle.AffirmativeAndNegative);
-                if (messageDialogResult == MessageDialogResult.Negative) return;
-            }
-            uiContext?.Send(x => LoadWithDialog(), null);
-        }
-
-        private void LoadWithDialog()
-        {
-            OpenFileDialog openFileDialog = new()
-            {
-                Filter = $"Tournament Files|*.tjson|All Files|*.*",
-                DefaultExt = ".tjson",
-                Title = "Open Tournament File",
-                CheckPathExists = true,
-                AddExtension = true
-            };
-            if (openFileDialog.ShowDialog() ?? false)
-            {
-                Load(openFileDialog.FileName);
-            }
-        }
-
-        private void Load(string filename)
-        {
-            Logger?.LogInformation("Loading {filename}", filename);
-            string json = File.ReadAllText(filename);
-            Model.Tournament = Extensions.Deserialize(json);
-            if (Model.Tournament != null)
-            {
-                Model.Tournament.GetScorecards();
-                while (Properties.Settings.Default.MRU != null && Properties.Settings.Default.MRU.Count > 10)
-                    Properties.Settings.Default.MRU.RemoveAt(10);
-                Model.FileName = filename;
-                Model.SyncParticipants();
-                Model.SyncRounds();
-                Model.ProcessMRU(filename);
-                AdjustTabitems();
-                TournamentHash = Model.Tournament.Hash();
-            }
-            else
-                Logger?.LogError("Tournament {filename} wasn't loaded!", filename);
-        }
-
-        private void MenuItem_Round_Delete_Click(object sender, RoutedEventArgs e)
-        {
-            LogUserEvent();
-            Model.Tournament?.Rounds.Remove(Model.Tournament.Rounds.Last());
-            Model.Tournament?.OrderByRank();
-            AdjustTabitems();
-            Model.SyncRounds();
-        }
-
-        private void MenuItem_Participant_Delete_Click(object sender, RoutedEventArgs e)
-        {
-            if (lvParticipants?.SelectedItem is TournamentParticipant p && Model.Tournament != null)
-            {
-                LogUserEvent(null, p.Participant.Name);
-                Model.Tournament.Participants.Remove(p.Participant);
-                Model.SyncParticipants();
-            }
-        }
-
         private void AdjustTabitems()
         {
             int count_before = MainTabControl.Items.Count;
@@ -223,16 +157,6 @@ namespace PonzianiSwiss
             }
             if (MainTabControl.Items.Count != count_before)
                 MainTabControl.SelectedIndex = MainTabControl.Items.Count - 1;
-        }
-
-        private void MenuItem_Simulate_Results_Click(object sender, RoutedEventArgs e)
-        {
-            LogUserEvent();
-            Model.SimulateResults();
-            var tabitem = MainTabControl.Items[^1] as TabItem;
-            Round? r = tabitem?.Content as Round;
-            r?.Model.SyncRound();
-            Model.SyncRounds();
         }
 
         private GridViewColumnHeader? lvParticipantsSortCol = null;
@@ -331,11 +255,14 @@ namespace PonzianiSwiss
         public RelayCommand<string> AddRandomParticipantsCommand { get; set; }
 
         public RelayCommand DrawCommand { get; set; }
+        public RelayCommand<TournamentParticipant> ParticipantDeleteCommand { get; set; }
+        public RelayCommand DeleteLastRoundCommand { get; set; }
 
-        public MainModel(App.Mode mode, ILogger? logger)
+        public MainModel(ILogger? logger)
         {
+            var settings = App.Current.Services?.GetService<AppSettings>();
             DialogService = App.Current.Services?.GetService<IDialogService>();
-            Mode = mode;
+            Mode = settings?.Mode ?? App.Mode.Release;
             Logger = logger;
             ParticipantDialogCommand = new RelayCommand<TournamentParticipant?>((p) => ParticipantDialog(p), (p) => Tournament != null);
             TournamentEditDialogCommand = new RelayCommand(TournamentEditDialog, () => Tournament != null);
@@ -350,7 +277,11 @@ namespace PonzianiSwiss
                 (t) => Tournament != null && Tournament.Participants != null && Tournament.Participants.Count > 0);
             AddRandomParticipantsCommand = new RelayCommand<string>((s) => AddRandomParticipants(int.Parse(s ?? "100")), (s) => Tournament != null);
             DrawCommand = new RelayCommand(Draw, () => DrawEnabled);
+            ParticipantDeleteCommand = new RelayCommand<TournamentParticipant>((p) => ParticipantDelete(p), (p) => Tournament != null && Tournament.Rounds.Count == 0);
+            DeleteLastRoundCommand = new RelayCommand(DeleteLastRound, () => Tournament != null && Tournament.Rounds.Count > 0);
             UpdateMRUMenu();
+            if (settings?.Filename != null && File.Exists(settings.Filename))
+                Load(settings.Filename);
         }
 
         public App.Mode Mode { get; private set; } = App.Mode.Release;
@@ -359,6 +290,7 @@ namespace PonzianiSwiss
         public ObservableCollection<MenuEntry<PlayerBaseFactory.Base>> UpdateMenuEntries { get; set; } = new();
         public ObservableCollection<MenuEntry<string>> MRUMenuEntries { get; set; } = new();
 
+        public PonzianiSwissLib.Round? CurrentRound { get => Tournament?.Rounds[^1]; }
 
         public Tournament? Tournament
         {
@@ -372,7 +304,7 @@ namespace PonzianiSwiss
                     ((RelayCommand)TournamentEditDialogCommand).NotifyCanExecuteChanged();
                     OnPropertyChanged(nameof(Tournament));
                     OnPropertyChanged(nameof(DrawEnabled));
-                    OnPropertyChanged(nameof(DeleteLastRoundEnabled));
+                    DeleteLastRoundCommand.NotifyCanExecuteChanged();
                     TournamentSaveAsCommand.NotifyCanExecuteChanged();
                     TournamentSaveOrSaveAsCommand.NotifyCanExecuteChanged();
                     ForbiddenPairingsRuleDialogCommand.NotifyCanExecuteChanged();
@@ -383,13 +315,12 @@ namespace PonzianiSwiss
             }
         }
 
-        public bool DrawEnabled
+        private bool DrawEnabled
         {
             get => Tournament != null && Tournament.Participants.Count > 0
                 && (Tournament.Rounds.Count == 0 || !Tournament.Rounds[^1].Pairings.Where(p => p.Result == Result.Open).Any());
         }
 
-        public bool DeleteLastRoundEnabled { get => Tournament != null && Tournament.Rounds.Count > 0; }
         public string? FileName
         {
             get => fileName;
@@ -518,6 +449,24 @@ namespace PonzianiSwiss
             }
         }
 
+        internal void LoadWithDialog()
+        {
+            var settings = new SaveFileDialogSettings
+            {
+                Filter = $"Tournament Files|*.tjson|All Files|*.*",
+                DefaultExt = ".tjson",
+                Title = "Open Tournament File",
+                CheckPathExists = true,
+                AddExtension = true
+            };
+            var dialogService = App.Current.Services?.GetService<IDialogService>();
+            bool? success = dialogService?.ShowSaveFileDialog(this, settings);
+            if (success == true)
+            {
+                Load(settings.FileName);
+            }
+        }
+
 
         void TournamentSaveAs()
         {
@@ -599,7 +548,28 @@ namespace PonzianiSwiss
             pbase.ProgressChanged -= updateProgressBar;
         }
 
-        async void Draw() {
+        [ICommand]
+        async void Open()
+        {
+            if (Tournament != null && TournamentHash != Tournament.Hash())
+            {
+                var messageDialogResult = await DialogCoordinator.Instance.ShowMessageAsync(this, "Load Tournament", "There might be unsaved data which will be lost! Do you want to proceed?", MessageDialogStyle.AffirmativeAndNegative);
+                if (messageDialogResult == MessageDialogResult.Negative) return;
+            }
+            LoadWithDialog();
+        }
+
+        void ParticipantDelete(TournamentParticipant? p)
+        {
+            if (p != null)
+            {
+                Tournament?.Participants.Remove(p.Participant);
+                SyncParticipants();
+            }
+        }
+
+        async void Draw()
+        {
             var controller = await DialogCoordinator.Instance.ShowProgressAsync(this, "Please wait...", "Draw might take some time");
             Tournament?.GetScorecards();
             if (Tournament != null && await Tournament.DrawAsync(Tournament.Rounds.Count))
@@ -610,6 +580,14 @@ namespace PonzianiSwiss
             SyncRounds();
             SyncParticipants();
             OnPropertyChanged(nameof(RoundCount));
+        }
+
+        void DeleteLastRound()
+        {
+            Tournament?.Rounds.Remove(Tournament.Rounds.Last());
+            Tournament?.OrderByRank();
+            OnPropertyChanged(nameof(RoundCount));
+            SyncRounds();
         }
 
         [ICommand]
@@ -623,7 +601,6 @@ namespace PonzianiSwiss
                     if (messageDialogResult == MessageDialogResult.Negative) return;
                 }
                 Load(filename);
-                OnPropertyChanged(nameof(RoundCount));
             }
         }
 
@@ -688,6 +665,7 @@ namespace PonzianiSwiss
                 SyncRounds();
                 ProcessMRU(filename);
                 TournamentHash = Tournament.Hash();
+                OnPropertyChanged(nameof(RoundCount));
             }
             else
                 Logger?.LogError("Tournament {filename} wasn't loaded!", filename);
@@ -740,10 +718,10 @@ namespace PonzianiSwiss
         {
             OnPropertyChanged(nameof(DrawEnabled));
             DrawCommand.NotifyCanExecuteChanged();
-            OnPropertyChanged(nameof(DeleteLastRoundEnabled));
-
+            DeleteLastRoundCommand.NotifyCanExecuteChanged();
         }
 
+        [ICommand]
         internal void SimulateResults()
         {
             if (Tournament != null)
@@ -754,6 +732,8 @@ namespace PonzianiSwiss
                 }
                 Tournament.GetScorecards();
             }
+            SyncRounds();
+            OnPropertyChanged(nameof(CurrentRound));
         }
 
         internal async void AddRandomParticipants(int count = 100)
@@ -845,7 +825,8 @@ namespace PonzianiSwiss
             {
                 if (tournament == null) return FontStyles.Normal;
                 bool paused = false;
-                if (Participant.Active != null) { 
+                if (Participant.Active != null)
+                {
                     for (int i = tournament.Rounds.Count; i < Participant.Active?.Length; ++i)
                     {
                         if (!((bool)(Participant.Active?.GetValue(i) ?? true)))
