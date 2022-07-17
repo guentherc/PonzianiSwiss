@@ -71,7 +71,7 @@
                     <MenuItem x:Name="MenuItem_Participants_Add" Header="New" Command="{Binding ParticipantDialogCommand}" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}"/>
                 </MenuItem>
                 <MenuItem x:Name="MenuItem_Round" Header="Round">
-                    <MenuItem x:Name="MenuItem_Round_Draw" Header="Draw" Click="MenuItem_Round_Draw_Click" IsEnabled="{Binding Path=DrawEnabled}"/>
+                    <MenuItem x:Name="MenuItem_Round_Draw" Header="Draw" Command="{Binding DrawCommand}"/>
                     <MenuItem x:Name="MenuItem_Round_Delete" Header="Delete Last Round" Click="MenuItem_Round_Delete_Click" IsEnabled="{Binding Path=DeleteLastRoundEnabled}"/>
                 </MenuItem>
                 <MenuItem Header="Player Base" x:Name="MenuItem_PlayerBase">
@@ -80,9 +80,9 @@
                 </MenuItem>
                 <MenuItem Header="Test" x:Name="MenuItem_Special" Style="{StaticResource ModeStyle}">
                     <MenuItem Header="Add Random Participants">
-                        <MenuItem Header="Add 10 Random Participants" Click="MenuItem_Add_Participants_Click" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}" Tag="10"/>
-                        <MenuItem Header="Add 100 Random Participants" Click="MenuItem_Add_Participants_Click" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}" Tag="100"/>
-                        <MenuItem Header="Add 1000 Random Participants" Click="MenuItem_Add_Participants_Click" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}" Tag="1000"/>
+                        <MenuItem Header="Add 10 Random Participants" Command="{Binding AddRandomParticipantsCommand}" CommandParameter="10" Tag="10"/>
+                        <MenuItem Header="Add 100 Random Participants" Command="{Binding AddRandomParticipantsCommand}" CommandParameter="100" Tag="100"/>
+                        <MenuItem Header="Add 1000 Random Participants" Command="{Binding AddRandomParticipantsCommand}" CommandParameter="1000"  Tag="1000"/>
                     </MenuItem>
                     <MenuItem Header="Simulate Results" Click="MenuItem_Simulate_Results_Click"/>
                 </MenuItem>
@@ -113,7 +113,7 @@
                     <iconPacks:PackIconCodicons Kind="PersonAdd" />
                 </Button>
                 <Separator></Separator>
-                <Button x:Name="Toolbar_Round_Draw" Click="MenuItem_Round_Draw_Click" ToolTip="Draw Next Round" IsEnabled="{Binding Path=DrawEnabled}">
+                <Button x:Name="Toolbar_Round_Draw" Command="{Binding DrawCommand}" ToolTip="Draw Next Round">
                     <iconPacks:PackIconJamIcons Kind="Dices" />
                 </Button>
             </ToolBar>
@@ -125,9 +125,9 @@
                         <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                             <MenuItem Header="Edit" Command="{Binding ParticipantDialogCommand}" CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Mode=OneWay}"/>
                             <Separator></Separator>
-                            <MenuItem Header="Abandon Tournament" Click="MenuItem_Participant_Abandon_Click"/>
-                            <MenuItem Header="Pause Next Round" Click="MenuItem_Participant_Pause_Click"/>
-                            <MenuItem Header="Undo Abandon/Pause" Click="MenuItem_Participant_UndoPause_Click"/>
+                            <MenuItem Header="Abandon Tournament" Command="{Binding AbandonCommand}" CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Mode=OneWay}"/>
+                            <MenuItem Header="Pause Next Round" Command="{Binding PauseCommand}" CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Mode=OneWay}"/>
+                            <MenuItem Header="Undo Abandon/Pause" Command="{Binding UndoPauseCommand}" CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Mode=OneWay}"/>
                             <Separator></Separator>
                             <MenuItem Header="Delete" Click="MenuItem_Participant_Delete_Click"/>
                         </ContextMenu>

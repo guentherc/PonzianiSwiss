@@ -471,7 +471,7 @@ namespace PonzianiSwissTest
                 Wait.UntilInputIsProcessed(TimeSpan.FromSeconds(1));
                 var tbFideId = window.FindFirstDescendant(cf.ByAutomationId("TextBox_FideID")).AsTextBox();
                 Assert.IsNotNull(tbFideId);
-                if (tbFideId.Text != null && tbFideId.Text.Length > 0) break;
+                if (tbFideId.Text != null && tbFideId.Text.Trim().Length > 0 && int.Parse(tbFideId.Text.Trim()) != 0) break;
             }
             var btn = cancel ? window.FindFirstDescendant(cf.ByAutomationId("ParticipantDialogCancelButton")).AsButton() : window.FindFirstDescendant(cf.ByAutomationId("ParticipantDialogOkButton")).AsButton();
             Assert.IsNotNull(btn);

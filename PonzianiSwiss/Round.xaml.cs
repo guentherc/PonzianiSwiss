@@ -123,9 +123,21 @@ namespace PonzianiSwiss
         public string Black => $"{Pairing?.Black?.Name?.Trim()} ({Pairing?.Black?.Scorecard?.Score(RoundIndex) ?? 0})";
 
         private int RoundIndex { set; get; }
-
-        [ObservableProperty]
-        private Result result;
+        public Result Result
+        {
+            set
+            {
+                if (Pairing != null)
+                {
+                    if (value != Pairing.Result)
+                    {
+                        Pairing.Result = value;
+                        OnPropertyChanged(nameof(Result));
+                    }
+                }
+            }
+            get => Pairing?.Result ?? Result.Open;
+        }
     }
 
     public class ResultConverter : IValueConverter

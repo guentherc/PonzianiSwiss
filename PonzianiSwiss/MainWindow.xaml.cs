@@ -190,68 +190,6 @@ namespace PonzianiSwiss
             Model.SyncRounds();
         }
 
-        private async void MenuItem_Round_Draw_Click(object sender, RoutedEventArgs e)
-        {
-            LogUserEvent("MenuItem_Round_Draw_Click");
-            var controller = await this.ShowProgressAsync("Please wait...", "Draw might take some time");
-            Cursor = Cursors.Wait;
-            var uiContext = SynchronizationContext.Current;
-            Model.Tournament?.GetScorecards();
-            if (Model.Tournament != null && await Model.Tournament.DrawAsync(Model.Tournament.Rounds.Count))
-            {
-                Model.Tournament?.GetScorecards();
-            }
-            uiContext?.Send(x => Model.SyncRounds(), null);
-            uiContext?.Send(x => Model.SyncParticipants(), null);
-            uiContext?.Send(x => AdjustTabitems(), null);
-            uiContext?.Send(x => MainTabControl.SelectedItem = MainTabControl.Items[^1], null);
-            uiContext?.Send(x => Cursor = Cursors.Arrow, null);
-            await controller.CloseAsync();
-        }
-
-        private void MenuItem_Participant_Abandon_Click(object sender, RoutedEventArgs e)
-        {
-            if (lvParticipants?.SelectedItem is TournamentParticipant p && Model.Tournament != null)
-            {
-                LogUserEvent(null, p.Participant.Name);
-                if (p.Participant.Active == null)
-                {
-                    p.Participant.Active = new bool[Model.Tournament.CountRounds];
-                    Array.Fill(p.Participant.Active, true);
-                }
-                for (int i = Model.Tournament.Rounds.Count; i < Model.Tournament.CountRounds; ++i) p.Participant.Active[i] = false;
-                Model.SyncParticipants();
-            }
-        }
-
-        private void MenuItem_Participant_Pause_Click(object sender, RoutedEventArgs e)
-        {
-            if (lvParticipants?.SelectedItem is TournamentParticipant p && Model.Tournament != null)
-            {
-                LogUserEvent(null, p.Participant.Name);
-                if (p.Participant.Active == null)
-                {
-                    p.Participant.Active = new bool[Model.Tournament.CountRounds];
-                    Array.Fill(p.Participant.Active, true);
-                }
-                p.Participant.Active[Model.Tournament.Rounds.Count] = false;
-                Model.SyncParticipants();
-            }
-        }
-
-        private void MenuItem_Participant_UndoPause_Click(object sender, RoutedEventArgs e)
-        {
-            if (lvParticipants?.SelectedItem is TournamentParticipant p && Model.Tournament != null)
-            {
-                LogUserEvent(null, p.Participant.Name);
-                if (p.Participant.Active != null)
-                {
-                    Array.Fill(p.Participant.Active, true);
-                }
-                Model.SyncParticipants();
-            }
-        }
-
         private void MenuItem_Participant_Delete_Click(object sender, RoutedEventArgs e)
         {
             if (lvParticipants?.SelectedItem is TournamentParticipant p && Model.Tournament != null)
@@ -264,6 +202,7 @@ namespace PonzianiSwiss
 
         private void AdjustTabitems()
         {
+            int count_before = MainTabControl.Items.Count;
             while ((Model.Tournament?.Rounds.Count ?? 0) + 1 < MainTabControl.Items.Count)
             {
                 MainTabControl.Items.Remove(MainTabControl.Items[^1]);
@@ -282,17 +221,8 @@ namespace PonzianiSwiss
                     });
                 }
             }
-        }
-
-        private void MenuItem_Add_Participants_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender != null)
-            {
-                MenuItem mi = (MenuItem)sender;
-                int count = int.Parse((string)mi.Tag);
-                LogUserEvent(null, count.ToString());
-                Model.AddRandomParticipants(count);
-            }
+            if (MainTabControl.Items.Count != count_before)
+                MainTabControl.SelectedIndex = MainTabControl.Items.Count - 1;
         }
 
         private void MenuItem_Simulate_Results_Click(object sender, RoutedEventArgs e)
@@ -398,6 +328,9 @@ namespace PonzianiSwiss
         public RelayCommand ForbiddenPairingsRuleDialogCommand { get; set; }
 
         public RelayCommand<string> HtmlViewerCommand { get; set; }
+        public RelayCommand<string> AddRandomParticipantsCommand { get; set; }
+
+        public RelayCommand DrawCommand { get; set; }
 
         public MainModel(App.Mode mode, ILogger? logger)
         {
@@ -415,6 +348,8 @@ namespace PonzianiSwiss
             ForbiddenPairingsRuleDialogCommand = new RelayCommand(ForbiddenPairingsRuleDialog, () => Tournament != null);
             HtmlViewerCommand = new RelayCommand<string>((t) => HtmlViewer(int.Parse(t ?? "0")),
                 (t) => Tournament != null && Tournament.Participants != null && Tournament.Participants.Count > 0);
+            AddRandomParticipantsCommand = new RelayCommand<string>((s) => AddRandomParticipants(int.Parse(s ?? "100")), (s) => Tournament != null);
+            DrawCommand = new RelayCommand(Draw, () => DrawEnabled);
             UpdateMRUMenu();
         }
 
@@ -442,6 +377,8 @@ namespace PonzianiSwiss
                     TournamentSaveOrSaveAsCommand.NotifyCanExecuteChanged();
                     ForbiddenPairingsRuleDialogCommand.NotifyCanExecuteChanged();
                     HtmlViewerCommand.NotifyCanExecuteChanged();
+                    AddRandomParticipantsCommand.NotifyCanExecuteChanged();
+                    DrawCommand.NotifyCanExecuteChanged();
                 }
             }
         }
@@ -662,6 +599,19 @@ namespace PonzianiSwiss
             pbase.ProgressChanged -= updateProgressBar;
         }
 
+        async void Draw() {
+            var controller = await DialogCoordinator.Instance.ShowProgressAsync(this, "Please wait...", "Draw might take some time");
+            Tournament?.GetScorecards();
+            if (Tournament != null && await Tournament.DrawAsync(Tournament.Rounds.Count))
+            {
+                Tournament?.GetScorecards();
+            }
+            await controller.CloseAsync();
+            SyncRounds();
+            SyncParticipants();
+            OnPropertyChanged(nameof(RoundCount));
+        }
+
         [ICommand]
         async void LoadTournament(string? filename)
         {
@@ -675,6 +625,46 @@ namespace PonzianiSwiss
                 Load(filename);
                 OnPropertyChanged(nameof(RoundCount));
             }
+        }
+
+        [ICommand]
+        void Abandon(TournamentParticipant p)
+        {
+            if (Tournament != null)
+            {
+                if (p.Participant.Active == null)
+                {
+                    p.Participant.Active = new bool[Tournament.CountRounds];
+                    Array.Fill(p.Participant.Active, true);
+                }
+                for (int i = Tournament.Rounds.Count; i < Tournament.CountRounds; ++i) p.Participant.Active[i] = false;
+                SyncParticipants();
+            }
+        }
+
+        [ICommand]
+        void Pause(TournamentParticipant p)
+        {
+            if (Tournament != null)
+            {
+                if (p.Participant.Active == null)
+                {
+                    p.Participant.Active = new bool[Tournament.CountRounds];
+                    Array.Fill(p.Participant.Active, true);
+                }
+                p.Participant.Active[Tournament.Rounds.Count] = false;
+                SyncParticipants();
+            }
+        }
+
+        [ICommand]
+        void UndoPause(TournamentParticipant p)
+        {
+            if (p.Participant.Active != null)
+            {
+                Array.Fill(p.Participant.Active, true);
+            }
+            SyncParticipants();
         }
 
         [ICommand]
@@ -724,13 +714,13 @@ namespace PonzianiSwiss
         private void UpdateMRUMenu()
         {
             MRUMenuEntries.Clear();
-            for (int i = 0; i < Math.Min(Properties.Settings.Default.MRU.Count, 4); ++i)
+            foreach (var file in Properties.Settings.Default.MRU)
             {
-                string? file = Properties.Settings.Default.MRU[i];
                 if (file != null)
                 {
                     MRUMenuEntries.Add(new(file, System.IO.Path.GetFileNameWithoutExtension(file)));
                 }
+                if (MRUMenuEntries.Count > 3) break;
             }
         }
 
@@ -749,6 +739,7 @@ namespace PonzianiSwiss
         internal void SyncRounds()
         {
             OnPropertyChanged(nameof(DrawEnabled));
+            DrawCommand.NotifyCanExecuteChanged();
             OnPropertyChanged(nameof(DeleteLastRoundEnabled));
 
         }
@@ -806,7 +797,7 @@ namespace PonzianiSwiss
         }
     }
 
-    internal class TournamentParticipant
+    public class TournamentParticipant
     {
         private readonly Tournament? tournament;
 
@@ -827,7 +818,7 @@ namespace PonzianiSwiss
         public int TournamentRating { get => tournament?.Rating(Participant) ?? 0; }
 
         /// <summary>
-        /// Abandoned párticipants will be renderedwith strikethrough
+        /// Abandoned párticipants will be rendered with strikethrough
         /// </summary>
         public TextDecorationCollection? TextDecoration
         {
@@ -853,7 +844,17 @@ namespace PonzianiSwiss
             get
             {
                 if (tournament == null) return FontStyles.Normal;
-                bool paused = !((bool)(Participant.Active?.GetValue(tournament.Rounds.Count) ?? true));
+                bool paused = false;
+                if (Participant.Active != null) { 
+                    for (int i = tournament.Rounds.Count; i < Participant.Active?.Length; ++i)
+                    {
+                        if (!((bool)(Participant.Active?.GetValue(i) ?? true)))
+                        {
+                            paused = true;
+                            break;
+                        }
+                    }
+                }
                 return paused ? FontStyles.Italic : FontStyles.Normal;
             }
         }
