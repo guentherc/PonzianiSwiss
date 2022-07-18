@@ -135,7 +135,7 @@
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Width="{local:SettingBinding ColParticipantNameWidth}">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Name" Click="LvParticipantsColumnHeader_Click">Name</GridViewColumnHeader>
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SortParticipantsCommand}" CommandParameter="Name">Name</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Participant.Name}" 
@@ -145,7 +145,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="{local:SettingBinding ColParticipantFederationWidth}">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Federation" Click="LvParticipantsColumnHeader_Click">Federation</GridViewColumnHeader>
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SortParticipantsCommand}" CommandParameter="Federation">Federation</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Participant.Federation}"/>
@@ -153,7 +153,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="{local:SettingBinding ColParticipantFideIdWidth}">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="FideId" Click="LvParticipantsColumnHeader_Click">Fide Id</GridViewColumnHeader>
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SortParticipantsCommand}" CommandParameter="FideId">Fide Id</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Participant.FideId}"/>
@@ -161,7 +161,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="{local:SettingBinding ColParticipantScoreWidth}">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Score" Click="LvParticipantsColumnHeader_Click">Score</GridViewColumnHeader>
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SortParticipantsCommand}" CommandParameter="Score">Score</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Score}"/>
@@ -169,7 +169,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="{local:SettingBinding ColParticipantRatingWidth}">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Rating" Click="LvParticipantsColumnHeader_Click">Rating</GridViewColumnHeader>
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SortParticipantsCommand}" CommandParameter="Rating">Rating</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=TournamentRating}" TextAlignment="Right"/>
@@ -177,7 +177,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="{local:SettingBinding ColParticipantIdWidth}">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Id" Click="LvParticipantsColumnHeader_Click">Id</GridViewColumnHeader>
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SortParticipantsCommand}" CommandParameter="Id">Id</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Participant.ParticipantId}"/>
@@ -185,7 +185,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="{local:SettingBinding ColParticipantEloWidth}">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Elo" Click="LvParticipantsColumnHeader_Click">Elo</GridViewColumnHeader>
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SortParticipantsCommand}" CommandParameter="Elo">Elo</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Participant.FideRating}" TextAlignment="Right"/>
@@ -193,7 +193,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="{local:SettingBinding ColParticipantNationalRatingWidth}">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="NationalRating" Click="LvParticipantsColumnHeader_Click">National Rating</GridViewColumnHeader>
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SortParticipantsCommand}" CommandParameter="NationalRating">National Rating</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Participant.AlternativeRating}" TextAlignment="Right"/>
@@ -201,7 +201,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="{local:SettingBinding ColParticipantClubWidth}">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Tag="Club" Click="LvParticipantsColumnHeader_Click">Club</GridViewColumnHeader>
+                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SortParticipantsCommand}" CommandParameter="Club">Club</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Participant.Club}"/>

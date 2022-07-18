@@ -159,62 +159,6 @@ namespace PonzianiSwiss
                 MainTabControl.SelectedIndex = MainTabControl.Items.Count - 1;
         }
 
-        private GridViewColumnHeader? lvParticipantsSortCol = null;
-        private bool sort_ascending = true;
-        private void LvParticipantsColumnHeader_Click(object sender, RoutedEventArgs e)
-        {
-            GridViewColumnHeader? column = (sender as GridViewColumnHeader);
-            if (column == null) return;
-            LogUserEvent(null, column.Name);
-            if (column == lvParticipantsSortCol) sort_ascending = !sort_ascending; else sort_ascending = true;
-            lvParticipantsSortCol = column;
-            string sortCol = column?.Tag?.ToString() ?? string.Empty;
-            List<TournamentParticipant>? sortedList = null;
-            if (sortCol == "Name")
-            {
-                sortedList = Model.Participants.OrderBy(x => x.Participant.Name ?? string.Empty).ToList();
-            }
-            else if (sortCol == "Federation")
-            {
-                sortedList = Model.Participants.OrderBy(x => x.Participant.Federation).ToList();
-            }
-            else if (sortCol == "FideId")
-            {
-                sortedList = Model.Participants.OrderBy(x => x.Participant.FideId).ToList();
-            }
-            else if (sortCol == "Score")
-            {
-                sortedList = Model.Participants.OrderBy(x => x.Score).ToList();
-            }
-            else if (sortCol == "Rating")
-            {
-                sortedList = Model.Participants.OrderBy(x => Model.Tournament?.Rating(x.Participant)).ToList();
-            }
-            else if (sortCol == "Id")
-            {
-                sortedList = Model.Participants.OrderBy(x => x.Participant.ParticipantId ?? string.Empty).ToList();
-            }
-            else if (sortCol == "Elo")
-            {
-                sortedList = Model.Participants.OrderBy(x => x.Participant.FideRating).ToList();
-            }
-            else if (sortCol == "NationalRating")
-            {
-                sortedList = Model.Participants.OrderBy(x => x.Participant.AlternativeRating).ToList();
-            }
-            else if (sortCol == "Club")
-            {
-                sortedList = Model.Participants.OrderBy(x => x.Participant.Club ?? string.Empty).ToList();
-            }
-            if (!sort_ascending) sortedList?.Reverse();
-            if (sortedList != null)
-            {
-                Model.Participants.Clear();
-                foreach (var p in sortedList)
-                    Model.Participants.Add(p);
-            }
-        }
-
         private void MetroWindow_Closed(object sender, EventArgs e)
         {
             LogUserEvent();
@@ -648,6 +592,60 @@ namespace PonzianiSwiss
         async void About()
         {
             _ = await DialogCoordinator.Instance.ShowMessageAsync(this, "PonzianiSwiss 0.3.0 - Swiss Pairing Program", "Find more information at https://github.com/guentherc/PonzianiSwiss");
+        }
+
+        private string? sortCol = null;
+        private bool sort_ascending = true;
+
+        [ICommand]
+        void SortParticipants(string sortBy)
+        {
+            if (sortBy == sortCol) sort_ascending = !sort_ascending; else sort_ascending = true;
+            sortCol = sortBy;
+            List<TournamentParticipant>? sortedList = null;
+            if (sortCol == "Name")
+            {
+                sortedList = Participants.OrderBy(x => x.Participant.Name ?? string.Empty).ToList();
+            }
+            else if (sortCol == "Federation")
+            {
+                sortedList = Participants.OrderBy(x => x.Participant.Federation).ToList();
+            }
+            else if (sortCol == "FideId")
+            {
+                sortedList = Participants.OrderBy(x => x.Participant.FideId).ToList();
+            }
+            else if (sortCol == "Score")
+            {
+                sortedList = Participants.OrderBy(x => x.Score).ToList();
+            }
+            else if (sortCol == "Rating")
+            {
+                sortedList = Participants.OrderBy(x => Tournament?.Rating(x.Participant)).ToList();
+            }
+            else if (sortCol == "Id")
+            {
+                sortedList = Participants.OrderBy(x => x.Participant.ParticipantId ?? string.Empty).ToList();
+            }
+            else if (sortCol == "Elo")
+            {
+                sortedList = Participants.OrderBy(x => x.Participant.FideRating).ToList();
+            }
+            else if (sortCol == "NationalRating")
+            {
+                sortedList = Participants.OrderBy(x => x.Participant.AlternativeRating).ToList();
+            }
+            else if (sortCol == "Club")
+            {
+                sortedList = Participants.OrderBy(x => x.Participant.Club ?? string.Empty).ToList();
+            }
+            if (!sort_ascending) sortedList?.Reverse();
+            if (sortedList != null)
+            {
+                Participants.Clear();
+                foreach (var p in sortedList)
+                    Participants.Add(p);
+            }
         }
 
         private void Load(string filename)
