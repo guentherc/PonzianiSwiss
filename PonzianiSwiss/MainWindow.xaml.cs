@@ -16,6 +16,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -176,15 +177,29 @@ namespace PonzianiSwiss
 
     }
 
-    public partial class MainModel : ObservableObject
+    public class ViewModel : ObservableObject
+    {
+        protected ILogger? Logger;
+
+        protected void LogCommand(string? parameter = null, [CallerMemberName] string caller = "")
+        {
+            if (Logger != null && Logger.IsEnabled(LogLevel.Debug))
+            {
+                if (parameter == null)
+                Logger.LogDebug("{cmd}", caller);
+                else
+                    Logger.LogDebug("{cmd}({parm})", caller, parameter);
+            }
+        }
+    }
+
+    public partial class MainModel : ViewModel
     {
         private Tournament? tournament;
         public int TournamentHash = 0;
 
         private string? fileName;
         public int RoundCount { get => Tournament?.CountRounds ?? 0; }
-
-        private readonly ILogger? Logger;
 
         private readonly IDialogService? DialogService;
         public ICommand ParticipantDialogCommand { get; set; }
@@ -303,6 +318,7 @@ namespace PonzianiSwiss
 
         private void ShowForbiddenPairingsRuleDialog(Func<ForbiddenPairingsDialogViewModel, bool?> showDialog)
         {
+            LogCommand();
             if (Tournament == null) return;
             var dialogViewModel = App.Current.Services?.GetService<ForbiddenPairingsDialogViewModel>();
 
@@ -315,6 +331,7 @@ namespace PonzianiSwiss
 
         private void ShowParticipantDialog(Func<ParticipantDialogViewModel, bool?> showDialog, TournamentParticipant? tournamentParticipant)
         {
+            LogCommand(tournamentParticipant?.Participant.Name);
             var dialogViewModel = App.Current.Services?.GetService<ParticipantDialogViewModel>();
 
             if (dialogViewModel != null)
@@ -339,6 +356,7 @@ namespace PonzianiSwiss
 
         private void ShowTournamentDialog(Func<TournamentDialogViewModel, bool?> showDialog, Tournament? tournament)
         {
+            LogCommand(tournament?.Name);
             var dialogViewModel = App.Current.Services?.GetService<TournamentDialogViewModel>();
             if (dialogViewModel != null)
             {
@@ -359,6 +377,7 @@ namespace PonzianiSwiss
 
         private void ShowHtmlViewer(Func<HTMLViewerViewModel, bool?> showDialog, int tag)
         {
+            LogCommand(tag.ToString());
             string html = string.Empty;
             string title = string.Empty;
             switch (tag)
@@ -465,6 +484,7 @@ namespace PonzianiSwiss
         [ICommand]
         void SettingsReset()
         {
+            LogCommand();
             Properties.Settings.Default.Reset();
             Properties.Settings.Default.Save();
             ThemeManager.Current.ChangeTheme(Application.Current, Properties.Settings.Default.BaseTheme, Properties.Settings.Default.ThemeColor);
@@ -473,6 +493,7 @@ namespace PonzianiSwiss
         [ICommand]
         async void Update_Base(PlayerBaseFactory.Base b)
         {
+            LogCommand(b.ToString());
             IPlayerBase pbase = PlayerBaseFactory.Get(b, Logger);
 
             var controller = await DialogCoordinator.Instance.ShowProgressAsync(this, "Please wait...", $"Update of {pbase.Description} might take some time");
@@ -495,6 +516,7 @@ namespace PonzianiSwiss
         [ICommand]
         async void Open()
         {
+            LogCommand();
             if (Tournament != null && TournamentHash != Tournament.Hash())
             {
                 var messageDialogResult = await DialogCoordinator.Instance.ShowMessageAsync(this, "Load Tournament", "There might be unsaved data which will be lost! Do you want to proceed?", MessageDialogStyle.AffirmativeAndNegative);
@@ -505,6 +527,7 @@ namespace PonzianiSwiss
 
         void ParticipantDelete(TournamentParticipant? p)
         {
+            LogCommand(p?.Participant.Name);
             if (p != null)
             {
                 Tournament?.Participants.Remove(p.Participant);
@@ -514,6 +537,7 @@ namespace PonzianiSwiss
 
         async void Draw()
         {
+            LogCommand();
             var controller = await DialogCoordinator.Instance.ShowProgressAsync(this, "Please wait...", "Draw might take some time");
             Tournament?.GetScorecards();
             if (Tournament != null && await Tournament.DrawAsync(Tournament.Rounds.Count))
@@ -528,6 +552,7 @@ namespace PonzianiSwiss
 
         void DeleteLastRound()
         {
+            LogCommand();
             Tournament?.Rounds.Remove(Tournament.Rounds.Last());
             Tournament?.OrderByRank();
             OnPropertyChanged(nameof(RoundCount));
@@ -537,6 +562,7 @@ namespace PonzianiSwiss
         [ICommand]
         async void LoadTournament(string? filename)
         {
+            LogCommand(filename);
             if (filename != null && fileName != string.Empty)
             {
                 if (Tournament != null && TournamentHash != Tournament.Hash())
@@ -551,6 +577,7 @@ namespace PonzianiSwiss
         [ICommand]
         void Abandon(TournamentParticipant p)
         {
+            LogCommand(p.Participant.Name);
             if (Tournament != null)
             {
                 if (p.Participant.Active == null)
@@ -566,6 +593,7 @@ namespace PonzianiSwiss
         [ICommand]
         void Pause(TournamentParticipant p)
         {
+            LogCommand(p.Participant.Name);
             if (Tournament != null)
             {
                 if (p.Participant.Active == null)
@@ -581,6 +609,7 @@ namespace PonzianiSwiss
         [ICommand]
         void UndoPause(TournamentParticipant p)
         {
+            LogCommand(p.Participant.Name);
             if (p.Participant.Active != null)
             {
                 Array.Fill(p.Participant.Active, true);
@@ -591,7 +620,8 @@ namespace PonzianiSwiss
         [ICommand]
         async void About()
         {
-            _ = await DialogCoordinator.Instance.ShowMessageAsync(this, "PonzianiSwiss 0.3.0 - Swiss Pairing Program", "Find more information at https://github.com/guentherc/PonzianiSwiss");
+            LogCommand();
+            _ = await DialogCoordinator.Instance.ShowMessageAsync(this, "PonzianiSwiss 0.4.0 - Swiss Pairing Program", "Find more information at https://github.com/guentherc/PonzianiSwiss");
         }
 
         private string? sortCol = null;
@@ -600,6 +630,7 @@ namespace PonzianiSwiss
         [ICommand]
         void SortParticipants(string sortBy)
         {
+            LogCommand(sortBy);
             if (sortBy == sortCol) sort_ascending = !sort_ascending; else sort_ascending = true;
             sortCol = sortBy;
             List<TournamentParticipant>? sortedList = null;
@@ -722,6 +753,7 @@ namespace PonzianiSwiss
         [ICommand]
         internal void SimulateResults()
         {
+            LogCommand();
             if (Tournament != null)
             {
                 foreach (Pairing pairing in Tournament.Rounds[^1].Pairings)
@@ -736,6 +768,7 @@ namespace PonzianiSwiss
 
         internal async void AddRandomParticipants(int count = 100)
         {
+            LogCommand(count.ToString());
             FidePlayerBase fide_base = (FidePlayerBase)PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE, Logger);
             var player = await fide_base.GetRandomPlayers(count);
             if (player != null)

@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls;
+using Microsoft.Extensions.Logging;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Win32;
 using MvvmDialogs;
@@ -46,7 +47,7 @@ namespace PonzianiSwiss
         }
     }
 
-    public partial class HTMLViewerViewModel : ObservableObject, IModalDialogViewModel
+    public partial class HTMLViewerViewModel : ViewModel, IModalDialogViewModel
     {
         [ObservableProperty]
         private bool? dialogResult;
@@ -56,6 +57,8 @@ namespace PonzianiSwiss
 
         [ObservableProperty]
         private string? title;
+
+        public HTMLViewerViewModel(ILogger logger) => Logger = Logger;
     }
 
 }

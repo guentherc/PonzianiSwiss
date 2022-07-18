@@ -37,7 +37,7 @@ namespace PonzianiSwiss
         }
     }
 
-    public partial class ParticipantDialogViewModel : ObservableObject, IModalDialogViewModel
+    public partial class ParticipantDialogViewModel : ViewModel, IModalDialogViewModel
     {
 
         public ParticipantDialogViewModel(ILogger? logger, IDialogService dialogService)
@@ -120,7 +120,6 @@ namespace PonzianiSwiss
         }
 
         private readonly IDialogService? DialogService;
-        private readonly ILogger? Logger;
         private readonly IPlayerBase FideBase;
 
         private void PlayerSearchDialog()

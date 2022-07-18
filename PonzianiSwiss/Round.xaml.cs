@@ -64,7 +64,7 @@ namespace PonzianiSwiss
         }
     }
 
-    public partial class RoundModel : ObservableObject
+    public partial class RoundModel : ViewModel
     {
         public RoundModel(Tournament? tournament, int roundIndex)
         {

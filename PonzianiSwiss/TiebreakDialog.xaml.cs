@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls;
+using Microsoft.Extensions.Logging;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using MvvmDialogs;
@@ -23,7 +24,7 @@ namespace PonzianiSwiss
         }
     }
 
-    public partial class TiebreakDialogViewModel : ObservableObject, IModalDialogViewModel
+    public partial class TiebreakDialogViewModel : ViewModel, IModalDialogViewModel
     {
         private List<TieBreak>? tiebreaks;
 
@@ -46,6 +47,11 @@ namespace PonzianiSwiss
 
         [ObservableProperty]
         public bool? dialogResult;
+
+        public TiebreakDialogViewModel(ILogger logger)
+        {
+            Logger = logger;
+        }
 
         private void Initialize()
         {

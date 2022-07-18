@@ -1,5 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using MvvmDialogs;
@@ -29,10 +30,11 @@ namespace PonzianiSwiss
         }
     }
 
-    public partial class TournamentDialogViewModel : ObservableObject, IModalDialogViewModel
+    public partial class TournamentDialogViewModel : ViewModel, IModalDialogViewModel
     {
-        public TournamentDialogViewModel(IDialogService dialogService)
+        public TournamentDialogViewModel(IDialogService dialogService, ILogger logger)
         {
+            Logger = logger;
             this.dialogService = dialogService;
             TiebreakDialogCommand = new RelayCommand(TiebreakDialog);
         }

@@ -25,10 +25,8 @@ namespace PonzianiSwiss
 
     }
 
-    public partial class PlayerSearchDialogViewModel : ObservableObject, IModalDialogViewModel
+    public partial class PlayerSearchDialogViewModel : ViewModel, IModalDialogViewModel
     {
-        private readonly ILogger? Logger;
-
         internal static PlayerBaseFactory.Base playerBase = PlayerBaseFactory.Base.FIDE;
 
         public PlayerSearchDialogViewModel(ILogger logger)
