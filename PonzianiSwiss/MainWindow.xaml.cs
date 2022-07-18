@@ -219,10 +219,12 @@ namespace PonzianiSwiss
 
         public MainModel(ILogger? logger)
         {
+            Logger = logger;
+            logger?.LogDebug("Creating MainWindow");
             var settings = App.Current.Services?.GetService<AppSettings>();
             DialogService = App.Current.Services?.GetService<IDialogService>();
             Mode = settings?.Mode ?? App.Mode.Release;
-            Logger = logger;
+
             ParticipantDialogCommand = new RelayCommand<TournamentParticipant?>((p) => ParticipantDialog(p), (p) => Tournament != null);
             TournamentEditDialogCommand = new RelayCommand(TournamentEditDialog, () => Tournament != null);
             TournamentAddDialogCommand = new RelayCommand(TournamentAddDialog);
@@ -721,6 +723,7 @@ namespace PonzianiSwiss
         private void UpdateMRUMenu()
         {
             MRUMenuEntries.Clear();
+            if (Properties.Settings.Default.MRU == null) Properties.Settings.Default.MRU = new();
             foreach (var file in Properties.Settings.Default.MRU)
             {
                 if (file != null)

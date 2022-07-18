@@ -58,7 +58,7 @@ namespace PonzianiSwiss
         [ObservableProperty]
         private string? title;
 
-        public HTMLViewerViewModel(ILogger logger) => Logger = Logger;
+        public HTMLViewerViewModel(ILogger logger) => Logger = logger;
     }
 
 }
