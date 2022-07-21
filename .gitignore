@@ -366,3 +366,4 @@ FodyWeavers.xsd
 !docs/
 !docs/Installer/*
 /docs/Installer/log20220718.txt
+/global.json

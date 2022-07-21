@@ -1,4 +1,5 @@
-﻿using MahApps.Metro.Controls;
+﻿using GongSolutions.Wpf.DragDrop;
+using MahApps.Metro.Controls;
 using Microsoft.Extensions.Logging;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -8,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 
 namespace PonzianiSwiss
@@ -24,7 +26,7 @@ namespace PonzianiSwiss
         }
     }
 
-    public partial class TiebreakDialogViewModel : ViewModel, IModalDialogViewModel
+    public partial class TiebreakDialogViewModel : ViewModel, IModalDialogViewModel, IDropTarget
     {
         private List<TieBreak>? tiebreaks;
 
@@ -142,6 +144,69 @@ namespace PonzianiSwiss
                 Unselect(clickedTiebreak);
             else
                 Select(clickedTiebreak);
+        }
+
+        public void DragOver(IDropInfo dropInfo)
+        {
+            if (dropInfo.DragInfo.SourceCollection == Available && ((TiebreakExtended)dropInfo.Data).IsSelected)
+            {
+
+            }
+            else if (dropInfo.TargetCollection == Available && dropInfo.DragInfo.SourceCollection == Available)
+            {
+
+            }
+            else
+            {
+                if (dropInfo.DragInfo.SourceCollection == Selected && dropInfo.TargetCollection == Available)
+                {
+                    dropInfo.Effects = DragDropEffects.Move;
+                }
+                else
+                {
+                    dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
+                    dropInfo.Effects = DragDropEffects.Move;
+                }
+            }
+        }
+
+        public void Drop(IDropInfo dropInfo)
+        {
+            if (dropInfo.DragInfo.SourceCollection == Selected && dropInfo.TargetCollection == Selected)
+            {
+                bool up = dropInfo.InsertIndex < dropInfo.DragInfo.SourceIndex;
+                int offset = up ? 0 : -1;
+                Selected.Remove((TiebreakExtended)dropInfo.Data);
+                if (dropInfo.InsertIndex < Selected.Count)
+                    Selected.Insert(Math.Clamp(dropInfo.InsertIndex + offset, 0, Selected.Count - 1), (TiebreakExtended)dropInfo.Data);
+                else
+                    Selected.Add((TiebreakExtended)dropInfo.Data);
+            }
+            else if (dropInfo.DragInfo.SourceCollection == Available && dropInfo.TargetCollection == Selected)
+            {
+                if (dropInfo.InsertIndex < Selected.Count)
+                    Selected.Insert(Math.Clamp(dropInfo.InsertIndex, 0, Selected.Count - 1), (TiebreakExtended)dropInfo.Data);
+                else
+                    Selected.Add((TiebreakExtended)dropInfo.Data);
+                ((TiebreakExtended)dropInfo.Data).IsSelected = true;
+                Available.Remove((TiebreakExtended)dropInfo.Data);
+                if (dropInfo.DragInfo.SourceIndex < Available.Count)
+                    Available.Insert(Math.Clamp(dropInfo.DragInfo.SourceIndex, 0, Selected.Count - 1), (TiebreakExtended)dropInfo.Data);
+                else
+                    Available.Add((TiebreakExtended)dropInfo.Data);
+            }
+            else if (dropInfo.DragInfo.SourceCollection == Selected && dropInfo.TargetCollection == Available)
+            {
+                Selected.Remove((TiebreakExtended)dropInfo.Data);
+                ((TiebreakExtended)dropInfo.Data).IsSelected = false;
+                int indx = Math.Clamp(Available.IndexOf((TiebreakExtended)dropInfo.Data), 0, Available.Count);
+                Available.RemoveAt(indx);
+                if (indx < Available.Count)
+                    Available.Insert(indx, (TiebreakExtended)dropInfo.Data);
+                else
+                    Available.Add((TiebreakExtended)dropInfo.Data);
+            }
+
         }
     }
 

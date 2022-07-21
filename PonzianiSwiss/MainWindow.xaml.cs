@@ -186,7 +186,7 @@ namespace PonzianiSwiss
             if (Logger != null && Logger.IsEnabled(LogLevel.Debug))
             {
                 if (parameter == null)
-                Logger.LogDebug("{cmd}", caller);
+                    Logger.LogDebug("{cmd}", caller);
                 else
                     Logger.LogDebug("{cmd}({parm})", caller, parameter);
             }
