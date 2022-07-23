@@ -73,10 +73,10 @@
             </GroupBox>
         </Grid>
         <WrapPanel Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-            <Button x:Name="PlayerSearchDialogOkButton" Content="Ok" Padding="10" Margin="0,0,10,0"  Command="{Binding Path=OkCommand}" CommandParameter="{Binding ElementName=window, Mode=OneWay}"
+            <Button x:Name="PlayerSearchDialogOkButton" Content="Ok" Padding="10" Margin="0,0,10,0"  Command="{Binding Path=OkCommand}"
                     Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" mah:ControlsHelper.ContentCharacterCasing="Normal"  
                     MinWidth="{Binding ElementName=PlayerSearchDialogCancelButton, Path=ActualWidth}" IsEnabled="{Binding ElementName=TextBox_Name, Path=Text, Converter={StaticResource TextSetToBoolConverter}}"/>
-            <Button x:Name="PlayerSearchDialogCancelButton" Content="Cancel" Padding="10"  Command="{Binding Path=CancelCommand}" CommandParameter="{Binding ElementName=window, Mode=OneWay}"
+            <Button x:Name="PlayerSearchDialogCancelButton" Content="Cancel" Padding="10"  Command="{Binding Path=CancelCommand}"
                     Style="{DynamicResource MahApps.Styles.Button.Square}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
         </WrapPanel>
     </StackPanel>

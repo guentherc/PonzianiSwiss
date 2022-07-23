@@ -10,7 +10,7 @@
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
         md:DialogServiceViews.IsRegistered="True"
-        Title="ParticipantDialog" Height="270" Width="800" TitleCharacterCasing="Normal"
+        Title="ParticipantDialog" Height="328" Width="800" TitleCharacterCasing="Normal"
         d:DataContext="{d:DesignInstance {x:Type local:ParticipantDialogViewModel}}">
     <Window.Resources>
         <local:ParticipantProvider x:Key="ParticipantProvider" />
@@ -29,6 +29,7 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -59,6 +60,10 @@
             <TextBox x:Name="TextBox_AlternativeRating" Grid.Row="3" Grid.Column="3" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding Path=Participant.AlternativeRating}"/>
             <Label Grid.Row="4" VerticalAlignment="Center" Margin="5,5,5,5">Club:</Label>
             <TextBox x:Name="TextBox_Club" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="6" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding Path=Participant.Club}"/>
+            <Button x:Name="Button_AdditionalAttributes" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="6" Command="{Binding ParticipantAttributesDialogCommand}" ToolTip="Additional Attributes"
+                    VerticalAlignment="Center" Margin="5,5,5,5" HorizontalAlignment="Left" Content="Additional Attributes" mah:ControlsHelper.ContentCharacterCasing="Normal">
+            </Button>
+            
         </Grid>
         <WrapPanel Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Right">
             <Button x:Name="ParticipantDialogOkButton" Content="Ok" Padding="10" Margin="0,0,10,0" Command="{Binding OkCommand}" Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" 

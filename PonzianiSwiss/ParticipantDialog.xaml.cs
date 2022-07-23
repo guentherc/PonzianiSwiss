@@ -46,6 +46,7 @@ namespace PonzianiSwiss
             DialogService = dialogService;
             FideBase = PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE, logger);
             PlayerSearchDialogCommand = new RelayCommand(PlayerSearchDialog);
+            ParticipantAttributesDialogCommand = new RelayCommand(ParticipantAttributeDialog);
         }
 
         [ObservableProperty]
@@ -58,6 +59,7 @@ namespace PonzianiSwiss
         private Tournament? tournament;
 
         public ICommand PlayerSearchDialogCommand { get; }
+        public ICommand ParticipantAttributesDialogCommand { get; }
 
         [ICommand]
         void Ok()
@@ -160,6 +162,26 @@ namespace PonzianiSwiss
                         Participant.AlternativeRating = nplayer?.Rating ?? 0;
                     }
                     OnPropertyChanged(nameof(Participant));
+                }
+            }
+        }
+
+        private void ParticipantAttributeDialog()
+        {
+            ShowParticipantAttributeDialog(viewModel => DialogService?.ShowDialog(this, viewModel));
+        }
+
+        private void ShowParticipantAttributeDialog(Func<ParticipantAttributeDialogViewModel, bool?> showDialog)
+        {
+            var dialogViewModel = App.Current.Services?.GetService<ParticipantAttributeDialogViewModel>();
+
+            if (dialogViewModel != null)
+            {
+                dialogViewModel.Participant = Participant;
+                bool? success = showDialog(dialogViewModel);
+                if (success == true)
+                {
+
                 }
             }
         }

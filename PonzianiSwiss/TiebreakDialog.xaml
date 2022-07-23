@@ -68,9 +68,9 @@
             </ListView>
         </Grid>
         <WrapPanel Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-            <Button x:Name="TiebreakDialogOkButton" Content="Ok" Padding="10" Margin="0,0,10,0" Command="{Binding Path=OkCommand}" CommandParameter="{Binding ElementName=window, Mode=OneWay}"
+            <Button x:Name="TiebreakDialogOkButton" Content="Ok" Padding="10" Margin="0,0,10,0" Command="{Binding Path=OkCommand}"
                     Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
-            <Button x:Name="TiebreakDialogCancelButton" Content="Cancel" Padding="10"  Command="{Binding Path=CancelCommand}" CommandParameter="{Binding ElementName=window, Mode=OneWay}" 
+            <Button x:Name="TiebreakDialogCancelButton" Content="Cancel" Padding="10"  Command="{Binding Path=CancelCommand}"
                     Style="{DynamicResource MahApps.Styles.Button.Square}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
         </WrapPanel>
     </StackPanel>

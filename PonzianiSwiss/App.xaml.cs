@@ -70,6 +70,7 @@ namespace PonzianiSwiss
             services.AddTransient<TournamentDialogViewModel>();
             services.AddTransient<ForbiddenPairingsDialogViewModel>();
             services.AddTransient<HTMLViewerViewModel>();
+            services.AddTransient<ParticipantAttributeDialogViewModel>();
             services.AddSingleton<IDialogService, DialogService>();
             Services = services.BuildServiceProvider();
             Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;

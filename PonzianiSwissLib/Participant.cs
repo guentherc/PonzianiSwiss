@@ -83,6 +83,11 @@ namespace PonzianiSwissLib
         /// </summary>
         public Dictionary<AttributeKey, object> Attributes { set; get; } = new Dictionary<AttributeKey, object>();
 
+        /// <summary>
+        /// Property bag to store custom attributes
+        /// </summary>
+        public Dictionary<string, string> CustomAttributes { set; get; } = new();
+
         [JsonIgnore]
         public Scorecard? Scorecard { set; get; }
     }
