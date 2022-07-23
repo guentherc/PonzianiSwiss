@@ -24,3 +24,4 @@ The current version is an alpha version. It should work, but there might be lots
 * [FlaUI](https://github.com/FlaUI/FlaUI) for automated tests
 * Icons: [MahApps.Metro.IconPacks](https://github.com/MahApps/MahApps.Metro.IconPacks)
 * [MVVM Dialogs](https://github.com/FantasticFiasco/mvvm-dialogs)
+* [GongSolutions.WPF.DragDrop](https://github.com/punker76/gong-wpf-dragdrop)
