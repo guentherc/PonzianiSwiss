@@ -1,0 +1,396 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="MenuItem_Tournament_Header" xml:space="preserve">
+    <value>Tournament</value>
+  </data>
+  <data name="MenuItem_Recent_Files_Header" xml:space="preserve">
+    <value>Recent Files</value>
+  </data>
+  <data name="MenuItem_Tournament_Crosstable_Header" xml:space="preserve">
+    <value>Crosstable</value>
+  </data>
+  <data name="MenuItem_Tournament_Edit_Forbidden_Header" xml:space="preserve">
+    <value>Edit Forbidden Pairings</value>
+  </data>
+  <data name="MenuItem_Tournament_Edit_Header" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="MenuItem_Tournament_Exit_Header" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="MenuItem_Tournament_Export_Header" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="MenuItem_Tournament_New_Header" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="MenuItem_Tournament_Open_Header" xml:space="preserve">
+    <value>Open ...</value>
+  </data>
+  <data name="MenuItem_Tournament_Pairings_Header" xml:space="preserve">
+    <value>Pairings</value>
+  </data>
+  <data name="MenuItem_Tournament_Participant_List_Header" xml:space="preserve">
+    <value>Participant List</value>
+  </data>
+  <data name="MenuItem_Tournament_Participant_List_Name_Header" xml:space="preserve">
+    <value>By Name</value>
+  </data>
+  <data name="MenuItem_Tournament_Participant_List_Rank_Header" xml:space="preserve">
+    <value>By Starting Rank</value>
+  </data>
+  <data name="MenuItem_Tournament_Save_As_Header" xml:space="preserve">
+    <value>Save As ...</value>
+  </data>
+  <data name="MenuItem_Tournament_Save_Header" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Participant_List_by_Starting_Rank" xml:space="preserve">
+    <value>Participant List by Starting Rank</value>
+  </data>
+  <data name="Crosstable" xml:space="preserve">
+    <value>Crosstable</value>
+  </data>
+  <data name="Participant_List_by_Name" xml:space="preserve">
+    <value>Participant List by Name</value>
+  </data>
+  <data name="Pairings_Round_X" xml:space="preserve">
+    <value>Pairings Round {0}</value>
+  </data>
+  <data name="MenuItem_Participants_Header" xml:space="preserve">
+    <value>Participants</value>
+  </data>
+  <data name="MenuItem_Participants_Add_Header" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="MenuItem_Round_Header" xml:space="preserve">
+    <value>Round</value>
+  </data>
+  <data name="MenuItem_Round_Draw_Header" xml:space="preserve">
+    <value>Draw</value>
+  </data>
+  <data name="MenuItem_Round_Delete_Header" xml:space="preserve">
+    <value>Delete Last Round</value>
+  </data>
+  <data name="MenuItem_PlayerBase_Update_Header" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="MenuItem_Settings_Header" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="MenuItem_Settings_Basetheme_Header" xml:space="preserve">
+    <value>Base Theme</value>
+  </data>
+  <data name="MenuItem_Settings_Themecolor_Header" xml:space="preserve">
+    <value>Theme Color</value>
+  </data>
+  <data name="MenuItem_Settings_Reset_Header" xml:space="preserve">
+    <value>Reset Settings</value>
+  </data>
+  <data name="MenuItem_Settings_About_Header" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="MenuItem_PlayerBase_Header" xml:space="preserve">
+    <value>Player Base</value>
+  </data>
+  <data name="Toolbar_Tournament_New_ToolTip" xml:space="preserve">
+    <value>Create New Tournament</value>
+  </data>
+  <data name="Toolbar_Tournament_Open_ToolTip" xml:space="preserve">
+    <value>Load Tournament</value>
+  </data>
+  <data name="Toolbar_Tournament_Save_ToolTip" xml:space="preserve">
+    <value>Save Tournament</value>
+  </data>
+  <data name="Toolbar_Tournament_Edit_ToolTip" xml:space="preserve">
+    <value>Edit Tournament</value>
+  </data>
+  <data name="Toolbar_Participant_Add" xml:space="preserve">
+    <value>Add Player</value>
+  </data>
+  <data name="Toolbar_Round_Draw_ToolTip" xml:space="preserve">
+    <value>Draw Next Round</value>
+  </data>
+  <data name="TabItem_Participants_Header" xml:space="preserve">
+    <value>Participants</value>
+  </data>
+  <data name="MenuItem_Participant_Edit_Header" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="MenuItem_Participant_Abandon_Header" xml:space="preserve">
+    <value>Abandon Tournament</value>
+  </data>
+  <data name="MenuItem_Participant_Pause_Header" xml:space="preserve">
+    <value>Pause Next Round</value>
+  </data>
+  <data name="MenuItem_Participant_Undo_Pause_Header" xml:space="preserve">
+    <value>Undo Abandon/Pause</value>
+  </data>
+  <data name="MenuItem_Participant_Delete_Header" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="ColHeaderParticipantFederation_Content" xml:space="preserve">
+    <value>Federation</value>
+  </data>
+  <data name="ColHeaderParticipantName_Content" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="ColHeaderParticipantId_Content" xml:space="preserve">
+    <value>Id</value>
+  </data>
+  <data name="ColHeaderParticipantScore_Content" xml:space="preserve">
+    <value>Score</value>
+  </data>
+  <data name="ColHeaderParticipantFideId_Content" xml:space="preserve">
+    <value>Fide Id</value>
+  </data>
+  <data name="ColHeaderParticipantRating_Content" xml:space="preserve">
+    <value>Rating</value>
+  </data>
+  <data name="ColHeaderParticipantElo_Content" xml:space="preserve">
+    <value>Elo</value>
+  </data>
+  <data name="ColHeaderParticipantNationalRating_Content" xml:space="preserve">
+    <value>National Rating</value>
+  </data>
+  <data name="ColHeaderParticipantClub_Content" xml:space="preserve">
+    <value>Club</value>
+  </data>
+  <data name="MenuItem_Settings_Language_Header" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Open_Tournament_Dialog_Filter" xml:space="preserve">
+    <value>Tournament Files|*.tjson|All Files|*.*</value>
+  </data>
+  <data name="Open_Tournament_Dialog_Title" xml:space="preserve">
+    <value>Load Tournament</value>
+  </data>
+  <data name="Save_Tournament_Dialog_Title" xml:space="preserve">
+    <value>Save Tournament</value>
+  </data>
+  <data name="Data_Loss_Exit_Title" xml:space="preserve">
+    <value>Exit Application</value>
+  </data>
+  <data name="Data_Loss_Exit_Text" xml:space="preserve">
+    <value>There might be unsaved data which will be lost! Do you want to proceed?</value>
+  </data>
+  <data name="Dialog_Title_Wait" xml:space="preserve">
+    <value>Please wait...</value>
+  </data>
+  <data name="Base_Update_Might_Take" xml:space="preserve">
+    <value>Update of {0} might take some time</value>
+  </data>
+  <data name="Base_Update_Failed_Title" xml:space="preserve">
+    <value>Update failed</value>
+  </data>
+  <data name="Base_Update_Text" xml:space="preserve">
+    <value>Update of Player Base {0}</value>
+  </data>
+  <data name="Base_Update_Ok_Title" xml:space="preserve">
+    <value>Update successful</value>
+  </data>
+  <data name="Data_Loss_Open_Title" xml:space="preserve">
+    <value>Load Tournament</value>
+  </data>
+  <data name="Data_Loss_Open_Text" xml:space="preserve">
+    <value>There might be unsaved data which will be lost! Do you want to proceed?</value>
+  </data>
+  <data name="Draw_Takes_Time" xml:space="preserve">
+    <value>Draw might take some time</value>
+  </data>
+  <data name="Load_Tournament_Message_Title" xml:space="preserve">
+    <value>Load Tournament {0}</value>
+  </data>
+  <data name="About_Dialog_Title" xml:space="preserve">
+    <value>PonzianiSwiss {0} - Swiss Pairing Program</value>
+  </data>
+  <data name="About_Dialog_Text" xml:space="preserve">
+    <value>Find more information at https://github.com/guentherc/PonzianiSwiss</value>
+  </data>
+  <data name="Button_Cancel_Content" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Button_Ok_Content" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="Button_Save_Content" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="TournamentDialogWindow_Title" xml:space="preserve">
+    <value>Tournament</value>
+  </data>
+  <data name="TournamentDialog_Label_Name_Content" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="TournamentDialog_Label_City_Content" xml:space="preserve">
+    <value>City:</value>
+  </data>
+  <data name="TournamentDialog_Label_Federation_Content" xml:space="preserve">
+    <value>Federation:</value>
+  </data>
+  <data name="TournamentDialog_Label_Rounds_Content" xml:space="preserve">
+    <value>Rounds:</value>
+  </data>
+  <data name="TournamentDialog_Label_ChiefArbiter_Content" xml:space="preserve">
+    <value>Chief Arbiter:</value>
+  </data>
+  <data name="TournamentDialog_Label_DeputyArbiter_Content" xml:space="preserve">
+    <value>Arbiters:</value>
+  </data>
+  <data name="TournamentDialog_Label_PairingSystem_Content" xml:space="preserve">
+    <value>Pairing System:</value>
+  </data>
+  <data name="TournamentDialog_Label_TimeControl_Content" xml:space="preserve">
+    <value>Time Control:</value>
+  </data>
+  <data name="TournamentDialog_Label_RatingDetermination_Content" xml:space="preserve">
+    <value>Rating Determination:</value>
+  </data>
+  <data name="TournamentDialog_Label_Tiebreak_Content" xml:space="preserve">
+    <value>Tiebreak:</value>
+  </data>
+  <data name="TournamentDialog_Label_PointsForWin_Content" xml:space="preserve">
+    <value>Points for Win:</value>
+  </data>
+  <data name="TournamentDialog_Label_PointsForZeroPointBye_Content" xml:space="preserve">
+    <value>Points for Zero Point Bye:</value>
+  </data>
+  <data name="TournamentDialog_Label_PointsForDraw_Content" xml:space="preserve">
+    <value>Points for Draw:</value>
+  </data>
+  <data name="TournamentDialog_Label_PointsForForfeitedLoss_Content" xml:space="preserve">
+    <value>Points for Forfeited Loss:</value>
+  </data>
+  <data name="TournamentDialog_Label_PointsForPlayedLoss_Content" xml:space="preserve">
+    <value>Points for Loss:</value>
+  </data>
+  <data name="TournamentDialog_Label_PointsForPairingAllocatedBye_Content" xml:space="preserve">
+    <value>Points for Pairing Allocated Bye:</value>
+  </data>
+  <data name="GroupBox_ScoringScheme_Header" xml:space="preserve">
+    <value>Scoring Scheme</value>
+  </data>
+  <data name="CheckBox_Baku_Acceleration_Content" xml:space="preserve">
+    <value>Use Baku Acceleration</value>
+  </data>
+  <data name="TournamentDialog_Label_Date_Content" xml:space="preserve">
+    <value>Date:</value>
+  </data>
+</root>

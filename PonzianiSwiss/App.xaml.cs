@@ -6,8 +6,10 @@ using PonzianiSwissLib;
 using Serilog;
 using System;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Windows;
+using WPFLocalizeExtension.Engine;
 
 namespace PonzianiSwiss
 {
@@ -16,6 +18,7 @@ namespace PonzianiSwiss
     /// </summary>
     public partial class App : Application
     {
+        public const string VERSION = "0.4.1";
 
         /// <summary>
         /// Gets the current <see cref="App"/> instance in use
@@ -29,6 +32,9 @@ namespace PonzianiSwiss
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            if (string.IsNullOrEmpty(PonzianiSwiss.Properties.Settings.Default.Language))
+                PonzianiSwiss.Properties.Settings.Default.Language = CultureInfo.CurrentCulture.Name;
+            LocalizeDictionary.Instance.Culture = new CultureInfo(PonzianiSwiss.Properties.Settings.Default.Language);
             var services = new ServiceCollection();
 #if DEBUG
             var builder = new ConfigurationBuilder()

@@ -5,6 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PonzianiSwiss"
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        lex:LocalizeDictionary.DesignCulture="de-DE"
+        lex:ResxLocalizationProvider.DefaultAssembly="PonzianiSwiss"
+        lex:ResxLocalizationProvider.DefaultDictionary="PonzianiSwiss.Resources.Strings"  
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=local:ForbiddenPairingsDialogViewModel}"
@@ -133,8 +137,8 @@
             </GroupBox>
         </StackPanel>
         <WrapPanel DockPanel.Dock="Bottom" Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-            <Button x:Name="TournamentDialogOkButton" Content="Ok" Padding="10" Margin="0,0,10,0" Command="{Binding OkCommand}" Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
-            <Button x:Name="TournamentDialogCancelButton" Content="Cancel" Padding="10" Command="{Binding CancelCommand}"  Style="{DynamicResource MahApps.Styles.Button.Square}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
+            <Button x:Name="TournamentDialogOkButton" Content="{lex:Loc Key=Button_Ok_Content}" Padding="10" Margin="0,0,10,0" Command="{Binding OkCommand}" Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
+            <Button x:Name="TournamentDialogCancelButton" Content="{lex:Loc Key=Button_Cancel_Content}" Padding="10" Command="{Binding CancelCommand}"  Style="{DynamicResource MahApps.Styles.Button.Square}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
         </WrapPanel>
     </DockPanel>
 </mah:MetroWindow>

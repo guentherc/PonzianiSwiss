@@ -28,7 +28,7 @@ namespace PonzianiSwiss
         public bool? dialogResult;
 
         private Participant? participant;
-        private IDialogService dialogService;
+        private readonly IDialogService dialogService;
 
         public ObservableCollection<CustomAttributeEntry> CustomAttributes { set; get; } = new();
 
@@ -69,7 +69,7 @@ namespace PonzianiSwiss
             {
                 ca.IsDuplicate = true;
             }
-            return duplicates.Count() > 0;
+            return duplicates.Any();
         }
 
         [ICommand]

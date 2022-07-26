@@ -5,12 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-        xmlns:local="clr-namespace:PonzianiSwiss" 
+        xmlns:local="clr-namespace:PonzianiSwiss"
+        xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        lex:LocalizeDictionary.DesignCulture="de-DE"
+        lex:ResxLocalizationProvider.DefaultAssembly="PonzianiSwiss"
+        lex:ResxLocalizationProvider.DefaultDictionary="PonzianiSwiss.Resources.Strings"  
         xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
         d:DataContext="{d:DesignInstance Type=local:TournamentDialogViewModel}"
         md:DialogServiceViews.IsRegistered="True"
         mc:Ignorable="d"
-        Title="TournamentDialog" Height="600" Width="900" TitleCharacterCasing="Normal">
+        Title="{lex:Loc}" Height="600" Width="900" TitleCharacterCasing="Normal">
     <Window.Resources>
         <local:TiebreakConverter x:Key="TiebreakConverter" />
         <local:TextSetToBoolConverter x:Key="TextSetToBoolConverter"/>
@@ -35,36 +39,36 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Label VerticalAlignment="Center" Margin="5,5,5,5">Name:</Label>
+            <Label x:Name="TournamentDialog_Label_Name" VerticalAlignment="Center" Margin="5,5,5,5" Content="{lex:Loc}"></Label>
             <TextBox x:Name="TextBox_Tournament_Name"  VerticalAlignment="Center" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Path=Tournament.Name}" Margin="5,5,5,5"/>
-            <Label Grid.Row="1" VerticalAlignment="Center" Margin="5,5,5,5">City:</Label>
+            <Label x:Name="TournamentDialog_Label_City" Grid.Row="1" VerticalAlignment="Center" Margin="5,5,5,5" Content="{lex:Loc}"></Label>
             <TextBox x:Name="TextBox_Tournament_City" Grid.Row="1" VerticalAlignment="Center" Grid.Column="1" Text="{Binding Path=Tournament.City}" MinWidth="200" Margin="5,5,5,5"/>
-            <Label Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" Margin="5,5,5,5">Federation:</Label>
+            <Label x:Name="TournamentDialog_Label_Federation" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" Margin="5,5,5,5" Content="{lex:Loc}"></Label>
             <ComboBox x:Name="ComboBox_Federation" Grid.Row="1" VerticalAlignment="Center" Grid.Column="3" 
                       SelectedValue="{Binding Path=Tournament.Federation, Mode=TwoWay}"
                       MinWidth="100" Margin="5,5,5,5"/>
-            <Label Grid.Row="2" Grid.Column="0" Content="Rounds:" Margin="5,5,5,5" VerticalAlignment="Center"/>
+            <Label x:Name="TournamentDialog_Label_Rounds" Grid.Row="2" Grid.Column="0" Content="{lex:Loc}" Margin="5,5,5,5" VerticalAlignment="Center"/>
             <WrapPanel Grid.Row="2" Grid.ColumnSpan="3" Grid.Column="1">
                 <mah:NumericUpDown x:Name="NumericUpDown_Rounds" HorizontalAlignment="Left" VerticalAlignment="Center" Value="{Binding Path=Tournament.CountRounds}" Minimum="1" Maximum="99" Margin="5,5,5,5"/>
-                <Label Content="Date" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                <Label x:Name="TournamentDialog_Label_Date" Content="{lex:Loc}" Margin="5,5,5,5" VerticalAlignment="Center"/>
                 <DatePicker x:Name="DatePicker_From" Margin="5,5,5,5" VerticalAlignment="Center" SelectedDate="{Binding Path=StartDate}"></DatePicker>
                 <Label Content=" - " Margin="5,5,5,5" VerticalAlignment="Center"/>
                 <DatePicker x:Name="DatePicker_To" Margin="5,5,5,5" VerticalAlignment="Center"  SelectedDate="{Binding Path=EndDate}"></DatePicker>
             </WrapPanel>
-            <Label VerticalAlignment="Center" Margin="5,5,5,5" Grid.Row="3">Chief Arbiter:</Label>
+            <Label x:Name="TournamentDialog_Label_ChiefArbiter" VerticalAlignment="Center" Margin="5,5,5,5" Grid.Row="3" Content="{lex:Loc}"></Label>
             <TextBox x:Name="TextBox_Tournament_ChiefArbiter" VerticalAlignment="Center" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" Text="{Binding Path=Tournament.ChiefArbiter}" Margin="5,5,5,5"/>
-            <Label VerticalAlignment="Center" Margin="5,5,5,5" Grid.Row="4">Arbiters:</Label>
+            <Label x:Name="TournamentDialog_Label_DeputyArbiter" VerticalAlignment="Center" Margin="5,5,5,5" Grid.Row="4" Content="{lex:Loc}"></Label>
             <TextBox x:Name="TextBox_Tournament_DeputyArbiter" VerticalAlignment="Center" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" Text="{Binding Path=Tournament.DeputyChiefArbiter}" Margin="5,5,5,5"/>
-            <Label Grid.Row="5" Grid.Column="0" Content="Pairing System:" Margin="5,5,5,5" VerticalAlignment="Center"/>
+            <Label x:Name="TournamentDialog_Label_PairingSystem" Grid.Row="5" Grid.Column="0" Content="{lex:Loc}" Margin="5,5,5,5" VerticalAlignment="Center"/>
             <WrapPanel Grid.Row="5" Grid.ColumnSpan="3" Grid.Column="1">
                 <ComboBox x:Name="ComboBox_PairingSystem" VerticalAlignment="Center" SelectedValue="{Binding Path=Tournament.PairingSystem}" MinWidth="100" Margin="5,5,5,5"/>
-                <CheckBox VerticalAlignment="Center" IsChecked="{Binding Path=Tournament.BakuAcceleration}" Margin="5,5,5,5" Content="Use Baku Acceleration"/>
+                <CheckBox x:Name="CheckBox_Baku_Acceleration" VerticalAlignment="Center" IsChecked="{Binding Path=Tournament.BakuAcceleration}" Margin="5,5,5,5" Content="{lex:Loc}"/>
             </WrapPanel>
-            <Label VerticalAlignment="Center" Margin="5,5,5,5" Grid.Row="6">Time Control:</Label>
+            <Label x:Name="TournamentDialog_Label_TimeControl" VerticalAlignment="Center" Margin="5,5,5,5" Grid.Row="6" Content="{lex:Loc}"></Label>
             <TextBox x:Name="TextBox_Tournament_TimeControl" VerticalAlignment="Center" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="3" Text="{Binding Path=Tournament.TimeControl}" Margin="5,5,5,5"/>
-            <Label VerticalAlignment="Center" Margin="5,5,5,5" Grid.Row="7">Rating Determination:</Label>
+            <Label x:Name="TournamentDialog_Label_RatingDetermination" VerticalAlignment="Center" Margin="5,5,5,5" Grid.Row="7" Content="{lex:Loc}"></Label>
             <ComboBox x:Name="ComboBox_RatingDetermination" Grid.Column="1" Grid.Row="7" VerticalAlignment="Center" SelectedValue="{Binding Path=Tournament.RatingDetermination}" MinWidth="100" Margin="5,5,5,5"/>
-            <Label VerticalAlignment="Center" Margin="5,5,5,5" Grid.Row="7" Grid.Column="2">Tiebreak:</Label>
+            <Label x:Name="TournamentDialog_Label_Tiebreak" VerticalAlignment="Center" Margin="5,5,5,5" Grid.Row="7" Grid.Column="2" Content="{lex:Loc}"></Label>
             <WrapPanel  Grid.Column="3" Grid.Row="7" >
                 <TextBox VerticalAlignment="Center" IsReadOnly="True"
                      Text="{Binding Path=Tournament.TieBreak, Converter={StaticResource TiebreakConverter}}" Margin="5,5,5,5"/>
@@ -73,8 +77,8 @@
                     <iconPacks:PackIconCodicons Kind="Edit" />
                 </Button>
             </WrapPanel>
-            <GroupBox Header="Scoring Scheme" Grid.Row="8" Grid.ColumnSpan="4" mah:ControlsHelper.ContentCharacterCasing="Normal"
-                      Style="{DynamicResource MahApps.Styles.GroupBox.Clean}">
+            <GroupBox Header="{lex:Loc}" Grid.Row="8" Grid.ColumnSpan="4" mah:ControlsHelper.ContentCharacterCasing="Normal"
+                      x:Name="GroupBox_ScoringScheme" Style="{DynamicResource MahApps.Styles.GroupBox.Clean}">
                 <GroupBox.Resources>
                     <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Clean/Controls.xaml" />
                 </GroupBox.Resources>
@@ -90,26 +94,26 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Grid.Column="0" Content="Points for Win:" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <Label x:Name="TournamentDialog_Label_PointsForWin" Grid.Row="0" Grid.Column="0" Content="{lex:Loc}" Margin="5,5,5,5" VerticalAlignment="Center"/>
                     <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=Tournament.ScoringScheme.PointsForWin}" Margin="5,5,5,5" VerticalAlignment="Center" Width="40" HorizontalContentAlignment="Right"/>
-                    <Label Grid.Row="0" Grid.Column="2" Content="Points for Zero Point Bye:" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <Label x:Name="TournamentDialog_Label_PointsForZeroPointBye" Grid.Row="0" Grid.Column="2" Content="{lex:Loc}" Margin="5,5,5,5" VerticalAlignment="Center"/>
                     <TextBox Grid.Row="0" Grid.Column="3" Text="{Binding Path=Tournament.ScoringScheme.PointsForZeroPointBye}" Margin="5,5,5,5" VerticalAlignment="Center" HorizontalContentAlignment="Right"/>
-                    <Label Grid.Row="1" Grid.Column="0" Content="Points for Draw:" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <Label x:Name="TournamentDialog_Label_PointsForDraw" Grid.Row="1" Grid.Column="0" Content="{lex:Loc}" Margin="5,5,5,5" VerticalAlignment="Center"/>
                     <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Tournament.ScoringScheme.PointsForDraw}" Margin="5,5,5,5" VerticalAlignment="Center" Width="40" HorizontalContentAlignment="Right"/>
-                    <Label Grid.Row="1" Grid.Column="2" Content="Points for Forfeited Loss:" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <Label x:Name="TournamentDialog_Label_PointsForForfeitedLoss" Grid.Row="1" Grid.Column="2" Content="{lex:Loc}" Margin="5,5,5,5" VerticalAlignment="Center"/>
                     <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding Path=Tournament.ScoringScheme.PointsForForfeitedLoss}" Margin="5,5,5,5" VerticalAlignment="Center" Width="40" HorizontalContentAlignment="Right"/>
-                    <Label Grid.Row="2" Grid.Column="0" Content="Points for Loss:" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <Label x:Name="TournamentDialog_Label_PointsForPlayedLoss" Grid.Row="2" Grid.Column="0" Content="{lex:Loc}" Margin="5,5,5,5" VerticalAlignment="Center"/>
                     <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=Tournament.ScoringScheme.PointsForPlayedLoss}" Margin="5,5,5,5" VerticalAlignment="Center" Width="40" HorizontalContentAlignment="Right"/>
-                    <Label Grid.Row="2" Grid.Column="2" Content="Points for Pairing Allocated Bye:" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                    <Label x:Name="TournamentDialog_Label_PointsForPairingAllocatedBye" Grid.Row="2" Grid.Column="2" Content="{lex:Loc}" Margin="5,5,5,5" VerticalAlignment="Center"/>
                     <TextBox Grid.Row="2" Grid.Column="3" Text="{Binding Path=Tournament.ScoringScheme.PointsForPairingAllocatedBye}" Margin="5,5,5,5" VerticalAlignment="Center" Width="40" HorizontalContentAlignment="Right"/>
                 </Grid>
 
             </GroupBox>
         </Grid>
         <WrapPanel DockPanel.Dock="Bottom" Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-            <Button x:Name="TournamentDialogOkButton" Content="Ok" Padding="10" Margin="0,0,10,0" Command="{Binding OkCommand}"  Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"  mah:ControlsHelper.ContentCharacterCasing="Normal"
+            <Button x:Name="TournamentDialogOkButton" Content="{lex:Loc Key=Button_Ok_Content}" Padding="10" Margin="0,0,10,0" Command="{Binding OkCommand}"  Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"  mah:ControlsHelper.ContentCharacterCasing="Normal"
                     IsEnabled="{Binding ElementName=TextBox_Tournament_Name, Path=Text, Converter={StaticResource TextSetToBoolConverter}}"/>
-            <Button x:Name="TournamentDialogCancelButton" Content="Cancel" Padding="10" Command="{Binding CancelCommand}"  Style="{DynamicResource MahApps.Styles.Button.Square}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
+            <Button x:Name="TournamentDialogCancelButton" Content="{lex:Loc Key=Button_Cancel_Content}" Padding="10" Command="{Binding CancelCommand}"  Style="{DynamicResource MahApps.Styles.Button.Square}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
         </WrapPanel>
 
     </DockPanel>

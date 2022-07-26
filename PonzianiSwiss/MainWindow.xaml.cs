@@ -6,14 +6,17 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using MvvmDialogs;
+using MvvmDialogs.FrameworkDialogs.OpenFile;
 using MvvmDialogs.FrameworkDialogs.SaveFile;
 using PonzianiPlayerBase;
+using PonzianiSwiss.Resources;
 using PonzianiSwissLib;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -22,6 +25,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using WPFLocalizeExtension.Engine;
 using Extensions = PonzianiSwissLib.Extensions;
 
 namespace PonzianiSwiss
@@ -41,6 +45,7 @@ namespace PonzianiSwiss
             DataContext = Model;
             //Add Playerbase Update entries dynamically
             RenderThemeMenuEntries();
+            RenderLanguageEntries();
             PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE, Logger);
             lvParticipants.ItemsSource = Model.Participants;
             _ = FederationUtil.GetFederations();
@@ -61,6 +66,33 @@ namespace PonzianiSwiss
             var tabitem = MainTabControl.Items[^1] as TabItem;
             Round? r = tabitem?.Content as Round;
             r?.Model.SyncRound();
+        }
+
+        private void RenderLanguageEntries()
+        {
+            MenuItem_Settings_Language.Items.Clear();
+            string[] languages = new string[] { "en", "de" };
+            foreach (var l in languages)
+            {
+                MenuItem mi = new()
+                {
+                    Header = l,
+                    Tag = l,
+                    IsCheckable = true,
+                    IsChecked = l == Properties.Settings.Default.Language[..2],
+                    IsEnabled = l != Properties.Settings.Default.Language[..2]
+                };
+                mi.Click += ChangeLanguage; ;
+                MenuItem_Settings_Language.Items.Add(mi);
+            }
+        }
+
+        private void ChangeLanguage(object sender, RoutedEventArgs e)
+        {
+            string tag = (string)((MenuItem)sender).Tag;
+            Properties.Settings.Default.Language = tag;
+            LocalizeDictionary.Instance.Culture = new CultureInfo(PonzianiSwiss.Properties.Settings.Default.Language);
+            RenderLanguageEntries();
         }
 
         private void RenderThemeMenuEntries()
@@ -276,6 +308,8 @@ namespace PonzianiSwiss
             }
         }
 
+        public bool HasMRUEntries { get => MRUMenuEntries.Count > 0; }
+
         private bool DrawEnabled
         {
             get => Tournament != null && Tournament.Participants.Count > 0
@@ -385,19 +419,19 @@ namespace PonzianiSwiss
             switch (tag)
             {
                 case 0:
-                    title = "Participant List by Starting Rank";
+                    title = LocalizedStrings.Instance["Participant_List_by_Starting_Rank"];
                     html = Tournament?.ParticipantListHTML("Rating", true) ?? string.Empty;
                     break;
                 case 1:
-                    title = "Participant List by Name";
+                    title = LocalizedStrings.Instance["Participant_List_by_Name"];
                     html = Tournament?.ParticipantListHTML("Name", false) ?? string.Empty;
                     break;
                 case 2:
-                    title = "Crosstable";
+                    title = LocalizedStrings.Instance["Crosstable"];
                     html = Tournament?.CrosstableHTML() ?? string.Empty;
                     break;
                 case 3:
-                    title = $"Pairings Round {Tournament?.Rounds.Count ?? 0}";
+                    title = LocalizedStrings.Instance.Get("Pairings_Round_X", Tournament?.Rounds.Count ?? 0);
                     html = Tournament?.RoundHTML() ?? string.Empty;
                     break;
             }
@@ -416,16 +450,16 @@ namespace PonzianiSwiss
 
         internal void LoadWithDialog()
         {
-            var settings = new SaveFileDialogSettings
+            var settings = new OpenFileDialogSettings
             {
-                Filter = $"Tournament Files|*.tjson|All Files|*.*",
+                Filter = LocalizedStrings.Instance["Open_Tournament_Dialog_Filter"],
                 DefaultExt = ".tjson",
-                Title = "Open Tournament File",
+                Title = LocalizedStrings.Instance["Open_Tournament_Dialog_Title"],
                 CheckPathExists = true,
                 AddExtension = true
             };
             var dialogService = App.Current.Services?.GetService<IDialogService>();
-            bool? success = dialogService?.ShowSaveFileDialog(this, settings);
+            bool? success = dialogService?.ShowOpenFileDialog(this, settings);
             if (success == true)
             {
                 Load(settings.FileName);
@@ -437,9 +471,9 @@ namespace PonzianiSwiss
         {
             var settings = new SaveFileDialogSettings
             {
-                Title = "Save Tournament File",
+                Title = LocalizedStrings.Instance["Save_Tournament_Dialog_Title"],
                 DefaultExt = ".tjson",
-                Filter = $"Tournament Files|*.tjson|All Files|*.*",
+                Filter = LocalizedStrings.Instance["Open_Tournament_Dialog_Filter"],
                 FileName = FileName ?? Tournament?.Name + ".tjson",
                 AddExtension = true
             };
@@ -472,7 +506,7 @@ namespace PonzianiSwiss
             if (Tournament != null && TournamentHash != Tournament.Hash())
             {
 
-                var messageDialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(this, $"Exit Application", "There might be unsaved data which will be lost! Do you want to proceed?", MessageDialogStyle.AffirmativeAndNegative);
+                var messageDialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(this, LocalizedStrings.Instance["Data_Loss_Exit_Title"], LocalizedStrings.Instance["Data_Loss_Exit_Text"], MessageDialogStyle.AffirmativeAndNegative);
                 return messageDialogResult != MessageDialogResult.Negative;
             }
             return true;
@@ -498,7 +532,7 @@ namespace PonzianiSwiss
             LogCommand(b.ToString());
             IPlayerBase pbase = PlayerBaseFactory.Get(b, Logger);
 
-            var controller = await DialogCoordinator.Instance.ShowProgressAsync(this, "Please wait...", $"Update of {pbase.Description} might take some time");
+            var controller = await DialogCoordinator.Instance.ShowProgressAsync(this, LocalizedStrings.Instance["Dialog_Title_Wait"], LocalizedStrings.Instance.Get("Base_Update_Might_Take", pbase.Description));
             void updateProgressBar(object? s, ProgressChangedEventArgs e)
             {
                 controller.SetProgress(Math.Min(1.0, 0.01 * e.ProgressPercentage));
@@ -511,7 +545,10 @@ namespace PonzianiSwiss
                 ok = await pbase.UpdateAsync();
             });
             await controller.CloseAsync();
-            if (ok) await DialogCoordinator.Instance.ShowMessageAsync(this, "Update successful", $"Update of Player Base {b}"); else await DialogCoordinator.Instance.ShowMessageAsync(this, "Update failed", $"Update of Player Base {b}");
+            if (ok)
+                await DialogCoordinator.Instance.ShowMessageAsync(this, LocalizedStrings.Instance["Base_Update_Ok_Title"], LocalizedStrings.Instance.Get("Base_Update_Text", b));
+            else
+                await DialogCoordinator.Instance.ShowMessageAsync(this, LocalizedStrings.Instance["Base_Update_Ok_Failed"], LocalizedStrings.Instance.Get("Base_Update_Text", b));
             pbase.ProgressChanged -= updateProgressBar;
         }
 
@@ -521,7 +558,7 @@ namespace PonzianiSwiss
             LogCommand();
             if (Tournament != null && TournamentHash != Tournament.Hash())
             {
-                var messageDialogResult = await DialogCoordinator.Instance.ShowMessageAsync(this, "Load Tournament", "There might be unsaved data which will be lost! Do you want to proceed?", MessageDialogStyle.AffirmativeAndNegative);
+                var messageDialogResult = await DialogCoordinator.Instance.ShowMessageAsync(this, LocalizedStrings.Instance["Data_Loss_Open_Title"], LocalizedStrings.Instance["Data_Loss_Open_Text"], MessageDialogStyle.AffirmativeAndNegative);
                 if (messageDialogResult == MessageDialogResult.Negative) return;
             }
             LoadWithDialog();
@@ -540,7 +577,7 @@ namespace PonzianiSwiss
         async void Draw()
         {
             LogCommand();
-            var controller = await DialogCoordinator.Instance.ShowProgressAsync(this, "Please wait...", "Draw might take some time");
+            var controller = await DialogCoordinator.Instance.ShowProgressAsync(this, LocalizedStrings.Instance["Dialog_Title_Wait"], LocalizedStrings.Instance["Draw_Takes_Time"]);
             Tournament?.GetScorecards();
             if (Tournament != null && await Tournament.DrawAsync(Tournament.Rounds.Count))
             {
@@ -569,7 +606,9 @@ namespace PonzianiSwiss
             {
                 if (Tournament != null && TournamentHash != Tournament.Hash())
                 {
-                    MessageDialogResult messageDialogResult = await DialogCoordinator.Instance.ShowMessageAsync(this, $"Load Tournament {System.IO.Path.GetFileNameWithoutExtension(fileName)}", "There might be unsaved data which will be lost! Do you want to proceed?", MessageDialogStyle.AffirmativeAndNegative);
+                    MessageDialogResult messageDialogResult = await DialogCoordinator.Instance.ShowMessageAsync(this,
+                                               LocalizedStrings.Instance.Get("Load_Tournament_Message_Title", System.IO.Path.GetFileNameWithoutExtension(fileName)),
+                                               LocalizedStrings.Instance["Data_Loss_Open_Text"], MessageDialogStyle.AffirmativeAndNegative);
                     if (messageDialogResult == MessageDialogResult.Negative) return;
                 }
                 Load(filename);
@@ -623,7 +662,7 @@ namespace PonzianiSwiss
         async void About()
         {
             LogCommand();
-            _ = await DialogCoordinator.Instance.ShowMessageAsync(this, "PonzianiSwiss 0.4.0 - Swiss Pairing Program", "Find more information at https://github.com/guentherc/PonzianiSwiss");
+            _ = await DialogCoordinator.Instance.ShowMessageAsync(this, LocalizedStrings.Instance.Get("About_Dialog_Title", App.VERSION), LocalizedStrings.Instance["About_Dialog_Text"]);
         }
 
         private string? sortCol = null;

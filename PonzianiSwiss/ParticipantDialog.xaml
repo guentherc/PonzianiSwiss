@@ -6,6 +6,10 @@
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:wpf="http://wpfcontrols.com/"
         xmlns:local="clr-namespace:PonzianiSwiss" 
+        xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        lex:LocalizeDictionary.DesignCulture="de-DE"
+        lex:ResxLocalizationProvider.DefaultAssembly="PonzianiSwiss"
+        lex:ResxLocalizationProvider.DefaultDictionary="PonzianiSwiss.Resources.Strings"  
         xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
@@ -66,10 +70,10 @@
             
         </Grid>
         <WrapPanel Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-            <Button x:Name="ParticipantDialogOkButton" Content="Ok" Padding="10" Margin="0,0,10,0" Command="{Binding OkCommand}" Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" 
+            <Button x:Name="ParticipantDialogOkButton" Content="{lex:Loc Key=Button_Ok_Content}" Padding="10" Margin="0,0,10,0" Command="{Binding OkCommand}" Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" 
                     mah:ControlsHelper.ContentCharacterCasing="Normal" MinWidth="{Binding ElementName=ParticipantDialogCancelButton, Path=ActualWidth}"
                     IsEnabled="{Binding ElementName=TextBox_Participant_Name, Path=Text, Converter={StaticResource TextSetToBoolConverter}}"/>
-            <Button x:Name="ParticipantDialogCancelButton" Content="Cancel" Padding="10" Command="{Binding CancelCommand}"  Style="{DynamicResource MahApps.Styles.Button.Square}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
+            <Button x:Name="ParticipantDialogCancelButton" Content="{lex:Loc Key=Button_Cancel_Content}" Padding="10" Command="{Binding CancelCommand}"  Style="{DynamicResource MahApps.Styles.Button.Square}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
         </WrapPanel>
     </StackPanel>
 </mah:MetroWindow>

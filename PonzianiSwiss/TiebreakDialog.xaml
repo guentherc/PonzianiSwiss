@@ -6,6 +6,10 @@
       xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
       xmlns:dd="urn:gong-wpf-dragdrop"
       xmlns:local="clr-namespace:PonzianiSwiss"
+      xmlns:lex="http://wpflocalizeextension.codeplex.com"
+      lex:LocalizeDictionary.DesignCulture="de-DE"
+      lex:ResxLocalizationProvider.DefaultAssembly="PonzianiSwiss"
+      lex:ResxLocalizationProvider.DefaultDictionary="PonzianiSwiss.Resources.Strings"  
       mc:Ignorable="d" x:Name="window"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Edit Tiebreak Rules" Height="450" Width="800" TitleCharacterCasing="Normal">
@@ -68,9 +72,9 @@
             </ListView>
         </Grid>
         <WrapPanel Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-            <Button x:Name="TiebreakDialogOkButton" Content="Ok" Padding="10" Margin="0,0,10,0" Command="{Binding Path=OkCommand}"
+            <Button x:Name="TiebreakDialogOkButton" Content="{lex:Loc Key=Button_Ok_Content}" Padding="10" Margin="0,0,10,0" Command="{Binding Path=OkCommand}"
                     Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
-            <Button x:Name="TiebreakDialogCancelButton" Content="Cancel" Padding="10"  Command="{Binding Path=CancelCommand}"
+            <Button x:Name="TiebreakDialogCancelButton" Content="{lex:Loc Key=Button_Cancel_Content}" Padding="10"  Command="{Binding Path=CancelCommand}"
                     Style="{DynamicResource MahApps.Styles.Button.Square}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
         </WrapPanel>
     </StackPanel>

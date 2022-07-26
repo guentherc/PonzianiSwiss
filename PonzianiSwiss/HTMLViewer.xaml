@@ -6,13 +6,17 @@
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
         xmlns:local="clr-namespace:PonzianiSwiss"
+        xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        lex:LocalizeDictionary.DesignCulture="de-DE"
+        lex:ResxLocalizationProvider.DefaultAssembly="PonzianiSwiss"
+        lex:ResxLocalizationProvider.DefaultDictionary="PonzianiSwiss.Resources.Strings"         
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=local:HTMLViewerViewModel}"
         Title="{Binding Title}" TitleCharacterCasing="Normal" Height="450" Width="800" Loaded="HTMLViewer_Load">
     <DockPanel>
         
         <WrapPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right">
-            <Button Content="Save" Click="Save_Click" Margin="5"/>
+            <Button Content="{lex:Loc Key=Button_Save_Content}" Click="Save_Click" Margin="5"/>
         </WrapPanel>
         <wv2:WebView2 x:Name="HTMLView" Source="https://www.google.de"/>
     </DockPanel>

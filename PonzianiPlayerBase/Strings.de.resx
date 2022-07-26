@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -118,33 +118,33 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="BaseDescription_AUS" xml:space="preserve">
-    <value>Australian Chess Federation</value>
+    <value>Australien</value>
   </data>
   <data name="BaseDescription_AUT" xml:space="preserve">
-    <value>Austrian Chess Federation</value>
+    <value>Österreichischer Schachbund</value>
   </data>
   <data name="BaseDescription_CRO" xml:space="preserve">
-    <value>Croatian Ratings</value>
+    <value>Kroatien</value>
   </data>
   <data name="BaseDescription_CZE" xml:space="preserve">
-    <value>Czech Ratings</value>
+    <value>Tschechien</value>
   </data>
   <data name="BaseDescription_ENG" xml:space="preserve">
-    <value>English Chess Federation Ratings</value>
+    <value>England</value>
   </data>
   <data name="BaseDescription_FIDE" xml:space="preserve">
-    <value>FIDE Global Ratingbase</value>
+    <value>FIDE Elo-Zahlen</value>
   </data>
   <data name="BaseDescription_GER" xml:space="preserve">
-    <value>German DWZ Database</value>
+    <value>Deutsche Wertungszahlen (DWZ)</value>
   </data>
   <data name="BaseDescription_ITA" xml:space="preserve">
-    <value>Elo Italia</value>
+    <value>Italien</value>
   </data>
   <data name="BaseDescription_NED" xml:space="preserve">
-    <value>KNSB (Netherlands)</value>
+    <value>KNSB (Niederlande)</value>
   </data>
   <data name="BaseDescription_SUI" xml:space="preserve">
-    <value>Suisse Ratingbase</value>
+    <value>Schweizerische Schachbund</value>
   </data>
 </root>

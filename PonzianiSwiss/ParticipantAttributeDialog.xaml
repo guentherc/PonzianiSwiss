@@ -7,6 +7,10 @@
         xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
         xmlns:i = "http://schemas.microsoft.com/xaml/behaviors" 
         xmlns:local="clr-namespace:PonzianiSwiss"
+        xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        lex:LocalizeDictionary.DesignCulture="de-DE"
+        lex:ResxLocalizationProvider.DefaultAssembly="PonzianiSwiss"
+        lex:ResxLocalizationProvider.DefaultDictionary="PonzianiSwiss.Resources.Strings"  
         mc:Ignorable="d"
         md:DialogServiceViews.IsRegistered="True" 
         d:DataContext="{d:DesignInstance {x:Type local:ParticipantAttributeDialogViewModel}}"
@@ -37,9 +41,9 @@
             </DataGrid.Columns>
         </DataGrid>
         <WrapPanel Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-            <Button x:Name="TiebreakDialogOkButton" Content="Ok" Padding="10" Margin="0,0,10,0" Command="{Binding Path=OkCommand}"
+            <Button x:Name="TiebreakDialogOkButton" Content="{lex:Loc Key=Button_Ok_Content}" Padding="10" Margin="0,0,10,0" Command="{Binding Path=OkCommand}"
                     Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
-            <Button x:Name="TiebreakDialogCancelButton" Content="Cancel" Padding="10"  Command="{Binding Path=CancelCommand}"
+            <Button x:Name="TiebreakDialogCancelButton" Content="{lex:Loc Key=Button_Cancel_Content}" Padding="10"  Command="{Binding Path=CancelCommand}"
                     Style="{DynamicResource MahApps.Styles.Button.Square}"  mah:ControlsHelper.ContentCharacterCasing="Normal"/>
         </WrapPanel>
     </StackPanel>

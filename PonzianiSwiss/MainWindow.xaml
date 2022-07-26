@@ -7,6 +7,10 @@
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" 
         xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+        xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        lex:LocalizeDictionary.DesignCulture="de-DE"
+        lex:ResxLocalizationProvider.DefaultAssembly="PonzianiSwiss"
+        lex:ResxLocalizationProvider.DefaultDictionary="PonzianiSwiss.Resources.Strings"
         xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
         Dialog:DialogParticipation.Register="{Binding}"
         d:DataContext="{d:DesignInstance Type=local:MainModel}"
@@ -18,6 +22,7 @@
         TitleCharacterCasing="Normal" Closed="MetroWindow_Closed" Closing="MetroWindow_Closing">
     <Window.Resources>
         <local:TextSetToBoolConverter x:Key="TextSetToBoolConverter"/>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </Window.Resources>
     <DockPanel>
         <StackPanel DockPanel.Dock="Top">
@@ -44,37 +49,37 @@
                         <Setter Property="CommandParameter" Value="{Binding Key}"></Setter>
                     </Style>
                 </Menu.Resources>
-                <MenuItem x:Name="MenuItem_Tournament" Header="Tournament">
-                    <MenuItem x:Name="MenuItem_Tournament_New" Header="New" Command="{Binding TournamentAddDialogCommand}"/>
-                    <MenuItem x:Name="MenuItem_Tournament_Open" Header="Open ..." Command="{Binding OpenCommand}"/>
-                    <MenuItem x:Name="MenuItem_Tournament_Save" Header="Save" Command="{Binding TournamentSaveCommand}"/>
-                    <MenuItem x:Name="MenuItem_Tournament_Save_As" Header="Save As ..." Command="{Binding TournamentSaveAsCommand}"/>
+                <MenuItem x:Name="MenuItem_Tournament" Header="{lex:Loc}">
+                    <MenuItem x:Name="MenuItem_Tournament_New" Header="{lex:Loc}" Command="{Binding TournamentAddDialogCommand}"/>
+                    <MenuItem x:Name="MenuItem_Tournament_Open" Header="{lex:Loc}" Command="{Binding OpenCommand}"/>
+                    <MenuItem x:Name="MenuItem_Tournament_Save" Header="{lex:Loc}" Command="{Binding TournamentSaveCommand}"/>
+                    <MenuItem x:Name="MenuItem_Tournament_Save_As" Header="{lex:Loc}" Command="{Binding TournamentSaveAsCommand}"/>
                     <Separator/>
-                    <MenuItem x:Name="MenuItem_Tournament_Edit" Header="Edit" Command="{Binding TournamentEditDialogCommand}"/>
-                    <MenuItem x:Name="MenuItem_Tournament_Edit_Forbidden" Header="Edit Forbidden Pairings" Command="{Binding ForbiddenPairingsRuleDialogCommand}"/>
+                    <MenuItem x:Name="MenuItem_Tournament_Edit" Header="{lex:Loc}" Command="{Binding TournamentEditDialogCommand}"/>
+                    <MenuItem x:Name="MenuItem_Tournament_Edit_Forbidden" Header="{lex:Loc}" Command="{Binding ForbiddenPairingsRuleDialogCommand}"/>
                     <Separator/>
-                    <MenuItem x:Name="MenuItem_Tournament_Export" Header="Export">
-                        <MenuItem x:Name="MenuItem_Tournament_Participant_List" Header="Participant List">
-                            <MenuItem x:Name="MenuItem_Tournament_Participant_List_Rank" Header="By Starting Rank" Tag="0" Command="{Binding HtmlViewerCommand}" CommandParameter="0"/>
-                            <MenuItem x:Name="MenuItem_Tournament_Participant_List_Name" Header="By Name" Tag="1" Command="{Binding HtmlViewerCommand}" CommandParameter="1"/>
+                    <MenuItem x:Name="MenuItem_Tournament_Export" Header="{lex:Loc}">
+                        <MenuItem x:Name="MenuItem_Tournament_Participant_List" Header="{lex:Loc}">
+                            <MenuItem x:Name="MenuItem_Tournament_Participant_List_Rank" Header="{lex:Loc}" Tag="0" Command="{Binding HtmlViewerCommand}" CommandParameter="0"/>
+                            <MenuItem x:Name="MenuItem_Tournament_Participant_List_Name" Header="{lex:Loc}" Tag="1" Command="{Binding HtmlViewerCommand}" CommandParameter="1"/>
                         </MenuItem>
-                        <MenuItem x:Name="MenuItem_Tournament_Crosstable" Header="Crosstable" Tag="2" Command="{Binding HtmlViewerCommand}" CommandParameter="2"/>
-                        <MenuItem x:Name="MenuItem_Tournament_Pairings" Header="Pairings" Tag="3" Command="{Binding HtmlViewerCommand}" CommandParameter="3"/>
+                        <MenuItem x:Name="MenuItem_Tournament_Crosstable" Header="{lex:Loc}" Tag="2" Command="{Binding HtmlViewerCommand}" CommandParameter="2"/>
+                        <MenuItem x:Name="MenuItem_Tournament_Pairings" Header="{lex:Loc}" Tag="3" Command="{Binding HtmlViewerCommand}" CommandParameter="3"/>
                     </MenuItem>
-                    <Separator Visibility="{Binding Path=MRUModel.Visibility}"/>
-                    <MenuItem Header="Recent Files" 
+                    <Separator Visibility="{Binding Path=HasMRUEntries, Converter={StaticResource BoolToVis}}"/>
+                    <MenuItem x:Name="MenuItem_Recent_Files" Header="{lex:Loc}" 
                               ItemsSource="{Binding MRUMenuEntries}" ItemContainerStyle="{StaticResource MRUStyle}"/>
                     <Separator/>
-                    <MenuItem x:Name="MenuItem_Tournament_Exit" Header="Exit" Click="MenuItem_Tournament_Exit_Click"/>
+                    <MenuItem x:Name="MenuItem_Tournament_Exit" Header="{lex:Loc}" Click="MenuItem_Tournament_Exit_Click"/>
                 </MenuItem>
-                <MenuItem x:Name="MenuItem_Participants" Header="Participants" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}">
-                    <MenuItem x:Name="MenuItem_Participants_Add" Header="New" Command="{Binding ParticipantDialogCommand}" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}"/>
+                <MenuItem x:Name="MenuItem_Participants" Header="{lex:Loc}" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}">
+                    <MenuItem x:Name="MenuItem_Participants_Add" Header="{lex:Loc}" Command="{Binding ParticipantDialogCommand}" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}"/>
                 </MenuItem>
-                <MenuItem x:Name="MenuItem_Round" Header="Round">
-                    <MenuItem x:Name="MenuItem_Round_Draw" Header="Draw" Command="{Binding DrawCommand}"/>
-                    <MenuItem x:Name="MenuItem_Round_Delete" Header="Delete Last Round"  Command="{Binding DeleteLastRoundCommand}"/>
+                <MenuItem x:Name="MenuItem_Round" Header="{lex:Loc}">
+                    <MenuItem x:Name="MenuItem_Round_Draw" Header="{lex:Loc}" Command="{Binding DrawCommand}"/>
+                    <MenuItem x:Name="MenuItem_Round_Delete" Header="{lex:Loc}"  Command="{Binding DeleteLastRoundCommand}"/>
                 </MenuItem>
-                <MenuItem Header="Player Base" x:Name="MenuItem_PlayerBase">
+                <MenuItem Header="{lex:Loc}" x:Name="MenuItem_PlayerBase">
                     <MenuItem x:Name="MenuItem_PlayerBase_Update" Header="Update" 
                               ItemsSource="{Binding UpdateMenuEntries}" ItemContainerStyle="{StaticResource UpdateStyle}"/>
                 </MenuItem>
@@ -86,56 +91,57 @@
                     </MenuItem>
                     <MenuItem Header="Simulate Results" Command="{Binding SimulateResultsCommand}"/>
                 </MenuItem>
-                <MenuItem Header="Settings">
-                    <MenuItem x:Name="MenuItem_Settings_Basetheme" Header="Base Theme"/>
-                    <MenuItem x:Name="MenuItem_Settings_Themecolor" Header="Theme Color"/>
+                <MenuItem x:Name="MenuItem_Settings" Header="{lex:Loc}">
+                    <MenuItem x:Name="MenuItem_Settings_Basetheme" Header="{lex:Loc}"/>
+                    <MenuItem x:Name="MenuItem_Settings_Themecolor" Header="{lex:Loc}"/>
+                    <MenuItem x:Name="MenuItem_Settings_Language" Header="{lex:Loc}"/>
                     <Separator/>
-                    <MenuItem x:Name="MenuItem_Settings_Reset" Header="Reset Settings" Command="{Binding SettingsResetCommand}"/>
+                    <MenuItem x:Name="MenuItem_Settings_Reset" Header="{lex:Loc}" Command="{Binding SettingsResetCommand}"/>
                     <Separator/>
-                    <MenuItem x:Name="MenuItem_Settings_About" Header="About" Command="{Binding AboutCommand}"/>
+                    <MenuItem x:Name="MenuItem_Settings_About" Header="{lex:Loc}" Command="{Binding AboutCommand}"/>
                 </MenuItem>
             </Menu>
             <ToolBar Height="32" Grid.Row="1" x:Name="MainView_Toolbar">
-                <Button x:Name="Toolbar_Tournament_New" Command="{Binding TournamentAddDialogCommand}" ToolTip="Create New Tournament">
+                <Button x:Name="Toolbar_Tournament_New" Command="{Binding TournamentAddDialogCommand}" ToolTip="{lex:Loc}">
                     <iconPacks:PackIconCodicons Kind="NewFile" />
                 </Button>
-                <Button x:Name="Toolbar_Tournament_Open" Command="{Binding OpenCommand}" ToolTip="Load Tournament">
+                <Button x:Name="Toolbar_Tournament_Open" Command="{Binding OpenCommand}" ToolTip="{lex:Loc}">
                     <iconPacks:PackIconCodicons Kind="FolderOpened" />
                 </Button>
-                <Button x:Name="Toolbar_Tournament_Save" Command="{Binding TournamentSaveOrSaveAsCommand}" ToolTip="Save Tournament">
+                <Button x:Name="Toolbar_Tournament_Save" Command="{Binding TournamentSaveOrSaveAsCommand}" ToolTip="{lex:Loc}">
                     <iconPacks:PackIconCodicons Kind="Save" />
                 </Button>
-                <Button x:Name="Toolbar_Tournament_Edit" Command="{Binding TournamentEditDialogCommand}" ToolTip="Edit Tournament">
+                <Button x:Name="Toolbar_Tournament_Edit" Command="{Binding TournamentEditDialogCommand}" ToolTip="{lex:Loc}">
                     <iconPacks:PackIconCodicons Kind="Edit" />
                 </Button>
                 <Separator></Separator>
-                <Button x:Name="Toolbar_Participant_Add" Command="{Binding ParticipantDialogCommand}" ToolTip="Add Player">
+                <Button x:Name="Toolbar_Participant_Add" Command="{Binding ParticipantDialogCommand}" ToolTip="{lex:Loc}">
                     <iconPacks:PackIconCodicons Kind="PersonAdd" />
                 </Button>
                 <Separator></Separator>
-                <Button x:Name="Toolbar_Round_Draw" Command="{Binding DrawCommand}" ToolTip="Draw Next Round">
+                <Button x:Name="Toolbar_Round_Draw" Command="{Binding DrawCommand}" ToolTip="{lex:Loc}">
                     <iconPacks:PackIconJamIcons Kind="Dices" />
                 </Button>
             </ToolBar>
         </StackPanel>
         <TabControl x:Name="MainTabControl"  Grid.Row="2">
-            <TabItem Header="Participants" x:Name="TabItem_Participants">
+            <TabItem Header="{lex:Loc}" x:Name="TabItem_Participants">
                 <ListView Margin="10" x:Name="lvParticipants" mah:ControlsHelper.ContentCharacterCasing="Normal">
                     <ListView.ContextMenu>
                         <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
-                            <MenuItem Header="Edit" Command="{Binding ParticipantDialogCommand}" CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Mode=OneWay}"/>
+                            <MenuItem x:Name="MenuItem_Participant_Edit" Header="{lex:Loc}" Command="{Binding ParticipantDialogCommand}" CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Mode=OneWay}"/>
                             <Separator></Separator>
-                            <MenuItem Header="Abandon Tournament" Command="{Binding AbandonCommand}" CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Mode=OneWay}"/>
-                            <MenuItem Header="Pause Next Round" Command="{Binding PauseCommand}" CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Mode=OneWay}"/>
-                            <MenuItem Header="Undo Abandon/Pause" Command="{Binding UndoPauseCommand}" CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Mode=OneWay}"/>
+                            <MenuItem x:Name="MenuItem_Participant_Abandon" Header="{lex:Loc}" Command="{Binding AbandonCommand}" CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Mode=OneWay}"/>
+                            <MenuItem x:Name="MenuItem_Participant_Pause" Header="{lex:Loc}" Command="{Binding PauseCommand}" CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Mode=OneWay}"/>
+                            <MenuItem x:Name="MenuItem_Participant_Undo_Pause" Header="{lex:Loc}" Command="{Binding UndoPauseCommand}" CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Mode=OneWay}"/>
                             <Separator></Separator>
-                            <MenuItem Header="Delete" Command="{Binding ParticipantDeleteCommand}" CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Mode=OneWay}"/>
+                            <MenuItem x:Name="MenuItem_Participant_Delete" Header="{lex:Loc}" Command="{Binding ParticipantDeleteCommand}" CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Mode=OneWay}"/>
                         </ContextMenu>
                     </ListView.ContextMenu>
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Width="{local:SettingBinding ColParticipantNameWidth}">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SortParticipantsCommand}" CommandParameter="Name">Name</GridViewColumnHeader>
+                                <GridViewColumnHeader x:Name="ColHeaderParticipantName" mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SortParticipantsCommand}" CommandParameter="Name" Content="{lex:Loc}"/>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Participant.Name}" 
@@ -145,7 +151,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="{local:SettingBinding ColParticipantFederationWidth}">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SortParticipantsCommand}" CommandParameter="Federation">Federation</GridViewColumnHeader>
+                                <GridViewColumnHeader x:Name="ColHeaderParticipantFederation" mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SortParticipantsCommand}" CommandParameter="Federation" Content="{lex:Loc}"/>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Participant.Federation}"/>
@@ -153,7 +159,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="{local:SettingBinding ColParticipantFideIdWidth}">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SortParticipantsCommand}" CommandParameter="FideId">Fide Id</GridViewColumnHeader>
+                                <GridViewColumnHeader x:Name="ColHeaderParticipantFideId" mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SortParticipantsCommand}" CommandParameter="FideId" Content="{lex:Loc}"/>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Participant.FideId}"/>
@@ -161,7 +167,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="{local:SettingBinding ColParticipantScoreWidth}">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SortParticipantsCommand}" CommandParameter="Score">Score</GridViewColumnHeader>
+                                <GridViewColumnHeader x:Name="ColHeaderParticipantScore" mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SortParticipantsCommand}" CommandParameter="Score" Content="{lex:Loc}"/>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Score}"/>
@@ -169,7 +175,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="{local:SettingBinding ColParticipantRatingWidth}">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SortParticipantsCommand}" CommandParameter="Rating">Rating</GridViewColumnHeader>
+                                <GridViewColumnHeader x:Name="ColHeaderParticipantRating" mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SortParticipantsCommand}" CommandParameter="Rating" Content="{lex:Loc}"/>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=TournamentRating}" TextAlignment="Right"/>
@@ -177,7 +183,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="{local:SettingBinding ColParticipantIdWidth}">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SortParticipantsCommand}" CommandParameter="Id">Id</GridViewColumnHeader>
+                                <GridViewColumnHeader x:Name="ColHeaderParticipantId" mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SortParticipantsCommand}" CommandParameter="Id" Content="{lex:Loc}"/>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Participant.ParticipantId}"/>
@@ -185,7 +191,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="{local:SettingBinding ColParticipantEloWidth}">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SortParticipantsCommand}" CommandParameter="Elo">Elo</GridViewColumnHeader>
+                                <GridViewColumnHeader x:Name="ColHeaderParticipantElo" mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SortParticipantsCommand}" CommandParameter="Elo" Content="{lex:Loc}"/>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Participant.FideRating}" TextAlignment="Right"/>
@@ -193,7 +199,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="{local:SettingBinding ColParticipantNationalRatingWidth}">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SortParticipantsCommand}" CommandParameter="NationalRating">National Rating</GridViewColumnHeader>
+                                <GridViewColumnHeader x:Name="ColHeaderParticipantNationalRating" mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SortParticipantsCommand}" CommandParameter="NationalRating" Content="{lex:Loc}"/>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Participant.AlternativeRating}" TextAlignment="Right"/>
@@ -201,7 +207,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="{local:SettingBinding ColParticipantClubWidth}">
-                                <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SortParticipantsCommand}" CommandParameter="Club">Club</GridViewColumnHeader>
+                                <GridViewColumnHeader x:Name="ColHeaderParticipantClub" mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SortParticipantsCommand}" CommandParameter="Club" Content="{lex:Loc}"/>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Participant.Club}"/>
