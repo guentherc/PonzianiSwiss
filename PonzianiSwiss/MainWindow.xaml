@@ -127,8 +127,8 @@
         <TabControl x:Name="MainTabControl"  Grid.Row="2">
             <TabItem Header="{lex:Loc}" x:Name="TabItem_Participants">
                 <ListView Margin="10" x:Name="lvParticipants" mah:ControlsHelper.ContentCharacterCasing="Normal">
-                    <ListView.ContextMenu>
-                        <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                    <ListView.Resources>
+                        <ContextMenu x:Key="CtxtMenuParticipantList" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                             <MenuItem x:Name="MenuItem_Participant_Edit" Header="{lex:Loc}" Command="{Binding ParticipantDialogCommand}" CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Mode=OneWay}"/>
                             <Separator></Separator>
                             <MenuItem x:Name="MenuItem_Participant_Abandon" Header="{lex:Loc}" Command="{Binding AbandonCommand}" CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Mode=OneWay}"/>
@@ -137,7 +137,16 @@
                             <Separator></Separator>
                             <MenuItem x:Name="MenuItem_Participant_Delete" Header="{lex:Loc}" Command="{Binding ParticipantDeleteCommand}" CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Mode=OneWay}"/>
                         </ContextMenu>
-                    </ListView.ContextMenu>
+                    </ListView.Resources>
+                    <ListView.Style>
+                        <Style TargetType="ListView" BasedOn="{StaticResource {x:Type ListView}}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SelectedItems.IsEmpty, RelativeSource={RelativeSource Self}}" Value="false">
+                                    <Setter Property="ContextMenu" Value="{StaticResource CtxtMenuParticipantList}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.Style>
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Width="{local:SettingBinding ColParticipantNameWidth}">

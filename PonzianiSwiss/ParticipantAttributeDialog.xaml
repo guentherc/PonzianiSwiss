@@ -14,7 +14,7 @@
         mc:Ignorable="d"
         md:DialogServiceViews.IsRegistered="True" 
         d:DataContext="{d:DesignInstance {x:Type local:ParticipantAttributeDialogViewModel}}"
-        Title="Participant Attributes" Height="450" Width="800" TitleCharacterCasing="Normal">
+        Title="{lex:Loc Key=ParticipantAttributeDialog_Title}" Height="450" Width="800" TitleCharacterCasing="Normal">
     <StackPanel>
         <DataGrid Name="dgCustomAttributes" ItemsSource="{Binding Path=CustomAttributes}" AutoGenerateColumns="False" BorderThickness="1" 
                   GridLinesVisibility="Vertical" CanUserAddRows="True" CanUserDeleteRows="True">
@@ -34,9 +34,9 @@
                 </Style>
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding Path=Key}" 
+                <DataGridTextColumn Header="{lex:Loc Key=ParticipantAttributeDialog_Column_Name_Header}" Binding="{Binding Path=Key}" 
                       Width="3*"/>
-                <DataGridTextColumn Header="Value" Binding="{Binding Path=Value}"
+                <DataGridTextColumn Header="{lex:Loc Key=ParticipantAttributeDialog_Column_Value_Header}" Binding="{Binding Path=Value}"
                       Width="4*"/>
             </DataGrid.Columns>
         </DataGrid>

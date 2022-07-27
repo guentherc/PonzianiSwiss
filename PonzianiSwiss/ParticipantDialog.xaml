@@ -14,7 +14,7 @@
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
         md:DialogServiceViews.IsRegistered="True"
-        Title="ParticipantDialog" Height="328" Width="800" TitleCharacterCasing="Normal"
+        Title="{lex:Loc Key=ParticipantDialog_Title}" Height="328" Width="800" TitleCharacterCasing="Normal"
         d:DataContext="{d:DesignInstance {x:Type local:ParticipantDialogViewModel}}">
     <Window.Resources>
         <local:ParticipantProvider x:Key="ParticipantProvider" />
@@ -39,33 +39,33 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" VerticalAlignment="Center" Margin="5,5,5,5">Fide ID:</Label>
+            <Label x:Name="ParticipantDialog_Label_FideID" Grid.Row="0" VerticalAlignment="Center" Margin="5,5,5,5">Fide ID:</Label>
             <TextBox x:Name="TextBox_FideID" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="5" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding FideId}"/>
-            <CheckBox Grid.Column="6" VerticalAlignment="Center" IsChecked="{Binding Path=Female}" Margin="5,5,5,5" Content="Female"/>
-            <Label Grid.Row="1" VerticalAlignment="Center" Margin="5,5,5,5">Name:</Label>
+            <CheckBox x:Name="CheckBox_Female" Grid.Column="6" VerticalAlignment="Center" IsChecked="{Binding Path=Female}" Margin="5,5,5,5" Content="{lex:Loc}"/>
+            <Label x:Name="ParticipantDialog_Label_Name" Grid.Row="1" VerticalAlignment="Center" Margin="5,5,5,5">Name:</Label>
             <wpf:AutoCompleteTextBox x:Name="TextBox_Participant_Name" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="5" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding Path=Participant.Name}"
                                      Provider="{StaticResource ResourceKey=ParticipantProvider}"
                                      SelectedItem="{Binding SelectedName, Mode=TwoWay}"/>
-            <Button x:Name="Button_NationalBase" Grid.Row="1" Grid.Column="6" Command="{Binding PlayerSearchDialogCommand}" ToolTip="Search Player in National Base" Width="30"
+            <Button x:Name="Button_NationalBase" Grid.Row="1" Grid.Column="6" Command="{Binding PlayerSearchDialogCommand}" ToolTip="{lex:Loc}" Width="30"
                     VerticalAlignment="Center" Margin="5,5,5,5" HorizontalAlignment="Left">
                 <iconPacks:PackIconCodicons Kind="Search" />
             </Button>
-            <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="5,5,5,5">Title:</Label>
+            <Label x:Name="ParticipantDialog_Label_Title" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="5,5,5,5" Content="{lex:Loc}"/>
             <ComboBox x:Name="ComboBox_Title" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" SelectedValue="{Binding Path=Participant.Title}" MinWidth="100" Margin="5,5,5,5"/>
-            <Label Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Margin="5,5,5,5">Federation:</Label>
+            <Label x:Name="ParticipantDialog_Label_Federation" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Margin="5,5,5,5" Content="{lex:Loc}"/>
             <ComboBox x:Name="ComboBox_Federation" Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" 
                       SelectedValue="{Binding Path=Participant.Federation, Mode=TwoWay}"  
                       MinWidth="200" Margin="5,5,5,5"/>
-            <Label Grid.Row="2" Grid.Column="4" VerticalAlignment="Center" Margin="5,5,5,5">Year of Birth:</Label>
+            <Label x:Name="ParticipantDialog_Label_YearOfBirth" Grid.Row="2" Grid.Column="4" VerticalAlignment="Center" Margin="5,5,5,5" Content="{lex:Loc}"/>
             <TextBox x:Name="TextBox_YearOfBirth" Grid.Row="2" Grid.Column="5" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding Path=Participant.YearOfBirth}"/>
-            <Label Grid.Row="3" VerticalAlignment="Center" Margin="5,5,5,5">Rating:</Label>
+            <Label x:Name="ParticipantDialog_Label_Rating" Grid.Row="3" VerticalAlignment="Center" Margin="5,5,5,5" Content="{lex:Loc}"/>
             <TextBox x:Name="TextBox_FideRating" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding Path=Participant.FideRating}"/>
-            <Label Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" Margin="5,5,5,5">Alternative Rating:</Label>
+            <Label x:Name="ParticipantDialog_Label_AltRating" Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" Margin="5,5,5,5" Content="{lex:Loc}"/>
             <TextBox x:Name="TextBox_AlternativeRating" Grid.Row="3" Grid.Column="3" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding Path=Participant.AlternativeRating}"/>
-            <Label Grid.Row="4" VerticalAlignment="Center" Margin="5,5,5,5">Club:</Label>
+            <Label x:Name="ParticipantDialog_Label_Club" Grid.Row="4" VerticalAlignment="Center" Margin="5,5,5,5" Content="{lex:Loc}"/>
             <TextBox x:Name="TextBox_Club" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="6" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding Path=Participant.Club}"/>
             <Button x:Name="Button_AdditionalAttributes" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="6" Command="{Binding ParticipantAttributesDialogCommand}" ToolTip="Additional Attributes"
-                    VerticalAlignment="Center" Margin="5,5,5,5" HorizontalAlignment="Left" Content="Additional Attributes" mah:ControlsHelper.ContentCharacterCasing="Normal">
+                    VerticalAlignment="Center" Margin="5,5,5,5" HorizontalAlignment="Left" Content="{lex:Loc}" mah:ControlsHelper.ContentCharacterCasing="Normal">
             </Button>
             
         </Grid>

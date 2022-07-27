@@ -147,4 +147,34 @@
   <data name="BaseDescription_SUI" xml:space="preserve">
     <value>Schweizerische Schachbund</value>
   </data>
+  <data name="DownloadCompletedStartingDataProcessing" xml:space="preserve">
+    <value>Download komplett - Verarbeitung beginnt</value>
+  </data>
+  <data name="StartingDatabaseUpdate" xml:space="preserve">
+    <value>Datenbankupdate beginnt</value>
+  </data>
+  <data name="DownloadingData" xml:space="preserve">
+    <value>Daten von {0} werden geladen</value>
+  </data>
+  <data name="CountPlayersProcessed" xml:space="preserve">
+    <value>{0} Spieler verarbeitet</value>
+  </data>
+  <data name="CountPlayersProcessedCommitStarted" xml:space="preserve">
+    <value>{0} Spieler verarbeitet - Starte Commit</value>
+  </data>
+  <data name="Cleanup" xml:space="preserve">
+    <value>Aufräumen...</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Fertig!</value>
+  </data>
+  <data name="PreparingDownload" xml:space="preserve">
+    <value>Download wird vorbereitet</value>
+  </data>
+  <data name="CountPlayersWrittenToDatabase" xml:space="preserve">
+    <value>{0} Spieler in die Datenbank aufgenommen</value>
+  </data>
+  <data name="OldDataRemoved" xml:space="preserve">
+    <value>Alte Daten wurden entfernt</value>
+  </data>
 </root>

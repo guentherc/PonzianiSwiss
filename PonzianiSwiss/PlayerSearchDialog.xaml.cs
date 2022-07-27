@@ -60,8 +60,7 @@ namespace PonzianiSwiss
             try
             {
                 string[] ids = id.Split('_');
-                if (ids.Length == 2)
-                    Player = PlayerBaseFactory.Get(PlayerBase, Logger).GetById(ids[1]);
+                Player = PlayerBaseFactory.Get(PlayerBase, Logger).GetById(ids.Last());
             }
             catch (Exception ex)
             {

@@ -31,7 +31,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Label VerticalAlignment="Center" Margin="5,5,5,5">Data Source:</Label>
+            <Label x:Name="PlayerSearchDialog_Label_DataSource" VerticalAlignment="Center" Margin="5,5,5,5" Content="{lex:Loc}"/>
             <ComboBox x:Name="ComboBox_Base" Grid.Column="1" VerticalAlignment="Center" SelectedValue="{Binding Path=PlayerBase}"  MinWidth="100" Margin="5,5,5,5">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
@@ -39,11 +39,11 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </ComboBox>
-            <Label Grid.Row="1" VerticalAlignment="Center" Margin="5,5,5,5">Name:</Label>
+            <Label x:Name="PlayerSearchDialog_Label_Name" Grid.Row="1" VerticalAlignment="Center" Margin="5,5,5,5" Content="{lex:Loc}"/>
             <wpf:AutoCompleteTextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="6" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding Path=Player.Name}"
                                      Provider="{StaticResource ResourceKey=NParticipantProvider}" x:Name="TextBox_Name"
                                      SelectedItem="{Binding SelectedName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
-            <GroupBox Grid.Row="2" Grid.ColumnSpan="2" Header="Data" Margin="5,5,5,5" mah:ControlsHelper.ContentCharacterCasing="Normal"
+            <GroupBox x:Name="PlayerSearchDialog_Groupbox_Data" Grid.Row="2" Grid.ColumnSpan="2" Header="{lex:Loc}" Margin="5,5,5,5" mah:ControlsHelper.ContentCharacterCasing="Normal"
                       Style="{DynamicResource MahApps.Styles.GroupBox.Clean}">
                 <GroupBox.Resources>
                     <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Clean/Controls.xaml" />
@@ -51,27 +51,28 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" MinWidth="50" />
+                        <ColumnDefinition Width="Auto" MinWidth="50" />
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" MinWidth="50"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" VerticalAlignment="Center" Margin="5,5,5,5">Id:</Label>
-                    <TextBox x:Name="TextBox_Id" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding Path=Player.Id}" IsReadOnly="True"/>
-                    <Label VerticalAlignment="Center" Grid.Row="0" Grid.Column="2" Margin="5,5,5,5">Federation:</Label>
-                    <TextBox Grid.Row="0" Grid.Column="3" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding Path=Player.Federation}" IsReadOnly="True"/>
-                    <CheckBox Grid.Row="0" Grid.Column="4" VerticalAlignment="Center" Margin="5,5,5,5" Content="Female" IsChecked="{Binding Path=IsFemale, Mode=OneWay}" IsEnabled="False"/>
-                    <Label Grid.Row="1" VerticalAlignment="Center" Margin="5,5,5,5">National Rating:</Label>
-                    <TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding Path=Player.Rating}" IsReadOnly="True"/>
-                    <Label VerticalAlignment="Center" Grid.Row="1" Grid.Column="2" Margin="5,5,5,5">Year of Birth:</Label>
-                    <TextBox Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding Path=Player.YearOfBirth}" IsReadOnly="True"/>
-                    <Label Grid.Row="2" VerticalAlignment="Center" Margin="5,5,5,5">Club:</Label>
-                    <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="4" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding Path=Player.Club}" IsReadOnly="True"/>
+                    <Label x:Name="PlayerSearchDialog_Label_Id" VerticalAlignment="Center" Margin="5,5,5,5" Grid.ColumnSpan="2" Content="{lex:Loc}" Height="26"/>
+                    <TextBox x:Name="TextBox_Id" Grid.Column="2" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding Path=Player.Id}" IsReadOnly="True" Height="26"/>
+                    <Label x:Name="PlayerSearchDialog_Label_Federation" VerticalAlignment="Center" Grid.Column="3" Margin="5,5,5,5" Content="{lex:Loc}" Height="26"/>
+                    <TextBox Grid.Column="4" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding Path=Player.Federation}" IsReadOnly="True" Height="26"/>
+                    <CheckBox  x:Name="PlayerSearchDialog_Checkbox_Female" Grid.Column="5" VerticalAlignment="Center" Margin="5,5,5,5" Content="{lex:Loc}" IsChecked="{Binding Path=IsFemale, Mode=OneWay}" IsEnabled="False" Height="18"/>
+                    <Label x:Name="PlayerSearchDialog_Label_NationalRating" Grid.Row="1" VerticalAlignment="Center" Margin="5,5,5,5" Grid.ColumnSpan="2" Content="{lex:Loc}" Height="26"/>
+                    <TextBox Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding Path=Player.Rating}" IsReadOnly="True" Height="26"/>
+                    <Label x:Name="PlayerSearchDialog_Label_YearOfBirth" VerticalAlignment="Center" Grid.Row="1" Grid.Column="3" Margin="5,5,5,5" Content="{lex:Loc}" Height="26"/>
+                    <TextBox Grid.Row="1" Grid.Column="4" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding Path=Player.YearOfBirth}" IsReadOnly="True" Height="26"/>
+                    <Label x:Name="PlayerSearchDialog_Label_Club" Grid.Row="2" VerticalAlignment="Center" Margin="5,5,5,5" Grid.ColumnSpan="2" Content="{lex:Loc}" Height="26"/>
+                    <TextBox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="4" VerticalAlignment="Center" Margin="5,5,5,5" Text="{Binding Path=Player.Club}" IsReadOnly="True" Height="26"/>
                 </Grid>
 
             </GroupBox>

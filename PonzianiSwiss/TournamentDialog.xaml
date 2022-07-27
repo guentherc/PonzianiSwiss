@@ -72,7 +72,7 @@
             <WrapPanel  Grid.Column="3" Grid.Row="7" >
                 <TextBox VerticalAlignment="Center" IsReadOnly="True"
                      Text="{Binding Path=Tournament.TieBreak, Converter={StaticResource TiebreakConverter}}" Margin="5,5,5,5"/>
-                <Button Command="{Binding TiebreakDialogCommand}" ToolTip="Edit Tiebreak" Width="30"
+                <Button x:Name="Button_Edit_Tiebreak" Command="{Binding TiebreakDialogCommand}" ToolTip="{lex:Loc}" Width="30"
                     VerticalAlignment="Center" Margin="5,5,5,5" HorizontalAlignment="Right">
                     <iconPacks:PackIconCodicons Kind="Edit" />
                 </Button>

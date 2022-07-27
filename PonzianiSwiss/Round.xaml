@@ -9,6 +9,7 @@
              lex:LocalizeDictionary.DesignCulture="de-DE"
              lex:ResxLocalizationProvider.DefaultAssembly="PonzianiSwiss"
              lex:ResxLocalizationProvider.DefaultDictionary="PonzianiSwiss.Resources.Strings"  
+             xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -17,8 +18,30 @@
     <Grid>
         <ListView x:Name="lvRound" d:ItemsSource="{d:SampleData ItemCount=5}" mah:ControlsHelper.ContentCharacterCasing="Normal" KeyUp="Listview_Round_KeyUp">
             <ListView.Resources>
+                <ContextMenu x:Key="CtxtMenuRound" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                    <MenuItem x:Name="MenuItem_Set_Result_0" Header="{lex:Loc}" Click="MenuItem_Set_Result" Tag="0"/>
+                    <MenuItem x:Name="MenuItem_Set_Result_9" Header="1-0" Click="MenuItem_Set_Result" Tag="9"/>
+                    <MenuItem x:Name="MenuItem_Set_Result_6" Header="1/2-1/2" Click="MenuItem_Set_Result" Tag="6"/>
+                    <MenuItem x:Name="MenuItem_Set_Result_2" Header="0-1" Click="MenuItem_Set_Result" Tag="2"/>
+                    <MenuItem x:Name="MenuItem_Unrated" Header="{lex:Loc}">
+                        <MenuItem x:Name="MenuItem_Set_Result_10" Header="1-0" Click="MenuItem_Set_Result" Tag="10"/>
+                        <MenuItem x:Name="MenuItem_Set_Result_7" Header="1/2-1/2" Click="MenuItem_Set_Result" Tag="7"/>
+                        <MenuItem x:Name="MenuItem_Set_Result_3" Header="0-1" Click="MenuItem_Set_Result" Tag="3"/>
+                    </MenuItem>
+                    <MenuItem x:Name="MenuItem_Forfeit" Header="{lex:Loc}">
+                        <MenuItem x:Name="MenuItem_Set_Result_11" Header="+--" Click="MenuItem_Set_Result" Tag="11"/>
+                        <MenuItem x:Name="MenuItem_Set_Result_1" Header="--+" Click="MenuItem_Set_Result" Tag="1"/>
+                        <MenuItem x:Name="MenuItem_Set_Result_13" Header="---" Click="MenuItem_Set_Result" Tag="13"/>
+                    </MenuItem>
+                    <MenuItem x:Name="MenuItem_Bye" Header="{lex:Loc}">
+                        <MenuItem x:Name="MenuItem_Set_Result_12" Header="1" Click="MenuItem_Set_Result" Tag="12"/>
+                        <MenuItem x:Name="MenuItem_Set_Result_8" Header="1/2" Click="MenuItem_Set_Result" Tag="8"/>
+                        <MenuItem x:Name="MenuItem_Set_Result_5" Header="0" Click="MenuItem_Set_Result" Tag="5"/>
+                    </MenuItem>
+                </ContextMenu>
                 <Style TargetType="{x:Type ListViewItem}">
                     <Setter Property="Background" Value="LightGray" />
+                    <Setter Property="ContextMenu" Value="{StaticResource CtxtMenuRound}"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Result}" Value="0">
                             <Setter Property="Background" Value="Transparent" />
@@ -26,65 +49,42 @@
                     </Style.Triggers>
                 </Style>
             </ListView.Resources>
-            <ListView.ContextMenu>
-                <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
-                    <MenuItem x:Name="MenuItem_Set_Result_0" Header="* (Open)" Click="MenuItem_Set_Result" Tag="0"/>
-                    <MenuItem x:Name="MenuItem_Set_Result_9" Header="1-0" Click="MenuItem_Set_Result" Tag="9"/>
-                    <MenuItem x:Name="MenuItem_Set_Result_6" Header="1/2-1/2" Click="MenuItem_Set_Result" Tag="6"/>
-                    <MenuItem x:Name="MenuItem_Set_Result_2" Header="0-1" Click="MenuItem_Set_Result" Tag="2"/>
-                    <MenuItem Header="Unrated">
-                        <MenuItem x:Name="MenuItem_Set_Result_10" Header="1-0" Click="MenuItem_Set_Result" Tag="10"/>
-                        <MenuItem x:Name="MenuItem_Set_Result_7" Header="1/2-1/2" Click="MenuItem_Set_Result" Tag="7"/>
-                        <MenuItem x:Name="MenuItem_Set_Result_3" Header="0-1" Click="MenuItem_Set_Result" Tag="3"/>
-                    </MenuItem>
-                    <MenuItem Header="Forfeit">
-                        <MenuItem x:Name="MenuItem_Set_Result_11" Header="+--" Click="MenuItem_Set_Result" Tag="11"/>
-                        <MenuItem x:Name="MenuItem_Set_Result_1" Header="--+" Click="MenuItem_Set_Result" Tag="1"/>
-                        <MenuItem x:Name="MenuItem_Set_Result_13" Header="---" Click="MenuItem_Set_Result" Tag="13"/>
-                    </MenuItem>
-                    <MenuItem Header="Bye">
-                        <MenuItem x:Name="MenuItem_Set_Result_12" Header="1" Click="MenuItem_Set_Result" Tag="12"/>
-                        <MenuItem x:Name="MenuItem_Set_Result_8" Header="1/2" Click="MenuItem_Set_Result" Tag="8"/>
-                        <MenuItem x:Name="MenuItem_Set_Result_5" Header="0" Click="MenuItem_Set_Result" Tag="5"/>
-                    </MenuItem>
-                </ContextMenu>
-            </ListView.ContextMenu>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="{local:SettingBinding ColPairingWhiteIdWidth}">
-                            <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Id</GridViewColumnHeader>
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
+                    <GridViewColumn Width="{local:SettingBinding Path=ColPairingWhiteIdWidth}">
+                        <GridViewColumnHeader x:Name="Round_Column_Header_Id_White" mah:ControlsHelper.ContentCharacterCasing="Normal" Content="{lex:Loc}"/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
                                 <TextBlock Text="{Binding Path=Pairing.White.RankId}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    <GridViewColumn Width="{local:SettingBinding ColPairingWhiteNameWidth}">
-                        <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">White</GridViewColumnHeader>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="{local:SettingBinding Path=ColPairingWhiteNameWidth}">
+                        <GridViewColumnHeader x:Name="Round_Column_Header_White" mah:ControlsHelper.ContentCharacterCasing="Normal" Content="{lex:Loc}"/>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Path=White}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Width="{local:SettingBinding ColPairingBlackIdWidth}">
-                        <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Id</GridViewColumnHeader>
+                    <GridViewColumn Width="{local:SettingBinding Path=ColPairingBlackIdWidth}">
+                        <GridViewColumnHeader x:Name="Round_Column_Header_Id_Black" mah:ControlsHelper.ContentCharacterCasing="Normal" Content="{lex:Loc}"/>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Path=Pairing.Black.RankId}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Width="{local:SettingBinding ColPairingBlackNameWidth}">
-                        <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Black</GridViewColumnHeader>
+                    <GridViewColumn Width="{local:SettingBinding Path=ColPairingBlackNameWidth}">
+                        <GridViewColumnHeader x:Name="Round_Column_Header_Black" mah:ControlsHelper.ContentCharacterCasing="Normal" Content="{lex:Loc}"/>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Path=Black}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Width="{local:SettingBinding ColPairingResultWidth}">
-                        <GridViewColumnHeader mah:ControlsHelper.ContentCharacterCasing="Normal">Result</GridViewColumnHeader>
+                    <GridViewColumn Width="{local:SettingBinding Path=ColPairingResultWidth}">
+                        <GridViewColumnHeader x:Name="Round_Column_Header_Result" mah:ControlsHelper.ContentCharacterCasing="Normal" Content="{lex:Loc}"/>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Path=Result, Converter={StaticResource ResultConverter}}"/>

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using MvvmDialogs;
+using PonzianiSwiss.Resources;
 using PonzianiSwissLib;
 using System;
 using System.Collections.ObjectModel;
@@ -88,8 +89,8 @@ namespace PonzianiSwiss
                 foreach (var ca in empty) CustomAttributes.Remove(ca);
                 if (CheckForDuplicates())
                 {
-                    dialogService.ShowMessageBox(this, $"Duplicate Attribute Key: {CustomAttributes.Where(a => a.IsDuplicate).First().Key} - Keys must be unique!", "Duplicate Key",
-                                                 MessageBoxButton.OK, MessageBoxImage.Error);
+                    dialogService.ShowMessageBox(this, LocalizedStrings.Instance.Get("ParticipantAttributeDialog_DuplicateMessage_Text", CustomAttributes.Where(a => a.IsDuplicate).First().Key),
+                                                        LocalizedStrings.Instance["ParticipantAttributeDialog_DuplicateMessage_Caption"], MessageBoxButton.OK, MessageBoxImage.Error);
                     OnPropertyChanged(nameof(CustomAttributes));
                     return;
                 }

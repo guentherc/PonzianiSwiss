@@ -149,5 +149,95 @@ namespace PonzianiPlayerBase {
                 return ResourceManager.GetString("BaseDescription_SUI", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Cleanup... ähnelt.
+        /// </summary>
+        public static string Cleanup {
+            get {
+                return ResourceManager.GetString("Cleanup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0} Players Processed ähnelt.
+        /// </summary>
+        public static string CountPlayersProcessed {
+            get {
+                return ResourceManager.GetString("CountPlayersProcessed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0} Players Processed - Commit Started ähnelt.
+        /// </summary>
+        public static string CountPlayersProcessedCommitStarted {
+            get {
+                return ResourceManager.GetString("CountPlayersProcessedCommitStarted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0} Players written to database ähnelt.
+        /// </summary>
+        public static string CountPlayersWrittenToDatabase {
+            get {
+                return ResourceManager.GetString("CountPlayersWrittenToDatabase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Done! ähnelt.
+        /// </summary>
+        public static string Done {
+            get {
+                return ResourceManager.GetString("Done", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Download completed - Starting Data Processing ähnelt.
+        /// </summary>
+        public static string DownloadCompletedStartingDataProcessing {
+            get {
+                return ResourceManager.GetString("DownloadCompletedStartingDataProcessing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Downloading Data from {0} ähnelt.
+        /// </summary>
+        public static string DownloadingData {
+            get {
+                return ResourceManager.GetString("DownloadingData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Old Data Removed ähnelt.
+        /// </summary>
+        public static string OldDataRemoved {
+            get {
+                return ResourceManager.GetString("OldDataRemoved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Preparing Download ähnelt.
+        /// </summary>
+        public static string PreparingDownload {
+            get {
+                return ResourceManager.GetString("PreparingDownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Starting Database Update ähnelt.
+        /// </summary>
+        public static string StartingDatabaseUpdate {
+            get {
+                return ResourceManager.GetString("StartingDatabaseUpdate", resourceCulture);
+            }
+        }
     }
 }

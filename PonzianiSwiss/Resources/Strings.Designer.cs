@@ -115,11 +115,38 @@ namespace PonzianiSwiss.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Additional Attributes ähnelt.
+        /// </summary>
+        public static string Button_AdditionalAttributes_Content {
+            get {
+                return ResourceManager.GetString("Button_AdditionalAttributes_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Cancel ähnelt.
         /// </summary>
         public static string Button_Cancel_Content {
             get {
                 return ResourceManager.GetString("Button_Cancel_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Edit Tiebreak ähnelt.
+        /// </summary>
+        public static string Button_Edit_Tiebreak_ToolTip {
+            get {
+                return ResourceManager.GetString("Button_Edit_Tiebreak_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Search Player in National Base ähnelt.
+        /// </summary>
+        public static string Button_NationalBase_ToolTip {
+            get {
+                return ResourceManager.GetString("Button_NationalBase_ToolTip", resourceCulture);
             }
         }
         
@@ -147,6 +174,15 @@ namespace PonzianiSwiss.Resources {
         public static string CheckBox_Baku_Acceleration_Content {
             get {
                 return ResourceManager.GetString("CheckBox_Baku_Acceleration_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Female ähnelt.
+        /// </summary>
+        public static string CheckBox_Female_Content {
+            get {
+                return ResourceManager.GetString("CheckBox_Female_Content", resourceCulture);
             }
         }
         
@@ -295,6 +331,132 @@ namespace PonzianiSwiss.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Add ähnelt.
+        /// </summary>
+        public static string ForbiddenPairingsDialog_Add {
+            get {
+                return ResourceManager.GetString("ForbiddenPairingsDialog_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Avoid Pairings from same Club ähnelt.
+        /// </summary>
+        public static string ForbiddenPairingsDialog_AvoidPairingsFromSameClub {
+            get {
+                return ResourceManager.GetString("ForbiddenPairingsDialog_AvoidPairingsFromSameClub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Avoid Pairings from same Federation ähnelt.
+        /// </summary>
+        public static string ForbiddenPairingsDialog_AvoidPairingsFromSameFederation {
+            get {
+                return ResourceManager.GetString("ForbiddenPairingsDialog_AvoidPairingsFromSameFederation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Define Forbidden Pairing: ähnelt.
+        /// </summary>
+        public static string ForbiddenPairingsDialog_DefineForbiddenPairing {
+            get {
+                return ResourceManager.GetString("ForbiddenPairingsDialog_DefineForbiddenPairing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Federation vs Federation ähnelt.
+        /// </summary>
+        public static string ForbiddenPairingsDialog_FederationVsFederation {
+            get {
+                return ResourceManager.GetString("ForbiddenPairingsDialog_FederationVsFederation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die List of forbidden pairings ähnelt.
+        /// </summary>
+        public static string ForbiddenPairingsDialog_ListOfForbiddenPairings {
+            get {
+                return ResourceManager.GetString("ForbiddenPairingsDialog_ListOfForbiddenPairings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Player 1 ähnelt.
+        /// </summary>
+        public static string ForbiddenPairingsDialog_Player1 {
+            get {
+                return ResourceManager.GetString("ForbiddenPairingsDialog_Player1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Player 2 ähnelt.
+        /// </summary>
+        public static string ForbiddenPairingsDialog_Player2 {
+            get {
+                return ResourceManager.GetString("ForbiddenPairingsDialog_Player2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Player vs Federation ähnelt.
+        /// </summary>
+        public static string ForbiddenPairingsDialog_PlayerVsFederation {
+            get {
+                return ResourceManager.GetString("ForbiddenPairingsDialog_PlayerVsFederation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Player vs Player ähnelt.
+        /// </summary>
+        public static string ForbiddenPairingsDialog_PlayerVsPlayer {
+            get {
+                return ResourceManager.GetString("ForbiddenPairingsDialog_PlayerVsPlayer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Special Options ähnelt.
+        /// </summary>
+        public static string ForbiddenPairingsDialog_SpecialOptions {
+            get {
+                return ResourceManager.GetString("ForbiddenPairingsDialog_SpecialOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Standard Options ähnelt.
+        /// </summary>
+        public static string ForbiddenPairingsDialog_StandardOptions {
+            get {
+                return ResourceManager.GetString("ForbiddenPairingsDialog_StandardOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Forbidden Pairings ähnelt.
+        /// </summary>
+        public static string ForbiddenPairingsDialog_Title {
+            get {
+                return ResourceManager.GetString("ForbiddenPairingsDialog_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Selected Tiebreak Rules ähnelt.
+        /// </summary>
+        public static string GridViewColumnHeader_Selected_Content {
+            get {
+                return ResourceManager.GetString("GridViewColumnHeader_Selected_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Scoring Scheme ähnelt.
         /// </summary>
         public static string GroupBox_ScoringScheme_Header {
@@ -309,6 +471,24 @@ namespace PonzianiSwiss.Resources {
         public static string Load_Tournament_Message_Title {
             get {
                 return ResourceManager.GetString("Load_Tournament_Message_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Bye ähnelt.
+        /// </summary>
+        public static string MenuItem_Bye_Header {
+            get {
+                return ResourceManager.GetString("MenuItem_Bye_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Forfeit ähnelt.
+        /// </summary>
+        public static string MenuItem_Forfeit_Header {
+            get {
+                return ResourceManager.GetString("MenuItem_Forfeit_Header", resourceCulture);
             }
         }
         
@@ -426,6 +606,15 @@ namespace PonzianiSwiss.Resources {
         public static string MenuItem_Round_Header {
             get {
                 return ResourceManager.GetString("MenuItem_Round_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die * (Open) ähnelt.
+        /// </summary>
+        public static string MenuItem_Set_Result_0_Header {
+            get {
+                return ResourceManager.GetString("MenuItem_Set_Result_0_Header", resourceCulture);
             }
         }
         
@@ -610,6 +799,15 @@ namespace PonzianiSwiss.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Unrated ähnelt.
+        /// </summary>
+        public static string MenuItem_Unrated_Header {
+            get {
+                return ResourceManager.GetString("MenuItem_Unrated_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Tournament Files|*.tjson|All Files|*.* ähnelt.
         /// </summary>
         public static string Open_Tournament_Dialog_Filter {
@@ -655,6 +853,258 @@ namespace PonzianiSwiss.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Name ähnelt.
+        /// </summary>
+        public static string ParticipantAttributeDialog_Column_Name_Header {
+            get {
+                return ResourceManager.GetString("ParticipantAttributeDialog_Column_Name_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Value ähnelt.
+        /// </summary>
+        public static string ParticipantAttributeDialog_Column_Value_Header {
+            get {
+                return ResourceManager.GetString("ParticipantAttributeDialog_Column_Value_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Duplicate Key ähnelt.
+        /// </summary>
+        public static string ParticipantAttributeDialog_DuplicateMessage_Caption {
+            get {
+                return ResourceManager.GetString("ParticipantAttributeDialog_DuplicateMessage_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Duplicate Attribute Key: {0} - Keys must be unique! ähnelt.
+        /// </summary>
+        public static string ParticipantAttributeDialog_DuplicateMessage_Text {
+            get {
+                return ResourceManager.GetString("ParticipantAttributeDialog_DuplicateMessage_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Participant Attributes ähnelt.
+        /// </summary>
+        public static string ParticipantAttributeDialog_Title {
+            get {
+                return ResourceManager.GetString("ParticipantAttributeDialog_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Alternative Rating: ähnelt.
+        /// </summary>
+        public static string ParticipantDialog_Label_AltRating_Content {
+            get {
+                return ResourceManager.GetString("ParticipantDialog_Label_AltRating_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Club: ähnelt.
+        /// </summary>
+        public static string ParticipantDialog_Label_Club_Content {
+            get {
+                return ResourceManager.GetString("ParticipantDialog_Label_Club_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Federation: ähnelt.
+        /// </summary>
+        public static string ParticipantDialog_Label_Federation_Content {
+            get {
+                return ResourceManager.GetString("ParticipantDialog_Label_Federation_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Fide ID: ähnelt.
+        /// </summary>
+        public static string ParticipantDialog_Label_FideID_Content {
+            get {
+                return ResourceManager.GetString("ParticipantDialog_Label_FideID_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Name: ähnelt.
+        /// </summary>
+        public static string ParticipantDialog_Label_Name_Content {
+            get {
+                return ResourceManager.GetString("ParticipantDialog_Label_Name_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Rating: ähnelt.
+        /// </summary>
+        public static string ParticipantDialog_Label_Rating_Content {
+            get {
+                return ResourceManager.GetString("ParticipantDialog_Label_Rating_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Title: ähnelt.
+        /// </summary>
+        public static string ParticipantDialog_Label_Title_Content {
+            get {
+                return ResourceManager.GetString("ParticipantDialog_Label_Title_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Year of Birth: ähnelt.
+        /// </summary>
+        public static string ParticipantDialog_Label_YearOfBirth_Content {
+            get {
+                return ResourceManager.GetString("ParticipantDialog_Label_YearOfBirth_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Participant ähnelt.
+        /// </summary>
+        public static string ParticipantDialog_Title {
+            get {
+                return ResourceManager.GetString("ParticipantDialog_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Female ähnelt.
+        /// </summary>
+        public static string PlayerSearchDialog_Checkbox_Female_Content {
+            get {
+                return ResourceManager.GetString("PlayerSearchDialog_Checkbox_Female_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Data ähnelt.
+        /// </summary>
+        public static string PlayerSearchDialog_Groupbox_Data_Header {
+            get {
+                return ResourceManager.GetString("PlayerSearchDialog_Groupbox_Data_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Club: ähnelt.
+        /// </summary>
+        public static string PlayerSearchDialog_Label_Club_Content {
+            get {
+                return ResourceManager.GetString("PlayerSearchDialog_Label_Club_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Data Source: ähnelt.
+        /// </summary>
+        public static string PlayerSearchDialog_Label_DataSource_Content {
+            get {
+                return ResourceManager.GetString("PlayerSearchDialog_Label_DataSource_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Federation: ähnelt.
+        /// </summary>
+        public static string PlayerSearchDialog_Label_Federation_Content {
+            get {
+                return ResourceManager.GetString("PlayerSearchDialog_Label_Federation_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Id: ähnelt.
+        /// </summary>
+        public static string PlayerSearchDialog_Label_Id_Content {
+            get {
+                return ResourceManager.GetString("PlayerSearchDialog_Label_Id_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Name: ähnelt.
+        /// </summary>
+        public static string PlayerSearchDialog_Label_Name_Content {
+            get {
+                return ResourceManager.GetString("PlayerSearchDialog_Label_Name_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die National Rating: ähnelt.
+        /// </summary>
+        public static string PlayerSearchDialog_Label_NationalRating_Content {
+            get {
+                return ResourceManager.GetString("PlayerSearchDialog_Label_NationalRating_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Year of Birth: ähnelt.
+        /// </summary>
+        public static string PlayerSearchDialog_Label_YearOfBirth_Content {
+            get {
+                return ResourceManager.GetString("PlayerSearchDialog_Label_YearOfBirth_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Black ähnelt.
+        /// </summary>
+        public static string Round_Column_Header_Black {
+            get {
+                return ResourceManager.GetString("Round_Column_Header_Black", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Id ähnelt.
+        /// </summary>
+        public static string Round_Column_Header_Id_Black {
+            get {
+                return ResourceManager.GetString("Round_Column_Header_Id_Black", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Id ähnelt.
+        /// </summary>
+        public static string Round_Column_Header_Id_White {
+            get {
+                return ResourceManager.GetString("Round_Column_Header_Id_White", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Result ähnelt.
+        /// </summary>
+        public static string Round_Column_Header_Result {
+            get {
+                return ResourceManager.GetString("Round_Column_Header_Result", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die White ähnelt.
+        /// </summary>
+        public static string Round_Column_Header_White {
+            get {
+                return ResourceManager.GetString("Round_Column_Header_White", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Save Tournament ähnelt.
         /// </summary>
         public static string Save_Tournament_Dialog_Title {
@@ -669,6 +1119,33 @@ namespace PonzianiSwiss.Resources {
         public static string TabItem_Participants_Header {
             get {
                 return ResourceManager.GetString("TabItem_Participants_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Move Down ähnelt.
+        /// </summary>
+        public static string TiebreakDialog_MenuItem_MoveDown_Header {
+            get {
+                return ResourceManager.GetString("TiebreakDialog_MenuItem_MoveDown_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Move Up ähnelt.
+        /// </summary>
+        public static string TiebreakDialog_MenuItem_MoveUp_Header {
+            get {
+                return ResourceManager.GetString("TiebreakDialog_MenuItem_MoveUp_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Edit Tiebreak Rules ähnelt.
+        /// </summary>
+        public static string TiebreakDialog_Title {
+            get {
+                return ResourceManager.GetString("TiebreakDialog_Title", resourceCulture);
             }
         }
         

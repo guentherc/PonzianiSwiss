@@ -147,4 +147,34 @@
   <data name="BaseDescription_SUI" xml:space="preserve">
     <value>Suisse Ratingbase</value>
   </data>
+  <data name="DownloadingData" xml:space="preserve">
+    <value>Downloading Data from {0}</value>
+  </data>
+  <data name="DownloadCompletedStartingDataProcessing" xml:space="preserve">
+    <value>Download completed - Starting Data Processing</value>
+  </data>
+  <data name="StartingDatabaseUpdate" xml:space="preserve">
+    <value>Starting Database Update</value>
+  </data>
+  <data name="CountPlayersProcessed" xml:space="preserve">
+    <value>{0} Players Processed</value>
+  </data>
+  <data name="CountPlayersProcessedCommitStarted" xml:space="preserve">
+    <value>{0} Players Processed - Commit Started</value>
+  </data>
+  <data name="Cleanup" xml:space="preserve">
+    <value>Cleanup...</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Done!</value>
+  </data>
+  <data name="PreparingDownload" xml:space="preserve">
+    <value>Preparing Download</value>
+  </data>
+  <data name="CountPlayersWrittenToDatabase" xml:space="preserve">
+    <value>{0} Players written to database</value>
+  </data>
+  <data name="OldDataRemoved" xml:space="preserve">
+    <value>Old Data Removed</value>
+  </data>
 </root>

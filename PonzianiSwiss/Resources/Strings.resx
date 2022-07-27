@@ -393,4 +393,163 @@
   <data name="TournamentDialog_Label_Date_Content" xml:space="preserve">
     <value>Date:</value>
   </data>
+  <data name="ParticipantDialog_Label_FideID_Content" xml:space="preserve">
+    <value>Fide ID:</value>
+  </data>
+  <data name="ParticipantDialog_Label_Name_Content" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="ParticipantDialog_Label_Title_Content" xml:space="preserve">
+    <value>Title:</value>
+  </data>
+  <data name="ParticipantDialog_Label_Federation_Content" xml:space="preserve">
+    <value>Federation:</value>
+  </data>
+  <data name="ParticipantDialog_Label_YearOfBirth_Content" xml:space="preserve">
+    <value>Year of Birth:</value>
+  </data>
+  <data name="ParticipantDialog_Label_Rating_Content" xml:space="preserve">
+    <value>Rating:</value>
+  </data>
+  <data name="ParticipantDialog_Label_AltRating_Content" xml:space="preserve">
+    <value>Alternative Rating:</value>
+  </data>
+  <data name="ParticipantDialog_Label_Club_Content" xml:space="preserve">
+    <value>Club:</value>
+  </data>
+  <data name="ParticipantDialog_Title" xml:space="preserve">
+    <value>Participant</value>
+  </data>
+  <data name="CheckBox_Female_Content" xml:space="preserve">
+    <value>Female</value>
+  </data>
+  <data name="Button_AdditionalAttributes_Content" xml:space="preserve">
+    <value>Additional Attributes</value>
+  </data>
+  <data name="Button_NationalBase_ToolTip" xml:space="preserve">
+    <value>Search Player in National Base</value>
+  </data>
+  <data name="TiebreakDialog_Title" xml:space="preserve">
+    <value>Edit Tiebreak Rules</value>
+  </data>
+  <data name="GridViewColumnHeader_Selected_Content" xml:space="preserve">
+    <value>Selected Tiebreak Rules</value>
+  </data>
+  <data name="TiebreakDialog_MenuItem_MoveUp_Header" xml:space="preserve">
+    <value>Move Up</value>
+  </data>
+  <data name="TiebreakDialog_MenuItem_MoveDown_Header" xml:space="preserve">
+    <value>Move Down</value>
+  </data>
+  <data name="Button_Edit_Tiebreak_ToolTip" xml:space="preserve">
+    <value>Edit Tiebreak</value>
+  </data>
+  <data name="MenuItem_Set_Result_0_Header" xml:space="preserve">
+    <value>* (Open)</value>
+  </data>
+  <data name="Round_Column_Header_Result" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="Round_Column_Header_Black" xml:space="preserve">
+    <value>Black</value>
+  </data>
+  <data name="Round_Column_Header_Id_Black" xml:space="preserve">
+    <value>Id</value>
+  </data>
+  <data name="Round_Column_Header_White" xml:space="preserve">
+    <value>White</value>
+  </data>
+  <data name="Round_Column_Header_Id_White" xml:space="preserve">
+    <value>Id</value>
+  </data>
+  <data name="MenuItem_Unrated_Header" xml:space="preserve">
+    <value>Unrated</value>
+  </data>
+  <data name="MenuItem_Forfeit_Header" xml:space="preserve">
+    <value>Forfeit</value>
+  </data>
+  <data name="MenuItem_Bye_Header" xml:space="preserve">
+    <value>Bye</value>
+  </data>
+  <data name="PlayerSearchDialog_Label_Club_Content" xml:space="preserve">
+    <value>Club:</value>
+  </data>
+  <data name="PlayerSearchDialog_Label_YearOfBirth_Content" xml:space="preserve">
+    <value>Year of Birth:</value>
+  </data>
+  <data name="PlayerSearchDialog_Label_NationalRating_Content" xml:space="preserve">
+    <value>National Rating:</value>
+  </data>
+  <data name="PlayerSearchDialog_Checkbox_Female_Content" xml:space="preserve">
+    <value>Female</value>
+  </data>
+  <data name="PlayerSearchDialog_Label_Federation_Content" xml:space="preserve">
+    <value>Federation:</value>
+  </data>
+  <data name="PlayerSearchDialog_Label_Id_Content" xml:space="preserve">
+    <value>Id:</value>
+  </data>
+  <data name="PlayerSearchDialog_Label_Name_Content" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="PlayerSearchDialog_Label_DataSource_Content" xml:space="preserve">
+    <value>Data Source:</value>
+  </data>
+  <data name="PlayerSearchDialog_Groupbox_Data_Header" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="ParticipantAttributeDialog_Title" xml:space="preserve">
+    <value>Participant Attributes</value>
+  </data>
+  <data name="ParticipantAttributeDialog_Column_Name_Header" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="ParticipantAttributeDialog_Column_Value_Header" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="ParticipantAttributeDialog_DuplicateMessage_Text" xml:space="preserve">
+    <value>Duplicate Attribute Key: {0} - Keys must be unique!</value>
+  </data>
+  <data name="ParticipantAttributeDialog_DuplicateMessage_Caption" xml:space="preserve">
+    <value>Duplicate Key</value>
+  </data>
+  <data name="ForbiddenPairingsDialog_AvoidPairingsFromSameFederation" xml:space="preserve">
+    <value>Avoid Pairings from same Federation</value>
+  </data>
+  <data name="ForbiddenPairingsDialog_Title" xml:space="preserve">
+    <value>Forbidden Pairings</value>
+  </data>
+  <data name="ForbiddenPairingsDialog_AvoidPairingsFromSameClub" xml:space="preserve">
+    <value>Avoid Pairings from same Club</value>
+  </data>
+  <data name="ForbiddenPairingsDialog_SpecialOptions" xml:space="preserve">
+    <value>Special Options</value>
+  </data>
+  <data name="ForbiddenPairingsDialog_DefineForbiddenPairing" xml:space="preserve">
+    <value>Define Forbidden Pairing:</value>
+  </data>
+  <data name="ForbiddenPairingsDialog_PlayerVsPlayer" xml:space="preserve">
+    <value>Player vs Player</value>
+  </data>
+  <data name="ForbiddenPairingsDialog_PlayerVsFederation" xml:space="preserve">
+    <value>Player vs Federation</value>
+  </data>
+  <data name="ForbiddenPairingsDialog_FederationVsFederation" xml:space="preserve">
+    <value>Federation vs Federation</value>
+  </data>
+  <data name="ForbiddenPairingsDialog_Player1" xml:space="preserve">
+    <value>Player 1</value>
+  </data>
+  <data name="ForbiddenPairingsDialog_Player2" xml:space="preserve">
+    <value>Player 2</value>
+  </data>
+  <data name="ForbiddenPairingsDialog_ListOfForbiddenPairings" xml:space="preserve">
+    <value>List of forbidden pairings</value>
+  </data>
+  <data name="ForbiddenPairingsDialog_Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="ForbiddenPairingsDialog_StandardOptions" xml:space="preserve">
+    <value>Standard Options</value>
+  </data>
 </root>

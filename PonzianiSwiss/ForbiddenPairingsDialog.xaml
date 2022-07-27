@@ -12,29 +12,29 @@
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=local:ForbiddenPairingsDialogViewModel}"
-        Title="Forbidden Pairings" TitleCharacterCasing="Normal" Height="450" Width="800">
+        Title="{lex:Loc Key=ForbiddenPairingsDialog_Title}" TitleCharacterCasing="Normal" Height="450" Width="800">
     <Window.Resources>
         <local:ForbiddenPairingRuleConverter x:Key="ForbiddenPairingRuleConverter" />
         <local:AdjustSizeConverter x:Key="AdjustSizeConverter" />
     </Window.Resources>
     <DockPanel VerticalAlignment="Top">
         <StackPanel DockPanel.Dock="Top">
-            <GroupBox Header="Standard Options" mah:ControlsHelper.ContentCharacterCasing="Normal" Margin="5"
+            <GroupBox Header="{lex:Loc Key=ForbiddenPairingsDialog_StandardOptions}" mah:ControlsHelper.ContentCharacterCasing="Normal" Margin="5"
                       Style="{DynamicResource MahApps.Styles.GroupBox.Clean}" Width="{Binding ElementName=ForbiddenPairingsWindow, Path=ActualWidth, Converter={StaticResource AdjustSizeConverter}, ConverterParameter=-20}">
                 <WrapPanel>
-                    <CheckBox IsChecked="{Binding Path=AvoidPairingsFromSameFederation}" Content="Avoid Pairings from same Federation" Margin="5"/>
-                    <CheckBox IsChecked="{Binding Path=AvoidPairingsFromSameClub}" Content="Avoid Pairings from same Club" Margin="5"/>
+                    <CheckBox IsChecked="{Binding Path=AvoidPairingsFromSameFederation}" Content="{lex:Loc Key=ForbiddenPairingsDialog_AvoidPairingsFromSameFederation}" Margin="5"/>
+                    <CheckBox IsChecked="{Binding Path=AvoidPairingsFromSameClub}" Content="{lex:Loc Key=ForbiddenPairingsDialog_AvoidPairingsFromSameClub}" Margin="5"/>
                 </WrapPanel>
             </GroupBox>
-            <GroupBox Header="Special Options" mah:ControlsHelper.ContentCharacterCasing="Normal" Margin="5"
+            <GroupBox Header="{lex:Loc Key=ForbiddenPairingsDialog_SpecialOptions}" mah:ControlsHelper.ContentCharacterCasing="Normal" Margin="5"
                       Style="{DynamicResource MahApps.Styles.GroupBox.Clean}" Width="{Binding ElementName=ForbiddenPairingsWindow, Path=ActualWidth, Converter={StaticResource AdjustSizeConverter}, ConverterParameter=-20}">
                 <StackPanel>
                     <WrapPanel>
-                        <Label Content="Define Forbidden Pairing:" Margin="5" />
+                        <Label Content="{lex:Loc Key=ForbiddenPairingsDialog_DefineForbiddenPairing}" Margin="5" />
                         <ComboBox x:Name="cbRuleType" Margin="5">
-                            <ComboBoxItem Content="Player vs Player" IsSelected="True" Tag="1"/>
-                            <ComboBoxItem Content="Player vs Federation"  Tag="2"/>
-                            <ComboBoxItem Content="Federation vs Federation"  Tag="3"/>
+                            <ComboBoxItem Content="{lex:Loc Key=ForbiddenPairingsDialog_PlayerVsPlayer}" IsSelected="True" Tag="1"/>
+                            <ComboBoxItem Content="{lex:Loc Key=ForbiddenPairingsDialog_PlayerVsFederation}"  Tag="2"/>
+                            <ComboBoxItem Content="{lex:Loc Key=ForbiddenPairingsDialog_FederationVsFederation}"  Tag="3"/>
                         </ComboBox>
                     </WrapPanel>
                     <WrapPanel>
@@ -50,7 +50,7 @@
                                 </Style.Triggers>
                             </Style>
                         </WrapPanel.Style>
-                        <Label Margin="5" >Player 1</Label>
+                        <Label Margin="5" Content="{lex:Loc Key=ForbiddenPairingsDialog_Player1}"/>
                         <ComboBox Margin="5" ItemsSource="{Binding Path=Participants}" SelectedItem="{Binding Path=Player1}" MinWidth="200" TextSearch.TextPath="Name">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
@@ -60,7 +60,7 @@
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
-                        <Label Margin="5" >Player 2</Label>
+                        <Label Margin="5" Content="{lex:Loc Key=ForbiddenPairingsDialog_Player2}"/>
                         <ComboBox Margin="5" ItemsSource="{Binding Path=Participants}" SelectedItem="{Binding Path=Player2}" MinWidth="200" TextSearch.TextPath="Name">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
@@ -70,7 +70,7 @@
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
-                        <Button Command="{Binding AddRuleCommand}" CommandParameter="1" Tag="1" Margin="5">Add</Button>
+                        <Button Command="{Binding AddRuleCommand}" CommandParameter="1" Tag="1" Margin="5" Content="{lex:Loc Key=ForbiddenPairingsDialog_Add}"/>
                     </WrapPanel>
                     <WrapPanel>
                         <WrapPanel.Style>
@@ -119,7 +119,7 @@
                         <ComboBox Margin="5" ItemsSource="{Binding Path=Federations}" SelectedItem="{Binding Path=Federation2}" MinWidth="200"/>
                         <Button Command="{Binding AddRuleCommand}" CommandParameter="3" Tag="3" Margin="5" mah:ControlsHelper.ContentCharacterCasing="Normal">Add</Button>
                     </WrapPanel>
-                    <Label Content="List of forbidden pairings" FontWeight="Bold"/>
+                    <Label Content="{lex:Loc Key=ForbiddenPairingsDialog_ListOfForbiddenPairings}" FontWeight="Bold"/>
                     <ListView x:Name="lvRules" ItemsSource="{Binding Path=Rules}" Margin="5" MaxHeight="400">
                         <!--<TextBlock Text="List of Forbidden Pairing Rules" FontWeight="Bold"/>-->
                         <ListView.ItemTemplate>
