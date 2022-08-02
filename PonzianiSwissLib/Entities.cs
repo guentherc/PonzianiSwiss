@@ -134,8 +134,9 @@ namespace PonzianiSwissLib
             if (score == 0) return 0;
             int totalRating = wins.Sum(e => e.Opponent.FideRating) + draws.Sum(e => e.Opponent.FideRating) + losses.Sum(e => e.Opponent.FideRating);
             int countGames = wins.Count() + draws.Count() + losses.Count();
-            float avgRating = 1f * totalRating / countGames;
-            return (int)Math.Round(avgRating + 800 * ((score / countGames) - 0.5f));
+            int avgRating = (int)Math.Round(1f * totalRating / countGames);
+            int scoreIndex = (int)Math.Round(100f * score / countGames);
+            return avgRating + dp[scoreIndex];
 
         }
 
@@ -168,6 +169,18 @@ namespace PonzianiSwissLib
                 TieBreak.CumulativeScore => CumulativeScore(),
                 _ => 0,
             };
+        }
+
+        private static int[] dp = new int[]{ 800, 273, 117, -7, -133, -296, 677, 262, 110, -14, -141, -309,
+            589, 251, 102, -21, -149, -322, 538, 240, 95, -29, -158, -336, 501, 230, 87, -36, -166, -351,
+            470, 220, 80, -43, -175, -366, 444, 211, 72, -50, -184, -383, 422, 202, 65, -57, -193, -401,
+            401, 193, 57, -65, -202, -422, 383, 184, 50, -72, -211, -444, 366, 175, 43, -80, -220, -470,
+            351, 166, 36, -87, -230, -501, 336, 158, 29, -95, -240, -538, 322, 149, 21, -102, -251, -589,
+            309, 141, 14, -110, -262, -677, 296, 133, 7, -117, -273, -800, 284, 125, 0, -125, -284 };
+
+        static Scorecard()
+        {
+            Array.Sort(dp);
         }
 
         public class Entry
