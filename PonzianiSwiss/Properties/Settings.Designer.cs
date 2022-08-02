@@ -229,9 +229,9 @@ namespace PonzianiSwiss.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("120")]
-        public string ColPairingBlackNameWidth {
+        public int ColPairingBlackNameWidth {
             get {
-                return ((string)(this["ColPairingBlackNameWidth"]));
+                return ((int)(this["ColPairingBlackNameWidth"]));
             }
             set {
                 this["ColPairingBlackNameWidth"] = value;
@@ -241,9 +241,9 @@ namespace PonzianiSwiss.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("80")]
-        public string ColPairingResultWidth {
+        public int ColPairingResultWidth {
             get {
-                return ((string)(this["ColPairingResultWidth"]));
+                return ((int)(this["ColPairingResultWidth"]));
             }
             set {
                 this["ColPairingResultWidth"] = value;
@@ -259,6 +259,30 @@ namespace PonzianiSwiss.Properties {
             }
             set {
                 this["Language"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        public int ColParticipantEloPerformanceWidth {
+            get {
+                return ((int)(this["ColParticipantEloPerformanceWidth"]));
+            }
+            set {
+                this["ColParticipantEloPerformanceWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        public int ColParticipantTournamentPerformanceWidth {
+            get {
+                return ((int)(this["ColParticipantTournamentPerformanceWidth"]));
+            }
+            set {
+                this["ColParticipantTournamentPerformanceWidth"] = value;
             }
         }
     }

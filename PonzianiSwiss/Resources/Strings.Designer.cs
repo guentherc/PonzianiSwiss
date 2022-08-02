@@ -187,6 +187,15 @@ namespace PonzianiSwiss.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Performance (Elo) ähnelt.
+        /// </summary>
+        public static string ColHeaderEloPerformance_Content {
+            get {
+                return ResourceManager.GetString("ColHeaderEloPerformance_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Club ähnelt.
         /// </summary>
         public static string ColHeaderParticipantClub_Content {
@@ -264,6 +273,15 @@ namespace PonzianiSwiss.Resources {
         public static string ColHeaderParticipantScore_Content {
             get {
                 return ResourceManager.GetString("ColHeaderParticipantScore_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Performance (Tournament Rating) ähnelt.
+        /// </summary>
+        public static string ColHeaderTournamentPerformance_Content {
+            get {
+                return ResourceManager.GetString("ColHeaderTournamentPerformance_Content", resourceCulture);
             }
         }
         

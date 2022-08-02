@@ -109,7 +109,7 @@ namespace PonzianiPlayerBase
             }
             //Find txt-file
             string file = Directory.GetFiles(tmpDir).Where(f => Path.GetExtension(f) == ".txt").First();
-            logger?.LogDebug($"Data saved to {file}");
+            logger?.LogDebug("Data saved to {file}", file);
 
             if (connection == null) return false;
 

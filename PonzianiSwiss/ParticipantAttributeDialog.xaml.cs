@@ -89,7 +89,7 @@ namespace PonzianiSwiss
                 foreach (var ca in empty) CustomAttributes.Remove(ca);
                 if (CheckForDuplicates())
                 {
-                    dialogService.ShowMessageBox(this, LocalizedStrings.Instance.Get("ParticipantAttributeDialog_DuplicateMessage_Text", CustomAttributes.Where(a => a.IsDuplicate).First().Key),
+                    dialogService.ShowMessageBox(this, LocalizedStrings.Get("ParticipantAttributeDialog_DuplicateMessage_Text", CustomAttributes.Where(a => a.IsDuplicate).First().Key),
                                                         LocalizedStrings.Instance["ParticipantAttributeDialog_DuplicateMessage_Caption"], MessageBoxButton.OK, MessageBoxImage.Error);
                     OnPropertyChanged(nameof(CustomAttributes));
                     return;

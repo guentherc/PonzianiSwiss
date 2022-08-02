@@ -223,6 +223,22 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
+                            <GridViewColumn Width="{local:SettingBinding ColParticipantEloPerformanceWidth}">
+                                <GridViewColumnHeader x:Name="ColHeaderEloPerformance" mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SortParticipantsCommand}" CommandParameter="EloPerformance" Content="{lex:Loc}"/>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=EloPerformance}" TextAlignment="Right"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="{local:SettingBinding ColParticipantTournamentPerformanceWidth}">
+                                <GridViewColumnHeader x:Name="ColHeaderTournamentPerformance" mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SortParticipantsCommand}" CommandParameter="TournamentPerformance" Content="{lex:Loc}"/>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=TournamentPerformance}" TextAlignment="Right"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
                         </GridView>
                     </ListView.View>
                 </ListView>

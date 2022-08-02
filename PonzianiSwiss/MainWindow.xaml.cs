@@ -431,7 +431,7 @@ namespace PonzianiSwiss
                     html = Tournament?.CrosstableHTML() ?? string.Empty;
                     break;
                 case 3:
-                    title = LocalizedStrings.Instance.Get("Pairings_Round_X", Tournament?.Rounds.Count ?? 0);
+                    title = LocalizedStrings.Get("Pairings_Round_X", Tournament?.Rounds.Count ?? 0);
                     html = Tournament?.RoundHTML() ?? string.Empty;
                     break;
             }
@@ -532,7 +532,7 @@ namespace PonzianiSwiss
             LogCommand(b.ToString());
             IPlayerBase pbase = PlayerBaseFactory.Get(b, Logger);
 
-            var controller = await DialogCoordinator.Instance.ShowProgressAsync(this, LocalizedStrings.Instance["Dialog_Title_Wait"], LocalizedStrings.Instance.Get("Base_Update_Might_Take", pbase.Description));
+            var controller = await DialogCoordinator.Instance.ShowProgressAsync(this, LocalizedStrings.Instance["Dialog_Title_Wait"], LocalizedStrings.Get("Base_Update_Might_Take", pbase.Description));
             void updateProgressBar(object? s, ProgressChangedEventArgs e)
             {
                 controller.SetProgress(Math.Min(1.0, 0.01 * e.ProgressPercentage));
@@ -546,9 +546,9 @@ namespace PonzianiSwiss
             });
             await controller.CloseAsync();
             if (ok)
-                await DialogCoordinator.Instance.ShowMessageAsync(this, LocalizedStrings.Instance["Base_Update_Ok_Title"], LocalizedStrings.Instance.Get("Base_Update_Text", b));
+                await DialogCoordinator.Instance.ShowMessageAsync(this, LocalizedStrings.Instance["Base_Update_Ok_Title"], LocalizedStrings.Get("Base_Update_Text", b));
             else
-                await DialogCoordinator.Instance.ShowMessageAsync(this, LocalizedStrings.Instance["Base_Update_Ok_Failed"], LocalizedStrings.Instance.Get("Base_Update_Text", b));
+                await DialogCoordinator.Instance.ShowMessageAsync(this, LocalizedStrings.Instance["Base_Update_Ok_Failed"], LocalizedStrings.Get("Base_Update_Text", b));
             pbase.ProgressChanged -= updateProgressBar;
         }
 
@@ -607,7 +607,7 @@ namespace PonzianiSwiss
                 if (Tournament != null && TournamentHash != Tournament.Hash())
                 {
                     MessageDialogResult messageDialogResult = await DialogCoordinator.Instance.ShowMessageAsync(this,
-                                               LocalizedStrings.Instance.Get("Load_Tournament_Message_Title", System.IO.Path.GetFileNameWithoutExtension(fileName)),
+                                               LocalizedStrings.Get("Load_Tournament_Message_Title", System.IO.Path.GetFileNameWithoutExtension(fileName)),
                                                LocalizedStrings.Instance["Data_Loss_Open_Text"], MessageDialogStyle.AffirmativeAndNegative);
                     if (messageDialogResult == MessageDialogResult.Negative) return;
                 }
@@ -662,7 +662,7 @@ namespace PonzianiSwiss
         async void About()
         {
             LogCommand();
-            _ = await DialogCoordinator.Instance.ShowMessageAsync(this, LocalizedStrings.Instance.Get("About_Dialog_Title", App.VERSION), LocalizedStrings.Instance["About_Dialog_Text"]);
+            _ = await DialogCoordinator.Instance.ShowMessageAsync(this, LocalizedStrings.Get("About_Dialog_Title", App.VERSION), LocalizedStrings.Instance["About_Dialog_Text"]);
         }
 
         private string? sortCol = null;
@@ -710,6 +710,14 @@ namespace PonzianiSwiss
             else if (sortCol == "Club")
             {
                 sortedList = Participants.OrderBy(x => x.Participant.Club ?? string.Empty).ToList();
+            }
+            else if (sortCol == "EloPerformance")
+            {
+                sortedList = Participants.OrderBy(x => x.EloPerformance).ToList();
+            }
+            else if (sortCol == "TournamentPerformance")
+            {
+                sortedList = Participants.OrderBy(x => x.TournamentPerformance).ToList();
             }
             if (!sort_ascending) sortedList?.Reverse();
             if (sortedList != null)
@@ -844,27 +852,63 @@ namespace PonzianiSwiss
                 if (p != null)
                 {
                     p.Result = result;
+                    Tournament?.GetScorecards();
+                    foreach (var par in Participants.Where(s => s.Participant == p.White || s.Participant == p.Black))
+                        par.UpdateResult();
                     SyncRounds();
                 }
             }
         }
     }
 
-    public class TournamentParticipant
+    public partial class TournamentParticipant : ObservableObject
     {
         private readonly Tournament? tournament;
 
-        public Participant Participant { set; get; }
+        [ObservableProperty]
+        private Participant participant;
 
         public TournamentParticipant(Tournament? tournament, Participant participant)
         {
             this.tournament = tournament;
-            this.Participant = participant;
+            this.participant = participant;
         }
 
         public float Score
         {
             get => Participant.Scorecard?.Score() ?? 0;
+        }
+
+        public int EloPerformance
+        {
+            get => Participant.Scorecard?.EloPerformance() ?? 0;
+        }
+
+        public void UpdateResult()
+        {
+            OnPropertyChanged(nameof(Score));
+            OnPropertyChanged(nameof(EloPerformance));
+            OnPropertyChanged(nameof(TournamentPerformance));
+        }
+
+        public int TournamentPerformance
+        {
+            get
+            {
+                if (Participant.Scorecard != null)
+                {
+                    var wins = Participant.Scorecard.Entries.Where(e => e.Result == Result.Win && tournament?.Rating(e.Opponent) > 0);
+                    var draws = Participant.Scorecard.Entries.Where(e => e.Result == Result.Draw && tournament?.Rating(e.Opponent) > 0);
+                    var losses = Participant.Scorecard.Entries.Where(e => e.Result == Result.Loss && tournament?.Rating(e.Opponent) > 0);
+                    float score = wins.Count() + .5f * draws.Count();
+                    if (score == 0) return 0;
+                    int totalRating = wins.Sum(e => tournament?.Rating(e.Opponent) ?? 0) + draws.Sum(e => tournament?.Rating(e.Opponent) ?? 0) + losses.Sum(e => tournament?.Rating(e.Opponent) ?? 0);
+                    int countGames = wins.Count() + draws.Count() + losses.Count();
+                    float avgRating = 1f * totalRating / countGames;
+                    return (int)Math.Round(avgRating + 800 * ((score / countGames) - 0.5f));
+                }
+                else return 0;
+            }
         }
 
 
@@ -878,14 +922,16 @@ namespace PonzianiSwiss
             get
             {
                 if (tournament == null) return null;
+                TextDecorationCollection? result = null;
                 for (int i = tournament.Rounds.Count; i < tournament.CountRounds; ++i)
                 {
+                    result = TextDecorations.Strikethrough;
                     if ((bool)(Participant.Active?.GetValue(i) ?? true))
                     {
                         return null;
                     }
                 }
-                return TextDecorations.Strikethrough;
+                return null;
             }
         }
 

@@ -124,6 +124,21 @@ namespace PonzianiSwissLib
         public int CountBlackWin() => Entries.Where(e => e.Side == Side.Black && (int)e.Result == (int)Result.Win).Count();
         public int CountBlackWin(int round) => Entries.Where(e => e.Side == Side.Black && e.Round < round && (int)e.Result == (int)Result.Win).Count();
 
+
+        public int EloPerformance()
+        {
+            var wins = Entries.Where(e => e.Result == Result.Win && e.Opponent.FideRating > 0);
+            var draws = Entries.Where(e => e.Result == Result.Draw && e.Opponent.FideRating > 0);
+            var losses = Entries.Where(e => e.Result == Result.Loss && e.Opponent.FideRating > 0);
+            float score = wins.Count() + .5f * draws.Count();
+            if (score == 0) return 0;
+            int totalRating = wins.Sum(e => e.Opponent.FideRating) + draws.Sum(e => e.Opponent.FideRating) + losses.Sum(e => e.Opponent.FideRating);
+            int countGames = wins.Count() + draws.Count() + losses.Count();
+            float avgRating = 1f * totalRating / countGames;
+            return (int)Math.Round(avgRating + 800 * ((score / countGames) - 0.5f));
+
+        }
+
         public float CumulativeScore(int round = int.MaxValue)
         {
             float sum = 0;

@@ -53,14 +53,20 @@
     <Setting Name="ColPairingBlackIdWidth" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">40</Value>
     </Setting>
-    <Setting Name="ColPairingBlackNameWidth" Type="System.String" Scope="User">
+    <Setting Name="ColPairingBlackNameWidth" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">120</Value>
     </Setting>
-    <Setting Name="ColPairingResultWidth" Type="System.String" Scope="User">
+    <Setting Name="ColPairingResultWidth" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">80</Value>
     </Setting>
     <Setting Name="Language" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ColParticipantEloPerformanceWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">60</Value>
+    </Setting>
+    <Setting Name="ColParticipantTournamentPerformanceWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">60</Value>
     </Setting>
   </Settings>
 </SettingsFile>

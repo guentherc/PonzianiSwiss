@@ -552,4 +552,10 @@
   <data name="ForbiddenPairingsDialog_StandardOptions" xml:space="preserve">
     <value>Standard Options</value>
   </data>
+  <data name="ColHeaderEloPerformance_Content" xml:space="preserve">
+    <value>Performance (Elo)</value>
+  </data>
+  <data name="ColHeaderTournamentPerformance_Content" xml:space="preserve">
+    <value>Performance (Tournament Rating)</value>
+  </data>
 </root>

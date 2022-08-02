@@ -13,13 +13,13 @@ namespace PonzianiSwiss.Resources
 
         public static LocalizedStrings Instance { get; } = new LocalizedStrings();
 
-        public void SetCulture(string cultureCode)
+        public static void SetCulture(string cultureCode)
         {
             var newCulture = new CultureInfo(cultureCode);
             LocalizeDictionary.Instance.Culture = newCulture;
         }
 
-        public string Get(string key, params object?[] parameter)
+        public static string Get(string key, params object?[] parameter)
         {
             string template = (string)LocalizeDictionary.Instance.GetLocalizedObject("PonzianiSwiss", "PonzianiSwiss.Resources.Strings", key, LocalizeDictionary.Instance.Culture);
             return String.Format(template, parameter);
