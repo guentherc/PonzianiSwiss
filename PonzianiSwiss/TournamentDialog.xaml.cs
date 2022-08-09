@@ -4,9 +4,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using MvvmDialogs;
+using PonzianiSwiss.Resources;
 using PonzianiSwissLib;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
@@ -37,15 +39,33 @@ namespace PonzianiSwiss
             Logger = logger;
             this.dialogService = dialogService;
             TiebreakDialogCommand = new RelayCommand(TiebreakDialog);
+            AdditionalRankingDialogCommand = new RelayCommand<AdditionalRanking?>((a) => AdditionalRankingDialog(a), (a) => true);
+            DeleteAdditionalRankingCommand = new RelayCommand<AdditionalRanking?>((a) => DeleteAdditionalRanking(a), (a) => true);
         }
 
         [ObservableProperty]
         private bool? dialogResult;
 
-        [ObservableProperty]
         private Tournament? tournament;
 
+        public Tournament? Tournament
+        {
+            get => tournament;
+            set
+            {
+                tournament = value;
+                if (tournament != null)
+                {
+                    foreach (var ar in tournament.AdditionalRankings)
+                        _additionalRankings.Add(ar);
+                }
+                OnPropertyChanged(nameof(Tournament));
+            }
+        }
+
         public ICommand TiebreakDialogCommand { get; }
+        public ICommand AdditionalRankingDialogCommand { get; }
+        public ICommand DeleteAdditionalRankingCommand { get; }
 
         [ICommand]
         void Ok()
@@ -66,6 +86,20 @@ namespace PonzianiSwiss
             ShowDialog(viewModel => dialogService?.ShowDialog(this, viewModel));
         }
 
+        void AdditionalRankingDialog(AdditionalRanking? additionalRanking)
+        {
+            ShowAdditionalRankingDialog(viewModel => dialogService?.ShowDialog(this, viewModel), additionalRanking);
+        }
+
+        void DeleteAdditionalRanking(AdditionalRanking? additionalRanking)
+        {
+            if (additionalRanking != null)
+            {
+                Tournament?.AdditionalRankings.Remove(additionalRanking);
+                _additionalRankings.Remove(additionalRanking);
+            }
+        }
+
         private void ShowDialog(Func<TiebreakDialogViewModel, bool?> showDialog)
         {
             var dialogViewModel = App.Current.Services?.GetService<TiebreakDialogViewModel>();
@@ -81,6 +115,32 @@ namespace PonzianiSwiss
                 }
             }
         }
+
+        private void ShowAdditionalRankingDialog(Func<AdditionalRankingDialogViewModel, bool?> showDialog, AdditionalRanking? additionalRanking)
+        {
+            LogCommand(additionalRanking?.Title ?? String.Empty);
+            var dialogViewModel = App.Current.Services?.GetService<AdditionalRankingDialogViewModel>();
+
+            if (dialogViewModel != null)
+            {
+                bool add = additionalRanking == null;
+                dialogViewModel.AdditionalRanking = additionalRanking ?? new(LocalizedStrings.Instance["New_Additional_Ranking_Placeholder"]);
+                bool? success = showDialog(dialogViewModel);
+                if (success == true)
+                {
+                    if (dialogViewModel.AdditionalRanking != null)
+                    {
+                        if (add)
+                        {
+                            Tournament?.AdditionalRankings.Add(dialogViewModel.AdditionalRanking);
+                            _additionalRankings.Add(dialogViewModel.AdditionalRanking);
+                        }
+                    }
+                }
+            }
+        }
+
+        private ObservableCollection<AdditionalRanking> _additionalRankings = new();
 
         public DateTime StartDate
         {
@@ -110,6 +170,8 @@ namespace PonzianiSwiss
                 OnPropertyChanged(nameof(Tournament));
             }
         }
+
+        public ObservableCollection<AdditionalRanking> AdditionalRankings { get => _additionalRankings; set => _additionalRankings = value; }
 
         private static DateTime ParseDateTime(string dateTime)
         {

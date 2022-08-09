@@ -171,7 +171,7 @@ namespace PonzianiSwissLib
             };
         }
 
-        private static int[] dp = new int[]{ 800, 273, 117, -7, -133, -296, 677, 262, 110, -14, -141, -309,
+        private static readonly int[] dp = new int[]{ 800, 273, 117, -7, -133, -296, 677, 262, 110, -14, -141, -309,
             589, 251, 102, -21, -149, -322, 538, 240, 95, -29, -158, -336, 501, 230, 87, -36, -166, -351,
             470, 220, 80, -43, -175, -366, 444, 211, 72, -50, -184, -383, 422, 202, 65, -57, -193, -401,
             401, 193, 57, -65, -202, -422, 383, 184, 50, -72, -211, -444, 366, 175, 43, -80, -220, -470,
@@ -357,6 +357,56 @@ namespace PonzianiSwissLib
 
         [JsonIgnore]
         public string Description => ToString();
+
+    }
+
+    public class AdditionalRanking
+    {
+        public AdditionalRanking(string? title, Sex? sex = null, int ratingFrom = 0, int ratingTo = 3000, int birthYearFrom = 0, int birthYearTo = 3000)
+        {
+            Title = title;
+            Sex = sex;
+            RatingFrom = ratingFrom;
+            RatingTo = ratingTo;
+            BirthYearFrom = birthYearFrom;
+            BirthYearTo = Math.Min(birthYearTo, DateTime.Now.Year);
+        }
+
+        public AdditionalRanking()
+        {
+        }
+
+        public string? Title { set; get; }
+
+        public Sex? Sex { set; get; }
+
+        public int RatingFrom { set; get; } = 0;
+
+        public int RatingTo { set; get; } = 3000;
+
+        public int BirthYearFrom { set; get; } = 0;
+
+        public int BirthYearTo { set; get; } = 3000;
+
+        public static AdditionalRanking WomenRanking()
+        {
+            return new AdditionalRanking(Strings.WomensRanking, PonzianiSwissLib.Sex.Female);
+        }
+
+        public static AdditionalRanking YouthRanking(int minBirthYear)
+        {
+            return new AdditionalRanking(Strings.YouthRanking.Replace("&", minBirthYear.ToString()), null, 0, int.MaxValue, minBirthYear, 3000);
+        }
+
+        public static AdditionalRanking SeniorRanking(int maxBirthYear)
+        {
+            return new AdditionalRanking(Strings.SeniorRanking.Replace("&", maxBirthYear.ToString()), null, 0, int.MaxValue, 0, maxBirthYear);
+        }
+
+        public static AdditionalRanking RatingGroupRanking(int maxRating, int minRating = 0)
+        {
+            return new AdditionalRanking(Strings.RatingGroupRanking.Replace("&1", minRating.ToString()).Replace("&2", maxRating.ToString()), null, minRating, maxRating, 0, 3000);
+        }
 
     }
 }

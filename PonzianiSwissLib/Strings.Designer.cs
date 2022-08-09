@@ -169,6 +169,15 @@ namespace PonzianiSwissLib {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Rating Prize (&amp;1 ≤ Rating &lt; &amp;2) ähnelt.
+        /// </summary>
+        public static string RatingGroupRanking {
+            get {
+                return ResourceManager.GetString("RatingGroupRanking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Result ähnelt.
         /// </summary>
         public static string Result {
@@ -196,11 +205,38 @@ namespace PonzianiSwissLib {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Senior Ranking (Birthyear ≤ &amp;) ähnelt.
+        /// </summary>
+        public static string SeniorRanking {
+            get {
+                return ResourceManager.GetString("SeniorRanking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Title ähnelt.
         /// </summary>
         public static string Title {
             get {
                 return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Women&apos;s ranking ähnelt.
+        /// </summary>
+        public static string WomensRanking {
+            get {
+                return ResourceManager.GetString("WomensRanking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Youth Ranking (Birthyear ≥ &amp;) ähnelt.
+        /// </summary>
+        public static string YouthRanking {
+            get {
+                return ResourceManager.GetString("YouthRanking", resourceCulture);
             }
         }
     }

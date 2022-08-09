@@ -184,6 +184,8 @@ namespace PonzianiSwissLib
         /// </summary>
         public TournamentRatingDetermination RatingDetermination { set; get; } = TournamentRatingDetermination.Max;
 
+        public List<AdditionalRanking> AdditionalRankings { set; get; } = new();
+
         /// <summary>
         /// Calculates the scorecards for all participants
         /// </summary>
@@ -293,6 +295,16 @@ namespace PonzianiSwissLib
             {
                 return int.Parse(p1.ParticipantId ?? "0").CompareTo(int.Parse(p2.ParticipantId ?? "0"));
             });
+        }
+
+        public List<Participant> GetParticipants(AdditionalRanking ar)
+        {
+            var participants = ar.Sex != null ? Participants.Where(p => p.Sex == ar.Sex) : Participants;
+            if (ar.BirthYearFrom > 0 || ar.BirthYearTo < DateTime.UtcNow.Year)
+                participants = participants.Where(p => p.YearOfBirth >= ar.BirthYearFrom && p.YearOfBirth <= ar.BirthYearTo);
+            if (ar.RatingFrom > 0 || ar.RatingTo < int.MaxValue)
+                participants = participants.Where(p => Rating(p) >= ar.RatingFrom && Rating(p) < ar.RatingTo);
+            return participants.ToList();
         }
 
         /// <summary>

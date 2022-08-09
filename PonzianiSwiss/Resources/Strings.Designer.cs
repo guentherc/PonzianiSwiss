@@ -79,6 +79,15 @@ namespace PonzianiSwiss.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Additional Ranking ähnelt.
+        /// </summary>
+        public static string AdditionalRankingDialog_Title {
+            get {
+                return ResourceManager.GetString("AdditionalRankingDialog_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Update failed ähnelt.
         /// </summary>
         public static string Base_Update_Failed_Title {
@@ -111,6 +120,24 @@ namespace PonzianiSwiss.Resources {
         public static string Base_Update_Text {
             get {
                 return ResourceManager.GetString("Base_Update_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Add ähnelt.
+        /// </summary>
+        public static string Button_Add_Additional_Ranking_Content {
+            get {
+                return ResourceManager.GetString("Button_Add_Additional_Ranking_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Add Additional Ranking ähnelt.
+        /// </summary>
+        public static string Button_Add_Additional_Ranking_ToolTip {
+            get {
+                return ResourceManager.GetString("Button_Add_Additional_Ranking_ToolTip", resourceCulture);
             }
         }
         
@@ -484,11 +511,92 @@ namespace PonzianiSwiss.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Sex ähnelt.
+        /// </summary>
+        public static string Label_AdditionalRanking_Sex_Content {
+            get {
+                return ResourceManager.GetString("Label_AdditionalRanking_Sex_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Name ähnelt.
+        /// </summary>
+        public static string Label_AdditionalRanking_Title_Content {
+            get {
+                return ResourceManager.GetString("Label_AdditionalRanking_Title_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Birth Year from ähnelt.
+        /// </summary>
+        public static string Label_BirthYear_From_Content {
+            get {
+                return ResourceManager.GetString("Label_BirthYear_From_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die to ähnelt.
+        /// </summary>
+        public static string Label_BirthYear_To {
+            get {
+                return ResourceManager.GetString("Label_BirthYear_To", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Rating from ähnelt.
+        /// </summary>
+        public static string Label_Rating_From_Content {
+            get {
+                return ResourceManager.GetString("Label_Rating_From_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die to ähnelt.
+        /// </summary>
+        public static string Label_Rating_To_Content {
+            get {
+                return ResourceManager.GetString("Label_Rating_To_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Load Tournament {0} ähnelt.
         /// </summary>
         public static string Load_Tournament_Message_Title {
             get {
                 return ResourceManager.GetString("Load_Tournament_Message_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Add ähnelt.
+        /// </summary>
+        public static string MenuItem_AdditionalRanking_Add_Header {
+            get {
+                return ResourceManager.GetString("MenuItem_AdditionalRanking_Add_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Delete ähnelt.
+        /// </summary>
+        public static string MenuItem_AdditionalRanking_Delete_Header {
+            get {
+                return ResourceManager.GetString("MenuItem_AdditionalRanking_Delete_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Edit ähnelt.
+        /// </summary>
+        public static string MenuItem_AdditionalRanking_Edit_Header {
+            get {
+                return ResourceManager.GetString("MenuItem_AdditionalRanking_Edit_Header", resourceCulture);
             }
         }
         
@@ -826,6 +934,24 @@ namespace PonzianiSwiss.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die &lt;New Additional Ranking&gt; ähnelt.
+        /// </summary>
+        public static string New_Additional_Ranking_Placeholder {
+            get {
+                return ResourceManager.GetString("New_Additional_Ranking_Placeholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die No Additional Rankings Created ähnelt.
+        /// </summary>
+        public static string No_Additional_Rankings {
+            get {
+                return ResourceManager.GetString("No_Additional_Rankings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Tournament Files|*.tjson|All Files|*.* ähnelt.
         /// </summary>
         public static string Open_Tournament_Dialog_Filter {
@@ -1128,6 +1254,42 @@ namespace PonzianiSwiss.Resources {
         public static string Save_Tournament_Dialog_Title {
             get {
                 return ResourceManager.GetString("Save_Tournament_Dialog_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die All ähnelt.
+        /// </summary>
+        public static string SexExtended_All {
+            get {
+                return ResourceManager.GetString("SexExtended_All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Female ähnelt.
+        /// </summary>
+        public static string SexExtended_Female {
+            get {
+                return ResourceManager.GetString("SexExtended_Female", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Male ähnelt.
+        /// </summary>
+        public static string SexExtended_Male {
+            get {
+                return ResourceManager.GetString("SexExtended_Male", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Additional Rankings ähnelt.
+        /// </summary>
+        public static string TabItem_AdditionalRankings_Header {
+            get {
+                return ResourceManager.GetString("TabItem_AdditionalRankings_Header", resourceCulture);
             }
         }
         

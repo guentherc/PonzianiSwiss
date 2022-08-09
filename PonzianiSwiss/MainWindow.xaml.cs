@@ -389,7 +389,6 @@ namespace PonzianiSwiss
             }
         }
 
-
         private void ShowTournamentDialog(Func<TournamentDialogViewModel, bool?> showDialog, Tournament? tournament)
         {
             LogCommand(tournament?.Name);

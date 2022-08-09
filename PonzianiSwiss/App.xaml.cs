@@ -77,6 +77,7 @@ namespace PonzianiSwiss
             services.AddTransient<ForbiddenPairingsDialogViewModel>();
             services.AddTransient<HTMLViewerViewModel>();
             services.AddTransient<ParticipantAttributeDialogViewModel>();
+            services.AddTransient<AdditionalRankingDialogViewModel>();
             services.AddSingleton<IDialogService, DialogService>();
             Services = services.BuildServiceProvider();
             Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;

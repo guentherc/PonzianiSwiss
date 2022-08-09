@@ -77,38 +77,82 @@
                     <iconPacks:PackIconCodicons Kind="Edit" />
                 </Button>
             </WrapPanel>
-            <GroupBox Header="{lex:Loc}" Grid.Row="8" Grid.ColumnSpan="4" mah:ControlsHelper.ContentCharacterCasing="Normal"
-                      x:Name="GroupBox_ScoringScheme" Style="{DynamicResource MahApps.Styles.GroupBox.Clean}">
-                <GroupBox.Resources>
-                    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Clean/Controls.xaml" />
-                </GroupBox.Resources>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <Label x:Name="TournamentDialog_Label_PointsForWin" Grid.Row="0" Grid.Column="0" Content="{lex:Loc}" Margin="5,5,5,5" VerticalAlignment="Center"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=Tournament.ScoringScheme.PointsForWin}" Margin="5,5,5,5" VerticalAlignment="Center" Width="40" HorizontalContentAlignment="Right"/>
-                    <Label x:Name="TournamentDialog_Label_PointsForZeroPointBye" Grid.Row="0" Grid.Column="2" Content="{lex:Loc}" Margin="5,5,5,5" VerticalAlignment="Center"/>
-                    <TextBox Grid.Row="0" Grid.Column="3" Text="{Binding Path=Tournament.ScoringScheme.PointsForZeroPointBye}" Margin="5,5,5,5" VerticalAlignment="Center" HorizontalContentAlignment="Right"/>
-                    <Label x:Name="TournamentDialog_Label_PointsForDraw" Grid.Row="1" Grid.Column="0" Content="{lex:Loc}" Margin="5,5,5,5" VerticalAlignment="Center"/>
-                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Tournament.ScoringScheme.PointsForDraw}" Margin="5,5,5,5" VerticalAlignment="Center" Width="40" HorizontalContentAlignment="Right"/>
-                    <Label x:Name="TournamentDialog_Label_PointsForForfeitedLoss" Grid.Row="1" Grid.Column="2" Content="{lex:Loc}" Margin="5,5,5,5" VerticalAlignment="Center"/>
-                    <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding Path=Tournament.ScoringScheme.PointsForForfeitedLoss}" Margin="5,5,5,5" VerticalAlignment="Center" Width="40" HorizontalContentAlignment="Right"/>
-                    <Label x:Name="TournamentDialog_Label_PointsForPlayedLoss" Grid.Row="2" Grid.Column="0" Content="{lex:Loc}" Margin="5,5,5,5" VerticalAlignment="Center"/>
-                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=Tournament.ScoringScheme.PointsForPlayedLoss}" Margin="5,5,5,5" VerticalAlignment="Center" Width="40" HorizontalContentAlignment="Right"/>
-                    <Label x:Name="TournamentDialog_Label_PointsForPairingAllocatedBye" Grid.Row="2" Grid.Column="2" Content="{lex:Loc}" Margin="5,5,5,5" VerticalAlignment="Center"/>
-                    <TextBox Grid.Row="2" Grid.Column="3" Text="{Binding Path=Tournament.ScoringScheme.PointsForPairingAllocatedBye}" Margin="5,5,5,5" VerticalAlignment="Center" Width="40" HorizontalContentAlignment="Right"/>
-                </Grid>
-
-            </GroupBox>
+            <TabControl Grid.Row="8" Grid.ColumnSpan="4">
+                <TabItem x:Name="TabItem_AdditionalRankings" Header="{lex:Loc}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Button x:Name="Button_Add_Additional_Ranking" Grid.Row="1" Command="{Binding AdditionalRankingDialogCommand}" ToolTip="{lex:Loc}" Content="{lex:Loc}"
+                            mah:ControlsHelper.ContentCharacterCasing="Normal" Margin="5"/>
+                        <ListView Grid.Row="0" Grid.ColumnSpan="2" ItemsSource="{Binding Path=AdditionalRankings}" Margin="5">
+                            <ListView.Resources>
+                                <ContextMenu x:Key="CtxtMenuAdditionalRanking" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                    <MenuItem x:Name="MenuItem_AdditionalRanking_Add" Header="{lex:Loc}" Command="{Binding AdditionalRankingDialogCommand}"/>
+                                    <MenuItem x:Name="MenuItem_AdditionalRanking_Edit" Header="{lex:Loc}" Command="{Binding AdditionalRankingDialogCommand}" CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Mode=OneWay}"/>
+                                    <MenuItem x:Name="MenuItem_AdditionalRanking_Delete" Header="{lex:Loc}" Command="{Binding DeleteAdditionalRankingCommand}" CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Mode=OneWay}"/>
+                                </ContextMenu>
+                            </ListView.Resources>
+                            <ListView.Style>
+                                <Style TargetType="ListView" BasedOn="{StaticResource {x:Type ListView}}">
+                                    <Style.Triggers>
+                                        <Trigger Property="HasItems" Value="False">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ListView">
+                                                        <TextBlock Text="{lex:Loc Key=No_Additional_Rankings}"/>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                        <DataTrigger Binding="{Binding SelectedItems.IsEmpty, RelativeSource={RelativeSource Self}}" Value="false">
+                                            <Setter Property="ContextMenu" Value="{StaticResource CtxtMenuAdditionalRanking}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListView.Style>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Title}"/>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="{lex:Loc Key=GroupBox_ScoringScheme_Header}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="112" />
+                            <ColumnDefinition Width="26.533"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Label x:Name="TournamentDialog_Label_PointsForWin" Grid.Column="0" Content="{lex:Loc}" Margin="5,0,5,0" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
+                        <TextBox Grid.Column="2" Text="{Binding Path=Tournament.ScoringScheme.PointsForWin}" Margin="5,0,5,0" VerticalAlignment="Center" Width="40" HorizontalContentAlignment="Right"/>
+                        <Label x:Name="TournamentDialog_Label_PointsForZeroPointBye" Grid.Column="3" Content="{lex:Loc}" Margin="5,0,5,0" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="4" Text="{Binding Path=Tournament.ScoringScheme.PointsForZeroPointBye}" Margin="5,0,5,0" VerticalAlignment="Center" HorizontalContentAlignment="Right"/>
+                        <Label x:Name="TournamentDialog_Label_PointsForDraw" Grid.Row="1" Grid.Column="0" Content="{lex:Loc}" Margin="5,0,5,0" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
+                        <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Path=Tournament.ScoringScheme.PointsForDraw}" Margin="5,0,5,0" VerticalAlignment="Center" Width="40" HorizontalContentAlignment="Right"/>
+                        <Label x:Name="TournamentDialog_Label_PointsForForfeitedLoss" Grid.Row="1" Grid.Column="3" Content="{lex:Loc}" Margin="5,0,5,0" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="1" Grid.Column="4" Text="{Binding Path=Tournament.ScoringScheme.PointsForForfeitedLoss}" Margin="5,0,5,0" VerticalAlignment="Center" Width="40" HorizontalContentAlignment="Right"/>
+                        <Label x:Name="TournamentDialog_Label_PointsForPlayedLoss" Grid.Row="2" Grid.Column="0" Content="{lex:Loc}" Margin="5,0,5,0" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
+                        <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding Path=Tournament.ScoringScheme.PointsForPlayedLoss}" Margin="5,0,5,0" VerticalAlignment="Center" Width="40" HorizontalContentAlignment="Right"/>
+                        <Label x:Name="TournamentDialog_Label_PointsForPairingAllocatedBye" Grid.Row="2" Grid.Column="3" Content="{lex:Loc}" Margin="5,0,5,0" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="2" Grid.Column="4" Text="{Binding Path=Tournament.ScoringScheme.PointsForPairingAllocatedBye}" Margin="5,0,5,0" VerticalAlignment="Center" Width="40" HorizontalContentAlignment="Right"/>
+                    </Grid>
+                </TabItem>
+            </TabControl>
         </Grid>
         <WrapPanel DockPanel.Dock="Bottom" Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Right">
             <Button x:Name="TournamentDialogOkButton" Content="{lex:Loc Key=Button_Ok_Content}" Padding="10" Margin="0,0,10,0" Command="{Binding OkCommand}"  Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"  mah:ControlsHelper.ContentCharacterCasing="Normal"
