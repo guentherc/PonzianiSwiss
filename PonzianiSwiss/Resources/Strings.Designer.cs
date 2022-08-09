@@ -574,6 +574,15 @@ namespace PonzianiSwiss.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Additional Rankings ähnelt.
+        /// </summary>
+        public static string MenuItem_Additional_Rankings_Export_Header {
+            get {
+                return ResourceManager.GetString("MenuItem_Additional_Rankings_Export_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Add ähnelt.
         /// </summary>
         public static string MenuItem_AdditionalRanking_Add_Header {

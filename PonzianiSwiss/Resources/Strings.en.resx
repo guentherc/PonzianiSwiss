@@ -612,4 +612,7 @@
   <data name="MenuItem_AdditionalRanking_Delete_Header" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="MenuItem_Additional_Rankings_Export_Header" xml:space="preserve">
+    <value>Additional Rankings</value>
+  </data>
 </root>

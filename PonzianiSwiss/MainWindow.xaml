@@ -48,6 +48,12 @@
                         <Setter Property="Command" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type mah:MetroWindow}}, Path=DataContext.LoadTournamentCommand}"></Setter>
                         <Setter Property="CommandParameter" Value="{Binding Key}"></Setter>
                     </Style>
+                    <Style x:Key="ARStyle" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
+                        <Setter Property="Header" Value="{Binding Header}"></Setter>
+                        <Setter Property="Tag" Value="{Binding Key}"></Setter>
+                        <Setter Property="Command" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type mah:MetroWindow}}, Path=DataContext.CrosstableCommand}"></Setter>
+                        <Setter Property="CommandParameter" Value="{Binding Key}"></Setter>
+                    </Style>
                 </Menu.Resources>
                 <MenuItem x:Name="MenuItem_Tournament" Header="{lex:Loc}">
                     <MenuItem x:Name="MenuItem_Tournament_New" Header="{lex:Loc}" Command="{Binding TournamentAddDialogCommand}"/>
@@ -65,6 +71,7 @@
                         </MenuItem>
                         <MenuItem x:Name="MenuItem_Tournament_Crosstable" Header="{lex:Loc}" Tag="2" Command="{Binding HtmlViewerCommand}" CommandParameter="2"/>
                         <MenuItem x:Name="MenuItem_Tournament_Pairings" Header="{lex:Loc}" Tag="3" Command="{Binding HtmlViewerCommand}" CommandParameter="3"/>
+                        <MenuItem x:Name="MenuItem_Additional_Rankings_Export" Header="{lex:Loc}" ItemsSource="{Binding AdditionalRankingMenuEntries}" ItemContainerStyle="{StaticResource ARStyle}"/>
                     </MenuItem>
                     <Separator Visibility="{Binding Path=HasMRUEntries, Converter={StaticResource BoolToVis}}"/>
                     <MenuItem x:Name="MenuItem_Recent_Files" Header="{lex:Loc}" 

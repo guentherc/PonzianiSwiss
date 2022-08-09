@@ -283,6 +283,8 @@ namespace PonzianiSwiss
         public ObservableCollection<MenuEntry<PlayerBaseFactory.Base>> UpdateMenuEntries { get; set; } = new();
         public ObservableCollection<MenuEntry<string>> MRUMenuEntries { get; set; } = new();
 
+        public ObservableCollection<MenuEntry<AdditionalRanking>> AdditionalRankingMenuEntries { get; set; } = new();
+
         public PonzianiSwissLib.Round? CurrentRound { get => Tournament?.Rounds[^1]; }
 
         public Tournament? Tournament
@@ -304,6 +306,14 @@ namespace PonzianiSwiss
                     HtmlViewerCommand.NotifyCanExecuteChanged();
                     AddRandomParticipantsCommand.NotifyCanExecuteChanged();
                     DrawCommand.NotifyCanExecuteChanged();
+                }
+                if (tournament != null)
+                {
+                    AdditionalRankingMenuEntries.Clear();
+                    foreach (var ar in tournament.AdditionalRankings)
+                    {
+                        AdditionalRankingMenuEntries.Add(new(ar, ar.Title ?? "?"));
+                    }
                 }
             }
         }
@@ -410,7 +420,7 @@ namespace PonzianiSwiss
         }
 
 
-        private void ShowHtmlViewer(Func<HTMLViewerViewModel, bool?> showDialog, int tag)
+        private void ShowHtmlViewer(Func<HTMLViewerViewModel, bool?> showDialog, int tag, AdditionalRanking? additionalRanking = null)
         {
             LogCommand(tag.ToString());
             string html = string.Empty;
@@ -427,7 +437,7 @@ namespace PonzianiSwiss
                     break;
                 case 2:
                     title = LocalizedStrings.Instance["Crosstable"];
-                    html = Tournament?.CrosstableHTML() ?? string.Empty;
+                    html = Tournament?.CrosstableHTML(int.MaxValue, additionalRanking) ?? string.Empty;
                     break;
                 case 3:
                     title = LocalizedStrings.Get("Pairings_Round_X", Tournament?.Rounds.Count ?? 0);
@@ -594,7 +604,15 @@ namespace PonzianiSwiss
             Tournament?.Rounds.Remove(Tournament.Rounds.Last());
             Tournament?.OrderByRank();
             OnPropertyChanged(nameof(RoundCount));
+            SyncParticipants();
             SyncRounds();
+        }
+
+        [ICommand]
+        void Crosstable(AdditionalRanking ar)
+        {
+            if (ar != null)
+                ShowHtmlViewer(viewModel => DialogService?.ShowDialog(this, viewModel), 2, ar);
         }
 
         [ICommand]
@@ -618,7 +636,7 @@ namespace PonzianiSwiss
         void Abandon(TournamentParticipant p)
         {
             LogCommand(p.Participant.Name);
-            if (Tournament != null)
+            if (Tournament != null && Tournament.Rounds.Count < Tournament.CountRounds)
             {
                 if (p.Participant.Active == null)
                 {
@@ -634,7 +652,7 @@ namespace PonzianiSwiss
         void Pause(TournamentParticipant p)
         {
             LogCommand(p.Participant.Name);
-            if (Tournament != null)
+            if (Tournament != null && Tournament.Rounds.Count < Tournament.CountRounds)
             {
                 if (p.Participant.Active == null)
                 {
@@ -930,7 +948,7 @@ namespace PonzianiSwiss
                         return null;
                     }
                 }
-                return null;
+                return result;
             }
         }
 
@@ -943,7 +961,7 @@ namespace PonzianiSwiss
             {
                 if (tournament == null) return FontStyles.Normal;
                 bool paused = false;
-                if (Participant.Active != null)
+                if (Participant.Active != null && Participant.Active.Last())
                 {
                     for (int i = tournament.Rounds.Count; i < Participant.Active?.Length; ++i)
                     {

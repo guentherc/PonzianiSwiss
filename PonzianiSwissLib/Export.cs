@@ -48,20 +48,24 @@ namespace PonzianiSwissLib
             return sb.ToString();
         }
 
-        public static string CrosstableHTML(this Tournament tournament, int round = int.MaxValue)
+        public static string CrosstableHTML(this Tournament tournament, int round = int.MaxValue, AdditionalRanking? additionalRanking = null)
         {
             round = Math.Min(round, tournament.Rounds.Count);
             tournament.OrderByRank(round);
             StringBuilder sb = new();
             sb.AppendLine($"<h2 align=\"center\">{HttpUtility.HtmlEncode(tournament.Name)}</h2>");
-            if (tournament.Participants != null)
+            var plist = additionalRanking == null ? tournament.Participants : tournament.GetParticipants(additionalRanking);
+            if (plist != null)
             {
                 sb.AppendLine(@"<div align=""center"">");
                 sb.AppendLine(@"<center>");
                 sb.AppendLine(@"<table border=""2"" cellpadding=""2"" cellspacing=""2"" style=""border-collapse: collapse"" bordercolor=""#111111"" >");
                 sb.AppendLine(@"<thead>");
                 sb.AppendLine(@"<tr>");
-                sb.AppendLine($"<td colspan=\"8\">{HttpUtility.HtmlEncode(Strings.CrossTableForRound.Replace("&", round.ToString()))} </td>");
+                if (additionalRanking == null)
+                    sb.AppendLine($"<td colspan=\"8\">{HttpUtility.HtmlEncode(Strings.CrossTableForRound.Replace("&", round.ToString()))} </td>");
+                else
+                    sb.AppendLine($"<td colspan=\"8\">{HttpUtility.HtmlEncode(Strings.CrossTableForRound.Replace("&", round.ToString()))} ({additionalRanking.Title})</td>");
                 sb.AppendLine(@"</tr>");
                 List<string> columnNames = new() { Strings.ParticpantListRank, Strings.Participant, Strings.ParticipantListFideRating,
                                                   Strings.ParticipantListNationalRating };
@@ -76,25 +80,28 @@ namespace PonzianiSwissLib
                 int rank = 1;
                 foreach (Participant p in tournament.Participants)
                 {
-                    sb.AppendLine(@"<tr>");
-                    sb.AppendLine($"<td>{rank}.</td>");
-                    sb.AppendLine($"<td>{p.Name}.</td>");
-                    sb.AppendLine($"<td>{p.FideRating}</td>");
-                    sb.AppendLine($"<td>{p.AlternativeRating}</td>");
-                    for (int i = 0; i < round; ++i)
+                    if (plist.Contains(p))
                     {
-                        var entry = p.Scorecard?.Entries.Where(e => e.Round == i).ToList();
-                        if (entry == null || entry.Count == 0) sb.AppendLine($"<td></td>");
-                        else
+                        sb.AppendLine(@"<tr>");
+                        sb.AppendLine($"<td>{rank}.</td>");
+                        sb.AppendLine($"<td>{p.Name}.</td>");
+                        sb.AppendLine($"<td>{p.FideRating}</td>");
+                        sb.AppendLine($"<td>{p.AlternativeRating}</td>");
+                        for (int i = 0; i < round; ++i)
                         {
-                            sb.AppendLine($"<td>{entry[0].Opponent.RankId ?? "-"}{"ws"[(int)entry[0].Side]}{Tournament.result_char[(int)(entry[0].Result)]}</td>");
+                            var entry = p.Scorecard?.Entries.Where(e => e.Round == i).ToList();
+                            if (entry == null || entry.Count == 0) sb.AppendLine($"<td></td>");
+                            else
+                            {
+                                sb.AppendLine($"<td>{entry[0].Opponent.RankId ?? "-"}{"ws"[(int)entry[0].Side]}{Tournament.result_char[(int)(entry[0].Result)]}</td>");
+                            }
                         }
+                        foreach (var tb in tournament.TieBreak)
+                        {
+                            sb.AppendLine($"<td>{p.Scorecard?.GetTieBreak(tb)}</td>");
+                        }
+                        sb.AppendLine(@"</tr>");
                     }
-                    foreach (var tb in tournament.TieBreak)
-                    {
-                        sb.AppendLine($"<td>{p.Scorecard?.GetTieBreak(tb)}</td>");
-                    }
-                    sb.AppendLine(@"</tr>");
                     rank++;
                 }
 
