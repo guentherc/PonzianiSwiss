@@ -522,8 +522,7 @@ namespace PonzianiSwissTest
             Retry.WhileFalse(() => tabview.SelectedTabItemIndex == 0, TimeSpan.FromSeconds(5));
             List<Dictionary<string, string>> participants = new();
             var listView = window.FindFirstDescendant(cf.ByAutomationId("lvParticipants")).AsListBox();
-            if (listView == null)
-                listView = window.FindFirstByXPath("/Tab/TabItem/DataGrid").AsListBox();
+            listView ??= window.FindFirstByXPath("/Tab/TabItem/DataGrid").AsListBox();
             Assert.IsNotNull(listView);
             foreach (var item in listView.Items)
             {
@@ -563,18 +562,12 @@ namespace PonzianiSwissTest
                 nudRounds.Text = values["CountRounds"].ToString();
             }
             var dpFrom = window.FindFirstDescendant(cf.ByAutomationId("DatePicker_From")).AsDateTimePicker();
-            if (dpFrom == null)
-            {
-                dpFrom = window.FindFirstByXPath("/Custom[2]").AsDateTimePicker();
-            }
+            dpFrom ??= window.FindFirstByXPath("/Custom[2]").AsDateTimePicker();
             Assert.IsNotNull(dpFrom);
             DateTime fromDate = values.ContainsKey("StartDate") ? (DateTime)values["StartDate"] : DateTime.Now;
             dpFrom.SelectedDate = fromDate;
             var dpTo = window.FindFirstDescendant(cf.ByAutomationId("DatePicker_To")).AsDateTimePicker();
-            if (dpTo == null)
-            {
-                dpTo = window.FindFirstByXPath("/Custom[3]").AsDateTimePicker();
-            }
+            dpTo ??= window.FindFirstByXPath("/Custom[3]").AsDateTimePicker();
             Assert.IsNotNull(dpTo);
             DateTime toDate = values.ContainsKey("EndDate") ? (DateTime)values["EndDate"] : DateTime.Now;
             dpTo.SelectedDate = toDate;

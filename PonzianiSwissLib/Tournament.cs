@@ -178,6 +178,10 @@ namespace PonzianiSwissLib
         public bool AvoidPairingsFromSameClub { set; get; } = false;
 
         public bool BakuAcceleration { set; get; } = false;
+        /// <summary>
+        /// Team size for Team rankings
+        /// </summary>
+        public int? TeamSize { set; get; }
 
         /// <summary>
         /// How tournament rating is determined
@@ -211,6 +215,34 @@ namespace PonzianiSwissLib
             foreach (var p in scorecards.Keys)
                 p.Scorecard = scorecards[p];
             return scorecards;
+        }
+        /// <summary>
+        /// Calculates the scorecards for teams.
+        /// </summary>
+        /// <param name="round">The (0-based) round number up to which the scorecards will be calculated</param>
+        /// <returns>A dictionary containing a scorecard for each team</returns>
+        public List<TeamScoreCard> GetTeamScorecards(int round = int.MaxValue)
+        {
+            round = Math.Min(round, Rounds.Count - 1);
+            OrderByRank();
+            Dictionary<string, TeamScoreCard> scorecards = new();
+            foreach (Participant p in Participants.Where(p => !string.IsNullOrWhiteSpace(p.Club)))
+            {
+                if (p.Club != null && p.Scorecard != null)
+                {
+                    if (!scorecards.ContainsKey(p.Club))
+                        scorecards.Add(p.Club, new(p.Club, this));
+                    scorecards[p.Club].Scorecards.Add(p.Scorecard);
+                }
+            }
+            ScoreCardComparer scc = new()
+            {
+                Tiebreaks = this.TieBreak,
+                Tournament = this
+            };
+            var result = scorecards.Values.ToList();
+            result.Sort(scc);
+            return result;
         }
 
         /// <summary>

@@ -177,4 +177,7 @@
   <data name="RatingGroupRanking" xml:space="preserve">
     <value>Wertungspreis (&amp;1 ≤ Wertung &lt; &amp;2)</value>
   </data>
+  <data name="TeamRankingTable" xml:space="preserve">
+    <value>Mannschaftswertung (Runde &amp;)</value>
+  </data>
 </root>

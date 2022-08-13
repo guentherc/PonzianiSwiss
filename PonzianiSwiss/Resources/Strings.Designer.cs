@@ -214,6 +214,15 @@ namespace PonzianiSwiss.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Team Ranking ähnelt.
+        /// </summary>
+        public static string CheckBox_Team_Ranking_Content {
+            get {
+                return ResourceManager.GetString("CheckBox_Team_Ranking_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Performance (Elo) ähnelt.
         /// </summary>
         public static string ColHeaderEloPerformance_Content {
@@ -372,6 +381,15 @@ namespace PonzianiSwiss.Resources {
         public static string Draw_Takes_Time {
             get {
                 return ResourceManager.GetString("Draw_Takes_Time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Team Ranking ähnelt.
+        /// </summary>
+        public static string Export_Team_Ranking_Header {
+            get {
+                return ResourceManager.GetString("Export_Team_Ranking_Header", resourceCulture);
             }
         }
         
@@ -561,6 +579,15 @@ namespace PonzianiSwiss.Resources {
         public static string Label_Rating_To_Content {
             get {
                 return ResourceManager.GetString("Label_Rating_To_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Team Size: ähnelt.
+        /// </summary>
+        public static string Label_Team_Size_Content {
+            get {
+                return ResourceManager.GetString("Label_Team_Size_Content", resourceCulture);
             }
         }
         

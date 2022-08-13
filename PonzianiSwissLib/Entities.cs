@@ -58,6 +58,59 @@ namespace PonzianiSwissLib
         public List<Pairing> Pairings { set; get; } = new List<Pairing>();
     }
 
+    public class TeamScoreCard
+    {
+        public TeamScoreCard(string name, Tournament tournament)
+        {
+            Name = name;
+            Tournament = tournament;
+        }
+
+        public string Name { set; get; }
+
+        public Tournament Tournament { set; get; }
+
+        public List<Scorecard> Scorecards { set; get; } = new List<Scorecard>();
+
+        /// <summary>
+        /// Orders the Scorecards of the team members by rank
+        /// </summary>
+        /// <param name="round">Round for which the standing is calculated (0-based: 0 is before first round, 1: after first round,..)</param>
+        public void OrderByRank(int round = int.MaxValue)
+        {
+            round = Math.Min(round, Tournament.Rounds.Count);
+            Tournament.OrderByRank(round);
+            ScoreCardComparer scc = new()
+            {
+                Tiebreaks = Tournament.TieBreak,
+                Tournament = Tournament
+            };
+            Scorecards.Sort(scc);
+        }
+
+        /// <summary>
+        /// Returns the tiebreak value for a team
+        /// <para>Method assumes that <see cref="OrderByRank(int)"/> has been called before</para>
+        /// </summary>
+        /// <param name="tieBreak"></param>
+        /// <returns></returns>
+        public float GetTieBreak(TieBreak tieBreak)
+        {
+            return tieBreak switch
+            {
+                TieBreak.Score => Scorecards.Take(Tournament.TeamSize ?? 0).Sum(s => s.Score()),
+                TieBreak.Buchholz => Scorecards.Take(Tournament.TeamSize ?? 0).Sum(s => s.Buchholz()),
+                TieBreak.BuchholzMedian => Scorecards.Take(Tournament.TeamSize ?? 0).Sum(s => s.BuchholzMedian()),
+                TieBreak.BuchholzCut1 => Scorecards.Take(Tournament.TeamSize ?? 0).Sum(s => s.BuchholzCut1()),
+                TieBreak.RefinedBuchholz => Scorecards.Take(Tournament.TeamSize ?? 0).Sum(s => s.RefinedBuchholz()),
+                TieBreak.CountWin => Scorecards.Take(Tournament.TeamSize ?? 0).Sum(s => s.CountWin()),
+                TieBreak.CountWinWithBlack => Scorecards.Take(Tournament.TeamSize ?? 0).Sum(s => s.CountBlackWin()),
+                TieBreak.CumulativeScore => Scorecards.Take(Tournament.TeamSize ?? 0).Sum(s => s.CumulativeScore()),
+                _ => 0,
+            };
+        }
+    }
+
     public class Scorecard
     {
         public Participant Participant { set; get; }
@@ -275,7 +328,7 @@ namespace PonzianiSwissLib
 
     public enum TieBreak { Score, Buchholz, BuchholzMedian, BuchholzCut1, RefinedBuchholz, SonnebornBerger, CountWin, CountWinWithBlack, CumulativeScore }
 
-    internal class ScoreCardComparer : IComparer<Scorecard>, IComparer<Participant>
+    internal class ScoreCardComparer : IComparer<Scorecard>, IComparer<Participant>, IComparer<TeamScoreCard>
     {
         public List<TieBreak>? Tiebreaks { get; set; }
 
@@ -299,6 +352,17 @@ namespace PonzianiSwissLib
             if (y != null && x != null)
                 return Tournament?.Rating(y).CompareTo(Tournament?.Rating(x)) ?? 0;
             else return 0;
+        }
+
+        public int Compare(TeamScoreCard? x, TeamScoreCard? y)
+        {
+            if (Tiebreaks == null || x == null || y == null) return 0;
+            foreach (var tieBreak in Tiebreaks)
+            {
+                int cv = y.GetTieBreak(tieBreak).CompareTo(x.GetTieBreak(tieBreak));
+                if (cv != 0) return cv;
+            }
+            return 0;
         }
     }
 

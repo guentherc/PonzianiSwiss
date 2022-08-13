@@ -28,7 +28,7 @@ namespace PonzianiPlayerBase
 
             // 2.
             // Loop over each match.
-            foreach (Match m in m1)
+            foreach (Match m in m1.Cast<Match>())
             {
                 string value = m.Groups[1].Value;
                 LinkItem i = new()

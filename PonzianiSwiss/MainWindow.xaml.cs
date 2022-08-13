@@ -314,6 +314,10 @@ namespace PonzianiSwiss
                     {
                         AdditionalRankingMenuEntries.Add(new(ar, ar.Title ?? "?"));
                     }
+                    if (tournament.TeamSize.GetValueOrDefault(0) > 1)
+                    {
+                        AdditionalRankingMenuEntries.Add(new(new(LocalizedStrings.Instance["Export_Team_Ranking_Header"]), LocalizedStrings.Instance["Export_Team_Ranking_Header"]));
+                    }
                 }
             }
         }
@@ -437,7 +441,14 @@ namespace PonzianiSwiss
                     break;
                 case 2:
                     title = LocalizedStrings.Instance["Crosstable"];
-                    html = Tournament?.CrosstableHTML(int.MaxValue, additionalRanking) ?? string.Empty;
+                    if (additionalRanking != null && additionalRanking.Title == LocalizedStrings.Instance["Export_Team_Ranking_Header"])
+                    {
+                        html = Tournament?.TeamHTML(int.MaxValue) ?? string.Empty;
+                    }
+                    else
+                    {
+                        html = Tournament?.CrosstableHTML(int.MaxValue, additionalRanking) ?? string.Empty;
+                    }
                     break;
                 case 3:
                     title = LocalizedStrings.Get("Pairings_Round_X", Tournament?.Rounds.Count ?? 0);

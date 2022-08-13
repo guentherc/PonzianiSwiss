@@ -46,6 +46,12 @@ namespace PonzianiSwiss
         [ObservableProperty]
         private bool? dialogResult;
 
+        [ObservableProperty]
+        private bool? teamRankingActive;
+
+        [ObservableProperty]
+        private int? teamSize;
+
         private Tournament? tournament;
 
         public Tournament? Tournament
@@ -58,6 +64,8 @@ namespace PonzianiSwiss
                 {
                     foreach (var ar in tournament.AdditionalRankings)
                         _additionalRankings.Add(ar);
+                    TeamRankingActive = tournament.TeamSize != null && tournament.TeamSize > 1;
+                    TeamSize = tournament.TeamSize ?? 4;
                 }
                 OnPropertyChanged(nameof(Tournament));
             }
@@ -71,6 +79,8 @@ namespace PonzianiSwiss
         void Ok()
         {
             DialogResult = true;
+            if (tournament != null)
+                tournament.TeamSize = TeamRankingActive.GetValueOrDefault(false) ? TeamSize : null;
         }
 
         [ICommand]

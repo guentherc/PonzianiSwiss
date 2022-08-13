@@ -214,6 +214,15 @@ namespace PonzianiSwissLib {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Team Ranking (Round &amp;) ähnelt.
+        /// </summary>
+        public static string TeamRankingTable {
+            get {
+                return ResourceManager.GetString("TeamRankingTable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Title ähnelt.
         /// </summary>
         public static string Title {

@@ -281,7 +281,7 @@ namespace PonzianiSwissLib
 
         public static Result Simulate(int eloWhite, int eloBlack, double drawRate = 0.6, double forfeitRate = 0.02)
         {
-            if (rnd == null) rnd = new Random();
+            rnd ??= new Random();
             if (rnd.NextDouble() < forfeitRate)
             {
                 return rnd.NextDouble() < 0.5 ? Result.ForfeitWin : Result.Forfeited;

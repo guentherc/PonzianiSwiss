@@ -177,7 +177,7 @@ namespace PonzianiSwissTest
 
         private static void TestDrawSimulationAccelerated(int seed, PairingTool.GeneratorConfig? config = null)
         {
-            if (config == null) config = new();
+            config ??= new();
             config.CountRounds = 11;
             string? trfFile0 = PairingTool.GenerateTRFAsync(seed, config).Result;
             PairingSystem pairingSystem = config == null ? PairingSystem.Dutch : config.PairingSystem;

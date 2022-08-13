@@ -615,4 +615,13 @@
   <data name="MenuItem_Additional_Rankings_Export_Header" xml:space="preserve">
     <value>Additional Rankings</value>
   </data>
+  <data name="CheckBox_Team_Ranking_Content" xml:space="preserve">
+    <value>Team Ranking</value>
+  </data>
+  <data name="Label_Team_Size_Content" xml:space="preserve">
+    <value>Team Size:</value>
+  </data>
+  <data name="Export_Team_Ranking_Header" xml:space="preserve">
+    <value>Team Ranking</value>
+  </data>
 </root>

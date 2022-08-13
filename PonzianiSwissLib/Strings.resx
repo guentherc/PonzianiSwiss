@@ -177,4 +177,7 @@
   <data name="RatingGroupRanking" xml:space="preserve">
     <value>Rating Prize (&amp;1 ≤ Rating &lt; &amp;2)</value>
   </data>
+  <data name="TeamRankingTable" xml:space="preserve">
+    <value>Team Ranking (Round &amp;)</value>
+  </data>
 </root>

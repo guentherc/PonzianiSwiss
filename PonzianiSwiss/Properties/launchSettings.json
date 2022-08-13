@@ -1,7 +1,8 @@
 {
   "profiles": {
     "PonzianiSwiss": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "-mode Test"
     }
   }
 }

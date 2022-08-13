@@ -6,6 +6,59 @@ namespace PonzianiSwissLib
 {
     public static class Export
     {
+        public static string TeamHTML(this Tournament tournament, int round = int.MaxValue)
+        {
+            round = Math.Min(round, tournament.Rounds.Count - 1);
+            StringBuilder sb = new();
+            var teamScoreCards = tournament.GetTeamScorecards(round);
+            sb.AppendLine($"<h2 align=\"center\">{HttpUtility.HtmlEncode(tournament.Name)}</h2>");
+            int rank = 1;
+            sb.AppendLine(@"<div align=""center"">");
+            sb.AppendLine(@"<center>");
+            sb.AppendLine(@"<table border=""2"" cellpadding=""2"" cellspacing=""2"" style=""border-collapse: collapse"" bordercolor=""#111111"" >");
+            sb.AppendLine(@"<thead>");
+            sb.AppendLine(@"<tr>");
+            sb.AppendLine($"<td colspan=\"{4 + tournament.TieBreak.Count}\">{HttpUtility.HtmlEncode(Strings.TeamRankingTable.Replace("&", (round + 1).ToString()))} </td>");
+            sb.AppendLine(@"</tr>");
+            List<string> columnNames = new() { Strings.ParticpantListRank, Strings.Participant, Strings.ParticipantListFideRating,
+                                                  Strings.ParticipantListNationalRating };
+            foreach (var tb in tournament.TieBreak)
+            {
+                columnNames.Add(tb.ToString());
+            }
+            sb.AppendLine(@"<tr>");
+            foreach (string columnName in columnNames) sb.AppendLine($"<th>{HttpUtility.HtmlEncode(columnName)}</th>");
+            sb.AppendLine(@"</tr>");
+
+            foreach (var tsc in teamScoreCards)
+            {
+                sb.AppendLine($"<tr><td rowspan=\"{tsc.Scorecards.Count + 2}\"><strong>{rank}</strong></td><td colspan=\"{3 + tournament.TieBreak.Count}\"><strong>{tsc.Name}</strong></td></tr>");
+                int indx = 0;
+                foreach (Scorecard sc in tsc.Scorecards)
+                {
+                    string em = indx < tournament.TeamSize ? string.Empty : "<em>";
+                    string emo = indx < tournament.TeamSize ? string.Empty : "</em>";
+                    ++indx;
+                    sb.AppendLine($"<em><tr><td style=\"padding-left:10px\">{em}{sc.Participant.Name}{emo}</td>");
+                    sb.AppendLine($"<td>{em}{sc.Participant.FideRating}{emo}</td>");
+                    sb.AppendLine($"<td>{em}{sc.Participant.AlternativeRating}{emo}</td>");
+                    foreach (var tb in tournament.TieBreak)
+                    {
+                        sb.AppendLine($"<td>{em}{sc.Participant.Scorecard?.GetTieBreak(tb)}{emo}</td>");
+                    }
+                    sb.AppendLine(@"</tr></em>");
+                }
+                sb.AppendLine("<tr><td colspan=\"3\"></td>");
+                foreach (var tb in tournament.TieBreak)
+                {
+                    sb.AppendLine($"<td><strong>{tsc.GetTieBreak(tb)}</strong></td>");
+                }
+                sb.AppendLine(@"</tr>");
+                ++rank;
+            }
+            sb.AppendLine(@"</table>");
+            return sb.ToString();
+        }
         public static string RoundHTML(this Tournament tournament, int round = int.MaxValue)
         {
             round = Math.Min(round, tournament.Rounds.Count - 1);
