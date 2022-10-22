@@ -125,14 +125,15 @@ namespace PonzianiSwissLib
 
         public List<Entry> Entries { set; get; } = new List<Entry>();
 
-        public float Score() => Entries.Sum((e) => e.Score);
-        public float Score(int round) => Entries.Where(e => e.Round < round).Sum((e) => e.Score);
+        public float Score() => Participant.ParticipantId == Participant.BYE.ParticipantId ? 0 : Entries.Sum((e) => e.Score);
+        public float Score(int round) => Participant.ParticipantId == Participant.BYE.ParticipantId ? 0 : Entries.Where(e => e.Round < round).Sum((e) => e.Score);
 
-        public float Buchholz() => Entries.Select(e => e.Opponent.Scorecard?.Score() ?? 0).Sum();
-        public float Buchholz(int round) => Entries.Where(e => e.Round < round).Select(e => e.Opponent.Scorecard?.Score(round) ?? 0).Sum();
+        public float Buchholz() => Participant.ParticipantId == Participant.BYE.ParticipantId ? 0 : Entries.Select(e => e.Opponent.Scorecard?.Score() ?? 0).Sum();
+        public float Buchholz(int round) => Participant.ParticipantId == Participant.BYE.ParticipantId ? 0 : Entries.Where(e => e.Round < round).Select(e => e.Opponent.Scorecard?.Score(round) ?? 0).Sum();
 
         public float BuchholzMedian()
         {
+            if (Participant.ParticipantId == Participant.BYE.ParticipantId) return 0;
             var list = Entries.Select(e => e.Opponent.Scorecard?.Score() ?? 0).ToList();
             list.Sort();
             list.RemoveAt(0);
@@ -142,6 +143,7 @@ namespace PonzianiSwissLib
 
         public float BuchholzMedian(int round)
         {
+            if (Participant.ParticipantId == Participant.BYE.ParticipantId) return 0;
             var list = Entries.Where(e => e.Round < round).Select(e => e.Opponent.Scorecard?.Score(round) ?? 0).ToList();
             list.Sort();
             list.RemoveAt(0);
@@ -151,6 +153,7 @@ namespace PonzianiSwissLib
 
         public float BuchholzCut1()
         {
+            if (Participant.ParticipantId == Participant.BYE.ParticipantId) return 0;
             var list = Entries.Select(e => e.Opponent.Scorecard?.Score() ?? 0).ToList();
             list.Sort();
             list.RemoveAt(0);
@@ -159,17 +162,18 @@ namespace PonzianiSwissLib
 
         public float BuchholzCut1(int round)
         {
+            if (Participant.ParticipantId == Participant.BYE.ParticipantId) return 0;
             var list = Entries.Where(e => e.Round < round).Select(e => e.Opponent.Scorecard?.Score(round) ?? 0).ToList();
             list.Sort();
             list.RemoveAt(0);
             return list.Sum();
         }
 
-        public float RefinedBuchholz() => Entries.Select(e => e.Opponent.Scorecard?.Buchholz() ?? 0).Sum();
-        public float RefinedBuchholz(int round) => Entries.Where(e => e.Round < round).Select(e => e.Opponent.Scorecard?.Buchholz(round) ?? 0).Sum();
+        public float RefinedBuchholz() => Participant.ParticipantId == Participant.BYE.ParticipantId ? 0 : Entries.Select(e => e.Opponent.Scorecard?.Buchholz() ?? 0).Sum();
+        public float RefinedBuchholz(int round) => Participant.ParticipantId == Participant.BYE.ParticipantId ? 0 : Entries.Where(e => e.Round < round).Select(e => e.Opponent.Scorecard?.Buchholz(round) ?? 0).Sum();
 
-        public float SonnebornBergerScore() => Entries.Select(e => e.Score * (e.Opponent.Scorecard?.Score() ?? 0)).Sum();
-        public float SonnebornBergerScore(int round) => Entries.Where(e => e.Round < round).Select(e => e.Score * (e.Opponent.Scorecard?.Score(round) ?? 0)).Sum();
+        public float SonnebornBergerScore() => Participant.ParticipantId == Participant.BYE.ParticipantId ? 0 : Entries.Select(e => e.Score * (e.Opponent.Scorecard?.Score() ?? 0)).Sum();
+        public float SonnebornBergerScore(int round) => Participant.ParticipantId == Participant.BYE.ParticipantId ? 0 : Entries.Where(e => e.Round < round).Select(e => e.Score * (e.Opponent.Scorecard?.Score(round) ?? 0)).Sum();
 
         public int CountWin() => Entries.Where(e => (int)e.Result >= (int)Result.Win).Count();
         public int CountWin(int round) => Entries.Where(e => e.Round < round && (int)e.Result >= (int)Result.Win).Count();
