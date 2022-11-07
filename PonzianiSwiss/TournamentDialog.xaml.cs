@@ -1,8 +1,8 @@
-﻿using MahApps.Metro.Controls;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using MahApps.Metro.Controls;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
 using MvvmDialogs;
 using PonzianiSwiss.Resources;
 using PonzianiSwissLib;
@@ -75,7 +75,7 @@ namespace PonzianiSwiss
         public ICommand AdditionalRankingDialogCommand { get; }
         public ICommand DeleteAdditionalRankingCommand { get; }
 
-        [ICommand]
+        [RelayCommand]
         void Ok()
         {
             DialogResult = true;
@@ -83,7 +83,7 @@ namespace PonzianiSwiss
                 tournament.TeamSize = TeamRankingActive.GetValueOrDefault(false) ? TeamSize : null;
         }
 
-        [ICommand]
+        [RelayCommand]
         void Cancel()
         {
             DialogResult = false;

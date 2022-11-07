@@ -1,7 +1,7 @@
-﻿using MahApps.Metro.Controls;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using MahApps.Metro.Controls;
 using Microsoft.Extensions.Logging;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
 using MvvmDialogs;
 using PonzianiSwiss.Resources;
 using PonzianiSwissLib;
@@ -73,14 +73,14 @@ namespace PonzianiSwiss
             return duplicates.Any();
         }
 
-        [ICommand]
+        [RelayCommand]
         void Validate()
         {
             CheckForDuplicates();
             OnPropertyChanged(nameof(CustomAttributes));
         }
 
-        [ICommand]
+        [RelayCommand]
         void Ok()
         {
             if (Participant != null)
@@ -109,7 +109,7 @@ namespace PonzianiSwiss
             DialogResult = true;
         }
 
-        [ICommand]
+        [RelayCommand]
         void Cancel()
         {
             DialogResult = false;

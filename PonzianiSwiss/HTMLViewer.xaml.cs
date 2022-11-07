@@ -1,6 +1,6 @@
-﻿using MahApps.Metro.Controls;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using MahApps.Metro.Controls;
 using Microsoft.Extensions.Logging;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Win32;
 using MvvmDialogs;
 using System.IO;

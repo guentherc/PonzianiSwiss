@@ -1,10 +1,10 @@
-﻿using ControlzEx.Theming;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using ControlzEx.Theming;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
 using MvvmDialogs;
 using MvvmDialogs.FrameworkDialogs.OpenFile;
 using MvvmDialogs.FrameworkDialogs.SaveFile;
@@ -537,7 +537,7 @@ namespace PonzianiSwiss
             Properties.Settings.Default.Save();
         }
 
-        [ICommand]
+        [RelayCommand]
         void SettingsReset()
         {
             LogCommand();
@@ -546,7 +546,7 @@ namespace PonzianiSwiss
             ThemeManager.Current.ChangeTheme(Application.Current, Properties.Settings.Default.BaseTheme, Properties.Settings.Default.ThemeColor);
         }
 
-        [ICommand]
+        [RelayCommand]
         async void Update_Base(PlayerBaseFactory.Base b)
         {
             LogCommand(b.ToString());
@@ -572,7 +572,7 @@ namespace PonzianiSwiss
             pbase.ProgressChanged -= updateProgressBar;
         }
 
-        [ICommand]
+        [RelayCommand]
         async void Open()
         {
             LogCommand();
@@ -619,14 +619,14 @@ namespace PonzianiSwiss
             SyncRounds();
         }
 
-        [ICommand]
+        [RelayCommand]
         void Crosstable(AdditionalRanking ar)
         {
             if (ar != null)
                 ShowHtmlViewer(viewModel => DialogService?.ShowDialog(this, viewModel), 2, ar);
         }
 
-        [ICommand]
+        [RelayCommand]
         async void LoadTournament(string? filename)
         {
             LogCommand(filename);
@@ -643,7 +643,7 @@ namespace PonzianiSwiss
             }
         }
 
-        [ICommand]
+        [RelayCommand]
         void Abandon(TournamentParticipant p)
         {
             LogCommand(p.Participant.Name);
@@ -659,7 +659,7 @@ namespace PonzianiSwiss
             }
         }
 
-        [ICommand]
+        [RelayCommand]
         void Pause(TournamentParticipant p)
         {
             LogCommand(p.Participant.Name);
@@ -675,7 +675,7 @@ namespace PonzianiSwiss
             }
         }
 
-        [ICommand]
+        [RelayCommand]
         void UndoPause(TournamentParticipant p)
         {
             LogCommand(p.Participant.Name);
@@ -686,7 +686,7 @@ namespace PonzianiSwiss
             SyncParticipants();
         }
 
-        [ICommand]
+        [RelayCommand]
         async void About()
         {
             LogCommand();
@@ -696,7 +696,7 @@ namespace PonzianiSwiss
         private string? sortCol = null;
         private bool sort_ascending = true;
 
-        [ICommand]
+        [RelayCommand]
         void SortParticipants(string sortBy)
         {
             LogCommand(sortBy);
@@ -828,7 +828,7 @@ namespace PonzianiSwiss
             DeleteLastRoundCommand.NotifyCanExecuteChanged();
         }
 
-        [ICommand]
+        [RelayCommand]
         internal void SimulateResults()
         {
             LogCommand();

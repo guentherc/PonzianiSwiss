@@ -1,6 +1,6 @@
-﻿using MahApps.Metro.Controls;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using MahApps.Metro.Controls;
 using MvvmDialogs;
 using PonzianiSwiss.Resources;
 using PonzianiSwissLib;
@@ -68,13 +68,13 @@ namespace PonzianiSwiss
             }
         }
 
-        [ICommand]
+        [RelayCommand]
         void Ok()
         {
             DialogResult = true;
         }
 
-        [ICommand]
+        [RelayCommand]
         void Cancel()
         {
             DialogResult = false;

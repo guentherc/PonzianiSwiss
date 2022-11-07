@@ -1,8 +1,8 @@
 ﻿using AutoCompleteTextBox.Editors;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using MahApps.Metro.Controls;
 using Microsoft.Extensions.Logging;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
 using MvvmDialogs;
 using PonzianiPlayerBase;
 using PonzianiSwissLib;
@@ -35,7 +35,7 @@ namespace PonzianiSwiss
         }
 
         [ObservableProperty]
-        [AlsoNotifyChangeFor(nameof(IsFemale))]
+        [NotifyPropertyChangedFor(nameof(IsFemale))]
         private Player? player;
 
         public bool IsFemale => Player?.Sex == Sex.Female;
@@ -68,19 +68,19 @@ namespace PonzianiSwiss
             }
         }
 
-        [ICommand]
+        [RelayCommand]
         void Ok()
         {
             DialogResult = true;
         }
 
-        [ICommand]
+        [RelayCommand]
         void Cancel()
         {
             DialogResult = false;
         }
 
-        [ICommand]
+        [RelayCommand]
         void SelectionChanged(object parameter)
         {
             PlayerBase = (PlayerBaseFactory.Base)parameter;

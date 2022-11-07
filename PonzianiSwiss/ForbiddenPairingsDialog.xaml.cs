@@ -1,7 +1,7 @@
-﻿using MahApps.Metro.Controls;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using MahApps.Metro.Controls;
 using Microsoft.Extensions.Logging;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
 using MvvmDialogs;
 using PonzianiSwissLib;
 using System;
@@ -78,7 +78,7 @@ namespace PonzianiSwiss
             RemoveRuleCommand = new RelayCommand<ForbiddenPairingRule?>((r) => RemoveRule(r), (r) => true);
         }
 
-        [ICommand]
+        [RelayCommand]
         void Ok()
         {
             if (Tournament != null)
@@ -90,7 +90,7 @@ namespace PonzianiSwiss
             DialogResult = true;
         }
 
-        [ICommand]
+        [RelayCommand]
         void Cancel()
         {
             DialogResult = false;

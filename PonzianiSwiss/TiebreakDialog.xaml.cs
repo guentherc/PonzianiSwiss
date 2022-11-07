@@ -1,8 +1,8 @@
-﻿using GongSolutions.Wpf.DragDrop;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using GongSolutions.Wpf.DragDrop;
 using MahApps.Metro.Controls;
 using Microsoft.Extensions.Logging;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
 using MvvmDialogs;
 using PonzianiSwissLib;
 using System;
@@ -72,14 +72,14 @@ namespace PonzianiSwiss
             return Selected.Any(t => t.Key == tb);
         }
 
-        [ICommand]
+        [RelayCommand]
         void Update()
         {
             Tiebreaks?.Clear();
             foreach (var tiebreak in Selected) Tiebreaks?.Add(tiebreak.Key);
         }
 
-        [ICommand]
+        [RelayCommand]
         void Select(TieBreak tb)
         {
             if (!IsSelected(tb))
@@ -90,7 +90,7 @@ namespace PonzianiSwiss
             }
         }
 
-        [ICommand]
+        [RelayCommand]
         void Unselect(TieBreak tb)
         {
             if (IsSelected(tb))
@@ -101,7 +101,7 @@ namespace PonzianiSwiss
             }
         }
 
-        [ICommand]
+        [RelayCommand]
         void MoveUp(TiebreakExtended tb)
         {
             int index = Selected.IndexOf(tb);
@@ -112,7 +112,7 @@ namespace PonzianiSwiss
             }
         }
 
-        [ICommand]
+        [RelayCommand]
         void MoveDown(TiebreakExtended tb)
         {
             int index = Selected.IndexOf(tb);
@@ -123,20 +123,20 @@ namespace PonzianiSwiss
             }
         }
 
-        [ICommand]
+        [RelayCommand]
         void Ok()
         {
             Update();
             DialogResult = true;
         }
 
-        [ICommand]
+        [RelayCommand]
         void Cancel()
         {
             DialogResult = false;
         }
 
-        [ICommand]
+        [RelayCommand]
         void Toggle(object parameter)
         {
             TieBreak clickedTiebreak = (TieBreak)parameter;

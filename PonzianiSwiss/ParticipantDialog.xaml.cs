@@ -1,9 +1,9 @@
 ﻿using AutoCompleteTextBox.Editors;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using MahApps.Metro.Controls;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
 using MvvmDialogs;
 using PonzianiPlayerBase;
 using PonzianiSwissLib;
@@ -61,14 +61,14 @@ namespace PonzianiSwiss
         public ICommand PlayerSearchDialogCommand { get; }
         public ICommand ParticipantAttributesDialogCommand { get; }
 
-        [ICommand]
+        [RelayCommand]
         void Ok()
         {
             FixParticipant();
             DialogResult = true;
         }
 
-        [ICommand]
+        [RelayCommand]
         void Cancel()
         {
             DialogResult = false;
