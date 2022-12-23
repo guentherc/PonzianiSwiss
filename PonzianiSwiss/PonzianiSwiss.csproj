@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net7.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
@@ -33,7 +33,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1418.22" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1462.37" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
     <PackageReference Include="MvvmDialogs" Version="9.1.0" />
     <PackageReference Include="Serilog" Version="2.12.0" />

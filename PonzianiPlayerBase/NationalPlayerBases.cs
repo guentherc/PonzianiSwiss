@@ -173,11 +173,11 @@ namespace PonzianiPlayerBase
                             cmd.Parameters["@Id"].Value = $"{id}";
                             cmd.Parameters["@Inactive"].Value = "0";
                             cmd.Parameters["@Name"].Value = csv.GetField<string>(1);
-                            cmd.Parameters["@Sex"].Value = csv.GetField<string>(7).Trim() == "w" ? "1" : "0";
+                            cmd.Parameters["@Sex"].Value = csv.GetField<string>(7)?.Trim() == "w" ? "1" : "0";
                             cmd.Parameters["@Federation"].Value = "NED";
                             cmd.Parameters["@Club"].Value = $"";
-                            cmd.Parameters["@Rating"].Value = $"{(csv.GetField<string>(4).Length > 0 ? csv.GetField<int>(4) : 0)}";
-                            cmd.Parameters["@Birthyear"].Value = $"{(csv.GetField<string>(6).Length > 0 ? csv.GetField<int>(6) : 0)}";
+                            cmd.Parameters["@Rating"].Value = $"{(csv.GetField<string>(4)?.Length > 0 ? csv.GetField<int>(4) : 0)}";
+                            cmd.Parameters["@Birthyear"].Value = $"{(csv.GetField<string>(6)?.Length > 0 ? csv.GetField<int>(6) : 0)}";
                             cmd.Parameters["@FideId"].Value = 0;
                             if (count == 1) await cmd.PrepareAsync();
                             await cmd.ExecuteNonQueryAsync();
@@ -379,12 +379,12 @@ namespace PonzianiPlayerBase
                             cmd.Parameters["@Id"].Value = $"{id}";
                             cmd.Parameters["@Inactive"].Value = csv.GetField<string>(18) == "N" ? "1" : "0";
                             cmd.Parameters["@Name"].Value = csv.GetField<string>(0);
-                            cmd.Parameters["@Sex"].Value = csv.GetField<string>(7).Trim() == "F" ? "1" : "0";
+                            cmd.Parameters["@Sex"].Value = csv.GetField<string>(7)?.Trim() == "F" ? "1" : "0";
                             cmd.Parameters["@Federation"].Value = "ITA";
                             cmd.Parameters["@Club"].Value = $"";
                             cmd.Parameters["@Rating"].Value = $"{csv.GetField<int>(1)}";
                             cmd.Parameters["@Birthyear"].Value = $"{csv.GetField<int>(5)}";
-                            string fideid = csv.GetField<string>(8);
+                            string fideid = csv.GetField<string>(8) ?? string.Empty;
                             if (fideid != null && ulong.TryParse(fideid, out ulong f))
                                 cmd.Parameters["@FideId"].Value = f;
                             else
@@ -804,12 +804,12 @@ namespace PonzianiPlayerBase
                             cmd.Parameters["@Id"].Value = $"{csv.GetField<string>(0)}";
                             cmd.Parameters["@Inactive"].Value = "0";
                             cmd.Parameters["@Name"].Value = csv.GetField<string>(1);
-                            cmd.Parameters["@Sex"].Value = csv.GetField<string>(2).Length > 0 && csv.GetField<char>(2) == 'f' ? "1" : "0";
+                            cmd.Parameters["@Sex"].Value = csv.GetField<string>(2)?.Length > 0 && csv.GetField<char>(2) == 'f' ? "1" : "0";
                             cmd.Parameters["@Federation"].Value = "SUI";
                             cmd.Parameters["@Club"].Value = $"{csv.GetField<string>(5)}";
-                            cmd.Parameters["@Rating"].Value = $"{(csv.GetField<string>(7).Length > 0 ? csv.GetField<int>(7) : 0)}";
-                            cmd.Parameters["@Birthyear"].Value = $"{(csv.GetField<string>(6).Length > 0 ? csv.GetField<int>(6) : 0)}";
-                            string fideid = csv.GetField<string>(8);
+                            cmd.Parameters["@Rating"].Value = $"{(csv.GetField<string>(7)?.Length > 0 ? csv.GetField<int>(7) : 0)}";
+                            cmd.Parameters["@Birthyear"].Value = $"{(csv.GetField<string>(6)?.Length > 0 ? csv.GetField<int>(6) : 0)}";
+                            string fideid = csv.GetField<string>(8) ?? string.Empty;
                             if (fideid != null && ulong.TryParse(fideid, out ulong f))
                                 cmd.Parameters["@FideId"].Value = f;
                             else
@@ -910,17 +910,17 @@ namespace PonzianiPlayerBase
                     {
                         try
                         {
-                            if (csv.GetField<string>(6).Length <= 0) continue;
+                            if (csv.GetField<string>(6)?.Length <= 0) continue;
                             ++count;
                             cmd.Parameters["@Id"].Value = $"{csv.GetField<string>(0)}";
                             cmd.Parameters["@Inactive"].Value = "0";
                             cmd.Parameters["@Name"].Value = csv.GetField<string>(1);
-                            cmd.Parameters["@Sex"].Value = csv.GetField<string>(4).Length > 0 && csv.GetField<char>(4) == 'F' ? "1" : "0";
+                            cmd.Parameters["@Sex"].Value = csv.GetField<string>(4)?.Length > 0 && csv.GetField<char>(4) == 'F' ? "1" : "0";
                             cmd.Parameters["@Federation"].Value = "ENG";
                             cmd.Parameters["@Club"].Value = $"{csv.GetField<string>(19)}";
                             cmd.Parameters["@Rating"].Value = $"{csv.GetField<int>(6)}";
                             cmd.Parameters["@Birthyear"].Value = $"0000";
-                            string fideid = csv.GetField<string>(3);
+                            string fideid = csv.GetField<string>(3) ?? string.Empty;
                             if (fideid != null && ulong.TryParse(fideid, out ulong f))
                                 cmd.Parameters["@FideId"].Value = f;
                             else
@@ -1070,8 +1070,8 @@ namespace PonzianiPlayerBase
                             cmd.Parameters["@Federation"].Value = "GER";
                             cmd.Parameters["@Club"].Value = $"{csv.GetField<string>(0)}";
                             cmd.Parameters["@Rating"].Value = $"{csv.GetField<int>(8)}";
-                            if (csv.GetField<string>(6).Trim().Length > 0) cmd.Parameters["@Birthyear"].Value = $"{csv.GetField<int>(6)}";
-                            string fideid = csv.GetField<string>(12);
+                            if (csv.GetField<string>(6)?.Trim().Length > 0) cmd.Parameters["@Birthyear"].Value = $"{csv.GetField<int>(6)}";
+                            string fideid = csv.GetField<string>(12) ?? string.Empty;
                             if (fideid != null && ulong.TryParse(fideid, out ulong f))
                                 cmd.Parameters["@FideId"].Value = f;
                             else
