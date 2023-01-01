@@ -394,7 +394,15 @@ namespace PonzianiSwiss
                 {
                     if (dialogViewModel.Participant != null)
                     {
-                        if (add) Tournament?.Participants.Add(dialogViewModel.Participant);
+                        if (add)
+                        {
+                            Tournament?.Participants.Add(dialogViewModel.Participant);
+                            if (Tournament?.Rounds.Count > 0 && dialogViewModel.Participant.ParticipantId == null)
+                            {
+                                dialogViewModel.Participant.ParticipantId = $"{Tournament.Participants.Where(p => p.ParticipantId != null)
+                                    .Select(p => int.Parse(p.ParticipantId)).OrderDescending().First() + 1}";
+                            }
+                        }
                         SyncParticipants();
                         SyncRounds();
                     }
