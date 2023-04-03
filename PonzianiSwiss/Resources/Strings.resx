@@ -624,4 +624,7 @@
   <data name="Export_Team_Ranking_Header" xml:space="preserve">
     <value>Team Ranking</value>
   </data>
+  <data name="MessageDialog_Title_Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
 </root>

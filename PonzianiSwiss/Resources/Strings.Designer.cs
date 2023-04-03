@@ -39,7 +39,7 @@ namespace PonzianiSwiss.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Resources.Strings", typeof(Strings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PonzianiSwiss.Resources.Strings", typeof(Strings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -966,6 +966,15 @@ namespace PonzianiSwiss.Resources {
         public static string MenuItem_Unrated_Header {
             get {
                 return ResourceManager.GetString("MenuItem_Unrated_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Error ähnelt.
+        /// </summary>
+        public static string MessageDialog_Title_Error {
+            get {
+                return ResourceManager.GetString("MessageDialog_Title_Error", resourceCulture);
             }
         }
         

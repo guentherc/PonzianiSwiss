@@ -400,7 +400,7 @@ namespace PonzianiSwiss
                             if (Tournament?.Rounds.Count > 0 && dialogViewModel.Participant.ParticipantId == null)
                             {
                                 dialogViewModel.Participant.ParticipantId = $"{Tournament.Participants.Where(p => p.ParticipantId != null)
-                                    .Select(p => int.Parse(p.ParticipantId)).OrderDescending().First() + 1}";
+                                    .Select(p => int.Parse(p.ParticipantId ?? "0")).OrderDescending().First() + 1}";
                             }
                         }
                         SyncParticipants();
@@ -607,9 +607,15 @@ namespace PonzianiSwiss
             LogCommand();
             var controller = await DialogCoordinator.Instance.ShowProgressAsync(this, LocalizedStrings.Instance["Dialog_Title_Wait"], LocalizedStrings.Instance["Draw_Takes_Time"]);
             Tournament?.GetScorecards();
-            if (Tournament != null && await Tournament.DrawAsync(Tournament.Rounds.Count))
+            if (Tournament != null)
             {
-                Tournament?.GetScorecards();
+                if (await Tournament.DrawAsync(Tournament.Rounds.Count))
+                {
+                    Tournament?.GetScorecards();
+                } else
+                {
+                    await DialogCoordinator.Instance.ShowMessageAsync(this, LocalizedStrings.Instance["MessageDialog_Title_Error"], Tournament.DrawErrorMessage, MessageDialogStyle.AffirmativeAndNegative);
+                }
             }
             await controller.CloseAsync();
             SyncRounds();

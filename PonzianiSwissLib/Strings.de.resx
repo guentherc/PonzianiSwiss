@@ -180,4 +180,7 @@
   <data name="TeamRankingTable" xml:space="preserve">
     <value>Mannschaftswertung (Runde &amp;)</value>
   </data>
+  <data name="ProcessFailed" xml:space="preserve">
+    <value>bbpPairings konnte nicht gestartet werden</value>
+  </data>
 </root>

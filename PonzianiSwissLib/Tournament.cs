@@ -453,6 +453,7 @@ namespace PonzianiSwissLib
         /// <returns>true, if successful</returns>
         public async Task<bool> DrawAsync(int round = int.MaxValue, Side? SideForTopRanked = null, Dictionary<string, Result>? byes = null, List<string[]>? forbidden = null)
         {
+            DrawErrorMessage = null;
             OrderByRank();
             if (round == 0 && Participants.Any(p => p.ParticipantId == null))
                 AssignTournamentIds(round);
@@ -521,8 +522,13 @@ namespace PonzianiSwissLib
             var trf = CreateTRF(round, SideForTopRanked, byes, forbidden);
             var file = Path.GetTempFileName();
             await File.WriteAllLinesAsync(file, trf, Encoding.UTF8);
-            string pairings = await PairingTool.PairAsync(file, PairingSystem);
-            string[] lines = pairings.Split('\n');
+            var pairingResult = await PairingTool.PairAsync(file, PairingSystem);
+            if (string.IsNullOrEmpty(pairingResult.Result))
+            {
+                DrawErrorMessage = pairingResult.Error;
+                return false;
+            }
+            string[] lines = pairingResult.Result.Split('\n');
             for (int i = Rounds.Count; i <= round; ++i) Rounds.Add(new Round(i));
             Rounds[round].Pairings.Clear();
             for (int i = round + 1; i < Rounds.Count; ++i) Rounds[i].Pairings.Clear();
@@ -556,6 +562,8 @@ namespace PonzianiSwissLib
             Rounds[round].Pairings.SortByJointScore(round);
             return true;
         }
+
+        public string? DrawErrorMessage { get; set; }
 
         public bool DrawNextRoundPossible => Rounds.Count == 0 || (Rounds.Count < CountRounds && !Rounds.Last().Pairings.Where(p => p.Result == Result.Open).Any());
 

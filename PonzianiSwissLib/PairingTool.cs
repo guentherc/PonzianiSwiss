@@ -89,7 +89,7 @@ namespace PonzianiSwissLib
             return data.Contains("BBP Pairings", StringComparison.CurrentCulture);
         }
 
-        public static async Task<string> PairAsync(string input, PairingSystem pairingSystem = PairingSystem.Dutch)
+        public static async Task<ProcessResult> PairAsync(string input, PairingSystem pairingSystem = PairingSystem.Dutch)
         {
             Initialize();
             Debug.Assert(File.Exists(executable));
@@ -99,6 +99,7 @@ namespace PonzianiSwissLib
                 UseShellExecute = false,
                 CreateNoWindow = true,
                 RedirectStandardOutput = true,
+                RedirectStandardError = true,
                 Arguments = pairingSystem == PairingSystem.Dutch ? $"--dutch {input} -p" : $"--burstein {input} -p"
             };
 
@@ -106,13 +107,14 @@ namespace PonzianiSwissLib
             Stopwatch sw = new();
             sw.Start();
             using var process = Process.Start(psi);
-            if (process == null) return string.Empty;
+            if (process == null) return new() { Result = null, Error = Strings.ProcessFailed };
             using StreamReader reader = process.StandardOutput;
+            using StreamReader errorReader = process.StandardError;
             string data = await reader.ReadToEndAsync();
+            string error = errorReader.ReadToEnd();
             sw.Stop();
             Logger?.LogInformation("Draw completed ({runtime} ms)", sw.Elapsed.TotalMilliseconds);
-            return data;
-
+            return new() { Result = data, Error = error };
         }
 
         public static async Task<string?> GenerateTRFAsync(int seed = 0, GeneratorConfig? config = null)
@@ -242,6 +244,12 @@ namespace PonzianiSwissLib
                 return content;
             }
         }
+    }
+
+    public class ProcessResult
+    {
+        public string? Result { get; set; }
+        public string? Error { get; set; }
     }
 }
 

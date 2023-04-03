@@ -169,6 +169,15 @@ namespace PonzianiSwissLib {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Couldn&apos;t start bbpPairings process ähnelt.
+        /// </summary>
+        public static string ProcessFailed {
+            get {
+                return ResourceManager.GetString("ProcessFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Rating Prize (&amp;1 ≤ Rating &lt; &amp;2) ähnelt.
         /// </summary>
         public static string RatingGroupRanking {
