@@ -627,4 +627,13 @@
   <data name="MessageDialog_Title_Error" xml:space="preserve">
     <value>Fehler</value>
   </data>
+  <data name="MenuItem_Tournament_TRF_Header" xml:space="preserve">
+    <value>TRF (Turnierbericht)</value>
+  </data>
+  <data name="Export_TRF_Dialog_Title" xml:space="preserve">
+    <value>Turnierbericht exportieren</value>
+  </data>
+  <data name="Export_TRF_Dialog_Filter" xml:space="preserve">
+    <value>Turnierbericht|*.trf|Alle Dateien|*.*</value>
+  </data>
 </root>

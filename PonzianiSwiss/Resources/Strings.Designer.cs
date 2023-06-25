@@ -394,6 +394,24 @@ namespace PonzianiSwiss.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Tournament Report|*.trf|All Files|*.* ähnelt.
+        /// </summary>
+        public static string Export_TRF_Dialog_Filter {
+            get {
+                return ResourceManager.GetString("Export_TRF_Dialog_Filter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Export Tournament Report ähnelt.
+        /// </summary>
+        public static string Export_TRF_Dialog_Title {
+            get {
+                return ResourceManager.GetString("Export_TRF_Dialog_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Add ähnelt.
         /// </summary>
         public static string ForbiddenPairingsDialog_Add {
@@ -957,6 +975,15 @@ namespace PonzianiSwiss.Resources {
         public static string MenuItem_Tournament_Save_Header {
             get {
                 return ResourceManager.GetString("MenuItem_Tournament_Save_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die TRF (Tournament Report File) ähnelt.
+        /// </summary>
+        public static string MenuItem_Tournament_TRF_Header {
+            get {
+                return ResourceManager.GetString("MenuItem_Tournament_TRF_Header", resourceCulture);
             }
         }
         

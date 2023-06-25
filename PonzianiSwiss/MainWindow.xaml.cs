@@ -249,6 +249,8 @@ namespace PonzianiSwiss
         public RelayCommand<TournamentParticipant> ParticipantDeleteCommand { get; set; }
         public RelayCommand DeleteLastRoundCommand { get; set; }
 
+        public RelayCommand ExportTRFCommand { get; set; }
+
         public MainModel(ILogger? logger)
         {
             Logger = logger;
@@ -272,6 +274,7 @@ namespace PonzianiSwiss
             DrawCommand = new RelayCommand(Draw, () => DrawEnabled);
             ParticipantDeleteCommand = new RelayCommand<TournamentParticipant>((p) => ParticipantDelete(p), (p) => Tournament != null && Tournament.Rounds.Count == 0);
             DeleteLastRoundCommand = new RelayCommand(DeleteLastRound, () => Tournament != null && Tournament.Rounds.Count > 0);
+            ExportTRFCommand = new RelayCommand(ExportTRF, () => Tournament != null && Tournament.Rounds.Count > 0);
             UpdateMRUMenu();
             if (settings?.Filename != null && File.Exists(settings.Filename))
                 Load(settings.Filename);
@@ -306,6 +309,7 @@ namespace PonzianiSwiss
                     HtmlViewerCommand.NotifyCanExecuteChanged();
                     AddRandomParticipantsCommand.NotifyCanExecuteChanged();
                     DrawCommand.NotifyCanExecuteChanged();
+                    ExportTRFCommand.NotifyCanExecuteChanged();
                 }
                 if (tournament != null)
                 {
@@ -526,6 +530,28 @@ namespace PonzianiSwiss
                     Logger?.LogInformation("Tournament {name} saved to {filename}", Tournament.Name, FileName);
                 }
                 if (FileName != null) ProcessMRU(FileName);
+            }
+        }
+
+        async void ExportTRF()
+        {
+            if (Tournament != null)
+            {
+                var settings = new SaveFileDialogSettings
+                {
+                    Title = LocalizedStrings.Instance["Export_TRF_Dialog_Title"],
+                    DefaultExt = ".trf",
+                    Filter = LocalizedStrings.Instance["Export_TRF_Dialog_Filter"],
+                    FileName = Tournament?.Name + ".trf",
+                    AddExtension = true
+                };
+
+                var dialogService = App.Current.Services?.GetService<IDialogService>();
+                bool? success = dialogService?.ShowSaveFileDialog(this, settings);
+                if (success == true && Tournament != null)
+                {
+                    await Tournament.ExportTRF(settings.FileName);
+                }
             }
         }
 

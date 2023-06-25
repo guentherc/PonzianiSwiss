@@ -346,7 +346,7 @@ namespace PonzianiSwissLib
         /// <param name="round">Index of the round for which the report shall be created (0 means before 1. round, 1 means before 2., ...)</param>
         /// <param name="xxc">Side, which top ranked played should have in round 1 (if null use random value)</param>
         /// <returns>TRF report</returns>
-        public List<string> CreateTRF(int round, Side? xxc = null, Dictionary<string, Result>? byes = null, List<string[]>? forbidden = null)
+        public List<string> CreateTRF(int round, bool official = false, Side? xxc = null, Dictionary<string, Result>? byes = null, List<string[]>? forbidden = null)
         {
             round = Math.Min(round, Rounds.Count);
             if (round == 0 && Participants.Any(p => p.ParticipantId == null))
@@ -357,34 +357,37 @@ namespace PonzianiSwissLib
                 $"012 {Name}",
                 $"022 {City}",
                 $"032 {Federation}",
-                $"102 {ChiefArbiter}",
-                $"XXR {CountRounds}"
+                $"102 {ChiefArbiter}"
             };
-            trf.AddRange(ScoringScheme.TRFStrings());
-            if (Rounds.Count == 0)
+            if (!official)
             {
-                if (xxc.HasValue)
+                trf.Add($"XXR {CountRounds}");
+                trf.AddRange(ScoringScheme.TRFStrings());
+                if (Rounds.Count == 0)
                 {
-                    if (xxc.Value == Side.White) trf.Add($"XXC white1"); else trf.Add($"XXC black1");
+                    if (xxc.HasValue)
+                    {
+                        if (xxc.Value == Side.White) trf.Add($"XXC white1"); else trf.Add($"XXC black1");
+                    }
+                    else
+                    {
+                        var random = new Random();
+                        if (random.Next(2) == 1) trf.Add($"XXC white1"); else trf.Add($"XXC black1");
+                    }
                 }
                 else
                 {
-                    var random = new Random();
-                    if (random.Next(2) == 1) trf.Add($"XXC white1"); else trf.Add($"XXC black1");
-                }
-            }
-            else
-            {
-                for (int i = 1; i <= Participants.Count; i++)
-                {
-                    string pid = i.ToString();
-                    if (byes != null && byes.ContainsKey(pid)) continue;
-                    var p = Rounds[0].Pairings.Where(p => p?.White?.ParticipantId == pid || p?.Black?.ParticipantId == pid);
-                    if (p.Any())
+                    for (int i = 1; i <= Participants.Count; i++)
                     {
-                        Pairing pp = p.ToList()[0];
-                        if (pp?.White?.ParticipantId == pid) trf.Add($"XXC white1"); else trf.Add($"XXC black1");
-                        break;
+                        string pid = i.ToString();
+                        if (byes != null && byes.ContainsKey(pid)) continue;
+                        var p = Rounds[0].Pairings.Where(p => p?.White?.ParticipantId == pid || p?.Black?.ParticipantId == pid);
+                        if (p.Any())
+                        {
+                            Pairing pp = p.ToList()[0];
+                            if (pp?.White?.ParticipantId == pid) trf.Add($"XXC white1"); else trf.Add($"XXC black1");
+                            break;
+                        }
                     }
                 }
             }
@@ -415,7 +418,7 @@ namespace PonzianiSwissLib
                     pline.Append($"  0000 - {result_char[(int)byes[p.ParticipantId]]}");
                 trf.Add(pline.ToString().Trim());
             }
-            if (BakuAcceleration)
+            if (!official && BakuAcceleration)
             {
                 int G1 = 2 * (int)Math.Ceiling(Participants.Count / 4.0);
                 int CountAccRounds = (CountRounds + 1) / 2;
@@ -434,7 +437,7 @@ namespace PonzianiSwissLib
                     trf.Add(pline);
                 }
             }
-            if (forbidden != null)
+            if (!official && forbidden != null)
             {
                 foreach (string[] f in forbidden)
                 {
@@ -519,7 +522,7 @@ namespace PonzianiSwissLib
                     });
                 }
             }
-            var trf = CreateTRF(round, SideForTopRanked, byes, forbidden);
+            var trf = CreateTRF(round, false, SideForTopRanked, byes, forbidden);
             var file = Path.GetTempFileName();
             await File.WriteAllLinesAsync(file, trf, Encoding.UTF8);
             var pairingResult = await PairingTool.PairAsync(file, PairingSystem);
@@ -560,6 +563,14 @@ namespace PonzianiSwissLib
                 }
             }
             Rounds[round].Pairings.SortByJointScore(round);
+            return true;
+        }
+
+        public async Task<bool> ExportTRF(string filename)
+        {
+            var trf = CreateTRF(int.MaxValue, true);
+            if (trf == null || trf.Count == 0) return false;
+            await File.WriteAllLinesAsync(filename, trf, Encoding.UTF8);
             return true;
         }
 

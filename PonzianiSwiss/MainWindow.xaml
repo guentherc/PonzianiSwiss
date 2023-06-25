@@ -72,6 +72,7 @@
                         <MenuItem x:Name="MenuItem_Tournament_Crosstable" Header="{lex:Loc}" Tag="2" Command="{Binding HtmlViewerCommand}" CommandParameter="2"/>
                         <MenuItem x:Name="MenuItem_Tournament_Pairings" Header="{lex:Loc}" Tag="3" Command="{Binding HtmlViewerCommand}" CommandParameter="3"/>
                         <MenuItem x:Name="MenuItem_Additional_Rankings_Export" Header="{lex:Loc}" ItemsSource="{Binding AdditionalRankingMenuEntries}" ItemContainerStyle="{StaticResource ARStyle}"/>
+                        <MenuItem x:Name="MenuItem_Tournament_TRF" Header="{lex:Loc}" Command="{Binding ExportTRFCommand}"/>
                     </MenuItem>
                     <Separator Visibility="{Binding Path=HasMRUEntries, Converter={StaticResource BoolToVis}}"/>
                     <MenuItem x:Name="MenuItem_Recent_Files" Header="{lex:Loc}" 

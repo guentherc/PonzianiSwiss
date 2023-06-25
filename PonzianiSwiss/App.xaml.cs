@@ -18,7 +18,7 @@ namespace PonzianiSwiss
     /// </summary>
     public partial class App : Application
     {
-        public const string VERSION = "0.5.3";
+        public const string VERSION = "0.5.4";
 
         /// <summary>
         /// Gets the current <see cref="App"/> instance in use
