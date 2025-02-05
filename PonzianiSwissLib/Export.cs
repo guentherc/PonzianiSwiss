@@ -112,7 +112,7 @@ namespace PonzianiSwissLib
             {
                 sb.AppendLine(@"<div align=""center"">");
                 sb.AppendLine(@"<center>");
-                sb.AppendLine(@"<table border=""2"" cellpadding=""2"" cellspacing=""2"" style=""border-collapse: collapse"" bordercolor=""#111111"" >");
+                sb.AppendLine(@"<table class=""ps_crosstable"" border=""2"" cellpadding=""2"" cellspacing=""2"" style=""border-collapse: collapse"" bordercolor=""#111111"" >");
                 sb.AppendLine(@"<thead>");
                 sb.AppendLine(@"<tr>");
                 if (additionalRanking == null)
@@ -137,7 +137,7 @@ namespace PonzianiSwissLib
                     {
                         sb.AppendLine(@"<tr>");
                         sb.AppendLine($"<td>{rank}.</td>");
-                        sb.AppendLine($"<td>{p.Name}.</td>");
+                        sb.AppendLine($"<td>{p.Name}</td>");
                         sb.AppendLine($"<td>{p.FideRating}</td>");
                         sb.AppendLine($"<td>{p.AlternativeRating}</td>");
                         for (int i = 0; i < round; ++i)
@@ -151,7 +151,7 @@ namespace PonzianiSwissLib
                         }
                         foreach (var tb in tournament.TieBreak)
                         {
-                            sb.AppendLine($"<td>{p.Scorecard?.GetTieBreak(tb)}</td>");
+                            sb.AppendLine($"<td  style=\"text-align:right;\">{p.Scorecard?.GetTieBreak(tb)}</td>");
                         }
                         sb.AppendLine(@"</tr>");
                     }
