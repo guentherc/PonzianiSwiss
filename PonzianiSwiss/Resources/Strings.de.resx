@@ -636,4 +636,13 @@
   <data name="Export_TRF_Dialog_Filter" xml:space="preserve">
     <value>Turnierbericht|*.trf|Alle Dateien|*.*</value>
   </data>
+  <data name="MenuItem_Tournament_PGN_Header" xml:space="preserve">
+    <value>PGN</value>
+  </data>
+  <data name="Export_PGN_Dialog_Title" xml:space="preserve">
+    <value>Turnier als PGN exportieren</value>
+  </data>
+  <data name="Export_PGN_Dialog_Filter" xml:space="preserve">
+    <value>PGN Datei|*.pgn|Alle Dateien|*.*</value>
+  </data>
 </root>

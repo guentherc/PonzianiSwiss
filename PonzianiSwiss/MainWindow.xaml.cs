@@ -250,6 +250,7 @@ namespace PonzianiSwiss
         public RelayCommand DeleteLastRoundCommand { get; set; }
 
         public RelayCommand ExportTRFCommand { get; set; }
+        public RelayCommand ExportPGNCommand { get; set; }
 
         public MainModel(ILogger? logger)
         {
@@ -275,6 +276,7 @@ namespace PonzianiSwiss
             ParticipantDeleteCommand = new RelayCommand<TournamentParticipant>((p) => ParticipantDelete(p), (p) => Tournament != null && Tournament.Rounds.Count == 0);
             DeleteLastRoundCommand = new RelayCommand(DeleteLastRound, () => Tournament != null && Tournament.Rounds.Count > 0);
             ExportTRFCommand = new RelayCommand(ExportTRF, () => Tournament != null && Tournament.Rounds.Count > 0);
+            ExportPGNCommand = new RelayCommand(ExportPGN, () => Tournament != null && Tournament.Rounds.Count > 0);
             UpdateMRUMenu();
             if (settings?.Filename != null && File.Exists(settings.Filename))
                 Load(settings.Filename);
@@ -310,6 +312,7 @@ namespace PonzianiSwiss
                     AddRandomParticipantsCommand.NotifyCanExecuteChanged();
                     DrawCommand.NotifyCanExecuteChanged();
                     ExportTRFCommand.NotifyCanExecuteChanged();
+                    ExportPGNCommand.NotifyCanExecuteChanged();
                 }
                 if (tournament != null)
                 {
@@ -551,6 +554,28 @@ namespace PonzianiSwiss
                 if (success == true && Tournament != null)
                 {
                     await Tournament.ExportTRF(settings.FileName);
+                }
+            }
+        }
+
+        async void ExportPGN()
+        {
+            if (Tournament != null)
+            {
+                var settings = new SaveFileDialogSettings
+                {
+                    Title = LocalizedStrings.Instance["Export_PGN_Dialog_Title"],
+                    DefaultExt = ".trf",
+                    Filter = LocalizedStrings.Instance["Export_PGN_Dialog_Filter"],
+                    FileName = Tournament?.Name + ".pgn",
+                    AddExtension = true
+                };
+
+                var dialogService = App.Current.Services?.GetService<IDialogService>();
+                bool? success = dialogService?.ShowSaveFileDialog(this, settings);
+                if (success == true && Tournament != null)
+                {
+                    await Tournament.ExportPGN(settings.FileName);
                 }
             }
         }

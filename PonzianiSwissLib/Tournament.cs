@@ -574,6 +574,14 @@ namespace PonzianiSwissLib
             return true;
         }
 
+        public async Task<bool> ExportPGN(string filename)
+        {
+            var pgn = this.PGN();
+            if (pgn == null || pgn.Length == 0) return false;
+            await File.WriteAllTextAsync(filename, pgn, Encoding.UTF8);
+            return true;
+        }
+
         public string? DrawErrorMessage { get; set; }
 
         public bool DrawNextRoundPossible => Rounds.Count == 0 || (Rounds.Count < CountRounds && !Rounds.Last().Pairings.Where(p => p.Result == Result.Open).Any());

@@ -219,5 +219,34 @@ namespace PonzianiSwissLib
             }
             return sb.ToString();
         }
+
+        public static string PGN(this Tournament tournament)
+        {
+            StringBuilder sb = new();
+            foreach (Round round in tournament.Rounds)
+            {
+                foreach (var pairing in round.Pairings)
+                {
+                    sb.AppendLine($"[Event \"{tournament.Name}\"]");
+                    sb.AppendLine($"[Site \"{tournament.City}\"]");
+                    sb.AppendLine($"[Date \"{tournament.StartDate:yyyy.MM.dd}\"]");
+                    sb.AppendLine($"[Round \"{round.Number + 1}\"]");
+                    sb.AppendLine($"[White \"{pairing.White?.Name}\"]");
+                    if (pairing.White?.FideRating > 0) sb.AppendLine($"[WhiteElo \"{pairing.White?.FideRating}\"]");
+                    if (pairing.White?.FideId > 0) sb.AppendLine($"[WhiteFideId \"{pairing.White?.FideId}\"]");
+                    if (pairing.White?.AlternativeRating > 0) sb.AppendLine($"[WhiteNrv \"{pairing.White?.AlternativeRating}\"]");
+                    sb.AppendLine($"[Black \"{pairing.Black?.Name}\"]");
+                    if (pairing.Black?.FideRating > 0) sb.AppendLine($"[BlackElo \"{pairing.Black?.FideRating}\"]");
+                    if (pairing.Black?.FideId > 0) sb.AppendLine($"[BlackFideId \"{pairing.Black?.FideId}\"]");
+                    if (pairing.Black?.AlternativeRating > 0) sb.AppendLine($"[BlackNrv \"{pairing.White?.AlternativeRating}\"]");
+                    sb.AppendLine($"[Result \"{Tournament.result_strings[(int)pairing.Result]}\"]");
+                    sb.AppendLine();
+                    sb.AppendLine($"{Tournament.result_strings[(int)pairing.Result]}");
+                    sb.AppendLine();
+
+                }
+            }
+            return sb.ToString();
+        }
     }
 }

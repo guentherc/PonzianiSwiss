@@ -385,6 +385,24 @@ namespace PonzianiSwiss.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die PGN File|*.pgn|All Files|*.* ähnelt.
+        /// </summary>
+        public static string Export_PGN_Dialog_Filter {
+            get {
+                return ResourceManager.GetString("Export_PGN_Dialog_Filter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Export Tournament as PGN ähnelt.
+        /// </summary>
+        public static string Export_PGN_Dialog_Title {
+            get {
+                return ResourceManager.GetString("Export_PGN_Dialog_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Team Ranking ähnelt.
         /// </summary>
         public static string Export_Team_Ranking_Header {
@@ -957,6 +975,15 @@ namespace PonzianiSwiss.Resources {
         public static string MenuItem_Tournament_Participant_List_Rank_Header {
             get {
                 return ResourceManager.GetString("MenuItem_Tournament_Participant_List_Rank_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die PGN ähnelt.
+        /// </summary>
+        public static string MenuItem_Tournament_PGN_Header {
+            get {
+                return ResourceManager.GetString("MenuItem_Tournament_PGN_Header", resourceCulture);
             }
         }
         
