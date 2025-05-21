@@ -385,6 +385,15 @@ namespace PonzianiSwiss.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die German Rating Evaluation ähnelt.
+        /// </summary>
+        public static string DWZ_Evaluation {
+            get {
+                return ResourceManager.GetString("DWZ_Evaluation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die PGN File|*.pgn|All Files|*.* ähnelt.
         /// </summary>
         public static string Export_PGN_Dialog_Filter {
@@ -876,6 +885,15 @@ namespace PonzianiSwiss.Resources {
         public static string MenuItem_Tournament_Crosstable_Header {
             get {
                 return ResourceManager.GetString("MenuItem_Tournament_Crosstable_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die German Rating Evaluation ähnelt.
+        /// </summary>
+        public static string MenuItem_Tournament_DWZ_Header {
+            get {
+                return ResourceManager.GetString("MenuItem_Tournament_DWZ_Header", resourceCulture);
             }
         }
         

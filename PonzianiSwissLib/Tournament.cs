@@ -94,12 +94,12 @@ namespace PonzianiSwissLib
         /// <summary>
         /// List of Paricipants of the tournament
         /// </summary>
-        public List<Participant> Participants { set; get; } = new List<Participant>();
+        public List<Participant> Participants { set; get; } = [];
 
         /// <summary>
         /// Rounds already played resp. ongoing round
         /// </summary>
-        public List<Round> Rounds { set; get; } = new List<Round>();
+        public List<Round> Rounds { set; get; } = [];
 
         /// <summary>
         /// Number of rounds to be played
@@ -168,10 +168,10 @@ namespace PonzianiSwissLib
 
         public ScoringScheme ScoringScheme { set; get; } = new();
 
-        public List<TieBreak> TieBreak { set; get; } = new List<TieBreak>() { PonzianiSwissLib.TieBreak.Score, PonzianiSwissLib.TieBreak.BuchholzCut1,
-                                                                              PonzianiSwissLib.TieBreak.Buchholz, PonzianiSwissLib.TieBreak.CountWin, PonzianiSwissLib.TieBreak.CountWinWithBlack };
+        public List<TieBreak> TieBreak { set; get; } = [ PonzianiSwissLib.TieBreak.Score, PonzianiSwissLib.TieBreak.BuchholzCut1,
+                                                                              PonzianiSwissLib.TieBreak.Buchholz, PonzianiSwissLib.TieBreak.CountWin, PonzianiSwissLib.TieBreak.CountWinWithBlack ];
 
-        public List<ForbiddenPairingRule> ForbiddenPairingRules { set; get; } = new();
+        public List<ForbiddenPairingRule> ForbiddenPairingRules { set; get; } = [];
 
         public bool AvoidPairingsFromSameFederation { set; get; } = false;
 
@@ -188,7 +188,7 @@ namespace PonzianiSwissLib
         /// </summary>
         public TournamentRatingDetermination RatingDetermination { set; get; } = TournamentRatingDetermination.Max;
 
-        public List<AdditionalRanking> AdditionalRankings { set; get; } = new();
+        public List<AdditionalRanking> AdditionalRankings { set; get; } = [];
 
         /// <summary>
         /// Calculates the scorecards for all participants
@@ -198,7 +198,7 @@ namespace PonzianiSwissLib
         public Dictionary<Participant, Scorecard> GetScorecards(int round = int.MaxValue)
         {
             round = Math.Min(round, Rounds.Count - 1);
-            Dictionary<Participant, Scorecard> scorecards = new();
+            Dictionary<Participant, Scorecard> scorecards = [];
             for (int r = 0; r <= round; ++r)
             {
                 foreach (Pairing pairing in Rounds[r].Pairings)
@@ -225,7 +225,7 @@ namespace PonzianiSwissLib
         {
             round = Math.Min(round, Rounds.Count - 1);
             OrderByRank();
-            Dictionary<string, TeamScoreCard> scorecards = new();
+            Dictionary<string, TeamScoreCard> scorecards = [];
             foreach (Participant p in Participants.Where(p => !string.IsNullOrWhiteSpace(p.Club)))
             {
                 if (p.Club != null && p.Scorecard != null)
@@ -336,7 +336,7 @@ namespace PonzianiSwissLib
                 participants = participants.Where(p => p.YearOfBirth >= ar.BirthYearFrom && p.YearOfBirth <= ar.BirthYearTo);
             if (ar.RatingFrom > 0 || ar.RatingTo < int.MaxValue)
                 participants = participants.Where(p => Rating(p) >= ar.RatingFrom && Rating(p) < ar.RatingTo);
-            return participants.ToList();
+            return [.. participants];
         }
 
         /// <summary>
@@ -352,13 +352,13 @@ namespace PonzianiSwissLib
             if (round == 0 && Participants.Any(p => p.ParticipantId == null))
                 AssignTournamentIds(round);
             AssignRank(round);
-            List<string> trf = new()
-            {
+            List<string> trf =
+            [
                 $"012 {Name}",
                 $"022 {City}",
                 $"032 {Federation}",
                 $"102 {ChiefArbiter}"
-            };
+            ];
             if (!official)
             {
                 trf.Add($"XXR {CountRounds}");
@@ -395,7 +395,7 @@ namespace PonzianiSwissLib
             {
                 if (p == Participant.BYE || p.ParticipantId == Participant.BYE.ParticipantId) continue;
                 char s = p.Sex == Sex.Female ? 'f' : 'm';
-                string birthdate = p.Attributes.ContainsKey(Participant.AttributeKey.Birthdate) ? ((DateTime)p.Attributes[Participant.AttributeKey.Birthdate]).ToString("yyyy/MM/dd")
+                string birthdate = p.Attributes.TryGetValue(Participant.AttributeKey.Birthdate, out object? value) ? ((DateTime)value).ToString("yyyy/MM/dd")
                                   : p.YearOfBirth > 0 ? p.YearOfBirth.ToString() : string.Empty;
                 StringBuilder pline = new(FormattableString.Invariant($"001 {p.ParticipantId,4} {s} {title_string[(int)p.Title],2} {(p.Name?.Length > 33 ? p.Name?[..33] : p.Name),-33} {p.FideRating,4} {p.Federation,3} {(p.FideId != 0 ? p.FideId : string.Empty),11} {birthdate,-10} {p.Scorecard?.Score(round) ?? 0,4} {p.Rank,4}"));
                 for (int r = 1; r <= round; ++r)
@@ -414,8 +414,8 @@ namespace PonzianiSwissLib
                     }
                     else pline.Append("          ");
                 }
-                if (byes != null && p.ParticipantId != null && byes.ContainsKey(p.ParticipantId))
-                    pline.Append($"  0000 - {result_char[(int)byes[p.ParticipantId]]}");
+                if (byes != null && p.ParticipantId != null && byes.TryGetValue(p.ParticipantId, out Result val))
+                    pline.Append($"  0000 - {result_char[(int)val]}");
                 trf.Add(pline.ToString().Trim());
             }
             if (!official && BakuAcceleration)
@@ -462,7 +462,7 @@ namespace PonzianiSwissLib
                 AssignTournamentIds(round);
             if (byes == null)
             {
-                byes = new();
+                byes = [];
                 foreach (Participant p in Participants.Where(p => p.Active != null && !p.Active[Rounds.Count]))
                 {
                     if (p.ParticipantId != null)
@@ -471,18 +471,18 @@ namespace PonzianiSwissLib
             }
             if (forbidden == null && (AvoidPairingsFromSameFederation || AvoidPairingsFromSameClub))
             {
-                forbidden = new();
+                forbidden = [];
                 if (ForbiddenPairingRules != null)
                 {
                     foreach (ForbiddenPairingRule f in ForbiddenPairingRules)
                     {
                         if (f.Participant1 != null && f.Participant2 != null)
-                            forbidden.Add(new[] { f.Participant1.ParticipantId ?? string.Empty, f.Participant2.ParticipantId ?? string.Empty });
+                            forbidden.Add([f.Participant1.ParticipantId ?? string.Empty, f.Participant2.ParticipantId ?? string.Empty]);
                         else if (f.Participant1 != null && f.Federation1 != null)
                         {
                             var fp = Participants.Where(p => p.Federation == f.Federation1).ToList();
                             foreach (Participant p in fp)
-                                forbidden.Add(new[] { p.ParticipantId ?? string.Empty, f.Participant1.ParticipantId ?? string.Empty });
+                                forbidden.Add([p.ParticipantId ?? string.Empty, f.Participant1.ParticipantId ?? string.Empty]);
                         }
                         else if (f.Participant1 == null && f.Federation1 != null && f.Federation2 != null)
                         {
@@ -491,7 +491,7 @@ namespace PonzianiSwissLib
                             foreach (Participant p1 in fp1)
                             {
                                 foreach (Participant p2 in fp2)
-                                    forbidden.Add(new[] { p1.ParticipantId ?? string.Empty, p2.ParticipantId ?? string.Empty });
+                                    forbidden.Add([p1.ParticipantId ?? string.Empty, p2.ParticipantId ?? string.Empty]);
                             }
                         }
                     }
@@ -504,7 +504,7 @@ namespace PonzianiSwissLib
                         for (int i = 0; i < fp.Count; ++i)
                         {
                             for (int j = i + 1; j < fp.Count; ++j)
-                                forbidden.Add(new[] { fp[i].ParticipantId ?? string.Empty, fp[j].ParticipantId ?? string.Empty });
+                                forbidden.Add([fp[i].ParticipantId ?? string.Empty, fp[j].ParticipantId ?? string.Empty]);
                         }
                     });
                 }
@@ -517,7 +517,7 @@ namespace PonzianiSwissLib
                         for (int i = 0; i < fp.Count; ++i)
                         {
                             for (int j = i + 1; j < fp.Count; ++j)
-                                forbidden.Add(new[] { fp[i].ParticipantId ?? string.Empty, fp[j].ParticipantId ?? string.Empty });
+                                forbidden.Add([fp[i].ParticipantId ?? string.Empty, fp[j].ParticipantId ?? string.Empty]);
                         }
                     });
                 }
@@ -611,9 +611,33 @@ namespace PonzianiSwissLib
             return t;
         }
 
-        internal static readonly string[] title_string = { "g", "wg", "m", "wm", "f", "wf", "c", "wc", "", "h" };
+        public string? DWZEvaluationHTML()
+        {
+            StringBuilder sb = new();
+            sb.AppendLine("<html><head><title>DWZ Evaluation</title><body><table>");
+            sb.AppendLine("<tr><th>Name</th><th>DWZ alt</th><th>Punkte</th><th>Partien</th><th>We</th><th>Leistung</th><th>E-Faktor</th><th>DWZ neu</th><th>Rc</th></tr>");
+            foreach (Participant p in Participants)
+            {
+                DWZEvaluation? d = RatingCalculator.Evaluate(p);
+                if (d == null) continue;
+                sb.AppendLine($"<tr><td>{p.Name}</td>");
+                sb.AppendLine($"<td align=\"right\">{d.OldDWZ}</td>");
+                sb.AppendLine($"<td align=\"right\">{d.Score}</td>");
+                sb.AppendLine($"<td align=\"right\">{d.Games}</td>");
+                sb.AppendLine($"<td align=\"right\">{d.ExpectedScore:F2}</td>");
+                sb.AppendLine($"<td align=\"right\">{d.Performance:F0}</td>");
+                sb.AppendLine($"<td align=\"right\">{d.Coefficient}</td>");
+                sb.AppendLine($"<td align=\"right\">{d.NewDWZ}</td>");
+                sb.AppendLine($"<td align=\"right\">{d.OpponentAverageRating:F0}</td>");
+                sb.AppendLine($"</tr>");
+            }
+            sb.AppendLine("</table></body></html>");
+            return sb.ToString();
+        }
+
+        internal static readonly string[] title_string = ["g", "wg", "m", "wm", "f", "wf", "c", "wc", "", "h"];
         internal static readonly string result_char = "*-0LZU=DH1W+F-";
-        internal static readonly string[] result_strings = new string[14] {
+        internal static readonly string[] result_strings = [
             "*",
             "--+",
             "0-1",
@@ -628,7 +652,7 @@ namespace PonzianiSwissLib
             "+--",
             Strings.Bye + " 1",
             "---"
-        };
+        ];
 
     }
 }

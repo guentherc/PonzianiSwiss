@@ -71,7 +71,7 @@ namespace PonzianiSwiss
         private void RenderLanguageEntries()
         {
             MenuItem_Settings_Language.Items.Clear();
-            string[] languages = new string[] { "en", "de" };
+            string[] languages = ["en", "de"];
             foreach (var l in languages)
             {
                 MenuItem mi = new()
@@ -99,8 +99,8 @@ namespace PonzianiSwiss
         {
             MenuItem_Settings_Basetheme.Items.Clear();
             MenuItem_Settings_Themecolor.Items.Clear();
-            string[] baseThemes = new string[] { "Light", "Dark" };
-            string[] themeColor = new string[] { "Red", "Green", "Blue", "Purple", "Orange", "Lime", "Emerald", "Teal", "Cyan", "Cobalt", "Indigo", "Violet", "Pink", "Magenta", "Crimson", "Amber", "Yellow", "Brown", "Olive", "Steel", "Mauve", "Taupe", "Sienna" };
+            string[] baseThemes = ["Light", "Dark"];
+            string[] themeColor = ["Red", "Green", "Blue", "Purple", "Orange", "Lime", "Emerald", "Teal", "Cyan", "Cobalt", "Indigo", "Violet", "Pink", "Magenta", "Crimson", "Amber", "Yellow", "Brown", "Olive", "Steel", "Mauve", "Taupe", "Sienna"];
             foreach (var bt in baseThemes)
             {
                 MenuItem mi = new()
@@ -252,6 +252,8 @@ namespace PonzianiSwiss
         public RelayCommand ExportTRFCommand { get; set; }
         public RelayCommand ExportPGNCommand { get; set; }
 
+        public RelayCommand DWZEvaluationCommand { get; set; }
+
         public MainModel(ILogger? logger)
         {
             Logger = logger;
@@ -277,6 +279,7 @@ namespace PonzianiSwiss
             DeleteLastRoundCommand = new RelayCommand(DeleteLastRound, () => Tournament != null && Tournament.Rounds.Count > 0);
             ExportTRFCommand = new RelayCommand(ExportTRF, () => Tournament != null && Tournament.Rounds.Count > 0);
             ExportPGNCommand = new RelayCommand(ExportPGN, () => Tournament != null && Tournament.Rounds.Count > 0);
+            DWZEvaluationCommand = new RelayCommand(() => HtmlViewer(4), () => Tournament != null && Tournament.Rounds.Count > 0 && Tournament.Federation == "GER");
             UpdateMRUMenu();
             if (settings?.Filename != null && File.Exists(settings.Filename))
                 Load(settings.Filename);
@@ -284,11 +287,11 @@ namespace PonzianiSwiss
 
         public App.Mode Mode { get; private set; } = App.Mode.Release;
 
-        internal ObservableCollection<TournamentParticipant> Participants { get; set; } = new();
-        public ObservableCollection<MenuEntry<PlayerBaseFactory.Base>> UpdateMenuEntries { get; set; } = new();
-        public ObservableCollection<MenuEntry<string>> MRUMenuEntries { get; set; } = new();
+        internal ObservableCollection<TournamentParticipant> Participants { get; set; } = [];
+        public ObservableCollection<MenuEntry<PlayerBaseFactory.Base>> UpdateMenuEntries { get; set; } = [];
+        public ObservableCollection<MenuEntry<string>> MRUMenuEntries { get; set; } = [];
 
-        public ObservableCollection<MenuEntry<AdditionalRanking>> AdditionalRankingMenuEntries { get; set; } = new();
+        public ObservableCollection<MenuEntry<AdditionalRanking>> AdditionalRankingMenuEntries { get; set; } = [];
 
         public PonzianiSwissLib.Round? CurrentRound { get => Tournament?.Rounds[^1]; }
 
@@ -313,6 +316,7 @@ namespace PonzianiSwiss
                     DrawCommand.NotifyCanExecuteChanged();
                     ExportTRFCommand.NotifyCanExecuteChanged();
                     ExportPGNCommand.NotifyCanExecuteChanged();
+                    DWZEvaluationCommand.NotifyCanExecuteChanged();
                 }
                 if (tournament != null)
                 {
@@ -469,6 +473,10 @@ namespace PonzianiSwiss
                     title = LocalizedStrings.Get("Pairings_Round_X", Tournament?.Rounds.Count ?? 0);
                     html = Tournament?.RoundHTML() ?? string.Empty;
                     break;
+                case 4:
+                    title = LocalizedStrings.Get("DWZ_Evaluation", Tournament?.Rounds.Count ?? 0);
+                    html = Tournament?.DWZEvaluationHTML() ?? string.Empty;
+                    break;
             }
             var dialogViewModel = App.Current.Services?.GetService<HTMLViewerViewModel>();
             if (dialogViewModel != null)
@@ -606,7 +614,7 @@ namespace PonzianiSwiss
         }
 
         [RelayCommand]
-        async void Update_Base(PlayerBaseFactory.Base b)
+        async Task Update_Base(PlayerBaseFactory.Base b)
         {
             LogCommand(b.ToString());
             IPlayerBase pbase = PlayerBaseFactory.Get(b, Logger);
@@ -632,7 +640,7 @@ namespace PonzianiSwiss
         }
 
         [RelayCommand]
-        async void Open()
+        async Task Open()
         {
             LogCommand();
             if (Tournament != null && TournamentHash != Tournament.Hash())
@@ -692,7 +700,7 @@ namespace PonzianiSwiss
         }
 
         [RelayCommand]
-        async void LoadTournament(string? filename)
+        async Task LoadTournament(string? filename)
         {
             LogCommand(filename);
             if (filename != null && fileName != string.Empty)
@@ -752,7 +760,7 @@ namespace PonzianiSwiss
         }
 
         [RelayCommand]
-        async void About()
+        async Task About()
         {
             LogCommand();
             _ = await DialogCoordinator.Instance.ShowMessageAsync(this, LocalizedStrings.Get("About_Dialog_Title", App.VERSION), LocalizedStrings.Instance["About_Dialog_Text"]);
@@ -770,47 +778,47 @@ namespace PonzianiSwiss
             List<TournamentParticipant>? sortedList = null;
             if (sortCol == "Name")
             {
-                sortedList = Participants.OrderBy(x => x.Participant.Name ?? string.Empty).ToList();
+                sortedList = [.. Participants.OrderBy(x => x.Participant.Name ?? string.Empty)];
             }
             else if (sortCol == "Federation")
             {
-                sortedList = Participants.OrderBy(x => x.Participant.Federation).ToList();
+                sortedList = [.. Participants.OrderBy(x => x.Participant.Federation)];
             }
             else if (sortCol == "FideId")
             {
-                sortedList = Participants.OrderBy(x => x.Participant.FideId).ToList();
+                sortedList = [.. Participants.OrderBy(x => x.Participant.FideId)];
             }
             else if (sortCol == "Score")
             {
-                sortedList = Participants.OrderBy(x => x.Score).ToList();
+                sortedList = [.. Participants.OrderBy(x => x.Score)];
             }
             else if (sortCol == "Rating")
             {
-                sortedList = Participants.OrderBy(x => Tournament?.Rating(x.Participant)).ToList();
+                sortedList = [.. Participants.OrderBy(x => Tournament?.Rating(x.Participant))];
             }
             else if (sortCol == "Id")
             {
-                sortedList = Participants.OrderBy(x => x.Participant.ParticipantId ?? string.Empty).ToList();
+                sortedList = [.. Participants.OrderBy(x => x.Participant.ParticipantId ?? string.Empty)];
             }
             else if (sortCol == "Elo")
             {
-                sortedList = Participants.OrderBy(x => x.Participant.FideRating).ToList();
+                sortedList = [.. Participants.OrderBy(x => x.Participant.FideRating)];
             }
             else if (sortCol == "NationalRating")
             {
-                sortedList = Participants.OrderBy(x => x.Participant.AlternativeRating).ToList();
+                sortedList = [.. Participants.OrderBy(x => x.Participant.AlternativeRating)];
             }
             else if (sortCol == "Club")
             {
-                sortedList = Participants.OrderBy(x => x.Participant.Club ?? string.Empty).ToList();
+                sortedList = [.. Participants.OrderBy(x => x.Participant.Club ?? string.Empty)];
             }
             else if (sortCol == "EloPerformance")
             {
-                sortedList = Participants.OrderBy(x => x.EloPerformance).ToList();
+                sortedList = [.. Participants.OrderBy(x => x.EloPerformance)];
             }
             else if (sortCol == "TournamentPerformance")
             {
-                sortedList = Participants.OrderBy(x => x.TournamentPerformance).ToList();
+                sortedList = [.. Participants.OrderBy(x => x.TournamentPerformance)];
             }
             if (!sort_ascending) sortedList?.Reverse();
             if (sortedList != null)
@@ -844,8 +852,8 @@ namespace PonzianiSwiss
 
         internal void ProcessMRU(string filename)
         {
-            if (Properties.Settings.Default.MRU == null) Properties.Settings.Default.MRU = new StringCollection();
-            Logger?.LogDebug("MRU List: {list}  ...", string.Join('|', new List<string>(Properties.Settings.Default.MRU.Cast<string>().ToList())));
+            if (Properties.Settings.Default.MRU == null) Properties.Settings.Default.MRU = [];
+            Logger?.LogDebug("MRU List: {list}  ...", string.Join('|', new List<string>([.. Properties.Settings.Default.MRU.Cast<string>()])));
             if (Properties.Settings.Default.MRU.Count == 0)
             {
                 Properties.Settings.Default.MRU.Add(filename);
@@ -863,7 +871,7 @@ namespace PonzianiSwiss
         private void UpdateMRUMenu()
         {
             MRUMenuEntries.Clear();
-            if (Properties.Settings.Default.MRU == null) Properties.Settings.Default.MRU = new();
+            if (Properties.Settings.Default.MRU == null) Properties.Settings.Default.MRU = [];
             foreach (var file in Properties.Settings.Default.MRU)
             {
                 if (file != null)
@@ -954,18 +962,12 @@ namespace PonzianiSwiss
         }
     }
 
-    public partial class TournamentParticipant : ObservableObject
+    public partial class TournamentParticipant(Tournament? tournament, Participant participant) : ObservableObject
     {
-        private readonly Tournament? tournament;
+        private readonly Tournament? tournament = tournament;
 
         [ObservableProperty]
-        private Participant participant;
-
-        public TournamentParticipant(Tournament? tournament, Participant participant)
-        {
-            this.tournament = tournament;
-            this.participant = participant;
-        }
+        private Participant participant = participant;
 
         public float Score
         {

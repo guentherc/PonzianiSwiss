@@ -33,7 +33,7 @@ namespace PonzianiSwiss
             /*int indx = items.ToList().FindIndex(e => e.Key == ((ParticipantDialogViewModel)DataContext).Participant?.Federation);
             ComboBox_Federation.SelectedIndex = indx;*/
             //ComboBox_Federation.SelectedValue = Model.Participant.Federation != null && Model.Participant.Federation != String.Empty ? Model.Participant.Federation : "FIDE";
-            ComboBox_Title.ItemsSource = Enum.GetValues(typeof(FideTitle));
+            ComboBox_Title.ItemsSource = Enum.GetValues<FideTitle>();
         }
     }
 
@@ -186,7 +186,7 @@ namespace PonzianiSwiss
             }
         }
 
-        private static readonly Regex regexFixParticipant = new(@"(GM|IM|FM|CM|WGM|WIM|WFM|WCM|WH)?\s?([^\(]+)\s\((\d+)\)", RegexOptions.Compiled);
+        private static readonly Regex regexFixParticipant = regexFixName();
         private void FixParticipant()
         {
             if (Participant?.Name != null)
@@ -220,6 +220,9 @@ namespace PonzianiSwiss
                 Logger?.LogError("{exc}", ex.Message);
             }
         }
+
+        [GeneratedRegex(@"(GM|IM|FM|CM|WGM|WIM|WFM|WCM|WH)?\s?([^\(]+)\s\((\d+)\)", RegexOptions.Compiled)]
+        private static partial Regex regexFixName();
     }
 
     public class ParticipantProvider : ISuggestionProvider

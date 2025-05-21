@@ -645,4 +645,10 @@
   <data name="Export_PGN_Dialog_Filter" xml:space="preserve">
     <value>PGN File|*.pgn|All Files|*.*</value>
   </data>
+  <data name="MenuItem_Tournament_DWZ_Header" xml:space="preserve">
+    <value>German Rating Evaluation</value>
+  </data>
+  <data name="DWZ_Evaluation" xml:space="preserve">
+    <value>German Rating Evaluation</value>
+  </data>
 </root>
