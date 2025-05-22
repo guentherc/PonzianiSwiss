@@ -84,6 +84,7 @@
                 </MenuItem>
                 <MenuItem x:Name="MenuItem_Participants" Header="{lex:Loc}" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}">
                     <MenuItem x:Name="MenuItem_Participants_Add" Header="{lex:Loc}" Command="{Binding ParticipantDialogCommand}" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}"/>
+                    <MenuItem x:Name="MenuItem_Participants_Update_Rating" Header="{lex:Loc}" Command="{Binding ParticipantUpdateRatingsCommand}" IsEnabled="{Binding Path=Tournament, Converter={StaticResource TextSetToBoolConverter}}"/>
                 </MenuItem>
                 <MenuItem x:Name="MenuItem_Round" Header="{lex:Loc}">
                     <MenuItem x:Name="MenuItem_Round_Draw" Header="{lex:Loc}" Command="{Binding DrawCommand}"/>
@@ -140,6 +141,7 @@
                     <ListView.Resources>
                         <ContextMenu x:Key="CtxtMenuParticipantList" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                             <MenuItem x:Name="MenuItem_Participant_Edit" Header="{lex:Loc}" Command="{Binding ParticipantDialogCommand}" CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Mode=OneWay}"/>
+                            <MenuItem x:Name="MenuItem_Participant_Update_Rating" Header="{lex:Loc}" Command="{Binding ParticipantUpdateRatingCommand}" CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Mode=OneWay}"/>
                             <Separator></Separator>
                             <MenuItem x:Name="MenuItem_Participant_Abandon" Header="{lex:Loc}" Command="{Binding AbandonCommand}" CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Mode=OneWay}"/>
                             <MenuItem x:Name="MenuItem_Participant_Pause" Header="{lex:Loc}" Command="{Binding PauseCommand}" CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Mode=OneWay}"/>

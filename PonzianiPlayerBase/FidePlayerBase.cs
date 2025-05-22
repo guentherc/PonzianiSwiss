@@ -29,7 +29,7 @@ namespace PonzianiPlayerBase
 
         public override List<Player> Find(string searchstring, int max = 0)
         {
-            List<Player> result = new();
+            List<Player> result = [];
             using var cmd = connection?.CreateCommand();
             if (cmd == null) return result;
             cmd.CommandText = max > 0 ? $"SELECT * FROM FidePlayer WHERE Name LIKE @ss LIMIT {max}" : "SELECT * FROM FidePlayer WHERE Name LIKE @ss";
@@ -79,6 +79,12 @@ namespace PonzianiPlayerBase
             return null;
         }
 
+
+        public override Player? GetByFideId(ulong id)
+        {
+            return GetById($"{id}");
+        }
+
         public override async Task<bool> UpdateAsync()
         {
             var httpClient = new HttpClient();
@@ -124,7 +130,7 @@ namespace PonzianiPlayerBase
                 ProgressUpdate(30, PonzianiPlayerBase.Strings.OldDataRemoved);
                 var cmd = connection.CreateCommand();
                 cmd.CommandText = "INSERT INTO FidePlayer VALUES(@Id, @Name, @Federation, @Title, @Sex, @Rating, @Inactive, @Birthyear)";
-                string[] parameters = new[] { "@Id", "@Name", "@Federation", "@Title", "@Sex", "@Rating", "@Inactive", "@Birthyear" };
+                string[] parameters = ["@Id", "@Name", "@Federation", "@Title", "@Sex", "@Rating", "@Inactive", "@Birthyear"];
                 foreach (var p in parameters)
                 {
                     var parameter = cmd.CreateParameter();
@@ -194,7 +200,7 @@ namespace PonzianiPlayerBase
 
         public async Task<List<Player>?> GetRandomPlayers(int count = 100, int minRating = 500, int maxRating = 3000, List<string>? federations = null)
         {
-            List<Player> result = new();
+            List<Player> result = [];
             using var cmd = connection?.CreateCommand();
             if (cmd == null) return result;
             cmd.CommandText = $"SELECT * FROM FidePlayer WHERE RATING >= @min AND RATING <= @max AND INACTIVE = 0 ORDER BY RANDOM() LIMIT {count}";
@@ -221,6 +227,7 @@ namespace PonzianiPlayerBase
             }
             return result;
         }
+
     }
 
 

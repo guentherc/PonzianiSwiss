@@ -5,7 +5,6 @@ using MvvmDialogs;
 using PonzianiSwiss.Resources;
 using PonzianiSwissLib;
 using System.Collections.Generic;
-using System.Windows.Input;
 
 namespace PonzianiSwiss
 {

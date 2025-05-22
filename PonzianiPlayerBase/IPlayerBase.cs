@@ -18,6 +18,7 @@ namespace PonzianiPlayerBase
         List<Player> Find(string searchstring, int max = 0);
 
         Player? GetById(string id);
+        Player? GetByFideId(ulong id);
 
         string Description { get; }
 
@@ -47,6 +48,7 @@ namespace PonzianiPlayerBase
         public abstract List<Player> Find(string searchstring, int max = 0);
 
         public abstract Player? GetById(string id);
+        public abstract Player? GetByFideId(ulong id);
 
         public virtual bool Initialize(ILogger? logger = null)
         {
@@ -60,8 +62,8 @@ namespace PonzianiPlayerBase
             Console.WriteLine($"Fideplayer File: {filename}");
             connection = new SqliteConnection($"Data Source={filename}");
             connection.Open();
-            List<string> sqls = new(SQLCreate);
-            var bases = Enum.GetValues(typeof(PlayerBaseFactory.Base));
+            List<string> sqls = [.. SQLCreate];
+            var bases = Enum.GetValues<PlayerBaseFactory.Base>();
             foreach (var b in bases)
             {
                 sqls.Add($"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"{(int)b}\", \"{b}\", \"{DateTime.MinValue.Ticks}\")");
@@ -78,8 +80,8 @@ namespace PonzianiPlayerBase
         public abstract Task<bool> UpdateAsync();
 
 
-        private static readonly List<string> SQLCreate = new()
-        {
+        private static readonly List<string> SQLCreate =
+        [
             @"PRAGMA encoding = 'UTF-8'",
             @"CREATE TABLE IF NOT EXISTS ""FidePlayer"" ( ""Id"" INTEGER, ""Name"" TEXT, ""Federation"" TEXT, ""Title"" INTEGER, ""Sex"" INTEGER, ""Rating"" INTEGER, ""Inactive"" INTEGER, ""Birthyear"" INTEGER, PRIMARY KEY(""Id"") )",
             @"CREATE INDEX IF NOT EXISTS ""IndxName"" ON ""FidePlayer"" (""Name"" ASC )",
@@ -87,7 +89,7 @@ namespace PonzianiPlayerBase
             @"CREATE TABLE IF NOT EXISTS ""Club"" ( ""Federation"" TEXT NOT NULL, ""Id"" TEXT NOT NULL, ""Name"" TEXT NOT NULL, PRIMARY KEY(""Id"") )",
             @"CREATE TABLE IF NOT EXISTS ""Player"" ( ""Federation"" TEXT NOT NULL, ""Id"" TEXT NOT NULL, ""Club"" TEXT, ""Name"" TEXT NOT NULL, ""Sex"" INTEGER, ""Rating"" INTEGER, ""Inactive"" INTEGER, ""Birthyear"" INTEGER, ""FideId"" INTEGER, PRIMARY KEY(""Federation"",""Id""))",
             @"CREATE INDEX IF NOT EXISTS ""IndxName"" ON ""Player"" (""Name"" ASC )"
-        };
+        ];
 
         public event ProgressChangedEventHandler? ProgressChanged;
 
@@ -102,7 +104,7 @@ namespace PonzianiPlayerBase
     {
         public enum Base { FIDE, GER, ENG, SUI, AUS, AUT, CZE, ITA, CRO, NED }
 
-        private static readonly Dictionary<Base, IPlayerBase> bases = new();
+        private static readonly Dictionary<Base, IPlayerBase> bases = [];
 
         public static IPlayerBase Get(Base b, ILogger? logger)
         {
@@ -163,8 +165,8 @@ namespace PonzianiPlayerBase
             return bases[b];
         }
 
-        public static List<KeyValuePair<Base, string>> AvailableBases => new()
-        {
+        public static List<KeyValuePair<Base, string>> AvailableBases =>
+        [
             new KeyValuePair<Base, string>(Base.FIDE, Strings.BaseDescription_FIDE),
             new KeyValuePair<Base, string>(Base.GER, Strings.BaseDescription_GER),
             new KeyValuePair<Base, string>(Base.ENG, Strings.BaseDescription_ENG),
@@ -175,19 +177,13 @@ namespace PonzianiPlayerBase
             new KeyValuePair<Base, string>(Base.ITA, Strings.BaseDescription_ITA),
             new KeyValuePair<Base, string>(Base.CRO, Strings.BaseDescription_CRO),
             new KeyValuePair<Base, string>(Base.NED, Strings.BaseDescription_NED)
-        };
+        ];
     }
 
-    public class Player
+    public class Player(string id, string name = "")
     {
-        public Player(string id, string name = "")
-        {
-            Id = id;
-            Name = name;
-        }
-
-        public string Id { get; set; }
-        public string Name { get; set; }
+        public string Id { get; set; } = id;
+        public string Name { get; set; } = name;
         public string? Federation { get; set; }
 
         public Sex Sex { get; set; }

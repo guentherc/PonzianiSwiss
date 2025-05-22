@@ -160,6 +160,7 @@ namespace PonzianiSwiss
                     {
                         Participant.Club = nplayer?.Club ?? string.Empty;
                         Participant.AlternativeRating = nplayer?.Rating ?? 0;
+                        Participant.AlternativeID = nplayer?.Id ?? string.Empty;
                     }
                     OnPropertyChanged(nameof(Participant));
                 }

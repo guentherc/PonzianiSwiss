@@ -651,4 +651,10 @@
   <data name="DWZ_Evaluation" xml:space="preserve">
     <value>DWZ Auswertung</value>
   </data>
+  <data name="MenuItem_Participant_Update_Rating_Header" xml:space="preserve">
+    <value>Rating aktualisiern</value>
+  </data>
+  <data name="MenuItem_Participants_Update_Rating_Header" xml:space="preserve">
+    <value>Ratings aktualisieren</value>
+  </data>
 </root>

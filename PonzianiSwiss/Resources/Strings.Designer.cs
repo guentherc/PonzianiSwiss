@@ -745,6 +745,15 @@ namespace PonzianiSwiss.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Update Rating ähnelt.
+        /// </summary>
+        public static string MenuItem_Participant_Update_Rating_Header {
+            get {
+                return ResourceManager.GetString("MenuItem_Participant_Update_Rating_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die New ähnelt.
         /// </summary>
         public static string MenuItem_Participants_Add_Header {
@@ -759,6 +768,15 @@ namespace PonzianiSwiss.Resources {
         public static string MenuItem_Participants_Header {
             get {
                 return ResourceManager.GetString("MenuItem_Participants_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Update Ratings ähnelt.
+        /// </summary>
+        public static string MenuItem_Participants_Update_Rating_Header {
+            get {
+                return ResourceManager.GetString("MenuItem_Participants_Update_Rating_Header", resourceCulture);
             }
         }
         

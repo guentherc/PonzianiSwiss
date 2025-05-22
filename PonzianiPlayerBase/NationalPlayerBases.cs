@@ -14,7 +14,7 @@ namespace PonzianiPlayerBase
         public override List<Player> Find(string searchstring, int max = 0)
         {
             string federation = Key.ToString();
-            List<Player> result = new();
+            List<Player> result = [];
             using var cmd = connection?.CreateCommand();
             if (cmd == null) return result;
             cmd.CommandText = max > 0 ? $"SELECT * FROM Player WHERE Federation = @fed AND Name LIKE @ss LIMIT {max}" : "SELECT * FROM Player WHERE Federation = @fed AND  Name LIKE @ss";
@@ -61,10 +61,22 @@ namespace PonzianiPlayerBase
 
         public override Player? GetById(string id)
         {
+            string idField = "Id";
+            return SelectById(id, idField);
+        }
+
+        public override Player? GetByFideId(ulong id)
+        {
+            string idField = "FideId";
+            return SelectById($"{id}", idField);
+        }
+
+        private Player? SelectById(string id, string idField)
+        {
             string federation = Key.ToString();
             using var cmd = connection?.CreateCommand();
             if (cmd == null) return null;
-            cmd.CommandText = $"SELECT * FROM Player WHERE Federation = \"{federation}\" AND Id = \"{id}\"";
+            cmd.CommandText = $"SELECT * FROM Player WHERE Federation = \"{federation}\" AND {idField} = \"{id}\"";
             logger?.LogDebug("{}", cmd.CommandText);
             using var reader = cmd.ExecuteReader();
             while (reader.Read())
@@ -101,7 +113,6 @@ namespace PonzianiPlayerBase
             }
             return null;
         }
-
     }
 
     public class NetherlandsPlayerBase : NationalPlayerBase
@@ -146,7 +157,7 @@ namespace PonzianiPlayerBase
                 using (var cmd = connection.CreateCommand())
                 {
                     cmd.CommandText = "INSERT INTO Player VALUES(@Federation, @Id, @Club, @Name, @Sex, @Rating, @Inactive, @Birthyear, @FideId)";
-                    string[] parameters = new[] { "@Federation", "@Id", "@Club", "@Name", "@Sex", "@Rating", "@Inactive", "@Birthyear", "@FideId" };
+                    string[] parameters = ["@Federation", "@Id", "@Club", "@Name", "@Sex", "@Rating", "@Inactive", "@Birthyear", "@FideId"];
                     foreach (var p in parameters)
                     {
                         var parameter = cmd.CreateParameter();
@@ -251,7 +262,7 @@ namespace PonzianiPlayerBase
                 using (var cmd = connection.CreateCommand())
                 {
                     cmd.CommandText = "INSERT INTO Player VALUES(@Federation, @Id, @Club, @Name, @Sex, @Rating, @Inactive, @Birthyear, @FideId)";
-                    string[] parameters = new[] { "@Federation", "@Id", "@Club", "@Name", "@Sex", "@Rating", "@Inactive", "@Birthyear", "@FideId" };
+                    string[] parameters = ["@Federation", "@Id", "@Club", "@Name", "@Sex", "@Rating", "@Inactive", "@Birthyear", "@FideId"];
                     foreach (var p in parameters)
                     {
                         var parameter = cmd.CreateParameter();
@@ -352,7 +363,7 @@ namespace PonzianiPlayerBase
                 using (var cmd = connection.CreateCommand())
                 {
                     cmd.CommandText = "INSERT INTO Player VALUES(@Federation, @Id, @Club, @Name, @Sex, @Rating, @Inactive, @Birthyear, @FideId)";
-                    string[] parameters = new[] { "@Federation", "@Id", "@Club", "@Name", "@Sex", "@Rating", "@Inactive", "@Birthyear", "@FideId" };
+                    string[] parameters = ["@Federation", "@Id", "@Club", "@Name", "@Sex", "@Rating", "@Inactive", "@Birthyear", "@FideId"];
                     foreach (var p in parameters)
                     {
                         var parameter = cmd.CreateParameter();
@@ -459,7 +470,7 @@ namespace PonzianiPlayerBase
                 using (var cmd = connection.CreateCommand())
                 {
                     cmd.CommandText = "INSERT INTO Player VALUES(@Federation, @Id, @Club, @Name, @Sex, @Rating, @Inactive, @Birthyear, @FideId)";
-                    string[] parameters = new[] { "@Federation", "@Id", "@Club", "@Name", "@Sex", "@Rating", "@Inactive", "@Birthyear", "@FideId" };
+                    string[] parameters = ["@Federation", "@Id", "@Club", "@Name", "@Sex", "@Rating", "@Inactive", "@Birthyear", "@FideId"];
                     foreach (var p in parameters)
                     {
                         var parameter = cmd.CreateParameter();
@@ -568,7 +579,7 @@ namespace PonzianiPlayerBase
                 using (var cmd = connection.CreateCommand())
                 {
                     cmd.CommandText = "INSERT INTO Player VALUES(@Federation, @Id, @Club, @Name, @Sex, @Rating, @Inactive, @Birthyear, @FideId)";
-                    string[] parameters = new[] { "@Federation", "@Id", "@Club", "@Name", "@Sex", "@Rating", "@Inactive", "@Birthyear", "@FideId" };
+                    string[] parameters = ["@Federation", "@Id", "@Club", "@Name", "@Sex", "@Rating", "@Inactive", "@Birthyear", "@FideId"];
                     foreach (var p in parameters)
                     {
                         var parameter = cmd.CreateParameter();
@@ -652,7 +663,7 @@ namespace PonzianiPlayerBase
                 string rating_data = await httpClient.GetStringAsync($"https://auschess.org.au{rl.Href}");
                 ProgressUpdate(20, PonzianiPlayerBase.Strings.DownloadCompletedStartingDataProcessing);
                 if (rating_data == null || rating_data.Length == 0) return false;
-                string[] rating_data_lines = rating_data.Split(new String[] { "\r\n", "\n", "\r" }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+                string[] rating_data_lines = rating_data.Split(["\r\n", "\n", "\r"], StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
 
                 ProgressUpdate(30, PonzianiPlayerBase.Strings.StartingDatabaseUpdate);
                 using var transaction = connection.BeginTransaction();
@@ -669,7 +680,7 @@ namespace PonzianiPlayerBase
                 using (var cmd = connection.CreateCommand())
                 {
                     cmd.CommandText = "INSERT INTO Player VALUES(@Federation, @Id, @Club, @Name, @Sex, @Rating, @Inactive, @Birthyear, @FideId)";
-                    string[] parameters = new[] { "@Federation", "@Id", "@Club", "@Name", "@Sex", "@Rating", "@Inactive", "@Birthyear", "@FideId" };
+                    string[] parameters = ["@Federation", "@Id", "@Club", "@Name", "@Sex", "@Rating", "@Inactive", "@Birthyear", "@FideId"];
                     foreach (var p in parameters)
                     {
                         var parameter = cmd.CreateParameter();
@@ -779,7 +790,7 @@ namespace PonzianiPlayerBase
                 using (var cmd = connection.CreateCommand())
                 {
                     cmd.CommandText = "INSERT INTO Player VALUES(@Federation, @Id, @Club, @Name, @Sex, @Rating, @Inactive, @Birthyear, @FideId)";
-                    string[] parameters = new[] { "@Federation", "@Id", "@Club", "@Name", "@Sex", "@Rating", "@Inactive", "@Birthyear", "@FideId" };
+                    string[] parameters = ["@Federation", "@Id", "@Club", "@Name", "@Sex", "@Rating", "@Inactive", "@Birthyear", "@FideId"];
                     foreach (var p in parameters)
                     {
                         var parameter = cmd.CreateParameter();
@@ -893,7 +904,7 @@ namespace PonzianiPlayerBase
                 using (var cmd = connection.CreateCommand())
                 {
                     cmd.CommandText = "INSERT INTO Player VALUES(@Federation, @Id, @Club, @Name, @Sex, @Rating, @Inactive, @Birthyear, @FideId)";
-                    string[] parameters = new[] { "@Federation", "@Id", "@Club", "@Name", "@Sex", "@Rating", "@Inactive", "@Birthyear", "@FideId" };
+                    string[] parameters = ["@Federation", "@Id", "@Club", "@Name", "@Sex", "@Rating", "@Inactive", "@Birthyear", "@FideId"];
                     foreach (var p in parameters)
                     {
                         var parameter = cmd.CreateParameter();
@@ -1010,7 +1021,7 @@ namespace PonzianiPlayerBase
                 using (var cmd = connection.CreateCommand())
                 {
                     cmd.CommandText = "INSERT INTO Club VALUES(@Federation, @Id, @Name)";
-                    string[] parameters = new[] { "@Federation", "@Id", "@Name" };
+                    string[] parameters = ["@Federation", "@Id", "@Name"];
                     foreach (var p in parameters)
                     {
                         var parameter = cmd.CreateParameter();
@@ -1045,7 +1056,7 @@ namespace PonzianiPlayerBase
                 using (var cmd = connection.CreateCommand())
                 {
                     cmd.CommandText = "INSERT INTO Player VALUES(@Federation, @Id, @Club, @Name, @Sex, @Rating, @Inactive, @Birthyear, @FideId)";
-                    string[] parameters = new[] { "@Federation", "@Id", "@Club", "@Name", "@Sex", "@Rating", "@Inactive", "@Birthyear", "@FideId" };
+                    string[] parameters = ["@Federation", "@Id", "@Club", "@Name", "@Sex", "@Rating", "@Inactive", "@Birthyear", "@FideId"];
                     foreach (var p in parameters)
                     {
                         var parameter = cmd.CreateParameter();

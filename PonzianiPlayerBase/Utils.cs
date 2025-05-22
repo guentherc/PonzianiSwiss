@@ -9,22 +9,21 @@ namespace PonzianiPlayerBase
         public int FromIndex;
         public int ToIndex;
 
-        public override string ToString()
+        public override readonly string ToString()
         {
             return Href + "\n\t" + Text;
         }
     }
 
-    internal static class LinkFinder
+    internal static partial class LinkFinder
     {
         public static List<LinkItem> Find(string file)
         {
-            List<LinkItem> list = new();
+            List<LinkItem> list = [];
 
             // 1.
             // Find all matches in file.
-            MatchCollection m1 = Regex.Matches(file, @"(<a.*?>.*?</a>)",
-                RegexOptions.Singleline);
+            MatchCollection m1 = RegexAnchor().Matches(file);
 
             // 2.
             // Loop over each match.
@@ -39,8 +38,7 @@ namespace PonzianiPlayerBase
 
                 // 3.
                 // Get href attribute.
-                Match m2 = Regex.Match(value, @"href=\""(.*?)\""",
-                    RegexOptions.Singleline);
+                Match m2 = RegexLink().Match(value);
                 if (m2.Success)
                 {
                     i.Href = m2.Groups[1].Value;
@@ -48,13 +46,19 @@ namespace PonzianiPlayerBase
 
                 // 4.
                 // Remove inner tags from text.
-                string t = Regex.Replace(value, @"\s*<.*?>\s*", "",
-                    RegexOptions.Singleline);
+                string t = RegexRemoveTags().Replace(value, "");
                 i.Text = t;
 
                 list.Add(i);
             }
             return list;
         }
+
+        [GeneratedRegex(@"(<a.*?>.*?</a>)", RegexOptions.Singleline)]
+        private static partial Regex RegexAnchor();
+        [GeneratedRegex(@"href=\""(.*?)\""", RegexOptions.Singleline)]
+        private static partial Regex RegexLink();
+        [GeneratedRegex(@"\s*<.*?>\s*", RegexOptions.Singleline)]
+        private static partial Regex RegexRemoveTags();
     }
 }

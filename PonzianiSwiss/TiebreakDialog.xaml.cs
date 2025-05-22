@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Input;
 
 namespace PonzianiSwiss
 {
@@ -31,10 +30,10 @@ namespace PonzianiSwiss
         private List<TieBreak>? tiebreaks;
 
         [ObservableProperty]
-        private ObservableCollection<TiebreakExtended> available = new();
+        private ObservableCollection<TiebreakExtended> available = [];
 
         [ObservableProperty]
-        private ObservableCollection<TiebreakExtended> selected = new();
+        private ObservableCollection<TiebreakExtended> selected = [];
 
         public List<TieBreak>? Tiebreaks
         {
@@ -62,7 +61,7 @@ namespace PonzianiSwiss
             {
                 bool selected = Tiebreaks?.Contains(tiebreak) ?? false;
                 TiebreakExtended tb = new(tiebreak, selected);
-                available.Add(tb);
+                Available.Add(tb);
                 if (selected) Selected.Add(tb);
             }
         }
@@ -210,18 +209,12 @@ namespace PonzianiSwiss
         }
     }
 
-    public class TiebreakExtended
+    public class TiebreakExtended(TieBreak key, bool isSelected = false)
     {
-        public TiebreakExtended(TieBreak key, bool isSelected = false)
-        {
-            this.Key = key;
-            this.IsSelected = isSelected;
-        }
-
-        public TieBreak Key { get; set; }
+        public TieBreak Key { get; set; } = key;
 
         public string Text => Key.ToString();
-        public bool IsSelected { get; set; } = false;
+        public bool IsSelected { get; set; } = isSelected;
     }
 
 }

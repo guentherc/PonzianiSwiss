@@ -43,6 +43,11 @@ namespace PonzianiSwissLib
         /// Fide ID (0 if not available)
         /// </summary>
         public ulong FideId { set; get; } = 0;
+        /// <summary>
+        /// Alternative ID from national database (e.g. from federations)
+        /// </summary>
+        public string? AlternativeID { set; get; } = null;
+
         public string? Federation { set; get; }
 
         public readonly static Participant BYE = new("Bye", 0, FideTitle.NONE, "0000");

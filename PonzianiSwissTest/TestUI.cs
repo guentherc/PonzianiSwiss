@@ -119,8 +119,8 @@ namespace PonzianiSwissTest
 
             //Check if rules have been followed in first 3 rounds
             var participants = GetParticipantsFromListView(window);
-            Dictionary<string, Dictionary<string, string>> dictPId = new();
-            Dictionary<string, Dictionary<string, string>> dictPName = new();
+            Dictionary<string, Dictionary<string, string>> dictPId = [];
+            Dictionary<string, Dictionary<string, string>> dictPName = [];
             foreach (var p in participants)
             {
                 dictPId.Add(p["ParticipantId"], p);

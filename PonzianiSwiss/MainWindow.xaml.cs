@@ -14,7 +14,6 @@ using PonzianiSwissLib;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
@@ -245,6 +244,9 @@ namespace PonzianiSwiss
         public RelayCommand<string> HtmlViewerCommand { get; set; }
         public RelayCommand<string> AddRandomParticipantsCommand { get; set; }
 
+        public RelayCommand<TournamentParticipant?> ParticipantUpdateRatingCommand { get; set; }
+        public RelayCommand ParticipantUpdateRatingsCommand { get; set; }
+
         public RelayCommand DrawCommand { get; set; }
         public RelayCommand<TournamentParticipant> ParticipantDeleteCommand { get; set; }
         public RelayCommand DeleteLastRoundCommand { get; set; }
@@ -263,6 +265,8 @@ namespace PonzianiSwiss
             Mode = settings?.Mode ?? App.Mode.Release;
 
             ParticipantDialogCommand = new RelayCommand<TournamentParticipant?>((p) => ParticipantDialog(p), (p) => Tournament != null);
+            ParticipantUpdateRatingCommand = new RelayCommand<TournamentParticipant?>(ParticipantUpdateRating, (p) => Tournament != null);
+            ParticipantUpdateRatingsCommand = new RelayCommand(ParticipantUpdateRatings, () => Tournament != null);
             TournamentEditDialogCommand = new RelayCommand(TournamentEditDialog, () => Tournament != null);
             TournamentAddDialogCommand = new RelayCommand(TournamentAddDialog);
             foreach (var entry in PlayerBaseFactory.AvailableBases)
@@ -304,6 +308,8 @@ namespace PonzianiSwiss
                 {
                     tournament = value;
                     ((RelayCommand<TournamentParticipant>)ParticipantDialogCommand).NotifyCanExecuteChanged();
+                    ((RelayCommand<TournamentParticipant?>)ParticipantUpdateRatingCommand).NotifyCanExecuteChanged();
+                    ((RelayCommand)ParticipantUpdateRatingsCommand).NotifyCanExecuteChanged();
                     ((RelayCommand)TournamentEditDialogCommand).NotifyCanExecuteChanged();
                     OnPropertyChanged(nameof(Tournament));
                     OnPropertyChanged(nameof(DrawEnabled));
@@ -651,6 +657,56 @@ namespace PonzianiSwiss
             LoadWithDialog();
         }
 
+        void ParticipantUpdateRatings()
+        {
+            LogCommand();
+            foreach (var p in Participants ?? [])
+            {
+                UpdateRating(p);
+            }
+            SyncParticipants();
+        }
+
+        void ParticipantUpdateRating(TournamentParticipant? p)
+        {
+            LogCommand(p?.Participant.Name);
+            if (p != null)
+            {
+                UpdateRating(p);
+                SyncParticipants();
+            }
+        }
+
+        private void UpdateRating(TournamentParticipant p)
+        {
+            Player? player = null;
+            if (p.Participant.FideId > 0)
+            {
+                player = PlayerBaseFactory.Get(PlayerBaseFactory.Base.FIDE, Logger).GetById(p.Participant.FideId.ToString());
+                if (player != null)
+                {
+                    p.Participant.FideRating = player.Rating;
+                }
+            }
+            if (Enum.TryParse(Tournament?.Federation?.ToString(), out PlayerBaseFactory.Base baseKey))
+            {
+                var pbase = PlayerBaseFactory.Get(baseKey, Logger);
+
+                if (!String.IsNullOrWhiteSpace(p.Participant.AlternativeID))
+                {
+                    player = pbase.GetById(p.Participant.AlternativeID);
+                }
+                else if (p.Participant.FideId > 0)
+                {
+                    player = pbase.GetByFideId(p.Participant.FideId);
+                }
+                if (player != null)
+                {
+                    p.Participant.AlternativeRating = player.Rating;
+                }
+            }
+        }
+
         void ParticipantDelete(TournamentParticipant? p)
         {
             LogCommand(p?.Participant.Name);
@@ -671,7 +727,8 @@ namespace PonzianiSwiss
                 if (await Tournament.DrawAsync(Tournament.Rounds.Count))
                 {
                     Tournament?.GetScorecards();
-                } else
+                }
+                else
                 {
                     await DialogCoordinator.Instance.ShowMessageAsync(this, LocalizedStrings.Instance["MessageDialog_Title_Error"], Tournament.DrawErrorMessage, MessageDialogStyle.AffirmativeAndNegative);
                 }

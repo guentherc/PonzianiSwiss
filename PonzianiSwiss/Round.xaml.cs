@@ -44,7 +44,7 @@ namespace PonzianiSwiss
             {
                 if (e.Key == Key.D0 || e.Key == Key.D1 || e.Key == Key.OemPlus || e.Key == Key.D8)
                 {
-                    int i =  KeyInterop.VirtualKeyFromKey(e.Key);
+                    int i = KeyInterop.VirtualKeyFromKey(e.Key);
                     ListViewItem item = currentItem;
                     if (item.DataContext is RoundPairing p)
                     {
