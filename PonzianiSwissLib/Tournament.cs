@@ -570,7 +570,7 @@ namespace PonzianiSwissLib
         {
             var trf = CreateTRF(int.MaxValue, true);
             if (trf == null || trf.Count == 0) return false;
-            await File.WriteAllLinesAsync(filename, trf, Encoding.UTF8);
+            await File.WriteAllLinesAsync(filename, trf, Encoding.ASCII);
             return true;
         }
 
