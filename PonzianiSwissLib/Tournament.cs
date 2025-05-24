@@ -316,9 +316,12 @@ namespace PonzianiSwissLib
         /// Assigns the participant's rank
         /// </summary>
         /// <param name="round">Round for which the rank is calculated (0-based: 0 is before first round, 1: after first round,..)</param>
-        public void AssignRank(int round = int.MaxValue)
+        public void AssignRank(int round = int.MaxValue, bool includeTiebraks = false)
         {
-            OrderByScoreAndInitialRank(round);
+            if (includeTiebraks && round > 1)
+                OrderByRank(round);
+            else 
+                OrderByScoreAndInitialRank(round);
             for (int i = 0; i < Participants.Count; i++)
             {
                 Participants[i].Rank = i + 1;
@@ -351,7 +354,7 @@ namespace PonzianiSwissLib
             round = Math.Min(round, Rounds.Count);
             if (round == 0 && Participants.Any(p => p.ParticipantId == null))
                 AssignTournamentIds(round);
-            AssignRank(round);
+            AssignRank(round, official);
             List<string> trf =
             [
                 $"012 {Name}",
