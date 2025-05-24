@@ -1,7 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Globalization;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace PonzianiSwissLib
 {
@@ -344,6 +346,33 @@ namespace PonzianiSwissLib
         }
 
         public static double Erfc(double x) => 1 - Erf(x);
+
+        public static string ASCIIfy(this string str, CultureInfo? cultureInfo = null)
+        {
+            string s; 
+            if (cultureInfo == null) 
+                cultureInfo = CultureInfo.CurrentCulture;
+            if (cultureInfo.TwoLetterISOLanguageName == "de")
+                s = str.Replace("ß", "ss").Replace("ü", "ue").Replace("ö", "oe").Replace("ä", "ae");
+            else s = str;
+            var normalizedString = s.Normalize(NormalizationForm.FormD);
+            var stringBuilder = new StringBuilder(capacity: normalizedString.Length);
+
+            for (int i = 0; i < normalizedString.Length; i++)
+            {
+                char c = normalizedString[i];
+                var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
+                if (unicodeCategory != UnicodeCategory.NonSpacingMark)
+                {
+                    stringBuilder.Append(c);
+                }
+            }
+
+            return stringBuilder
+                .ToString()
+                .Normalize(NormalizationForm.FormC);
+        }
+
     }
 
 }
