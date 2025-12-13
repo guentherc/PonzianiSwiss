@@ -1,0 +1,1148 @@
+{
+  "settings": {
+    "components": {
+      "code": false,
+      "binaries": false
+    },
+    "targetId": "net10.0",
+    "targetDisplayName": ".NETCoreApp,Version=v10.0"
+  },
+  "analysisStartTime": "2025-12-13T17:50:10.7139678Z",
+  "analysisEndTime": "2025-12-13T17:50:27.4339633Z",
+  "privacyModeHelpUrl": "https://go.microsoft.com/fwlink/?linkid=2270980",
+  "stats": {
+    "summary": {
+      "projects": 4,
+      "issues": 4,
+      "incidents": 37,
+      "effort": 37
+    },
+    "charts": {
+      "severity": {
+        "Mandatory": 8,
+        "Optional": 0,
+        "Potential": 29,
+        "Information": 0
+      },
+      "category": {
+        "NuGet": 11,
+        "Project": 4,
+        "Api": 22
+      }
+    }
+  },
+  "projects": [
+    {
+      "path": "PonzianiPlayerBase\\PonzianiPlayerBase.csproj",
+      "startingProject": true,
+      "issues": 2,
+      "storyPoints": 4,
+      "properties": {
+        "appName": "PonzianiPlayerBase",
+        "projectKind": "ClassLibrary",
+        "frameworks": [
+          "net9.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 8,
+        "numberOfCodeFiles": 5,
+        "linesTotal": 2408,
+        "linesOfCode": 1868,
+        "totalApiScanned": 3505,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "43f66025-6be0-4229-8677-5ba6572ef68e",
+          "ruleId": "NuGet.0002",
+          "projectPath": "PonzianiPlayerBase\\PonzianiPlayerBase.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Data.Sqlite, 9.0.5\n\nEmpfehlung:\n\nRemove Microsoft.Data.Sqlite, and replace with new package Microsoft.Data.Sqlite 10.0.1",
+              "protected": "Microsoft.Data.Sqlite, 9.0.5\n\nEmpfehlung:\n\nRemove Microsoft.Data.Sqlite, and replace with new package Microsoft.Data.Sqlite 10.0.1"
+            },
+            "kind": "File",
+            "path": "PonzianiPlayerBase\\PonzianiPlayerBase.csproj",
+            "snippet": "Microsoft.Data.Sqlite, 9.0.5\n\nEmpfehlung:\n\nRemove Microsoft.Data.Sqlite, and replace with new package Microsoft.Data.Sqlite 10.0.1",
+            "protectedSnippet": "Microsoft.Data.Sqlite, 9.0.5\n\nEmpfehlung:\n\nRemove Microsoft.Data.Sqlite, and replace with new package Microsoft.Data.Sqlite 10.0.1",
+            "label": "Microsoft.Data.Sqlite 9.0.5",
+            "properties": {
+              "PackageId": "Microsoft.Data.Sqlite",
+              "PackageVersion": "9.0.5",
+              "PackageNewVersion": "10.0.1",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "52a23e7c-6527-430a-8bc2-a8decdb914fa",
+          "ruleId": "NuGet.0002",
+          "projectPath": "PonzianiPlayerBase\\PonzianiPlayerBase.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Logging.Abstractions, 9.0.5\n\nEmpfehlung:\n\nRemove Microsoft.Extensions.Logging.Abstractions, and replace with new package Microsoft.Extensions.Logging.Abstractions 10.0.1",
+              "protected": "Microsoft.Extensions.Logging.Abstractions, 9.0.5\n\nEmpfehlung:\n\nRemove Microsoft.Extensions.Logging.Abstractions, and replace with new package Microsoft.Extensions.Logging.Abstractions 10.0.1"
+            },
+            "kind": "File",
+            "path": "PonzianiPlayerBase\\PonzianiPlayerBase.csproj",
+            "snippet": "Microsoft.Extensions.Logging.Abstractions, 9.0.5\n\nEmpfehlung:\n\nRemove Microsoft.Extensions.Logging.Abstractions, and replace with new package Microsoft.Extensions.Logging.Abstractions 10.0.1",
+            "protectedSnippet": "Microsoft.Extensions.Logging.Abstractions, 9.0.5\n\nEmpfehlung:\n\nRemove Microsoft.Extensions.Logging.Abstractions, and replace with new package Microsoft.Extensions.Logging.Abstractions 10.0.1",
+            "label": "Microsoft.Extensions.Logging.Abstractions 9.0.5",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.Logging.Abstractions",
+              "PackageVersion": "9.0.5",
+              "PackageNewVersion": "10.0.1",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "b77e1515-e217-40a2-9047-e844ee0100e4",
+          "ruleId": "NuGet.0002",
+          "projectPath": "PonzianiPlayerBase\\PonzianiPlayerBase.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "System.Text.Encoding.CodePages, 9.0.5\n\nEmpfehlung:\n\nRemove System.Text.Encoding.CodePages, and replace with new package System.Text.Encoding.CodePages 10.0.1",
+              "protected": "System.Text.Encoding.CodePages, 9.0.5\n\nEmpfehlung:\n\nRemove System.Text.Encoding.CodePages, and replace with new package System.Text.Encoding.CodePages 10.0.1"
+            },
+            "kind": "File",
+            "path": "PonzianiPlayerBase\\PonzianiPlayerBase.csproj",
+            "snippet": "System.Text.Encoding.CodePages, 9.0.5\n\nEmpfehlung:\n\nRemove System.Text.Encoding.CodePages, and replace with new package System.Text.Encoding.CodePages 10.0.1",
+            "protectedSnippet": "System.Text.Encoding.CodePages, 9.0.5\n\nEmpfehlung:\n\nRemove System.Text.Encoding.CodePages, and replace with new package System.Text.Encoding.CodePages 10.0.1",
+            "label": "System.Text.Encoding.CodePages 9.0.5",
+            "properties": {
+              "PackageId": "System.Text.Encoding.CodePages",
+              "PackageVersion": "9.0.5",
+              "PackageNewVersion": "10.0.1",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "f1860cdf-cf3e-4e75-b40f-eaeacb8644f3",
+          "ruleId": "Project.0002",
+          "projectPath": "PonzianiPlayerBase\\PonzianiPlayerBase.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Aktuelles Zielframework: net9.0\nEmpfohlenes Zielframework: net10.0",
+              "protected": "Aktuelles Zielframework: net9.0\nEmpfohlenes Zielframework: net10.0"
+            },
+            "kind": "File",
+            "path": "PonzianiPlayerBase\\PonzianiPlayerBase.csproj",
+            "snippet": "Aktuelles Zielframework: net9.0\nEmpfohlenes Zielframework: net10.0",
+            "protectedSnippet": "Aktuelles Zielframework: net9.0\nEmpfohlenes Zielframework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net9.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "PonzianiSwiss\\PonzianiSwiss.csproj",
+      "startingProject": true,
+      "issues": 3,
+      "storyPoints": 7,
+      "properties": {
+        "appName": "PonzianiSwiss",
+        "projectKind": "Wpf",
+        "frameworks": [
+          "net9.0-windows"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 23,
+        "numberOfCodeFiles": 15,
+        "linesTotal": 9218,
+        "linesOfCode": 4695,
+        "totalApiScanned": 0,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "c78a403c-8068-463c-b668-3a1a7a43366c",
+          "ruleId": "NuGet.0001",
+          "projectPath": "PonzianiSwiss\\PonzianiSwiss.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "MahApps.Metro.IconPacks, 5.1.0\n\nEmpfehlung:\n\nMahApps.Metro.IconPacks, 4.11.0",
+              "protected": "MahApps.Metro.IconPacks, 5.1.0\n\nEmpfehlung:\n\nMahApps.Metro.IconPacks, 4.11.0"
+            },
+            "kind": "File",
+            "path": "PonzianiSwiss\\PonzianiSwiss.csproj",
+            "snippet": "MahApps.Metro.IconPacks, 5.1.0\n\nEmpfehlung:\n\nMahApps.Metro.IconPacks, 4.11.0",
+            "protectedSnippet": "MahApps.Metro.IconPacks, 5.1.0\n\nEmpfehlung:\n\nMahApps.Metro.IconPacks, 4.11.0",
+            "label": "MahApps.Metro.IconPacks 5.1.0",
+            "properties": {
+              "PackageId": "MahApps.Metro.IconPacks",
+              "PackageVersion": "5.1.0",
+              "PackageNewVersion": "4.11.0",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "3d00876e-ee0a-49ca-aac1-7d2452e52e89",
+          "ruleId": "NuGet.0002",
+          "projectPath": "PonzianiSwiss\\PonzianiSwiss.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Configuration, 9.0.5\n\nEmpfehlung:\n\nRemove Microsoft.Extensions.Configuration, and replace with new package Microsoft.Extensions.Configuration 10.0.1",
+              "protected": "Microsoft.Extensions.Configuration, 9.0.5\n\nEmpfehlung:\n\nRemove Microsoft.Extensions.Configuration, and replace with new package Microsoft.Extensions.Configuration 10.0.1"
+            },
+            "kind": "File",
+            "path": "PonzianiSwiss\\PonzianiSwiss.csproj",
+            "snippet": "Microsoft.Extensions.Configuration, 9.0.5\n\nEmpfehlung:\n\nRemove Microsoft.Extensions.Configuration, and replace with new package Microsoft.Extensions.Configuration 10.0.1",
+            "protectedSnippet": "Microsoft.Extensions.Configuration, 9.0.5\n\nEmpfehlung:\n\nRemove Microsoft.Extensions.Configuration, and replace with new package Microsoft.Extensions.Configuration 10.0.1",
+            "label": "Microsoft.Extensions.Configuration 9.0.5",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.Configuration",
+              "PackageVersion": "9.0.5",
+              "PackageNewVersion": "10.0.1",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "1e93ef1f-f79c-4db4-8f98-eaf60d626cbd",
+          "ruleId": "NuGet.0002",
+          "projectPath": "PonzianiSwiss\\PonzianiSwiss.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Configuration.FileExtensions, 9.0.5\n\nEmpfehlung:\n\nRemove Microsoft.Extensions.Configuration.FileExtensions, and replace with new package Microsoft.Extensions.Configuration.FileExtensions 10.0.1",
+              "protected": "Microsoft.Extensions.Configuration.FileExtensions, 9.0.5\n\nEmpfehlung:\n\nRemove Microsoft.Extensions.Configuration.FileExtensions, and replace with new package Microsoft.Extensions.Configuration.FileExtensions 10.0.1"
+            },
+            "kind": "File",
+            "path": "PonzianiSwiss\\PonzianiSwiss.csproj",
+            "snippet": "Microsoft.Extensions.Configuration.FileExtensions, 9.0.5\n\nEmpfehlung:\n\nRemove Microsoft.Extensions.Configuration.FileExtensions, and replace with new package Microsoft.Extensions.Configuration.FileExtensions 10.0.1",
+            "protectedSnippet": "Microsoft.Extensions.Configuration.FileExtensions, 9.0.5\n\nEmpfehlung:\n\nRemove Microsoft.Extensions.Configuration.FileExtensions, and replace with new package Microsoft.Extensions.Configuration.FileExtensions 10.0.1",
+            "label": "Microsoft.Extensions.Configuration.FileExtensions 9.0.5",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.Configuration.FileExtensions",
+              "PackageVersion": "9.0.5",
+              "PackageNewVersion": "10.0.1",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "d5f7aef2-4b88-437c-8df8-9d659cba6569",
+          "ruleId": "NuGet.0002",
+          "projectPath": "PonzianiSwiss\\PonzianiSwiss.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Configuration.Json, 9.0.5\n\nEmpfehlung:\n\nRemove Microsoft.Extensions.Configuration.Json, and replace with new package Microsoft.Extensions.Configuration.Json 10.0.1",
+              "protected": "Microsoft.Extensions.Configuration.Json, 9.0.5\n\nEmpfehlung:\n\nRemove Microsoft.Extensions.Configuration.Json, and replace with new package Microsoft.Extensions.Configuration.Json 10.0.1"
+            },
+            "kind": "File",
+            "path": "PonzianiSwiss\\PonzianiSwiss.csproj",
+            "snippet": "Microsoft.Extensions.Configuration.Json, 9.0.5\n\nEmpfehlung:\n\nRemove Microsoft.Extensions.Configuration.Json, and replace with new package Microsoft.Extensions.Configuration.Json 10.0.1",
+            "protectedSnippet": "Microsoft.Extensions.Configuration.Json, 9.0.5\n\nEmpfehlung:\n\nRemove Microsoft.Extensions.Configuration.Json, and replace with new package Microsoft.Extensions.Configuration.Json 10.0.1",
+            "label": "Microsoft.Extensions.Configuration.Json 9.0.5",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.Configuration.Json",
+              "PackageVersion": "9.0.5",
+              "PackageNewVersion": "10.0.1",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "1c4b2248-f93b-48ff-9854-e166a02e3076",
+          "ruleId": "NuGet.0001",
+          "projectPath": "PonzianiSwiss\\PonzianiSwiss.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Xaml.Behaviors.Wpf, 1.1.135\n\nEmpfehlung:\n\nMicrosoft.Xaml.Behaviors.Wpf, 1.1.39",
+              "protected": "Microsoft.Xaml.Behaviors.Wpf, 1.1.135\n\nEmpfehlung:\n\nMicrosoft.Xaml.Behaviors.Wpf, 1.1.39"
+            },
+            "kind": "File",
+            "path": "PonzianiSwiss\\PonzianiSwiss.csproj",
+            "snippet": "Microsoft.Xaml.Behaviors.Wpf, 1.1.135\n\nEmpfehlung:\n\nMicrosoft.Xaml.Behaviors.Wpf, 1.1.39",
+            "protectedSnippet": "Microsoft.Xaml.Behaviors.Wpf, 1.1.135\n\nEmpfehlung:\n\nMicrosoft.Xaml.Behaviors.Wpf, 1.1.39",
+            "label": "Microsoft.Xaml.Behaviors.Wpf 1.1.135",
+            "properties": {
+              "PackageId": "Microsoft.Xaml.Behaviors.Wpf",
+              "PackageVersion": "1.1.135",
+              "PackageNewVersion": "1.1.39",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "17ab042b-52e0-40a0-9915-d6fbe8483de0",
+          "ruleId": "NuGet.0001",
+          "projectPath": "PonzianiSwiss\\PonzianiSwiss.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "MvvmDialogs, 9.1.2\n\nEmpfehlung:\n\nMvvmDialogs, 8.0.0",
+              "protected": "MvvmDialogs, 9.1.2\n\nEmpfehlung:\n\nMvvmDialogs, 8.0.0"
+            },
+            "kind": "File",
+            "path": "PonzianiSwiss\\PonzianiSwiss.csproj",
+            "snippet": "MvvmDialogs, 9.1.2\n\nEmpfehlung:\n\nMvvmDialogs, 8.0.0",
+            "protectedSnippet": "MvvmDialogs, 9.1.2\n\nEmpfehlung:\n\nMvvmDialogs, 8.0.0",
+            "label": "MvvmDialogs 9.1.2",
+            "properties": {
+              "PackageId": "MvvmDialogs",
+              "PackageVersion": "9.1.2",
+              "PackageNewVersion": "8.0.0",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "416c2326-3fea-4afb-8858-1655939b4c03",
+          "ruleId": "Project.0002",
+          "projectPath": "PonzianiSwiss\\PonzianiSwiss.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Aktuelles Zielframework: net9.0-windows\nEmpfohlenes Zielframework: net10.0-windows",
+              "protected": "Aktuelles Zielframework: net9.0-windows\nEmpfohlenes Zielframework: net10.0-windows"
+            },
+            "kind": "File",
+            "path": "PonzianiSwiss\\PonzianiSwiss.csproj",
+            "snippet": "Aktuelles Zielframework: net9.0-windows\nEmpfohlenes Zielframework: net10.0-windows",
+            "protectedSnippet": "Aktuelles Zielframework: net9.0-windows\nEmpfohlenes Zielframework: net10.0-windows",
+            "properties": {
+              "CurrentTargetFramework": "net9.0-windows",
+              "RecommendedTargetFramework": "net10.0-windows"
+            }
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "PonzianiSwissLib\\PonzianiSwissLib.csproj",
+      "startingProject": true,
+      "issues": 3,
+      "storyPoints": 3,
+      "properties": {
+        "appName": "PonzianiSwissLib",
+        "projectKind": "ClassLibrary",
+        "frameworks": [
+          "net9.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 17,
+        "numberOfCodeFiles": 9,
+        "linesTotal": 31194,
+        "linesOfCode": 2637,
+        "totalApiScanned": 4077,
+        "minLinesOfCodeToChange": 1,
+        "maxLinesOfCodeToChange": 1
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "40b5c4af-3284-4acd-93b9-97a680793a7e",
+          "ruleId": "NuGet.0002",
+          "projectPath": "PonzianiSwissLib\\PonzianiSwissLib.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Logging, 9.0.5\n\nEmpfehlung:\n\nRemove Microsoft.Extensions.Logging, and replace with new package Microsoft.Extensions.Logging 10.0.1",
+              "protected": "Microsoft.Extensions.Logging, 9.0.5\n\nEmpfehlung:\n\nRemove Microsoft.Extensions.Logging, and replace with new package Microsoft.Extensions.Logging 10.0.1"
+            },
+            "kind": "File",
+            "path": "PonzianiSwissLib\\PonzianiSwissLib.csproj",
+            "snippet": "Microsoft.Extensions.Logging, 9.0.5\n\nEmpfehlung:\n\nRemove Microsoft.Extensions.Logging, and replace with new package Microsoft.Extensions.Logging 10.0.1",
+            "protectedSnippet": "Microsoft.Extensions.Logging, 9.0.5\n\nEmpfehlung:\n\nRemove Microsoft.Extensions.Logging, and replace with new package Microsoft.Extensions.Logging 10.0.1",
+            "label": "Microsoft.Extensions.Logging 9.0.5",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.Logging",
+              "PackageVersion": "9.0.5",
+              "PackageNewVersion": "10.0.1",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "8b1f9d3c-3bba-4d14-9a0e-a084f39f8ca2",
+          "ruleId": "Project.0002",
+          "projectPath": "PonzianiSwissLib\\PonzianiSwissLib.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Aktuelles Zielframework: net9.0\nEmpfohlenes Zielframework: net10.0",
+              "protected": "Aktuelles Zielframework: net9.0\nEmpfohlenes Zielframework: net10.0"
+            },
+            "kind": "File",
+            "path": "PonzianiSwissLib\\PonzianiSwissLib.csproj",
+            "snippet": "Aktuelles Zielframework: net9.0\nEmpfohlenes Zielframework: net10.0",
+            "protectedSnippet": "Aktuelles Zielframework: net9.0\nEmpfohlenes Zielframework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net9.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        },
+        {
+          "incidentId": "c8bc4511-47b3-4c12-aa6a-e679ef311375",
+          "ruleId": "Api.0002",
+          "description": "Breaking change: New TimeSpan.From*() overloads that take integers ",
+          "projectPath": "PonzianiSwissLib\\PonzianiSwissLib.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "HttpClient client = new()\r\n                {\r\n                    Timeout = TimeSpan.FromSeconds(10)\r\n                };",
+              "protected": "M:System.TimeSpan.FromSeconds(System.Int64)"
+            },
+            "kind": "File",
+            "path": "PonzianiSwissLib\\FederationUtil.cs",
+            "snippet": "HttpClient client = new()\r\n                {\r\n                    Timeout = TimeSpan.FromSeconds(10)\r\n                };",
+            "protectedSnippet": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "label": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "links": [
+              {
+                "title": "API-Dokumentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/9.0/timespan-from-overloads.md",
+                "isCustom": false
+              }
+            ],
+            "line": 13,
+            "column": 16
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "PonzianiSwissTest\\PonzianiSwissTest.csproj",
+      "startingProject": true,
+      "issues": 3,
+      "storyPoints": 23,
+      "properties": {
+        "appName": "PonzianiSwissTest",
+        "projectKind": "DotNetCoreApp",
+        "frameworks": [
+          "net9.0-windows"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 7,
+        "numberOfCodeFiles": 4,
+        "linesTotal": 3309,
+        "linesOfCode": 1393,
+        "totalApiScanned": 2800,
+        "minLinesOfCodeToChange": 21,
+        "maxLinesOfCodeToChange": 21
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "d5efa355-85f2-42ff-a443-ae3af7eb9b51",
+          "ruleId": "NuGet.0001",
+          "projectPath": "PonzianiSwissTest\\PonzianiSwissTest.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "FlaUI.UIA3, 5.0.0\n\nEmpfehlung:\n\nFlaUI.UIA3, 4.0.0",
+              "protected": "FlaUI.UIA3, 5.0.0\n\nEmpfehlung:\n\nFlaUI.UIA3, 4.0.0"
+            },
+            "kind": "File",
+            "path": "PonzianiSwissTest\\PonzianiSwissTest.csproj",
+            "snippet": "FlaUI.UIA3, 5.0.0\n\nEmpfehlung:\n\nFlaUI.UIA3, 4.0.0",
+            "protectedSnippet": "FlaUI.UIA3, 5.0.0\n\nEmpfehlung:\n\nFlaUI.UIA3, 4.0.0",
+            "label": "FlaUI.UIA3 5.0.0",
+            "properties": {
+              "PackageId": "FlaUI.UIA3",
+              "PackageVersion": "5.0.0",
+              "PackageNewVersion": "4.0.0",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "3b5af63f-bc1b-412b-8bd3-cb0579c894a4",
+          "ruleId": "Project.0002",
+          "projectPath": "PonzianiSwissTest\\PonzianiSwissTest.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Aktuelles Zielframework: net9.0-windows\nEmpfohlenes Zielframework: net10.0--windows",
+              "protected": "Aktuelles Zielframework: net9.0-windows\nEmpfohlenes Zielframework: net10.0--windows"
+            },
+            "kind": "File",
+            "path": "PonzianiSwissTest\\PonzianiSwissTest.csproj",
+            "snippet": "Aktuelles Zielframework: net9.0-windows\nEmpfohlenes Zielframework: net10.0--windows",
+            "protectedSnippet": "Aktuelles Zielframework: net9.0-windows\nEmpfohlenes Zielframework: net10.0--windows",
+            "properties": {
+              "CurrentTargetFramework": "net9.0-windows",
+              "RecommendedTargetFramework": "net10.0--windows"
+            }
+          }
+        },
+        {
+          "incidentId": "6702e304-211f-4737-ab04-060aa72f3abe",
+          "ruleId": "Api.0002",
+          "description": "Breaking change: New TimeSpan.From*() overloads that take integers ",
+          "projectPath": "PonzianiSwissTest\\PonzianiSwissTest.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Retry.WhileFalse(() =\u003E tabview.SelectedTabItemIndex == 0, TimeSpan.FromSeconds(5));",
+              "protected": "M:System.TimeSpan.FromSeconds(System.Int64)"
+            },
+            "kind": "File",
+            "path": "PonzianiSwissTest\\TestUI.cs",
+            "snippet": "Retry.WhileFalse(() =\u003E tabview.SelectedTabItemIndex == 0, TimeSpan.FromSeconds(5));",
+            "protectedSnippet": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "label": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "links": [
+              {
+                "title": "API-Dokumentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/9.0/timespan-from-overloads.md",
+                "isCustom": false
+              }
+            ],
+            "line": 521,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "082c255a-1c24-4acf-865c-8989fbaedef7",
+          "ruleId": "Api.0002",
+          "description": "Breaking change: New TimeSpan.From*() overloads that take integers ",
+          "projectPath": "PonzianiSwissTest\\PonzianiSwissTest.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Retry.WhileFalse(() =\u003E tabview.SelectedTabItemIndex == round_index \u002B 1, TimeSpan.FromSeconds(5));",
+              "protected": "M:System.TimeSpan.FromSeconds(System.Int64)"
+            },
+            "kind": "File",
+            "path": "PonzianiSwissTest\\TestUI.cs",
+            "snippet": "Retry.WhileFalse(() =\u003E tabview.SelectedTabItemIndex == round_index \u002B 1, TimeSpan.FromSeconds(5));",
+            "protectedSnippet": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "label": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "links": [
+              {
+                "title": "API-Dokumentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/9.0/timespan-from-overloads.md",
+                "isCustom": false
+              }
+            ],
+            "line": 487,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "3d5d8842-7d7d-4b7a-af16-108297813fb4",
+          "ruleId": "Api.0002",
+          "description": "Breaking change: New TimeSpan.From*() overloads that take integers ",
+          "projectPath": "PonzianiSwissTest\\PonzianiSwissTest.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Wait.UntilInputIsProcessed(TimeSpan.FromSeconds(1));",
+              "protected": "M:System.TimeSpan.FromSeconds(System.Int64)"
+            },
+            "kind": "File",
+            "path": "PonzianiSwissTest\\TestUI.cs",
+            "snippet": "Wait.UntilInputIsProcessed(TimeSpan.FromSeconds(1));",
+            "protectedSnippet": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "label": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "links": [
+              {
+                "title": "API-Dokumentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/9.0/timespan-from-overloads.md",
+                "isCustom": false
+              }
+            ],
+            "line": 471,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "6c4be24e-f283-4bba-8414-bdca029b968e",
+          "ruleId": "Api.0002",
+          "description": "Breaking change: New TimeSpan.From*() overloads that take integers ",
+          "projectPath": "PonzianiSwissTest\\PonzianiSwissTest.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Wait.UntilInputIsProcessed(TimeSpan.FromSeconds(1));",
+              "protected": "M:System.TimeSpan.FromSeconds(System.Int64)"
+            },
+            "kind": "File",
+            "path": "PonzianiSwissTest\\TestUI.cs",
+            "snippet": "Wait.UntilInputIsProcessed(TimeSpan.FromSeconds(1));",
+            "protectedSnippet": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "label": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "links": [
+              {
+                "title": "API-Dokumentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/9.0/timespan-from-overloads.md",
+                "isCustom": false
+              }
+            ],
+            "line": 468,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "ea850fa1-bf88-467a-b2d1-effd9d06e330",
+          "ruleId": "Api.0002",
+          "description": "Breaking change: New TimeSpan.From*() overloads that take integers ",
+          "projectPath": "PonzianiSwissTest\\PonzianiSwissTest.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Retry.WhileFalse(() =\u003E nwindow.IsOffscreen, TimeSpan.FromSeconds(5));",
+              "protected": "M:System.TimeSpan.FromSeconds(System.Int64)"
+            },
+            "kind": "File",
+            "path": "PonzianiSwissTest\\TestUI.cs",
+            "snippet": "Retry.WhileFalse(() =\u003E nwindow.IsOffscreen, TimeSpan.FromSeconds(5));",
+            "protectedSnippet": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "label": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "links": [
+              {
+                "title": "API-Dokumentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/9.0/timespan-from-overloads.md",
+                "isCustom": false
+              }
+            ],
+            "line": 411,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "0d3fde5b-0e30-44d7-aa51-2bef905c297e",
+          "ruleId": "Api.0002",
+          "description": "Breaking change: New TimeSpan.From*() overloads that take integers ",
+          "projectPath": "PonzianiSwissTest\\PonzianiSwissTest.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Wait.UntilInputIsProcessed(TimeSpan.FromSeconds(1));",
+              "protected": "M:System.TimeSpan.FromSeconds(System.Int64)"
+            },
+            "kind": "File",
+            "path": "PonzianiSwissTest\\TestUI.cs",
+            "snippet": "Wait.UntilInputIsProcessed(TimeSpan.FromSeconds(1));",
+            "protectedSnippet": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "label": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "links": [
+              {
+                "title": "API-Dokumentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/9.0/timespan-from-overloads.md",
+                "isCustom": false
+              }
+            ],
+            "line": 400,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "cb8e4eaa-4544-46fb-9184-ba227a0c1aba",
+          "ruleId": "Api.0002",
+          "description": "Breaking change: New TimeSpan.From*() overloads that take integers ",
+          "projectPath": "PonzianiSwissTest\\PonzianiSwissTest.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Wait.UntilInputIsProcessed(TimeSpan.FromSeconds(1));",
+              "protected": "M:System.TimeSpan.FromSeconds(System.Int64)"
+            },
+            "kind": "File",
+            "path": "PonzianiSwissTest\\TestUI.cs",
+            "snippet": "Wait.UntilInputIsProcessed(TimeSpan.FromSeconds(1));",
+            "protectedSnippet": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "label": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "links": [
+              {
+                "title": "API-Dokumentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/9.0/timespan-from-overloads.md",
+                "isCustom": false
+              }
+            ],
+            "line": 397,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "b9da7bd8-4382-452a-81b1-0baa17ff7e2a",
+          "ruleId": "Api.0002",
+          "description": "Breaking change: New TimeSpan.From*() overloads that take integers ",
+          "projectPath": "PonzianiSwissTest\\PonzianiSwissTest.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Retry.WhileNull(() =\u003E window.FindFirstByXPath(\u0022/Window\u0022), TimeSpan.FromSeconds(5));",
+              "protected": "M:System.TimeSpan.FromSeconds(System.Int64)"
+            },
+            "kind": "File",
+            "path": "PonzianiSwissTest\\TestUI.cs",
+            "snippet": "Retry.WhileNull(() =\u003E window.FindFirstByXPath(\u0022/Window\u0022), TimeSpan.FromSeconds(5));",
+            "protectedSnippet": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "label": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "links": [
+              {
+                "title": "API-Dokumentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/9.0/timespan-from-overloads.md",
+                "isCustom": false
+              }
+            ],
+            "line": 381,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "93b02e8d-d298-4324-904f-d7fbc8156369",
+          "ruleId": "Api.0002",
+          "description": "Breaking change: New TimeSpan.From*() overloads that take integers ",
+          "projectPath": "PonzianiSwissTest\\PonzianiSwissTest.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Retry.WhileNull(() =\u003E window.FindFirstByXPath(\u0022/Window\u0022), TimeSpan.FromSeconds(5));",
+              "protected": "M:System.TimeSpan.FromSeconds(System.Int64)"
+            },
+            "kind": "File",
+            "path": "PonzianiSwissTest\\TestUI.cs",
+            "snippet": "Retry.WhileNull(() =\u003E window.FindFirstByXPath(\u0022/Window\u0022), TimeSpan.FromSeconds(5));",
+            "protectedSnippet": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "label": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "links": [
+              {
+                "title": "API-Dokumentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/9.0/timespan-from-overloads.md",
+                "isCustom": false
+              }
+            ],
+            "line": 359,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "e8d0936a-1bde-416b-a24a-785a2ff3f089",
+          "ruleId": "Api.0002",
+          "description": "Breaking change: New TimeSpan.From*() overloads that take integers ",
+          "projectPath": "PonzianiSwissTest\\PonzianiSwissTest.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Retry.WhileFalse(() =\u003E participantDialog.IsOffscreen, TimeSpan.FromSeconds(5));",
+              "protected": "M:System.TimeSpan.FromSeconds(System.Int64)"
+            },
+            "kind": "File",
+            "path": "PonzianiSwissTest\\TestUI.cs",
+            "snippet": "Retry.WhileFalse(() =\u003E participantDialog.IsOffscreen, TimeSpan.FromSeconds(5));",
+            "protectedSnippet": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "label": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "links": [
+              {
+                "title": "API-Dokumentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/9.0/timespan-from-overloads.md",
+                "isCustom": false
+              }
+            ],
+            "line": 348,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "8faeb479-f2ca-4242-877d-7c6198dd7086",
+          "ruleId": "Api.0002",
+          "description": "Breaking change: New TimeSpan.From*() overloads that take integers ",
+          "projectPath": "PonzianiSwissTest\\PonzianiSwissTest.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Retry.WhileNull(() =\u003E window.FindFirstByXPath(\u0022/Window\u0022), TimeSpan.FromSeconds(5));",
+              "protected": "M:System.TimeSpan.FromSeconds(System.Int64)"
+            },
+            "kind": "File",
+            "path": "PonzianiSwissTest\\TestUI.cs",
+            "snippet": "Retry.WhileNull(() =\u003E window.FindFirstByXPath(\u0022/Window\u0022), TimeSpan.FromSeconds(5));",
+            "protectedSnippet": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "label": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "links": [
+              {
+                "title": "API-Dokumentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/9.0/timespan-from-overloads.md",
+                "isCustom": false
+              }
+            ],
+            "line": 339,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "9a7a1b54-24bd-4a4e-84af-ba6cd3e875b0",
+          "ruleId": "Api.0002",
+          "description": "Breaking change: New TimeSpan.From*() overloads that take integers ",
+          "projectPath": "PonzianiSwissTest\\PonzianiSwissTest.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Retry.WhileFalse(() =\u003E participantDialog.IsOffscreen, TimeSpan.FromSeconds(5));",
+              "protected": "M:System.TimeSpan.FromSeconds(System.Int64)"
+            },
+            "kind": "File",
+            "path": "PonzianiSwissTest\\TestUI.cs",
+            "snippet": "Retry.WhileFalse(() =\u003E participantDialog.IsOffscreen, TimeSpan.FromSeconds(5));",
+            "protectedSnippet": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "label": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "links": [
+              {
+                "title": "API-Dokumentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/9.0/timespan-from-overloads.md",
+                "isCustom": false
+              }
+            ],
+            "line": 329,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "78f5adf4-f084-46b7-8e36-21a09c912016",
+          "ruleId": "Api.0002",
+          "description": "Breaking change: New TimeSpan.From*() overloads that take integers ",
+          "projectPath": "PonzianiSwissTest\\PonzianiSwissTest.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Retry.WhileNull(() =\u003E window.FindFirstByXPath(\u0022/Window\u0022), TimeSpan.FromSeconds(5));",
+              "protected": "M:System.TimeSpan.FromSeconds(System.Int64)"
+            },
+            "kind": "File",
+            "path": "PonzianiSwissTest\\TestUI.cs",
+            "snippet": "Retry.WhileNull(() =\u003E window.FindFirstByXPath(\u0022/Window\u0022), TimeSpan.FromSeconds(5));",
+            "protectedSnippet": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "label": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "links": [
+              {
+                "title": "API-Dokumentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/9.0/timespan-from-overloads.md",
+                "isCustom": false
+              }
+            ],
+            "line": 324,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "83e70f7e-86ae-4de3-9a92-0d099d255113",
+          "ruleId": "Api.0002",
+          "description": "Breaking change: New TimeSpan.From*() overloads that take integers ",
+          "projectPath": "PonzianiSwissTest\\PonzianiSwissTest.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Retry.WhileFalse(() =\u003E participantDialog.IsOffscreen, TimeSpan.FromSeconds(5));",
+              "protected": "M:System.TimeSpan.FromSeconds(System.Int64)"
+            },
+            "kind": "File",
+            "path": "PonzianiSwissTest\\TestUI.cs",
+            "snippet": "Retry.WhileFalse(() =\u003E participantDialog.IsOffscreen, TimeSpan.FromSeconds(5));",
+            "protectedSnippet": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "label": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "links": [
+              {
+                "title": "API-Dokumentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/9.0/timespan-from-overloads.md",
+                "isCustom": false
+              }
+            ],
+            "line": 315,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "9f648405-01c9-4210-a0d2-5238409307b8",
+          "ruleId": "Api.0002",
+          "description": "Breaking change: New TimeSpan.From*() overloads that take integers ",
+          "projectPath": "PonzianiSwissTest\\PonzianiSwissTest.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Retry.WhileNull(() =\u003E window.FindFirstByXPath(\u0022/Window\u0022), TimeSpan.FromSeconds(5));",
+              "protected": "M:System.TimeSpan.FromSeconds(System.Int64)"
+            },
+            "kind": "File",
+            "path": "PonzianiSwissTest\\TestUI.cs",
+            "snippet": "Retry.WhileNull(() =\u003E window.FindFirstByXPath(\u0022/Window\u0022), TimeSpan.FromSeconds(5));",
+            "protectedSnippet": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "label": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "links": [
+              {
+                "title": "API-Dokumentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/9.0/timespan-from-overloads.md",
+                "isCustom": false
+              }
+            ],
+            "line": 310,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "49341ee8-ece6-42d7-a3f9-e348d2d62eec",
+          "ruleId": "Api.0002",
+          "description": "Breaking change: New TimeSpan.From*() overloads that take integers ",
+          "projectPath": "PonzianiSwissTest\\PonzianiSwissTest.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Retry.WhileFalse(() =\u003E tournamentDialog.IsOffscreen, TimeSpan.FromSeconds(5));",
+              "protected": "M:System.TimeSpan.FromSeconds(System.Int64)"
+            },
+            "kind": "File",
+            "path": "PonzianiSwissTest\\TestUI.cs",
+            "snippet": "Retry.WhileFalse(() =\u003E tournamentDialog.IsOffscreen, TimeSpan.FromSeconds(5));",
+            "protectedSnippet": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "label": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "links": [
+              {
+                "title": "API-Dokumentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/9.0/timespan-from-overloads.md",
+                "isCustom": false
+              }
+            ],
+            "line": 303,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "e550cd77-b9f4-4d0a-8457-465bc2d04085",
+          "ruleId": "Api.0002",
+          "description": "Breaking change: New TimeSpan.From*() overloads that take integers ",
+          "projectPath": "PonzianiSwissTest\\PonzianiSwissTest.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Retry.WhileNull(() =\u003E window.FindFirstByXPath(\u0022/Window\u0022), TimeSpan.FromSeconds(5));",
+              "protected": "M:System.TimeSpan.FromSeconds(System.Int64)"
+            },
+            "kind": "File",
+            "path": "PonzianiSwissTest\\TestUI.cs",
+            "snippet": "Retry.WhileNull(() =\u003E window.FindFirstByXPath(\u0022/Window\u0022), TimeSpan.FromSeconds(5));",
+            "protectedSnippet": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "label": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "links": [
+              {
+                "title": "API-Dokumentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/9.0/timespan-from-overloads.md",
+                "isCustom": false
+              }
+            ],
+            "line": 295,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "5d9e2994-bc64-4490-88fd-1d7edc133855",
+          "ruleId": "Api.0002",
+          "description": "Breaking change: New TimeSpan.From*() overloads that take integers ",
+          "projectPath": "PonzianiSwissTest\\PonzianiSwissTest.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Retry.WhileNull(() =\u003E window.FindFirstDescendant(cf.ByAutomationId(\u0022PART_AffirmativeButton\u0022)), TimeSpan.FromSeconds(5));",
+              "protected": "M:System.TimeSpan.FromSeconds(System.Int64)"
+            },
+            "kind": "File",
+            "path": "PonzianiSwissTest\\TestUI.cs",
+            "snippet": "Retry.WhileNull(() =\u003E window.FindFirstDescendant(cf.ByAutomationId(\u0022PART_AffirmativeButton\u0022)), TimeSpan.FromSeconds(5));",
+            "protectedSnippet": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "label": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "links": [
+              {
+                "title": "API-Dokumentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/9.0/timespan-from-overloads.md",
+                "isCustom": false
+              }
+            ],
+            "line": 261,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "8c9ebe3e-aed4-4d54-b4a2-7f089bb6a96b",
+          "ruleId": "Api.0002",
+          "description": "Breaking change: New TimeSpan.From*() overloads that take integers ",
+          "projectPath": "PonzianiSwissTest\\PonzianiSwissTest.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Retry.WhileFalse(() =\u003E tabview.SelectedTabItemIndex == 1, TimeSpan.FromSeconds(5));",
+              "protected": "M:System.TimeSpan.FromSeconds(System.Int64)"
+            },
+            "kind": "File",
+            "path": "PonzianiSwissTest\\TestUI.cs",
+            "snippet": "Retry.WhileFalse(() =\u003E tabview.SelectedTabItemIndex == 1, TimeSpan.FromSeconds(5));",
+            "protectedSnippet": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "label": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "links": [
+              {
+                "title": "API-Dokumentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/9.0/timespan-from-overloads.md",
+                "isCustom": false
+              }
+            ],
+            "line": 209,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "0ea144ab-793c-4c0b-9832-ff8b1a0c9592",
+          "ruleId": "Api.0002",
+          "description": "Breaking change: New TimeSpan.From*() overloads that take integers ",
+          "projectPath": "PonzianiSwissTest\\PonzianiSwissTest.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Retry.WhileNull(() =\u003E window.FindFirstByXPath(\u0022/Tab/TabItem[2]\u0022), TimeSpan.FromSeconds(10));",
+              "protected": "M:System.TimeSpan.FromSeconds(System.Int64)"
+            },
+            "kind": "File",
+            "path": "PonzianiSwissTest\\TestUI.cs",
+            "snippet": "Retry.WhileNull(() =\u003E window.FindFirstByXPath(\u0022/Tab/TabItem[2]\u0022), TimeSpan.FromSeconds(10));",
+            "protectedSnippet": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "label": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "links": [
+              {
+                "title": "API-Dokumentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/9.0/timespan-from-overloads.md",
+                "isCustom": false
+              }
+            ],
+            "line": 188,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "69e8a23c-963f-49b4-a27e-392267748f46",
+          "ruleId": "Api.0002",
+          "description": "Breaking change: New TimeSpan.From*() overloads that take integers ",
+          "projectPath": "PonzianiSwissTest\\PonzianiSwissTest.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Retry.WhileNull(() =\u003E window.FindFirstByXPath(\u0022/Tab/TabItem[5]\u0022), TimeSpan.FromSeconds(10));",
+              "protected": "M:System.TimeSpan.FromSeconds(System.Int64)"
+            },
+            "kind": "File",
+            "path": "PonzianiSwissTest\\TestUI.cs",
+            "snippet": "Retry.WhileNull(() =\u003E window.FindFirstByXPath(\u0022/Tab/TabItem[5]\u0022), TimeSpan.FromSeconds(10));",
+            "protectedSnippet": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "label": "M:System.TimeSpan.FromSeconds(System.Int64)",
+            "links": [
+              {
+                "title": "API-Dokumentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/9.0/timespan-from-overloads.md",
+                "isCustom": false
+              }
+            ],
+            "line": 149,
+            "column": 12
+          }
+        }
+      ],
+      "features": []
+    }
+  ],
+  "rules": {
+    "NuGet.0002": {
+      "id": "NuGet.0002",
+      "isFeature": false,
+      "description": "F\u00FCr das ausgew\u00E4hlte Zielframework wird ein NuGet-Paketupgrade empfohlen.\n\nStandardm\u00E4\u00DFige .NET-Pakete werden empfohlen, um Versionen zu verwenden, die der Version von .NET entsprechen, auf die das Projekt abzielt.\n\nAuch einige andere Pakete funktionieren f\u00FCr die ausgew\u00E4hlten Zielframeworks bekanntlich besser.",
+      "label": "Ein NuGet-Paketupgrade wird empfohlen",
+      "severity": "Potential",
+      "effort": 1,
+      "links": [
+        {
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262530",
+          "isCustom": false
+        }
+      ]
+    },
+    "Project.0002": {
+      "id": "Project.0002",
+      "isFeature": false,
+      "description": "Die Zielframeworks des Projekts m\u00FCssen in das neue Zielframework ge\u00E4ndert werden, das Sie f\u00FCr dieses Upgrade ausgew\u00E4hlt haben.\n\nW\u00E4hrend des Upgrades wird das Zielframework an die entsprechende Plattform angepasst, falls zutreffend. In einigen F\u00E4llen, f\u00FChrte das Upgrade des Projekts zu mehreren Zielframeworks, wenn es Features verwendete, die jetzt \u00FCber eigene Plattformen in modernen .NET-Frameworks (Windows, iOS, Android usw.) verf\u00FCgen.",
+      "label": "Die Zielframeworks des Projekts m\u00FCssen ge\u00E4ndert werden",
+      "severity": "Mandatory",
+      "effort": 1,
+      "links": [
+        {
+          "title": "\u00DCbersicht \u00FCber das Portieren von .NET\u00A0Framework zu .NET",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2265227",
+          "isCustom": false
+        },
+        {
+          "title": ".NET-Projekt-SDKs",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2265226",
+          "isCustom": false
+        }
+      ]
+    },
+    "Api.0002": {
+      "id": "Api.0002",
+      "isFeature": false,
+      "description": "API is source incompatible for selected .NET version: requires code changes to compile successfully when targeting a new version, such as removing obsolete APIs or changing method signatures.",
+      "label": "Source incompatible for selected .NET version",
+      "severity": "Potential",
+      "effort": 1,
+      "links": [
+        {
+          "title": "Breaking Changes in .NET",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262679",
+          "isCustom": false
+        }
+      ]
+    },
+    "NuGet.0001": {
+      "id": "NuGet.0001",
+      "isFeature": false,
+      "description": "Das NuGet-Paket ist nicht mit dem ausgew\u00E4hlten Zielframework kompatibel.\n\nF\u00FCr das Paket muss ein Upgrade auf eine Version durchgef\u00FChrt werden, die das ausgew\u00E4hlte Projektzielframework unterst\u00FCtzt. Wenn keine neuen Paketversionen vorhanden sind, die das neue Zielframework unterst\u00FCtzen, muss ein anderes Paket verwendet werden, und f\u00FCr den gesamten Code muss ein Upgrade auf die neue API durchgef\u00FChrt werden.",
+      "label": "Das NuGet-Paket ist nicht kompatibel",
+      "severity": "Mandatory",
+      "effort": 1,
+      "links": [
+        {
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262529",
+          "isCustom": false
+        }
+      ]
+    }
+  }
+}
