@@ -1,72 +1,75 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Properties" GeneratedClassName="Settings">
-  <Profiles />
-  <Settings>
-    <Setting Name="BaseTheme" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Light</Value>
-    </Setting>
-    <Setting Name="ThemeColor" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Blue</Value>
-    </Setting>
-    <Setting Name="MRU" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="MainWindowHeight" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">450</Value>
-    </Setting>
-    <Setting Name="MainWindowWidth" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">800</Value>
-    </Setting>
-    <Setting Name="ColParticipantNameWidth" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">120</Value>
-    </Setting>
-    <Setting Name="ColParticipantFederationWidth" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">60</Value>
-    </Setting>
-    <Setting Name="ColParticipantFideIdWidth" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">60</Value>
-    </Setting>
-    <Setting Name="ColParticipantScoreWidth" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">60</Value>
-    </Setting>
-    <Setting Name="ColParticipantRatingWidth" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">60</Value>
-    </Setting>
-    <Setting Name="ColParticipantIdWidth" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">120</Value>
-    </Setting>
-    <Setting Name="ColParticipantEloWidth" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">60</Value>
-    </Setting>
-    <Setting Name="ColParticipantNationalRatingWidth" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">60</Value>
-    </Setting>
-    <Setting Name="ColParticipantClubWidth" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">120</Value>
-    </Setting>
-    <Setting Name="ColPairingWhiteIdWidth" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">40</Value>
-    </Setting>
-    <Setting Name="ColPairingWhiteNameWidth" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">120</Value>
-    </Setting>
-    <Setting Name="ColPairingBlackIdWidth" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">40</Value>
-    </Setting>
-    <Setting Name="ColPairingBlackNameWidth" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">120</Value>
-    </Setting>
-    <Setting Name="ColPairingResultWidth" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">80</Value>
-    </Setting>
-    <Setting Name="Language" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="ColParticipantEloPerformanceWidth" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">60</Value>
-    </Setting>
-    <Setting Name="ColParticipantTournamentPerformanceWidth" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">60</Value>
-    </Setting>
-  </Settings>
+	<Profiles />
+	<Settings>
+		<Setting Name="BaseTheme" Type="System.String" Scope="User">
+			<Value Profile="(Default)">Light</Value>
+		</Setting>
+		<Setting Name="ThemeColor" Type="System.String" Scope="User">
+			<Value Profile="(Default)">Blue</Value>
+		</Setting>
+		<Setting Name="MRU" Type="System.Collections.Specialized.StringCollection" Scope="User">
+			<Value Profile="(Default)" />
+		</Setting>
+		<Setting Name="MainWindowHeight" Type="System.Int32" Scope="User">
+			<Value Profile="(Default)">450</Value>
+		</Setting>
+		<Setting Name="MainWindowWidth" Type="System.Int32" Scope="User">
+			<Value Profile="(Default)">800</Value>
+		</Setting>
+		<Setting Name="ColBoardnumberWidth" Type="System.Int32" Scope="User">
+			<Value Profile="(Default)">40</Value>
+		</Setting>
+		<Setting Name="ColParticipantNameWidth" Type="System.Int32" Scope="User">
+			<Value Profile="(Default)">120</Value>
+		</Setting>
+		<Setting Name="ColParticipantFederationWidth" Type="System.Int32" Scope="User">
+			<Value Profile="(Default)">60</Value>
+		</Setting>
+		<Setting Name="ColParticipantFideIdWidth" Type="System.Int32" Scope="User">
+			<Value Profile="(Default)">60</Value>
+		</Setting>
+		<Setting Name="ColParticipantScoreWidth" Type="System.Int32" Scope="User">
+			<Value Profile="(Default)">60</Value>
+		</Setting>
+		<Setting Name="ColParticipantRatingWidth" Type="System.Int32" Scope="User">
+			<Value Profile="(Default)">60</Value>
+		</Setting>
+		<Setting Name="ColParticipantIdWidth" Type="System.Int32" Scope="User">
+			<Value Profile="(Default)">120</Value>
+		</Setting>
+		<Setting Name="ColParticipantEloWidth" Type="System.Int32" Scope="User">
+			<Value Profile="(Default)">60</Value>
+		</Setting>
+		<Setting Name="ColParticipantNationalRatingWidth" Type="System.Int32" Scope="User">
+			<Value Profile="(Default)">60</Value>
+		</Setting>
+		<Setting Name="ColParticipantClubWidth" Type="System.Int32" Scope="User">
+			<Value Profile="(Default)">120</Value>
+		</Setting>
+		<Setting Name="ColPairingWhiteIdWidth" Type="System.Int32" Scope="User">
+			<Value Profile="(Default)">40</Value>
+		</Setting>
+		<Setting Name="ColPairingWhiteNameWidth" Type="System.Int32" Scope="User">
+			<Value Profile="(Default)">120</Value>
+		</Setting>
+		<Setting Name="ColPairingBlackIdWidth" Type="System.Int32" Scope="User">
+			<Value Profile="(Default)">40</Value>
+		</Setting>
+		<Setting Name="ColPairingBlackNameWidth" Type="System.Int32" Scope="User">
+			<Value Profile="(Default)">120</Value>
+		</Setting>
+		<Setting Name="ColPairingResultWidth" Type="System.Int32" Scope="User">
+			<Value Profile="(Default)">80</Value>
+		</Setting>
+		<Setting Name="Language" Type="System.String" Scope="User">
+			<Value Profile="(Default)" />
+		</Setting>
+		<Setting Name="ColParticipantEloPerformanceWidth" Type="System.Int32" Scope="User">
+			<Value Profile="(Default)">60</Value>
+		</Setting>
+		<Setting Name="ColParticipantTournamentPerformanceWidth" Type="System.Int32" Scope="User">
+			<Value Profile="(Default)">60</Value>
+		</Setting>
+	</Settings>
 </SettingsFile>

@@ -21,6 +21,8 @@ namespace PonzianiSwissLib
 
         public Result Result { set; get; } = Result.Open;
 
+        public int? BoardNumber { set; get; }
+
         /// <summary>
         /// Result from Black POV
         /// </summary>

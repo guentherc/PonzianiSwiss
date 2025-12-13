@@ -73,12 +73,13 @@ namespace PonzianiSwiss
             {
                 Tournament = tournament;
                 RoundIndex = roundIndex;
-                foreach (Pairing pairing in Tournament?.Rounds[roundIndex].Pairings ?? new())
+                Tournament?.Rounds[roundIndex].Pairings.Sort((x, y) => (x.BoardNumber ?? 9999).CompareTo(y.BoardNumber ?? 9999));
+                foreach (Pairing pairing in Tournament?.Rounds[roundIndex].Pairings ?? [])
                     Pairings.Add(new RoundPairing(pairing, RoundIndex));
             }
         }
 
-        internal ObservableCollection<RoundPairing> Pairings { get; } = new();
+        internal ObservableCollection<RoundPairing> Pairings { get; } = [];
 
         [ObservableProperty]
         private Tournament? tournament;
@@ -98,16 +99,10 @@ namespace PonzianiSwiss
 
     }
 
-    public class ResultSetEventArgs : EventArgs
+    public class ResultSetEventArgs(Pairing pairing, Result result) : EventArgs
     {
-        public ResultSetEventArgs(Pairing pairing, Result result)
-        {
-            Pairing = pairing ?? throw new ArgumentNullException(nameof(pairing));
-            Result = result;
-        }
-
-        public Pairing Pairing { get; private set; }
-        public Result Result { get; private set; }
+        public Pairing Pairing { get; private set; } = pairing ?? throw new ArgumentNullException(nameof(pairing));
+        public Result Result { get; private set; } = result;
     }
 
     internal partial class RoundPairing : ObservableObject
@@ -122,6 +117,8 @@ namespace PonzianiSwiss
         private Pairing? pairing;
         public string White => $"{Pairing?.White?.Name?.Trim()} ({Pairing?.White?.Scorecard?.Score(RoundIndex) ?? 0})";
         public string Black => $"{Pairing?.Black?.Name?.Trim()} ({Pairing?.Black?.Scorecard?.Score(RoundIndex) ?? 0})";
+
+        public string Boardnumber => Pairing?.BoardNumber.ToString() ?? string.Empty;
 
         private int RoundIndex { set; get; }
         public Result Result
@@ -143,7 +140,7 @@ namespace PonzianiSwiss
 
     public class ResultConverter : IValueConverter
     {
-        private static readonly string[] result_strings = new string[14] {
+        private static readonly string[] result_strings = [
             "*",
             "--+",
             "0-1",
@@ -158,7 +155,7 @@ namespace PonzianiSwiss
             "+--",
             "Bye 1",
             "---"
-        };
+        ];
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             if (value is Result r)

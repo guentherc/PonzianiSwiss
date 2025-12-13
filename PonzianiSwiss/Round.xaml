@@ -51,6 +51,14 @@
             </ListView.Resources>
             <ListView.View>
                 <GridView>
+                    <GridViewColumn Width="{local:SettingBinding Path=ColBoardnumberWidth}">
+                        <GridViewColumnHeader x:Name="Round_Column_Header_Boardnumber" mah:ControlsHelper.ContentCharacterCasing="Normal" Content="{lex:Loc}"/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=Boardnumber}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn Width="{local:SettingBinding Path=ColPairingWhiteIdWidth}">
                         <GridViewColumnHeader x:Name="Round_Column_Header_Id_White" mah:ControlsHelper.ContentCharacterCasing="Normal" Content="{lex:Loc}"/>
                         <GridViewColumn.CellTemplate>

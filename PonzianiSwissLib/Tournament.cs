@@ -539,6 +539,7 @@ namespace PonzianiSwissLib
             for (int i = Rounds.Count; i <= round; ++i) Rounds.Add(new Round(i));
             Rounds[round].Pairings.Clear();
             for (int i = round + 1; i < Rounds.Count; ++i) Rounds[i].Pairings.Clear();
+            int boardNumber = 1;
             for (int i = 1; i < lines.Length; i++)
             {
                 string[] n = lines[i].Trim().Split(' ');
@@ -547,6 +548,11 @@ namespace PonzianiSwissLib
                 Participant p1 = Participants.Where(p => p.ParticipantId == n[0]).First();
                 Participant p2 = n[1] != "0" ? Participants.Where(p => p.ParticipantId == n[1]).First() : Participant.BYE;
                 Rounds[round].Pairings.Add(new(p1, p2));
+                if (p2 != Participant.BYE)
+                {
+                    Rounds[round].Pairings.Last().BoardNumber = boardNumber;
+                    ++boardNumber;
+                }
             }
             foreach (Pairing p in Rounds[round].Pairings.Where(p => p.Black == Participant.BYE))
                 p.Result = Result.PairingAllocatedBye;

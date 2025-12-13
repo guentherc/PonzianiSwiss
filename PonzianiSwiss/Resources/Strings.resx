@@ -657,4 +657,7 @@
   <data name="MenuItem_Participants_Update_Rating_Header" xml:space="preserve">
     <value>Update Ratings</value>
   </data>
+  <data name="Round_Column_Header_Boardnumber" xml:space="preserve">
+    <value>Board</value>
+  </data>
 </root>

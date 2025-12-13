@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="MenuItem_Tournament_Header" xml:space="preserve">
-    <value>Tournament</value>
-  </data>
   <data name="MenuItem_Recent_Files_Header" xml:space="preserve">
     <value>Recent Files</value>
   </data>
@@ -137,6 +134,9 @@
   </data>
   <data name="MenuItem_Tournament_Export_Header" xml:space="preserve">
     <value>Export</value>
+  </data>
+  <data name="MenuItem_Tournament_Header" xml:space="preserve">
+    <value>Tournament</value>
   </data>
   <data name="MenuItem_Tournament_New_Header" xml:space="preserve">
     <value>New</value>
@@ -165,11 +165,11 @@
   <data name="Participant_List_by_Starting_Rank" xml:space="preserve">
     <value>Participant List by Starting Rank</value>
   </data>
-  <data name="Crosstable" xml:space="preserve">
-    <value>Crosstable</value>
-  </data>
   <data name="Participant_List_by_Name" xml:space="preserve">
     <value>Participant List by Name</value>
+  </data>
+  <data name="Crosstable" xml:space="preserve">
+    <value>Crosstable</value>
   </data>
   <data name="Pairings_Round_X" xml:space="preserve">
     <value>Pairings Round {0}</value>
@@ -246,14 +246,20 @@
   <data name="MenuItem_Participant_Delete_Header" xml:space="preserve">
     <value>Delete</value>
   </data>
-  <data name="ColHeaderParticipantFederation_Content" xml:space="preserve">
-    <value>Federation</value>
+  <data name="ColHeaderParticipantClub_Content" xml:space="preserve">
+    <value>Club</value>
   </data>
-  <data name="ColHeaderParticipantName_Content" xml:space="preserve">
-    <value>Name</value>
+  <data name="ColHeaderParticipantNationalRating_Content" xml:space="preserve">
+    <value>National Rating</value>
+  </data>
+  <data name="ColHeaderParticipantElo_Content" xml:space="preserve">
+    <value>Elo</value>
   </data>
   <data name="ColHeaderParticipantId_Content" xml:space="preserve">
     <value>Id</value>
+  </data>
+  <data name="ColHeaderParticipantRating_Content" xml:space="preserve">
+    <value>Rating</value>
   </data>
   <data name="ColHeaderParticipantScore_Content" xml:space="preserve">
     <value>Score</value>
@@ -261,17 +267,11 @@
   <data name="ColHeaderParticipantFideId_Content" xml:space="preserve">
     <value>Fide Id</value>
   </data>
-  <data name="ColHeaderParticipantRating_Content" xml:space="preserve">
-    <value>Rating</value>
+  <data name="ColHeaderParticipantFederation_Content" xml:space="preserve">
+    <value>Federation</value>
   </data>
-  <data name="ColHeaderParticipantElo_Content" xml:space="preserve">
-    <value>Elo</value>
-  </data>
-  <data name="ColHeaderParticipantNationalRating_Content" xml:space="preserve">
-    <value>National Rating</value>
-  </data>
-  <data name="ColHeaderParticipantClub_Content" xml:space="preserve">
-    <value>Club</value>
+  <data name="ColHeaderParticipantName_Content" xml:space="preserve">
+    <value>Name</value>
   </data>
   <data name="MenuItem_Settings_Language_Header" xml:space="preserve">
     <value>Language</value>
@@ -324,11 +324,11 @@
   <data name="About_Dialog_Text" xml:space="preserve">
     <value>Find more information at https://github.com/guentherc/PonzianiSwiss</value>
   </data>
-  <data name="Button_Cancel_Content" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
   <data name="Button_Ok_Content" xml:space="preserve">
     <value>Ok</value>
+  </data>
+  <data name="Button_Cancel_Content" xml:space="preserve">
+    <value>Cancel</value>
   </data>
   <data name="Button_Save_Content" xml:space="preserve">
     <value>Save</value>
@@ -432,11 +432,11 @@
   <data name="TiebreakDialog_Title" xml:space="preserve">
     <value>Edit Tiebreak Rules</value>
   </data>
-  <data name="TiebreakDialog_MenuItem_MoveUp_Header" xml:space="preserve">
-    <value>Move Up</value>
-  </data>
   <data name="GridViewColumnHeader_Selected_Content" xml:space="preserve">
     <value>Selected Tiebreak Rules</value>
+  </data>
+  <data name="TiebreakDialog_MenuItem_MoveUp_Header" xml:space="preserve">
+    <value>Move Up</value>
   </data>
   <data name="TiebreakDialog_MenuItem_MoveDown_Header" xml:space="preserve">
     <value>Move Down</value>
@@ -447,20 +447,20 @@
   <data name="MenuItem_Set_Result_0_Header" xml:space="preserve">
     <value>* (Open)</value>
   </data>
-  <data name="Round_Column_Header_Id_White" xml:space="preserve">
-    <value>Id</value>
-  </data>
-  <data name="Round_Column_Header_Id_Black" xml:space="preserve">
-    <value>Id</value>
-  </data>
   <data name="Round_Column_Header_Result" xml:space="preserve">
     <value>Result</value>
   </data>
   <data name="Round_Column_Header_Black" xml:space="preserve">
     <value>Black</value>
   </data>
+  <data name="Round_Column_Header_Id_Black" xml:space="preserve">
+    <value>Id</value>
+  </data>
   <data name="Round_Column_Header_White" xml:space="preserve">
     <value>White</value>
+  </data>
+  <data name="Round_Column_Header_Id_White" xml:space="preserve">
+    <value>Id</value>
   </data>
   <data name="MenuItem_Unrated_Header" xml:space="preserve">
     <value>Unrated</value>
@@ -471,32 +471,32 @@
   <data name="MenuItem_Bye_Header" xml:space="preserve">
     <value>Bye</value>
   </data>
-  <data name="PlayerSearchDialog_Groupbox_Data_Header" xml:space="preserve">
-    <value>Data</value>
-  </data>
-  <data name="PlayerSearchDialog_Label_DataSource_Content" xml:space="preserve">
-    <value>Data Source:</value>
-  </data>
-  <data name="PlayerSearchDialog_Label_Name_Content" xml:space="preserve">
-    <value>Name:</value>
-  </data>
-  <data name="PlayerSearchDialog_Label_Id_Content" xml:space="preserve">
-    <value>Id:</value>
-  </data>
-  <data name="PlayerSearchDialog_Label_Federation_Content" xml:space="preserve">
-    <value>Federation:</value>
-  </data>
-  <data name="PlayerSearchDialog_Checkbox_Female_Content" xml:space="preserve">
-    <value>Female</value>
-  </data>
-  <data name="PlayerSearchDialog_Label_NationalRating_Content" xml:space="preserve">
-    <value>National Rating:</value>
+  <data name="PlayerSearchDialog_Label_Club_Content" xml:space="preserve">
+    <value>Club:</value>
   </data>
   <data name="PlayerSearchDialog_Label_YearOfBirth_Content" xml:space="preserve">
     <value>Year of Birth:</value>
   </data>
-  <data name="PlayerSearchDialog_Label_Club_Content" xml:space="preserve">
-    <value>Club:</value>
+  <data name="PlayerSearchDialog_Label_NationalRating_Content" xml:space="preserve">
+    <value>National Rating:</value>
+  </data>
+  <data name="PlayerSearchDialog_Checkbox_Female_Content" xml:space="preserve">
+    <value>Female</value>
+  </data>
+  <data name="PlayerSearchDialog_Label_Federation_Content" xml:space="preserve">
+    <value>Federation:</value>
+  </data>
+  <data name="PlayerSearchDialog_Label_Id_Content" xml:space="preserve">
+    <value>Id:</value>
+  </data>
+  <data name="PlayerSearchDialog_Label_Name_Content" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="PlayerSearchDialog_Label_DataSource_Content" xml:space="preserve">
+    <value>Data Source:</value>
+  </data>
+  <data name="PlayerSearchDialog_Groupbox_Data_Header" xml:space="preserve">
+    <value>Data</value>
   </data>
   <data name="ParticipantAttributeDialog_Title" xml:space="preserve">
     <value>Participant Attributes</value>
@@ -656,5 +656,8 @@
   </data>
   <data name="MenuItem_Participants_Update_Rating_Header" xml:space="preserve">
     <value>Update Ratings</value>
+  </data>
+  <data name="Round_Column_Header_Boardnumber" xml:space="preserve">
+    <value>Board</value>
   </data>
 </root>
