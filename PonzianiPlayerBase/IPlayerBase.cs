@@ -66,7 +66,7 @@ namespace PonzianiPlayerBase
             var bases = Enum.GetValues<PlayerBaseFactory.Base>();
             foreach (var b in bases)
             {
-                sqls.Add($"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values (\"{(int)b}\", \"{b}\", \"{DateTime.MinValue.Ticks}\")");
+                sqls.Add($"INSERT OR IGNORE into AdminData (Id, Name, LastUpdate) values ('{(int)b}', '{b}', '{DateTime.MinValue.Ticks}')");
             }
             foreach (string sql in sqls)
             {

@@ -57,22 +57,16 @@ namespace PonzianiSwissLib
 
         public int Number { set; get; }
 
-        public List<Pairing> Pairings { set; get; } = new List<Pairing>();
+        public List<Pairing> Pairings { set; get; } = [];
     }
 
-    public class TeamScoreCard
+    public class TeamScoreCard(string name, Tournament tournament)
     {
-        public TeamScoreCard(string name, Tournament tournament)
-        {
-            Name = name;
-            Tournament = tournament;
-        }
+        public string Name { set; get; } = name;
 
-        public string Name { set; get; }
+        public Tournament Tournament { set; get; } = tournament;
 
-        public Tournament Tournament { set; get; }
-
-        public List<Scorecard> Scorecards { set; get; } = new List<Scorecard>();
+        public List<Scorecard> Scorecards { set; get; } = [];
 
         /// <summary>
         /// Orders the Scorecards of the team members by rank
@@ -113,19 +107,13 @@ namespace PonzianiSwissLib
         }
     }
 
-    public class Scorecard
+    public class Scorecard(Participant participant, Tournament tournament)
     {
-        public Participant Participant { set; get; }
+        public Participant Participant { set; get; } = participant;
 
-        public Tournament Tournament { set; get; }
+        public Tournament Tournament { set; get; } = tournament;
 
-        public Scorecard(Participant participant, Tournament tournament)
-        {
-            Participant = participant;
-            Tournament = tournament;
-        }
-
-        public List<Entry> Entries { set; get; } = new List<Entry>();
+        public List<Entry> Entries { set; get; } = [];
 
         public float Score() => Participant.ParticipantId == Participant.BYE.ParticipantId ? 0 : Entries.Sum((e) => e.Score);
         public float Score(int round) => Participant.ParticipantId == Participant.BYE.ParticipantId ? 0 : Entries.Where(e => e.Round < round).Sum((e) => e.Score);
@@ -230,12 +218,12 @@ namespace PonzianiSwissLib
             };
         }
 
-        private static readonly int[] dp = new int[]{ 800, 273, 117, -7, -133, -296, 677, 262, 110, -14, -141, -309,
+        private static readonly int[] dp = [ 800, 273, 117, -7, -133, -296, 677, 262, 110, -14, -141, -309,
             589, 251, 102, -21, -149, -322, 538, 240, 95, -29, -158, -336, 501, 230, 87, -36, -166, -351,
             470, 220, 80, -43, -175, -366, 444, 211, 72, -50, -184, -383, 422, 202, 65, -57, -193, -401,
             401, 193, 57, -65, -202, -422, 383, 184, 50, -72, -211, -444, 366, 175, 43, -80, -220, -470,
             351, 166, 36, -87, -230, -501, 336, 158, 29, -95, -240, -538, 322, 149, 21, -102, -251, -589,
-            309, 141, 14, -110, -262, -677, 296, 133, 7, -117, -273, -800, 284, 125, 0, -125, -284 };
+            309, 141, 14, -110, -262, -677, 296, 133, 7, -117, -273, -800, 284, 125, 0, -125, -284 ];
 
         static Scorecard()
         {
@@ -310,14 +298,14 @@ namespace PonzianiSwissLib
 
         public bool IsDefault => _scores.SequenceEqual(default_scores);
 
-        private static readonly float[] default_scores = new float[14] { 0f, 0f, 0f, 0f, 0f, 1f, .5f, .5f, .5f, 1f, 1f, 1f, 1f, 0f };
+        private static readonly float[] default_scores = [0f, 0f, 0f, 0f, 0f, 1f, .5f, .5f, .5f, 1f, 1f, 1f, 1f, 0f];
 
         //public enum Result { Open, Forfeited, Loss, UnratedLoss, ZeroPointBye, PairingAllocatedBye, Draw, UnratedDraw, HalfPointBye, Win, UnratedWin, ForfeitWin, FullPointBye, Double Forfeit }
         private readonly float[] _scores = (float[])default_scores.Clone();
 
         internal List<string> TRFStrings()
         {
-            List<string> result = new();
+            List<string> result = [];
             if (!IsDefault)
             {
                 result.Add(FormattableString.Invariant($"BBW {PointsForWin,4:F1}"));

@@ -17,8 +17,8 @@ namespace PonzianiSwissLib
 
         public static void LoadFromTRF(this Tournament tournament, string content)
         {
-            string[] lines = content.Split(new String[] { "\r\n", "\n", "\r" }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-            List<string> plist = new();
+            string[] lines = content.Split(["\r\n", "\n", "\r"], StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+            List<string> plist = [];
             bool bbuAvailable = false;
             foreach (string line in lines)
             {
@@ -94,7 +94,7 @@ namespace PonzianiSwissLib
             return json.GetHashCode();
         }
 
-        private static readonly string[] ShortTitles = { "g", "wg", "m", "wm", "f", "wf", "c", "wc", string.Empty };
+        private static readonly string[] ShortTitles = ["g", "wg", "m", "wm", "f", "wf", "c", "wc", string.Empty];
         private static void ProcessPlayerTRF(this Tournament tournament, List<string> playerList)
         {
 
@@ -114,7 +114,7 @@ namespace PonzianiSwissLib
                 Participant p = new(name, rating, ftitle, pid);
                 if (birthdate.Length == 10)
                 {
-                    p.Attributes.Add(Participant.AttributeKey.Birthdate, new DateTime(int.Parse(birthdate[..4]), int.Parse(birthdate.Substring(5, 2)), int.Parse(birthdate.Substring(8, 2))));
+                    p.Attributes.Add(Participant.AttributeKey.Birthdate, new DateTime(int.Parse(birthdate[..4]), Math.Max(1, int.Parse(birthdate.Substring(5, 2))), Math.Max(1, int.Parse(birthdate.Substring(8, 2)))));
                 }
                 p.Federation = line.Substring(53, 3).Trim();
                 string fideId = line.Substring(57, 11).Trim();
@@ -125,10 +125,10 @@ namespace PonzianiSwissLib
                 tournament.Participants.Add(p);
             }
             //Parse results
-            Dictionary<Participant, List<PEntry>> plist = new();
+            Dictionary<Participant, List<PEntry>> plist = [];
             for (int i = 0; i < playerList.Count; ++i)
             {
-                List<PEntry> pentry_list = new();
+                List<PEntry> pentry_list = [];
                 plist.Add(tournament.Participants[i], pentry_list);
                 string line = playerList[i].Trim();
                 int indx = 91;
@@ -160,9 +160,8 @@ namespace PonzianiSwissLib
                     if (pairing.Result == Result.Forfeited)
                     {
                         //Check if double forfeit
-                        if (plist.ContainsKey(item.Opponent))
+                        if (plist.TryGetValue(item.Opponent, out List<PEntry>? olist))
                         {
-                            var olist = plist[item.Opponent];
                             PEntry? oitem = olist.Find(o => o.RoundIndex == item.RoundIndex);
                             Debug.Assert(oitem != null && oitem.Opponent == entry.Key);
                             if (oitem != null && oitem.Result == Result.Forfeited) pairing.Result = Result.DoubleForfeit;
@@ -179,20 +178,12 @@ namespace PonzianiSwissLib
             }
         }
 
-        internal class PEntry
+        internal class PEntry(int roundIndex, Participant opponent, Side side, Result result)
         {
-            public PEntry(int roundIndex, Participant opponent, Side side, Result result)
-            {
-                RoundIndex = roundIndex;
-                Opponent = opponent;
-                Side = side;
-                Result = result;
-            }
-
-            public int RoundIndex { get; set; }
-            public Participant Opponent { get; set; }
-            public Side Side { set; get; }
-            public Result Result { set; get; }
+            public int RoundIndex { get; set; } = roundIndex;
+            public Participant Opponent { get; set; } = opponent;
+            public Side Side { set; get; } = side;
+            public Result Result { set; get; } = result;
 
         }
 
@@ -251,7 +242,7 @@ namespace PonzianiSwissLib
             string oFile = Path.GetTempFileName();
             string trfFile1 = Path.ChangeExtension(oFile, "trf");
             await File.WriteAllLinesAsync(trfFile1, lines);
-            string[] clines = (await PairingTool.CheckAsync(trfFile1, tournament.PairingSystem)).Split(new String[] { "\r\n", "\n", "\r" }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+            string[] clines = (await PairingTool.CheckAsync(trfFile1, tournament.PairingSystem)).Split(["\r\n", "\n", "\r"], StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
             if (clines == null || clines.Length == 0) return false;
             string fname = Path.GetFileNameWithoutExtension(trfFile1);
             foreach (string line in clines)
@@ -350,8 +341,7 @@ namespace PonzianiSwissLib
         public static string ASCIIfy(this string str, CultureInfo? cultureInfo = null)
         {
             string s; 
-            if (cultureInfo == null) 
-                cultureInfo = CultureInfo.CurrentCulture;
+            cultureInfo ??= CultureInfo.CurrentCulture;
             if (cultureInfo.TwoLetterISOLanguageName == "de")
                 s = str.Replace("ß", "ss").Replace("ü", "ue").Replace("ö", "oe").Replace("ä", "ae");
             else s = str;

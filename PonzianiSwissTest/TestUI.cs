@@ -18,9 +18,9 @@ namespace PonzianiSwissTest
     public class TestUI
     {
 #if RELEASE
-        const string exe = @"D:\chrgu\OneDrive\Dokumente\Visual Studio 2022\Projekte\PonzianiSwiss\PonzianiSwiss\bin\Release\net6.0-windows\PonzianiSwiss.exe";
+        const string exe = @"C:\Users\chrgu\source\repos\PonzianiSwiss\PonzianiSwiss\bin\Release\net10.0-windows7.0\PonzianiSwiss.exe";
 #else
-        const string exe = @"D:\chrgu\OneDrive\Dokumente\Visual Studio 2022\Projekte\PonzianiSwiss\PonzianiSwiss\bin\Debug\net6.0-windows\PonzianiSwiss.exe";
+        const string exe = @"C:\Users\chrgu\source\repos\PonzianiSwiss\PonzianiSwiss\bin\Debug\net10.0-windows7.0\PonzianiSwiss.exe";
 #endif
 
         private FlaUI.Core.Application? app;

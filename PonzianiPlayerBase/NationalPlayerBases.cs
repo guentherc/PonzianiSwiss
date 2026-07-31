@@ -46,7 +46,7 @@ namespace PonzianiPlayerBase
                 using var ccmd = connection?.CreateCommand();
                 if (ccmd != null)
                 {
-                    ccmd.CommandText = $"SELECT Name FROM Club WHERE Federation = \"{federation}\" and Id = \"{result[0].Club}\"";
+                    ccmd.CommandText = $"SELECT Name FROM Club WHERE Federation = '{federation}' and Id = '{result[0].Club}'";
                     using var creader = ccmd.ExecuteReader();
                     logger?.LogDebug("{}", ccmd.CommandText);
                     while (creader.Read())
@@ -76,7 +76,7 @@ namespace PonzianiPlayerBase
             string federation = Key.ToString();
             using var cmd = connection?.CreateCommand();
             if (cmd == null) return null;
-            cmd.CommandText = $"SELECT * FROM Player WHERE Federation = \"{federation}\" AND {idField} = \"{id}\"";
+            cmd.CommandText = $"SELECT * FROM Player WHERE Federation = '{federation}' AND {idField} = '{id}'";
             logger?.LogDebug("{}", cmd.CommandText);
             using var reader = cmd.ExecuteReader();
             while (reader.Read())
@@ -98,7 +98,7 @@ namespace PonzianiPlayerBase
                     using var ccmd = connection?.CreateCommand();
                     if (ccmd != null)
                     {
-                        ccmd.CommandText = $"SELECT Name FROM Club WHERE Federation = \"{federation}\" and Id = \"{player.Club ?? String.Empty}\"";
+                        ccmd.CommandText = $"SELECT Name FROM Club WHERE Federation = '{federation}' and Id = '{player.Club ?? String.Empty}'";
                         logger?.LogDebug("{}", cmd.CommandText);
                         using var creader = ccmd.ExecuteReader();
                         while (creader.Read())
@@ -149,9 +149,9 @@ namespace PonzianiPlayerBase
             {
                 using (var del = connection.CreateCommand())
                 {
-                    del.CommandText = "DELETE FROM Player WHERE Federation = \"NED\"";
+                    del.CommandText = "DELETE FROM Player WHERE Federation = 'NED'";
                     await del.ExecuteNonQueryAsync();
-                    del.CommandText = "DELETE FROM Club WHERE Federation = \"NED\"";
+                    del.CommandText = "DELETE FROM Club WHERE Federation = 'NED'";
                     await del.ExecuteNonQueryAsync();
                 }
                 using (var cmd = connection.CreateCommand())
@@ -202,7 +202,7 @@ namespace PonzianiPlayerBase
                     ProgressUpdate((int)(30 + 65.0 * count / 20000), string.Format(PonzianiPlayerBase.Strings.CountPlayersProcessedCommitStarted, count));
                 }
                 var command = connection.CreateCommand();
-                command.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"{(int)PlayerBaseFactory.Base.NED}\"";
+                command.CommandText = $"UPDATE AdminData SET LastUpdate = '{DateTime.UtcNow.Ticks}' where Id = '{(int)PlayerBaseFactory.Base.NED}'";
                 lastUpdate = DateTime.UtcNow;
                 await command.ExecuteNonQueryAsync();
                 transaction.Commit();
@@ -254,9 +254,9 @@ namespace PonzianiPlayerBase
             {
                 using (var del = connection.CreateCommand())
                 {
-                    del.CommandText = "DELETE FROM Player WHERE Federation = \"CRO\"";
+                    del.CommandText = "DELETE FROM Player WHERE Federation = 'CRO'";
                     await del.ExecuteNonQueryAsync();
-                    del.CommandText = "DELETE FROM Club WHERE Federation = \"CRO\"";
+                    del.CommandText = "DELETE FROM Club WHERE Federation = 'CRO'";
                     await del.ExecuteNonQueryAsync();
                 }
                 using (var cmd = connection.CreateCommand())
@@ -304,7 +304,7 @@ namespace PonzianiPlayerBase
                     ProgressUpdate((int)(30 + 65.0 * count / 20000), string.Format(PonzianiPlayerBase.Strings.CountPlayersProcessedCommitStarted, count));
                 }
                 var command = connection.CreateCommand();
-                command.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"{(int)PlayerBaseFactory.Base.CRO}\"";
+                command.CommandText = $"UPDATE AdminData SET LastUpdate = '{DateTime.UtcNow.Ticks}' where Id = '{(int)PlayerBaseFactory.Base.CRO}'";
                 lastUpdate = DateTime.UtcNow;
                 await command.ExecuteNonQueryAsync();
                 transaction.Commit();
@@ -355,9 +355,9 @@ namespace PonzianiPlayerBase
             {
                 using (var del = connection.CreateCommand())
                 {
-                    del.CommandText = "DELETE FROM Player WHERE Federation = \"ITA\"";
+                    del.CommandText = "DELETE FROM Player WHERE Federation = 'ITA'";
                     await del.ExecuteNonQueryAsync();
-                    del.CommandText = "DELETE FROM Club WHERE Federation = \"ITA\"";
+                    del.CommandText = "DELETE FROM Club WHERE Federation = 'ITA'";
                     await del.ExecuteNonQueryAsync();
                 }
                 using (var cmd = connection.CreateCommand())
@@ -412,7 +412,7 @@ namespace PonzianiPlayerBase
                     ProgressUpdate((int)(30 + 65.0 * count / 100000), string.Format(PonzianiPlayerBase.Strings.CountPlayersProcessedCommitStarted, count));
                 }
                 var command = connection.CreateCommand();
-                command.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"{(int)PlayerBaseFactory.Base.ITA}\"";
+                command.CommandText = $"UPDATE AdminData SET LastUpdate = '{DateTime.UtcNow.Ticks}' where Id = '{(int)PlayerBaseFactory.Base.ITA}'";
                 lastUpdate = DateTime.UtcNow;
                 await command.ExecuteNonQueryAsync();
                 transaction.Commit();
@@ -462,9 +462,9 @@ namespace PonzianiPlayerBase
             {
                 using (var del = connection.CreateCommand())
                 {
-                    del.CommandText = "DELETE FROM Player WHERE Federation = \"CZE\"";
+                    del.CommandText = "DELETE FROM Player WHERE Federation = 'CZE'";
                     await del.ExecuteNonQueryAsync();
-                    del.CommandText = "DELETE FROM Club WHERE Federation = \"CZE\"";
+                    del.CommandText = "DELETE FROM Club WHERE Federation = 'CZE'";
                     await del.ExecuteNonQueryAsync();
                 }
                 using (var cmd = connection.CreateCommand())
@@ -512,7 +512,7 @@ namespace PonzianiPlayerBase
                     ProgressUpdate((int)(30 + 65.0 * count / 20000), string.Format(PonzianiPlayerBase.Strings.CountPlayersProcessedCommitStarted, count));
                 }
                 var command = connection.CreateCommand();
-                command.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"{(int)PlayerBaseFactory.Base.CZE}\"";
+                command.CommandText = $"UPDATE AdminData SET LastUpdate = '{DateTime.UtcNow.Ticks}' where Id = '{(int)PlayerBaseFactory.Base.CZE}'";
                 lastUpdate = DateTime.UtcNow;
                 await command.ExecuteNonQueryAsync();
                 transaction.Commit();
@@ -571,9 +571,9 @@ namespace PonzianiPlayerBase
             {
                 using (var del = connection.CreateCommand())
                 {
-                    del.CommandText = "DELETE FROM Player WHERE Federation = \"AUT\"";
+                    del.CommandText = "DELETE FROM Player WHERE Federation = 'AUT'";
                     await del.ExecuteNonQueryAsync();
-                    del.CommandText = "DELETE FROM Club WHERE Federation = \"AUT\"";
+                    del.CommandText = "DELETE FROM Club WHERE Federation = 'AUT'";
                     await del.ExecuteNonQueryAsync();
                 }
                 using (var cmd = connection.CreateCommand())
@@ -622,7 +622,7 @@ namespace PonzianiPlayerBase
                     ProgressUpdate((int)(30 + 65.0 * count / 20000), string.Format(PonzianiPlayerBase.Strings.CountPlayersProcessedCommitStarted, count));
                 }
                 var command = connection.CreateCommand();
-                command.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"{(int)PlayerBaseFactory.Base.AUT}\"";
+                command.CommandText = $"UPDATE AdminData SET LastUpdate = '{DateTime.UtcNow.Ticks}' where Id = '{(int)PlayerBaseFactory.Base.AUT}'";
                 lastUpdate = DateTime.UtcNow;
                 await command.ExecuteNonQueryAsync();
                 ProgressUpdate(98, PonzianiPlayerBase.Strings.Cleanup);
@@ -669,9 +669,9 @@ namespace PonzianiPlayerBase
                 using var transaction = connection.BeginTransaction();
                 using (var del = connection.CreateCommand())
                 {
-                    del.CommandText = "DELETE FROM Player WHERE Federation = \"AUS\"";
+                    del.CommandText = "DELETE FROM Player WHERE Federation = 'AUS'";
                     await del.ExecuteNonQueryAsync();
-                    del.CommandText = "DELETE FROM Club WHERE Federation = \"AUS\"";
+                    del.CommandText = "DELETE FROM Club WHERE Federation = 'AUS'";
                     await del.ExecuteNonQueryAsync();
                 }
 
@@ -724,7 +724,7 @@ namespace PonzianiPlayerBase
                     ProgressUpdate((int)(30 + 65.0 * count / 50000), string.Format(PonzianiPlayerBase.Strings.CountPlayersProcessedCommitStarted, count));
                 }
                 var command = connection.CreateCommand();
-                command.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"{(int)PlayerBaseFactory.Base.AUS}\"";
+                command.CommandText = $"UPDATE AdminData SET LastUpdate = '{DateTime.UtcNow.Ticks}' where Id = '{(int)PlayerBaseFactory.Base.AUS}'";
                 lastUpdate = DateTime.UtcNow;
                 await command.ExecuteNonQueryAsync();
                 transaction.Commit();
@@ -779,9 +779,9 @@ namespace PonzianiPlayerBase
             {
                 using (var del = connection.CreateCommand())
                 {
-                    del.CommandText = "DELETE FROM Player WHERE Federation = \"SUI\"";
+                    del.CommandText = "DELETE FROM Player WHERE Federation = 'SUI'";
                     await del.ExecuteNonQueryAsync();
-                    del.CommandText = "DELETE FROM Club WHERE Federation = \"SUI\"";
+                    del.CommandText = "DELETE FROM Club WHERE Federation = 'SUI'";
                     await del.ExecuteNonQueryAsync();
                 }
 
@@ -837,7 +837,7 @@ namespace PonzianiPlayerBase
                     ProgressUpdate((int)(30 + 65.0 * count / 6000), string.Format(PonzianiPlayerBase.Strings.CountPlayersProcessedCommitStarted, count));
                 }
                 var command = connection.CreateCommand();
-                command.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"{(int)PlayerBaseFactory.Base.SUI}\"";
+                command.CommandText = $"UPDATE AdminData SET LastUpdate = '{DateTime.UtcNow.Ticks}' where Id = '{(int)PlayerBaseFactory.Base.SUI}'";
                 lastUpdate = DateTime.UtcNow;
                 await command.ExecuteNonQueryAsync();
                 transaction.Commit();
@@ -893,9 +893,9 @@ namespace PonzianiPlayerBase
             {
                 using (var del = connection.CreateCommand())
                 {
-                    del.CommandText = "DELETE FROM Player WHERE Federation = \"ENG\"";
+                    del.CommandText = "DELETE FROM Player WHERE Federation = 'ENG'";
                     await del.ExecuteNonQueryAsync();
-                    del.CommandText = "DELETE FROM Club WHERE Federation = \"ENG\"";
+                    del.CommandText = "DELETE FROM Club WHERE Federation = 'ENG'";
                     await del.ExecuteNonQueryAsync();
                 }
 
@@ -948,7 +948,7 @@ namespace PonzianiPlayerBase
                     ProgressUpdate((int)(30 + 65.0 * count / 25000), string.Format(PonzianiPlayerBase.Strings.CountPlayersProcessedCommitStarted, count));
                 }
                 var command = connection.CreateCommand();
-                command.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"{(int)PlayerBaseFactory.Base.ENG}\"";
+                command.CommandText = $"UPDATE AdminData SET LastUpdate = '{DateTime.UtcNow.Ticks}' where Id = '{(int)PlayerBaseFactory.Base.ENG}'";
                 lastUpdate = DateTime.UtcNow;
                 await command.ExecuteNonQueryAsync();
                 transaction.Commit();
@@ -1011,9 +1011,9 @@ namespace PonzianiPlayerBase
             {
                 using (var del = connection.CreateCommand())
                 {
-                    del.CommandText = "DELETE FROM Player WHERE Federation = \"GER\"";
+                    del.CommandText = "DELETE FROM Player WHERE Federation = 'GER'";
                     await del.ExecuteNonQueryAsync();
-                    del.CommandText = "DELETE FROM Club WHERE Federation = \"GER\"";
+                    del.CommandText = "DELETE FROM Club WHERE Federation = 'GER'";
                     await del.ExecuteNonQueryAsync();
                 }
 
@@ -1100,7 +1100,7 @@ namespace PonzianiPlayerBase
                 }
 
                 var command = connection.CreateCommand();
-                command.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"{(int)PlayerBaseFactory.Base.GER}\"";
+                command.CommandText = $"UPDATE AdminData SET LastUpdate = '{DateTime.UtcNow.Ticks}' where Id = '{(int)PlayerBaseFactory.Base.GER}'";
                 lastUpdate = DateTime.UtcNow;
                 await command.ExecuteNonQueryAsync();
                 transaction.Commit();

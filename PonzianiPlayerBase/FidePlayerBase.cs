@@ -58,7 +58,7 @@ namespace PonzianiPlayerBase
         {
             using var cmd = connection?.CreateCommand();
             if (cmd == null) return null;
-            cmd.CommandText = $"SELECT * FROM FidePlayer WHERE Id = \"{id}\"";
+            cmd.CommandText = $"SELECT * FROM FidePlayer WHERE Id = '{id}'";
             logger?.LogDebug("{}", cmd.CommandText);
             using var reader = cmd.ExecuteReader();
             while (reader.Read())
@@ -181,7 +181,7 @@ namespace PonzianiPlayerBase
                 }
                 ProgressUpdate(95, string.Format(PonzianiPlayerBase.Strings.CountPlayersProcessedCommitStarted, count));
                 cmd = connection.CreateCommand();
-                cmd.CommandText = $"UPDATE AdminData SET LastUpdate = \"{DateTime.UtcNow.Ticks}\" where Id = \"0\"";
+                cmd.CommandText = $"UPDATE AdminData SET LastUpdate = '{DateTime.UtcNow.Ticks}' where Id = '0'";
                 lastUpdate = DateTime.UtcNow;
                 await cmd.ExecuteNonQueryAsync();
                 transaction.Commit();
