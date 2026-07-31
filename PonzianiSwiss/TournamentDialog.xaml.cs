@@ -185,8 +185,8 @@ namespace PonzianiSwiss
 
         private static DateTime ParseDateTime(string dateTime)
         {
-            if (DateTime.TryParse(dateTime, CultureInfo.CurrentUICulture, DateTimeStyles.AllowWhiteSpaces, out DateTime result)) return result;
-            if (DateTime.TryParse(dateTime, CultureInfo.InvariantCulture, DateTimeStyles.AllowWhiteSpaces, out result)) return result;
+            if (DateTime.TryParse(dateTime, CultureInfo.InvariantCulture, DateTimeStyles.AllowWhiteSpaces, out DateTime result)) return result;
+            if (DateTime.TryParse(dateTime, CultureInfo.CurrentUICulture, DateTimeStyles.AllowWhiteSpaces, out result)) return result;
             return result;
         }
     }

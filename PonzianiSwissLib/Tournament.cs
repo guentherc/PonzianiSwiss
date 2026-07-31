@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
 
 namespace PonzianiSwissLib
 {
@@ -320,7 +321,7 @@ namespace PonzianiSwissLib
         {
             if (includeTiebraks && round > 1)
                 OrderByRank(round);
-            else 
+            else
                 OrderByScoreAndInitialRank(round);
             for (int i = 0; i < Participants.Count; i++)
             {
@@ -360,8 +361,32 @@ namespace PonzianiSwissLib
                 $"012 {Name}".ASCIIfy(),
                 $"022 {City}".ASCIIfy(),
                 $"032 {Federation}",
+                $"042 {ParseDateTime(StartDate ?? DateTime.Now.ToString()).ToString("yyyy/MM/dd", CultureInfo.InvariantCulture)}".ASCIIfy(),
+                $"052 {ParseDateTime(EndDate ?? DateTime.Now.ToString()).ToString("yyyy/MM/dd", CultureInfo.InvariantCulture)}".ASCIIfy(),
                 $"102 {ChiefArbiter}".ASCIIfy()
             ];
+            if (StartDate != null && EndDate != null)
+            {
+                List<DateTime> DatesOfRounds = [];
+                DatesOfRounds.Add(ParseDateTime(StartDate ?? DateTime.Now.ToString()));
+                int lenInDays = (ParseDateTime(EndDate ?? DateTime.Now.ToString()) - DatesOfRounds[0]).Days;
+                for (int i = 1; i < CountRounds; ++i)
+                {
+                    {
+                        DatesOfRounds.Add(DatesOfRounds[0].AddDays((i + 1) * lenInDays / CountRounds));
+                    }
+                }
+
+                StringBuilder sb = new StringBuilder("132     ");
+                for (int i = 0; i < 9; ++i) sb.Append("         ");
+                foreach (var date in DatesOfRounds)
+                {
+                    sb.Append($"  {date.ToString("yy/MM/dd", CultureInfo.InvariantCulture)}");
+                }
+                trf.Add(sb.ToString());
+            }
+            if (TimeControl != null)
+                trf.Add($"222 {TimeControl}");
             if (!official)
             {
                 trf.Add($"XXR {CountRounds}");
@@ -394,12 +419,18 @@ namespace PonzianiSwissLib
                     }
                 }
             }
+            trf.Add(string.Empty);
             foreach (Participant p in Participants)
             {
                 if (p == Participant.BYE || p.ParticipantId == Participant.BYE.ParticipantId) continue;
                 char s = p.Sex == Sex.Female ? 'f' : 'm';
                 string birthdate = p.Attributes.TryGetValue(Participant.AttributeKey.Birthdate, out object? value) ? ((DateTime)value).ToString("yyyy/MM/dd")
                                   : p.YearOfBirth > 0 ? p.YearOfBirth.ToString() : string.Empty;
+                if (birthdate.Length <= 4)
+                {
+                    birthdate = birthdate.PadRight(4, ' ');
+                    birthdate = birthdate + "/  /  ";
+                }
                 string pname = p.Name?.ASCIIfy() ?? string.Empty;
                 StringBuilder pline = new(FormattableString.Invariant($"001 {p.ParticipantId,4} {s} {title_string[(int)p.Title],2} {(pname.Length > 33 ? pname?[..33] : pname),-33} {p.FideRating,4} {p.Federation,3} {(p.FideId != 0 ? p.FideId : string.Empty),11} {birthdate,-10} {p.Scorecard?.Score(round) ?? 0,4} {p.Rank,4}"));
                 for (int r = 1; r <= round; ++r)
@@ -416,7 +447,7 @@ namespace PonzianiSwissLib
                                 pline.Append($"  {entry?.Opponent.ParticipantId,4} {"wb"[(int)(entry?.Side ?? Side.White)]} {result_char[(int)(entry?.Result ?? Result.Open)]}");
                         }
                     }
-                    else pline.Append("          ");
+                    else pline.Append("  0000 - -");
                 }
                 if (byes != null && p.ParticipantId != null && byes.TryGetValue(p.ParticipantId, out Result val))
                     pline.Append($"  0000 - {result_char[(int)val]}");
@@ -447,6 +478,14 @@ namespace PonzianiSwissLib
                 {
                     if (f[0] != null && f[0].Length > 0 && f[1] != null && f[1].Length > 0)
                         trf.Add($"XXP {f[0],4} {f[1],4}");
+                }
+            }
+            if (Federation == "GER")
+            {
+                trf.Add(string.Empty);
+                foreach (var p in Participants) {
+                    if (p == Participant.BYE || p.ParticipantId == Participant.BYE.ParticipantId) continue;
+                    trf.Add($"GER {p.ParticipantId,4}{new string(' ', 40)}{p.AlternativeRating}");
                 }
             }
             return trf;
@@ -612,6 +651,13 @@ namespace PonzianiSwissLib
                     _ => 0,
                 };
             }
+        }
+
+        private static DateTime ParseDateTime(string dateTime)
+        {
+            if (DateTime.TryParse(dateTime, CultureInfo.InvariantCulture, DateTimeStyles.AllowWhiteSpaces, out DateTime result)) return result;
+            if (DateTime.TryParse(dateTime, CultureInfo.CurrentUICulture, DateTimeStyles.AllowWhiteSpaces, out result)) return result;
+            return result;
         }
 
         object ICloneable.Clone()
