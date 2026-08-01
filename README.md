@@ -7,7 +7,7 @@ Intention is to provide a free alternative to the existing commercial programs. 
 Please have a look at the [Online Documentation](https://guentherc.github.io/PonzianiSwiss/)
 
 ## Installation
-Download [Setup.exe](https://raw.githubusercontent.com/guentherc/PonzianiSwiss/master/docs/Installer/setup.exe) and execute
+Download [latest Release](https://github.com/guentherc/PonzianiSwiss/releases/download/0.6/ponzianiswiss0.6.0.zip), extract this file to a directory of your choice and start ponzianiswiss.exe
 
 ## Versions
 The current version is an alpha version. It should work, but there might be lots of bugs. Please report any bug you encounter by creating a [github issue](https://github.com/guentherc/PonzianiSwiss/issues)!
