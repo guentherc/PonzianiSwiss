@@ -1,5 +1,6 @@
 ﻿using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Conditions;
+using FlaUI.Core.Definitions;
 using FlaUI.Core.Input;
 using FlaUI.Core.Tools;
 using FlaUI.UIA3;
@@ -85,11 +86,14 @@ namespace PonzianiSwissTest
             {
                 Directory.SetCurrentDirectory(directory);
                 var exef = Path.GetFileName(exe);
-                app = FlaUI.Core.Application.Launch(exef, filename);
+                app = FlaUI.Core.Application.Launch(exef, filename ?? string.Empty);
             }
             else
-                app = FlaUI.Core.Application.Launch(exe, filename);
+                app = FlaUI.Core.Application.Launch(exe, filename ?? string.Empty);
             app.WaitWhileBusy();
+            var automation = new UIA3Automation();
+            var window = app?.GetMainWindow(automation);
+            window?.Patterns.Window.Pattern.SetWindowVisualState(WindowVisualState.Maximized);
         }
 
         [TestCleanup]
@@ -205,14 +209,15 @@ namespace PonzianiSwissTest
                 Assert.IsTrue(participant != null && participant.ContainsKey("ParticipantId") && int.Parse(participant["ParticipantId"]) > 0);
             //Switch back to Round Tab
             var tabview = window.FindFirstDescendant(cf.ByAutomationId("MainTabControl")).AsTab();
-            tabview.SelectTabItem(1);
+            Assert.IsNotNull(tabview);
+            tabview?.SelectTabItem(1);
             app?.WaitWhileBusy();
-            Retry.WhileFalse(() => tabview.SelectedTabItemIndex == 1, TimeSpan.FromSeconds(5));
+            Retry.WhileFalse(() => tabview?.SelectedTabItemIndex == 1, TimeSpan.FromSeconds(5));
             Retry.WhileNull(() => window.FindFirstByXPath($"/Tab/TabItem[2]/Custom/DataGrid"));
             var listview_round = window.FindFirstByXPath($"/Tab/TabItem[2]/Custom/DataGrid").AsDataGridView();
             Assert.IsNotNull(listview_round);
             Wait.UntilResponsive(listview_round);
-            Assert.IsTrue(tabview.SelectedTabItemIndex == 1);
+            Assert.IsTrue(tabview?.SelectedTabItemIndex == 1);
 
             for (int rowIndex = 0; rowIndex < pairings.Count; ++rowIndex)
             {
@@ -245,7 +250,8 @@ namespace PonzianiSwissTest
                     Assert.IsNotNull(ctxMenu);
                     string automationId = $"MenuItem_Set_Result_{(int)result}";
                     var menuItem = ctxMenu.FindFirstDescendant(cf.ByAutomationId(automationId)).AsMenuItem();
-                    menuItem.Invoke();
+                    Assert.IsNotNull(menuItem);
+                    menuItem?.Invoke();
                 }
                 app?.WaitWhileBusy();
             }
@@ -311,6 +317,7 @@ namespace PonzianiSwissTest
             Retry.WhileNull(() => window.FindFirstByXPath("/Window"), TimeSpan.FromSeconds(5));
             var participantDialog = window.FindFirstByXPath("/Window").AsWindow();
             ulong fideid = 1503014;
+            Assert.IsNotNull(participantDialog);
             AddPlayerByFideID(participantDialog, fideid);
             app?.WaitWhileBusy();
             Retry.WhileFalse(() => participantDialog.IsOffscreen, TimeSpan.FromSeconds(5));
@@ -325,6 +332,7 @@ namespace PonzianiSwissTest
             Retry.WhileNull(() => window.FindFirstByXPath("/Window"), TimeSpan.FromSeconds(5));
             participantDialog = window.FindFirstByXPath("/Window").AsWindow();
             string name = "Caruana, Fabiano";
+            Assert.IsNotNull(participantDialog);
             AddFidePlayerByName(participantDialog, name);
             app?.WaitWhileBusy();
             Retry.WhileFalse(() => participantDialog.IsOffscreen, TimeSpan.FromSeconds(5));
@@ -344,6 +352,7 @@ namespace PonzianiSwissTest
             int rating = 1234;
             int year = 1989;
             string club = "Nichtraucher Schachclub Lichterfelde";
+            Assert.IsNotNull(participantDialog);
             AddPlayerFreeStyle(participantDialog, name, federation, rating, year, club);
             app?.WaitWhileBusy();
             Retry.WhileFalse(() => participantDialog.IsOffscreen, TimeSpan.FromSeconds(5));
@@ -360,6 +369,7 @@ namespace PonzianiSwissTest
             Retry.WhileNull(() => window.FindFirstByXPath("/Window"), TimeSpan.FromSeconds(5));
             participantDialog = window.FindFirstByXPath("/Window").AsWindow();
             name = "Telp,Peter";
+            Assert.IsNotNull(participantDialog);
             AddPlayerFromNationalDatabase(participantDialog, PlayerBaseFactory.Base.GER, name);
 
             participants = GetParticipantsFromListView(window);
@@ -381,7 +391,7 @@ namespace PonzianiSwissTest
             btnNationalBase.Invoke();
             Retry.WhileNull(() => window.FindFirstByXPath("/Window"), TimeSpan.FromSeconds(5));
             var nwindow = window.FindFirstByXPath("/Window").AsWindow();
-
+            Assert.IsNotNull(nwindow);
             var cbBase = nwindow.FindFirstDescendant(cf.ByAutomationId("ComboBox_Base")).AsComboBox();
             Assert.IsNotNull(cbBase);
             cbBase.Focus();
@@ -422,6 +432,7 @@ namespace PonzianiSwissTest
             Assert.IsNotNull(tbName);
             tbName.Enter(name);
             var cbFederation = window.FindFirstDescendant(cf.ByAutomationId("ComboBox_Federation")).AsComboBox();
+            Assert.IsNotNull(cbFederation);
             SetFederationComboBox(window, federation, cbFederation);
             if (rating > 0)
             {
@@ -482,6 +493,7 @@ namespace PonzianiSwissTest
         private List<Dictionary<string, string>> GetPairingsFromListView(Window window, int round_index)
         {
             var tabview = window.FindFirstDescendant(cf.ByAutomationId("MainTabControl")).AsTab();
+            Assert.IsNotNull(tabview);
             tabview.SelectTabItem(round_index + 1);
 
             app?.WaitWhileBusy();
@@ -497,19 +509,21 @@ namespace PonzianiSwissTest
             foreach (var row in rows)
             {
                 pairings.Add(new());
-                pairings.Last().Add("IDWhite", row.Cells[0].FindFirstChild().Name);
-                string w = row.Cells[1].FindFirstChild().Name;
+                pairings.Last().Add("IDWhite", row.Cells[1].FindFirstChild()?.Name ?? string.Empty);
+                string? w = row.Cells[2].FindFirstChild()?.Name;
+                Assert.IsNotNull(w);
                 int indx1 = w.LastIndexOf('(');
                 int indx2 = w.LastIndexOf(')');
                 pairings.Last().Add("White", w[..(indx1 - 1)].Trim());
                 pairings.Last().Add("ScoreWhite", w.Substring(indx1 + 1, indx2 - 2 - indx1).Trim());
-                pairings.Last().Add("IDBlack", row.Cells[2].FindFirstChild().Name);
-                w = row.Cells[3].FindFirstChild().Name;
+                pairings.Last().Add("IDBlack", row.Cells[3].FindFirstChild()?.Name ?? string.Empty);
+                w = row.Cells[4].FindFirstChild()?.Name;
+                Assert.IsNotNull(w);
                 indx1 = w.LastIndexOf('(');
                 indx2 = w.LastIndexOf(')');
                 pairings.Last().Add("Black", w[..(indx1 - 1)].Trim());
                 pairings.Last().Add("ScoreBlack", w.Substring(indx1 + 1, indx2 - 2 - indx1).Trim());
-                pairings.Last().Add("Result", row.Cells[4].FindFirstChild().Name);
+                pairings.Last().Add("Result", row.Cells[5].FindFirstChild()?.Name ?? string.Empty);
             }
             return pairings;
         }
@@ -517,6 +531,7 @@ namespace PonzianiSwissTest
         private List<Dictionary<string, string>> GetParticipantsFromListView(Window window)
         {
             var tabview = window.FindFirstDescendant(cf.ByAutomationId("MainTabControl")).AsTab();
+            Assert.IsNotNull(tabview);
             tabview.SelectTabItem(0);
             app?.WaitWhileBusy();
             Retry.WhileFalse(() => tabview.SelectedTabItemIndex == 0, TimeSpan.FromSeconds(5));
@@ -554,12 +569,13 @@ namespace PonzianiSwissTest
             }
             string federation = values.ContainsKey("Federation") ? (string)values["Federation"] : "Fide";
             var cbFederation = window.FindFirstDescendant(cf.ByAutomationId("ComboBox_Federation")).AsComboBox();
+            Assert.IsNotNull(cbFederation);
             SetFederationComboBox(window, federation, cbFederation);
             if (values.ContainsKey("CountRounds"))
             {
                 var nudRounds = window.FindFirstByXPath("/Edit[3]").AsTextBox();
                 Assert.IsNotNull(nudRounds);
-                nudRounds.Text = values["CountRounds"].ToString();
+                nudRounds.Text = values["CountRounds"].ToString() ?? string.Empty;
             }
             var dpFrom = window.FindFirstDescendant(cf.ByAutomationId("DatePicker_From")).AsDateTimePicker();
             dpFrom ??= window.FindFirstByXPath("/Custom[2]").AsDateTimePicker();
@@ -587,7 +603,7 @@ namespace PonzianiSwissTest
             {
                 var cbPairingSystem = window.FindFirstDescendant(cf.ByAutomationId("ComboBox_PairingSystem")).AsComboBox();
                 Assert.IsNotNull(cbPairingSystem);
-                cbPairingSystem.Select(values["PairingSystem"].ToString());
+                cbPairingSystem.Select(values["PairingSystem"].ToString() ?? string.Empty);
             }
             if (values.ContainsKey("TimeControl"))
             {
@@ -599,7 +615,7 @@ namespace PonzianiSwissTest
             {
                 var RatingDetermination = window.FindFirstDescendant(cf.ByAutomationId("ComboBox_RatingDetermination")).AsComboBox();
                 Assert.IsNotNull(RatingDetermination);
-                RatingDetermination.Select(values["RatingDetermination"].ToString());
+                RatingDetermination.Select(values["RatingDetermination"].ToString() ?? string.Empty);
             }
             var btn = cancel ? window.FindFirstDescendant(cf.ByAutomationId("TournamentDialogCancelButton")).AsButton() : window.FindFirstDescendant(cf.ByAutomationId("TournamentDialogOkButton")).AsButton();
             Assert.IsNotNull(btn);
@@ -786,6 +802,7 @@ namespace PonzianiSwissTest
         private MenuItem FindMenuItem(Window window, List<string> path)
         {
             var menu = window.FindFirstDescendant(cf.Menu()).AsMenu();
+            Assert.IsNotNull(menu);
             AutomationElement? element = menu;
             int level = 0;
 
